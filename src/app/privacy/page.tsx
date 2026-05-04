@@ -4,7 +4,7 @@ export default function Privacy() {
   return (
     <article className="prose prose-invert max-w-3xl mx-auto px-6 py-20">
       <h1>Privacy Policy</h1>
-      <p className="text-zinc-400">Last updated: 2026-05-04 · Placeholder</p>
+      <p className="text-[#A3A3A3]">Last updated: 2026-05-04 · Placeholder</p>
 
       <h2>Audio data</h2>
       <p>
