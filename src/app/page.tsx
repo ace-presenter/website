@@ -128,24 +128,35 @@ function Hero() {
           AI-powered live presentation for worship, conferences, lectures, and theater. ACE listens to the room and pushes the right slide — automatically.
         </p>
 
-        {/* Pill CTAs */}
+        {/* Pill CTAs — primary mac/arm64, secondary Intel; Windows in waitlist row below */}
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
             href="/api/download?platform=mac-arm64"
             className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.15)]"
           >
-            Download for Mac
+            Download for Mac · Apple Silicon
           </a>
           <a
-            href="/api/download?platform=win"
-            className="px-7 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
+            href="/api/download?platform=mac-x64"
+            className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
           >
-            Windows
+            Mac · Intel
+          </a>
+        </div>
+
+        {/* Windows is in build — separate row so it reads as future, not current */}
+        <div className="mt-3 flex items-center justify-center gap-2 text-xs">
+          <span className="text-[#888]">Windows version</span>
+          <a
+            href="mailto:hello@ace-presenter.app?subject=ACE%20Windows%20waitlist&body=Please%20add%20me%20to%20the%20Windows%20waitlist."
+            className="text-[#E8183A] hover:text-white transition font-semibold"
+          >
+            join the waitlist →
           </a>
         </div>
 
         <p className="mt-5 text-xs text-[#C4C4C4]">
-          Free during public beta · macOS 12+ / Windows 10+ · Auto-updates
+          Free during public beta · macOS 12+ · Auto-updates
         </p>
       </div>
     </section>
@@ -476,13 +487,22 @@ function FinalCTA() {
             href="/api/download?platform=mac-arm64"
             className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition"
           >
-            Download for Mac
+            Download for Mac · Apple Silicon
           </a>
           <a
-            href="/api/download?platform=win"
-            className="px-7 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
+            href="/api/download?platform=mac-x64"
+            className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
           >
-            Windows
+            Mac · Intel
+          </a>
+        </div>
+        <div className="mt-3 flex items-center justify-center gap-2 text-xs">
+          <span className="text-[#888]">Windows version</span>
+          <a
+            href="mailto:hello@ace-presenter.app?subject=ACE%20Windows%20waitlist&body=Please%20add%20me%20to%20the%20Windows%20waitlist."
+            className="text-[#E8183A] hover:text-white transition font-semibold"
+          >
+            join the waitlist →
           </a>
         </div>
       </div>
