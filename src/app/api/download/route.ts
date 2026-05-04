@@ -1,24 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
 
 /**
- * Download redirect — points the user at the correct GitHub Release asset
- * for their platform. The browser sees a 302 → file download starts; the
- * github.com URL flashes briefly but the user never sees the GitHub UI.
+ * Download redirect — points the user at the correct release asset on our
+ * R2-backed CDN (dl.ace-presenter.app). The browser sees a 302 → file
+ * download starts immediately. The user never sees an intermediate page
+ * because the CDN serves with `Content-Disposition: attachment`-equivalent
+ * headers (or a recognisable file MIME like application/x-apple-diskimage).
  *
  * Query params:
  *   ?platform=mac-arm64 | mac-x64 | win
  *
  * If `platform` is omitted, sniff User-Agent for a default. Bots and
  * unrecognised platforms get sent to the marketing landing page.
+ *
+ * R2 was chosen over GitHub Releases because GitHub caps individual assets
+ * at 2 GB and our DMGs (with bundled Whisper medium model) are ~2.5 GB.
+ * R2 also has zero egress fees so download volume scales for free.
  */
 
-const RELEASE_BASE =
-  "https://github.com/ace-presenter/ace-releases/releases/latest/download";
+const RELEASE_BASE = "https://dl.ace-presenter.app";
 
+// Map platform → filename at the bucket root. Naming matches what
+// electron-builder produces. When we cut v1.0.1, we'll either rotate
+// these filenames or symlink "latest" → versioned via R2 lifecycle rules.
 const ASSETS: Record<string, string> = {
-  "mac-arm64": "ACE-arm64.dmg",
-  "mac-x64": "ACE.dmg",
-  "win": "ACE-Setup.exe",
+  "mac-arm64": "ACE-1.0.0-arm64.dmg",
+  "mac-x64": "ACE-1.0.0.dmg",
+  "win": "ACE-Setup-1.0.0.exe",
 };
 
 function sniffPlatform(ua: string): string | null {
