@@ -20,12 +20,16 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "ACE — AI-powered live presentation",
+  title: "ACE — Agentic Cue Experience",
   description:
-    "ACE listens to your live audio, identifies what's being said or sung, and pushes the right slide to the audience screen. For worship teams, conferences, lectures, and live events.",
+    "AI-powered live presentation for worship, conferences, lectures, and theater. ACE listens to the room and pushes the right slide — automatically.",
   metadataBase: new URL("https://ace-presenter.app"),
+  // openGraph + twitter image fields are filled in automatically from
+  // the colocated `opengraph-image.tsx` — Next.js wires the generated
+  // 1200×630 PNG into both <meta property="og:image"> and
+  // <meta name="twitter:image">. Don't duplicate the URLs here.
   openGraph: {
-    title: "ACE — AI-powered live presentation",
+    title: "ACE — Agentic Cue Experience",
     description:
       "ACE listens, you present. Worship, conferences, lectures, theater — one app that follows the speaker.",
     url: "https://ace-presenter.app",
@@ -34,8 +38,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ACE — AI-powered live presentation",
-    description: "ACE listens, you present.",
+    title: "ACE — Agentic Cue Experience",
+    description: "ACE listens, you present. AI-powered live presentation.",
   },
 };
 

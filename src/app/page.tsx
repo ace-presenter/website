@@ -64,8 +64,13 @@ function Nav() {
   return (
     <nav className="sticky top-0 z-40 px-6 sm:px-10 py-5 flex items-center justify-between bg-[#0F0F0F]/80 backdrop-blur-xl border-b border-[#1A1A1A]">
       <Link href="/" className="flex items-center gap-3">
-        <Image src="/logo.png" alt="ACE logo" width={32} height={32} priority className="rounded-md" />
-        <span className="font-bold tracking-tight text-lg">ACE</span>
+        <Image src="/logo.png" alt="ACE — Agentic Cue Experience" width={32} height={32} priority className="rounded-md" />
+        <div className="flex flex-col leading-none">
+          <span className="font-bold tracking-tight text-lg">ACE</span>
+          <span className="text-[9px] uppercase tracking-[0.2em] text-[#888] mt-0.5">
+            Agentic Cue Experience
+          </span>
+        </div>
       </Link>
       <div className="hidden sm:flex items-center gap-8 text-sm text-[#C4C4C4]">
         <Link href="#use-cases" className="hover:text-white transition">Use cases</Link>
@@ -517,7 +522,10 @@ function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <Image src="/logo.png" alt="" width={20} height={20} className="rounded" />
-          <span>© 2026 ACE</span>
+          <div className="flex flex-col leading-tight">
+            <span className="text-[12px] text-white">ACE — Agentic Cue Experience</span>
+            <span className="text-[10px] text-[#888]">© 2026 ACE</span>
+          </div>
         </div>
         <div className="flex items-center gap-6 flex-wrap justify-center">
           <Link href="/privacy" className="hover:text-white transition">Privacy</Link>
