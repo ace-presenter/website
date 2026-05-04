@@ -18,7 +18,7 @@ export default function Terms() {
           Legal
         </div>
         <h1 className="text-4xl font-bold tracking-tight mb-2">Terms of Service</h1>
-        <p className="text-[#A3A3A3] mb-12">Last updated: 2026-05-04 · Placeholder</p>
+        <p className="text-[#C4C4C4] mb-12">Last updated: 2026-05-04 · Placeholder</p>
 
         <Section title="License">
           ACE is licensed, not sold. By downloading and installing ACE, you accept

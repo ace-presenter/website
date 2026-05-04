@@ -18,7 +18,7 @@ export default function Privacy() {
           Legal
         </div>
         <h1 className="text-4xl font-bold tracking-tight mb-2">Privacy Policy</h1>
-        <p className="text-[#A3A3A3] mb-12">Last updated: 2026-05-04 · Placeholder</p>
+        <p className="text-[#C4C4C4] mb-12">Last updated: 2026-05-04 · Placeholder</p>
 
         <Section title="Audio data">
           ACE transcribes microphone or line-input audio locally on your device using

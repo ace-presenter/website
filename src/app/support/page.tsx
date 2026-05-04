@@ -7,14 +7,14 @@ export default function Support() {
         Help
       </div>
       <h1 className="text-4xl font-bold tracking-tight mb-4">Support</h1>
-      <p className="text-[#A3A3A3] text-lg mb-12">
+      <p className="text-[#C4C4C4] text-lg mb-12">
         ACE is built and supported by a small team. The fastest way to get help:
       </p>
 
       <div className="space-y-4">
         <section className="p-6 rounded-lg bg-[#1A1A1A] border border-[#2A2A2A]">
           <h2 className="text-xl font-bold mb-2">Email</h2>
-          <p className="text-[#A3A3A3] mb-3">
+          <p className="text-[#C4C4C4] mb-3">
             For bugs, feature requests, or anything technical:
           </p>
           <a
@@ -27,7 +27,7 @@ export default function Support() {
 
         <section className="p-6 rounded-lg bg-[#1A1A1A] border border-[#2A2A2A]">
           <h2 className="text-xl font-bold mb-2">Common issues</h2>
-          <ul className="text-[#A3A3A3] space-y-2 list-disc list-inside">
+          <ul className="text-[#C4C4C4] space-y-2 list-disc list-inside">
             <li>
               <strong className="text-white">Audio device not detected:</strong>{" "}
               quit ACE, unplug + replug the interface, relaunch.
@@ -45,7 +45,7 @@ export default function Support() {
 
         <section className="p-6 rounded-lg bg-[#1A1A1A] border border-[#2A2A2A]">
           <h2 className="text-xl font-bold mb-2">Beta feedback</h2>
-          <p className="text-[#A3A3A3]">
+          <p className="text-[#C4C4C4]">
             ACE is in public beta. We read every email and reply within 24 hours
             during launch. If you found a bug, screenshots and the log file from{" "}
             <code className="text-white bg-[#0F0F0F] px-1.5 py-0.5 rounded border border-[#2A2A2A]">

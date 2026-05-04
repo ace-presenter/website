@@ -67,7 +67,7 @@ function Nav() {
         <Image src="/logo.png" alt="ACE logo" width={32} height={32} priority className="rounded-md" />
         <span className="font-bold tracking-tight text-lg">ACE</span>
       </Link>
-      <div className="hidden sm:flex items-center gap-8 text-sm text-[#A3A3A3]">
+      <div className="hidden sm:flex items-center gap-8 text-sm text-[#C4C4C4]">
         <Link href="#use-cases" className="hover:text-white transition">Use cases</Link>
         <Link href="#features" className="hover:text-white transition">Features</Link>
         <Link href="#pricing" className="hover:text-white transition">Pricing</Link>
@@ -108,7 +108,7 @@ function Hero() {
 
       <div className="relative max-w-5xl mx-auto">
         {/* Tag pill */}
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#A3A3A3] font-semibold mb-8">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C4C4C4] font-semibold mb-8">
           <span className="w-1.5 h-1.5 rounded-full bg-[#C8102E] animate-pulse" />
           Live presentation, on autopilot
         </div>
@@ -124,7 +124,7 @@ function Hero() {
           <span className="text-[#C8102E]">.</span>
         </h1>
 
-        <p className="mt-8 max-w-2xl mx-auto text-lg sm:text-xl text-[#A3A3A3] leading-relaxed">
+        <p className="mt-8 max-w-2xl mx-auto text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
           AI-powered live presentation for worship, conferences, lectures, and theater. ACE listens to the room and pushes the right slide — automatically.
         </p>
 
@@ -144,7 +144,7 @@ function Hero() {
           </a>
         </div>
 
-        <p className="mt-5 text-xs text-[#A3A3A3]">
+        <p className="mt-5 text-xs text-[#C4C4C4]">
           Free during public beta · macOS 12+ / Windows 10+ · Auto-updates
         </p>
       </div>
@@ -162,7 +162,7 @@ function StatsStrip() {
             key={s.label}
             className={`flex flex-col gap-1 ${i > 0 ? "sm:border-l sm:border-[#1F1F1F] sm:pl-6" : ""}`}
           >
-            <span className="text-[10px] uppercase tracking-[0.2em] text-[#A3A3A3] font-semibold">
+            <span className="text-[10px] uppercase tracking-[0.2em] text-[#C4C4C4] font-semibold">
               {s.label}
             </span>
             <span className="text-base sm:text-lg font-semibold text-white">{s.value}</span>
@@ -178,14 +178,14 @@ function Compatibility() {
   return (
     <section className="px-6 sm:px-10 py-16 border-b border-[#1A1A1A]">
       <div className="max-w-6xl mx-auto">
-        <p className="text-center text-[11px] uppercase tracking-[0.25em] text-[#A3A3A3] font-bold mb-8">
+        <p className="text-center text-[11px] uppercase tracking-[0.25em] text-[#C4C4C4] font-bold mb-8">
           Plays nicely with the rest of your rig
         </p>
         <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
           {COMPAT.map((name) => (
             <span
               key={name}
-              className="text-[#666] hover:text-white transition text-base sm:text-lg font-semibold tracking-tight"
+              className="text-[#888] hover:text-white transition text-base sm:text-lg font-semibold tracking-tight"
             >
               {name}
             </span>
@@ -207,7 +207,7 @@ function Segments() {
         <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 text-white max-w-2xl">
           One app, every <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">live</span> event
         </h2>
-        <p className="text-[#A3A3A3] text-lg mb-12 max-w-2xl">
+        <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">
           Built for any room where someone speaks and slides need to follow them.
         </p>
 
@@ -233,7 +233,7 @@ function Segments() {
                   </div>
                 </div>
                 <h3 className="text-lg font-bold mb-3 text-white leading-tight">{s.title}</h3>
-                <p className="text-[#A3A3A3] text-sm leading-relaxed">{s.body}</p>
+                <p className="text-[#C4C4C4] text-sm leading-relaxed">{s.body}</p>
               </div>
             </div>
           ))}
@@ -254,7 +254,7 @@ function BentoFeatures() {
         <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 text-white max-w-2xl">
           What ACE actually <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">does</span>
         </h2>
-        <p className="text-[#A3A3A3] text-lg mb-12 max-w-2xl">
+        <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">
           Local-first, latency-conscious, built for the kind of pressure where mistakes are visible.
         </p>
 
@@ -268,7 +268,7 @@ function BentoFeatures() {
             <div className="relative">
               <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-6" />
               <h3 className="text-2xl sm:text-3xl font-bold mb-3 text-white">Listens to live audio</h3>
-              <p className="text-[#A3A3A3] leading-relaxed max-w-md">
+              <p className="text-[#C4C4C4] leading-relaxed max-w-md">
                 Microphone or NDI in. Whisper transcribes locally on your device — your audio never leaves the room by default. Sub-second latency on M-series Macs.
               </p>
             </div>
@@ -278,7 +278,7 @@ function BentoFeatures() {
           <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
             <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
             <h3 className="text-lg font-bold mb-2 text-white">Detects what&apos;s being said</h3>
-            <p className="text-[#A3A3A3] text-sm leading-relaxed">
+            <p className="text-[#C4C4C4] text-sm leading-relaxed">
               Songs, scripture, conference talks. Vector search matches transcripts against your library in real time.
             </p>
           </div>
@@ -287,7 +287,7 @@ function BentoFeatures() {
           <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
             <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
             <h3 className="text-lg font-bold mb-2 text-white">Outputs anywhere</h3>
-            <p className="text-[#A3A3A3] text-sm leading-relaxed">
+            <p className="text-[#C4C4C4] text-sm leading-relaxed">
               Fullscreen HDMI, NDI to ATEM, ProPresenter passthrough, browser-based stage monitor.
             </p>
           </div>
@@ -296,7 +296,7 @@ function BentoFeatures() {
           <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
             <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
             <h3 className="text-lg font-bold mb-2 text-white">Built for live</h3>
-            <p className="text-[#A3A3A3] text-sm leading-relaxed">
+            <p className="text-[#C4C4C4] text-sm leading-relaxed">
               Survives Wi-Fi drops, audio device swaps, and the occasional shouted prayer.
             </p>
           </div>
@@ -304,7 +304,7 @@ function BentoFeatures() {
           <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
             <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
             <h3 className="text-lg font-bold mb-2 text-white">Voice control</h3>
-            <p className="text-[#A3A3A3] text-sm leading-relaxed">
+            <p className="text-[#C4C4C4] text-sm leading-relaxed">
               &quot;Next slide&quot;, &quot;clear&quot;, &quot;Bible mode on&quot;. Operator hands stay free.
             </p>
           </div>
@@ -312,7 +312,7 @@ function BentoFeatures() {
           <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
             <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
             <h3 className="text-lg font-bold mb-2 text-white">Auto-updates</h3>
-            <p className="text-[#A3A3A3] text-sm leading-relaxed">
+            <p className="text-[#C4C4C4] text-sm leading-relaxed">
               New version drops, ACE downloads it in the background, and prompts on next launch.
             </p>
           </div>
@@ -343,7 +343,7 @@ function BigStat({ number, label }: { number: string; label: string }) {
           {number}
         </span>
       </div>
-      <div className="mt-3 text-[#A3A3A3] text-sm leading-relaxed max-w-[280px] mx-auto sm:mx-0">
+      <div className="mt-3 text-[#C4C4C4] text-sm leading-relaxed max-w-[280px] mx-auto sm:mx-0">
         {label}
       </div>
     </div>
@@ -406,7 +406,7 @@ function PricingTeaser() {
         <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 text-white text-center">
           Free now. <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">Fair</span> later.
         </h2>
-        <p className="text-[#A3A3A3] text-lg mb-12 max-w-2xl mx-auto text-center">
+        <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl mx-auto text-center">
           Public beta is completely free. Paid tiers begin Day 90 — and every beta user is grandfathered into Standard for life as a thank-you.
         </p>
 
@@ -425,12 +425,12 @@ function PricingTeaser() {
                   {t.note}
                 </div>
               )}
-              <div className="text-sm font-bold uppercase tracking-wider text-[#A3A3A3] mb-3">
+              <div className="text-sm font-bold uppercase tracking-wider text-[#C4C4C4] mb-3">
                 {t.name}
               </div>
               <div className="flex items-baseline gap-1.5 mb-6">
                 <span className="text-4xl font-bold text-white tracking-tight">{t.price}</span>
-                <span className="text-[#A3A3A3] text-sm">{t.period}</span>
+                <span className="text-[#C4C4C4] text-sm">{t.period}</span>
               </div>
               <ul className="space-y-2.5 text-sm text-[#D4D4D4]">
                 {t.features.map((f) => (
@@ -468,7 +468,7 @@ function FinalCTA() {
           </span>
           ?
         </h2>
-        <p className="text-[#A3A3A3] text-lg mb-10 max-w-xl mx-auto">
+        <p className="text-[#C4C4C4] text-lg mb-10 max-w-xl mx-auto">
           Free during the public beta. Auto-updates so you always have the latest.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -493,7 +493,7 @@ function FinalCTA() {
 /* ───────────── FOOTER ───────────── */
 function Footer() {
   return (
-    <footer className="px-6 sm:px-10 py-10 border-t border-[#1A1A1A] text-sm text-[#A3A3A3]">
+    <footer className="px-6 sm:px-10 py-10 border-t border-[#1A1A1A] text-sm text-[#C4C4C4]">
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <Image src="/logo.png" alt="" width={20} height={20} className="rounded" />
