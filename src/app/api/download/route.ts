@@ -21,12 +21,13 @@ import { NextRequest, NextResponse } from "next/server";
 const RELEASE_BASE = "https://dl.ace-presenter.app";
 
 // Map platform → filename at the bucket root. Naming matches what
-// electron-builder produces. When we cut v1.0.1, we'll either rotate
-// these filenames or symlink "latest" → versioned via R2 lifecycle rules.
+// electron-builder produces. Bump these on every release; once we have
+// time we can replace this with a dynamic lookup from /api/latest so
+// versioning isn't hardcoded.
 const ASSETS: Record<string, string> = {
-  "mac-arm64": "ACE-1.0.0-arm64.dmg",
-  "mac-x64": "ACE-1.0.0.dmg",
-  "win": "ACE-Setup-1.0.0.exe",
+  "mac-arm64": "ACE-1.0.1-arm64.dmg",
+  "mac-x64": "ACE-1.0.1.dmg",
+  "win": "ACE-Setup-1.0.1.exe",
 };
 
 function sniffPlatform(ua: string): string | null {
