@@ -25,9 +25,9 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 // time we can replace this with a dynamic lookup from /api/latest so
 // versioning isn't hardcoded.
 const ASSETS: Record<string, string> = {
-  "mac-arm64": "ACE-1.0.3-arm64.dmg",
-  "mac-x64": "ACE-1.0.3.dmg",
-  "win": "ACE-Setup-1.0.3.exe",
+  "mac-arm64": "ACE-1.0.4-arm64.dmg",
+  "mac-x64": "ACE-1.0.4.dmg",
+  "win": "ACE-Setup-1.0.4.exe",
 };
 
 function sniffPlatform(ua: string): string | null {
