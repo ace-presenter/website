@@ -74,6 +74,7 @@ export default function Home() {
       <Compatibility />
       <Segments />
       <BentoFeatures />
+      <WhatsNew />
       <BigStats />
       <PricingTeaser />
       <FinalCTA />
@@ -365,6 +366,100 @@ function BentoFeatures() {
             </p>
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* ───────────── WHAT'S NEW (v1.2 release marker) ───────────── */
+function WhatsNew() {
+  const HIGHLIGHTS: { tag: string; title: string; body: string }[] = [
+    {
+      tag: "Quick Screens",
+      title: "Floating message panel · ⌘J",
+      body: "Type announcements, prayer calls, offering reminders, hit ⌘↵ to push. Pick a theme. Recent screens stay one click away.",
+    },
+    {
+      tag: "Slide Import",
+      title: "PDF · PowerPoint · Keynote",
+      body: "Drop a deck onto the Service Plan and ACE renders every page as a slide. Keynote support is new in v1.2 (AppleScript export).",
+    },
+    {
+      tag: "One-click Go",
+      title: "Service Plan items take live instantly",
+      body: "Click GO on any item — song, Bible verse, prayer text, sermon, media — and the right thing lands on PROGRAM. Was a two-step before.",
+    },
+    {
+      tag: "Faster detection",
+      title: "Sub-200ms lyric & Bible recognition",
+      body: 'Whisper.cpp + CoreML on M-series Macs. Bible chapter-only references like "Open to John 3" or "Romans 8" resolve instantly.',
+    },
+  ];
+
+  const FIXES = [
+    "Live transcript captured during sermon recording (was dropping on the Deepgram path)",
+    "Update prompts no longer crash on macOS 26 with large bundles",
+    "Mic-level waveform reflects real audio (was a decorative animation)",
+    "Service Plan changes reflect across views instantly (no more 30s polling lag)",
+    "Settings → About now reads the real version + tri-state Check for Updates",
+  ];
+
+  return (
+    <section className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A]">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex items-center gap-3 mb-3">
+          <span className="text-[10px] uppercase tracking-[0.25em] text-[#E8183A] font-bold">
+            What&apos;s new
+          </span>
+          <span className="h-px flex-1 bg-[#1F1F1F]" />
+        </div>
+        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-12 leading-tight">
+          v1.2 — faster, calmer,
+          <br />
+          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
+            ready for Sunday
+          </span>
+        </h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+          {HIGHLIGHTS.map((h) => (
+            <div
+              key={h.tag}
+              className="p-6 rounded-2xl bg-[#141414] border border-[#222] hover:border-[#2F2F2F] transition-colors"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#E8183A]" />
+                <span className="text-[10px] uppercase tracking-[0.18em] text-[#E8183A] font-bold">
+                  {h.tag}
+                </span>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2 leading-tight">{h.title}</h3>
+              <p className="text-[#C4C4C4] text-sm leading-relaxed">{h.body}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="rounded-2xl bg-[#101010] border border-[#1F1F1F] p-6">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-[10px] uppercase tracking-[0.18em] text-[#888] font-bold">
+              Also fixed
+            </span>
+            <span className="h-px flex-1 bg-[#1F1F1F]" />
+          </div>
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
+            {FIXES.map((f, i) => (
+              <li key={i} className="flex items-start gap-2 text-[#A3A3A3] text-sm leading-relaxed">
+                <span className="mt-2 w-1 h-1 rounded-full bg-[#444] shrink-0" />
+                {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <p className="text-[12px] text-[#666] mt-6">
+          Full release notes live in-app under Settings → Updates. Earlier
+          releases (v1.0.0–v1.1.0) listed there too.
+        </p>
       </div>
     </section>
   );
