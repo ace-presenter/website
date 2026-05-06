@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import WhatsNewToast from "@/components/WhatsNewToast";
+import WhatsNewModal from "@/components/WhatsNewModal";
 
 // Re-revalidate the home page every 5 minutes so the version pill picks
 // up new releases without a redeploy. Read directly from the
@@ -67,7 +67,7 @@ const COMPAT = [
 ];
 
 export default async function Home() {
-  // Resolve once at the page level so Hero pill + WhatsNewToast share
+  // Resolve once at the page level so Hero pill + WhatsNewModal share
   // the same source of truth (one fetch, one cache entry).
   const latestVersion = await fetchLatestVersion();
   return (
@@ -83,7 +83,7 @@ export default async function Home() {
       <PricingTeaser />
       <FinalCTA />
       <Footer />
-      <WhatsNewToast version={latestVersion} />
+      <WhatsNewModal version={latestVersion} />
     </main>
   );
 }
@@ -375,37 +375,37 @@ function BentoFeatures() {
   );
 }
 
-/* ───────────── WHAT'S NEW (v1.2 release marker) ───────────── */
+/* ───────────── WHAT'S NEW (v1.3 release marker) ───────────── */
 function WhatsNew() {
   const HIGHLIGHTS: { tag: string; title: string; body: string }[] = [
     {
-      tag: "Quick Screens",
-      title: "Floating message panel · ⌘J",
-      body: "Type announcements, prayer calls, offering reminders, hit ⌘↵ to push. Pick a theme. Recent screens stay one click away.",
+      tag: "Screen Configuration",
+      title: "One place for every output · ⌘⇧S",
+      body: "Audience and stage outputs, Identify, test patterns, multi-display assignment — all consolidated. The dashboard's old NDI / Audience / Stage toggles are gone.",
     },
     {
-      tag: "Slide Import",
-      title: "PDF · PowerPoint · Keynote",
-      body: "Drop a deck onto the Service Plan and ACE renders every page as a slide. Keynote support is new in v1.2 (AppleScript export).",
+      tag: "Multi-display per role",
+      title: "7 audience + 3 stage screens at once",
+      body: "Run as many audience and stage outputs as you have displays connected. Each role's toggle drives every assigned display in lockstep.",
     },
     {
-      tag: "One-click Go",
-      title: "Service Plan items take live instantly",
-      body: "Click GO on any item — song, Bible verse, prayer text, sermon, media — and the right thing lands on PROGRAM. Was a two-step before.",
+      tag: "Display Mode toggle",
+      title: "Borderless Fill or True Fullscreen, per output",
+      body: "Borderless preserves your operator menu bar and is multi-display friendly. True Fullscreen opens its own Mission Control Space — smoother for single-output rigs.",
     },
     {
-      tag: "Faster detection",
-      title: "Sub-200ms lyric & Bible recognition",
-      body: 'Whisper.cpp + CoreML on M-series Macs. Bible chapter-only references like "Open to John 3" or "Romans 8" resolve instantly.',
+      tag: "Wider import support",
+      title: "Bible, songs, image-sequence slides",
+      body: "Bible: Zefania XML and OpenSong XML alongside MyBible/OSIS. Songs: OpenSong song format auto-detected. Slides: drop a numbered set of frames or a folder.",
     },
   ];
 
   const FIXES = [
-    "Live transcript captured during sermon recording (was dropping on the Deepgram path)",
-    "Update prompts no longer crash on macOS 26 with large bundles",
-    "Mic-level waveform reflects real audio (was a decorative animation)",
-    "Service Plan changes reflect across views instantly (no more 30s polling lag)",
-    "Settings → About now reads the real version + tri-state Check for Updates",
+    "Stage now fully covers its assigned display edge-to-edge (was capped to workArea)",
+    "Operator's macOS menu bar no longer hijacked when audience/stage outputs go live",
+    "Screen-config selections persist across restart — fixed the regression where the modal's per-screen schema wasn't being saved",
+    "Display ID mismatch resolved — picking your 3rd monitor actually opens output on your 3rd monitor now",
+    "Stage screen output simplified — removed Stage Monitor badge, layout switcher, clock, and connecting/waiting chrome",
   ];
 
   return (
@@ -418,10 +418,10 @@ function WhatsNew() {
           <span className="h-px flex-1 bg-[#1F1F1F]" />
         </div>
         <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-12 leading-tight">
-          v1.2 — faster, calmer,
+          v1.3 — outputs that work
           <br />
           <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
-            ready for Sunday
+            on the rig you actually have
           </span>
         </h2>
 
