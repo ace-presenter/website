@@ -19,7 +19,11 @@ import { NextRequest, NextResponse } from "next/server";
  * Cached at the edge for 5 minutes so the bucket isn't hit on every click.
  */
 
-export const revalidate = 300;
+// Edge-cache for 60 seconds. Was 300 (5 min) but that meant the redirect
+// could point at a deleted asset for up to 5 minutes after a release flip,
+// which is too long when we clean up old versions. 60 s is comfortable —
+// the bucket itself absorbs the load fine.
+export const revalidate = 60;
 
 const MANIFEST_URL = "https://dl.ace-presenter.app/latest-mac.yml";
 const RELEASE_BASE = "https://dl.ace-presenter.app";
@@ -49,7 +53,7 @@ function sniffPlatform(ua: string): string | null {
  *  the manifest has a fixed shape and we don't want a YAML dep here. */
 async function resolveFromManifest(platform: string): Promise<string | null> {
   try {
-    const r = await fetch(MANIFEST_URL, { next: { revalidate: 300 } });
+    const r = await fetch(MANIFEST_URL, { next: { revalidate: 60 } });
     if (!r.ok) return null;
     const text = await r.text();
     const lines = text.split(/\r?\n/);
