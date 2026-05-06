@@ -616,7 +616,7 @@ function FinalCTA() {
           ?
         </h2>
         <p className="text-[#C4C4C4] text-lg mb-10 max-w-xl mx-auto">
-          Free during the public beta. Auto-updates so you always have the latest.
+          Free during the public beta. New releases ship every few weeks — ACE prompts you on launch when one&apos;s ready.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
