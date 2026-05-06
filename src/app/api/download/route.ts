@@ -3,9 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 /**
  * Download redirect — points the user at the correct release asset on our
  * R2-backed CDN (dl.ace-presenter.app). The browser sees a 302 → file
- * download starts immediately. The user never sees an intermediate page
- * because the CDN serves with `Content-Disposition: attachment`-equivalent
- * headers (or a recognisable file MIME like application/x-apple-diskimage).
+ * download starts immediately.
+ *
+ * Reads the same `latest-mac.yml` manifest electron-updater uses, so the
+ * version this redirect serves is ALWAYS in sync with the auto-updater
+ * (and with /api/latest). Future releases only need to re-upload the
+ * manifest — no marketing-site redeploy required.
  *
  * Query params:
  *   ?platform=mac-arm64 | mac-x64 | win
@@ -13,21 +16,21 @@ import { NextRequest, NextResponse } from "next/server";
  * If `platform` is omitted, sniff User-Agent for a default. Bots and
  * unrecognised platforms get sent to the marketing landing page.
  *
- * R2 was chosen over GitHub Releases because GitHub caps individual assets
- * at 2 GB and our DMGs (with bundled Whisper medium model) are ~2.5 GB.
- * R2 also has zero egress fees so download volume scales for free.
+ * Cached at the edge for 5 minutes so the bucket isn't hit on every click.
  */
 
+export const revalidate = 300;
+
+const MANIFEST_URL = "https://dl.ace-presenter.app/latest-mac.yml";
 const RELEASE_BASE = "https://dl.ace-presenter.app";
 
-// Map platform → filename at the bucket root. Naming matches what
-// electron-builder produces. Bump these on every release; once we have
-// time we can replace this with a dynamic lookup from /api/latest so
-// versioning isn't hardcoded.
-const ASSETS: Record<string, string> = {
-  "mac-arm64": "ACE-1.0.4-arm64.dmg",
-  "mac-x64": "ACE-1.0.4.dmg",
-  "win": "ACE-Setup-1.0.4.exe",
+// Fallback assets if the manifest fetch fails. Bump these on every release
+// just in case the manifest is unreachable — it's the SAFETY NET for users
+// arriving via the website while the bucket is down. Should match the most
+// recent successful upload.
+const FALLBACK: Record<string, string> = {
+  "mac-arm64": "ACE-1.1.0-arm64.dmg",
+  "mac-x64": "ACE-1.1.0.dmg",
 };
 
 function sniffPlatform(ua: string): string | null {
@@ -42,15 +45,59 @@ function sniffPlatform(ua: string): string | null {
   return null;
 }
 
+/** Pull the right file URL out of `latest-mac.yml`. Bespoke parser since
+ *  the manifest has a fixed shape and we don't want a YAML dep here. */
+async function resolveFromManifest(platform: string): Promise<string | null> {
+  try {
+    const r = await fetch(MANIFEST_URL, { next: { revalidate: 300 } });
+    if (!r.ok) return null;
+    const text = await r.text();
+    const lines = text.split(/\r?\n/);
+    const urls: string[] = [];
+    for (const line of lines) {
+      const m = line.match(/^\s*-\s*url:\s*(.+?)\s*$/);
+      if (m) urls.push(m[1].replace(/^['"]|['"]$/g, ""));
+    }
+    if (platform === "mac-arm64") {
+      const u = urls.find((x) => x.endsWith("arm64.dmg"));
+      return u ? `${RELEASE_BASE}/${u}` : null;
+    }
+    if (platform === "mac-x64") {
+      const u = urls.find((x) => x.endsWith(".dmg") && !x.endsWith("arm64.dmg"));
+      return u ? `${RELEASE_BASE}/${u}` : null;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 export async function GET(req: NextRequest) {
   const platform =
     req.nextUrl.searchParams.get("platform") ||
     sniffPlatform(req.headers.get("user-agent") || "");
 
-  if (!platform || !ASSETS[platform]) {
+  if (!platform) {
     return NextResponse.redirect(new URL("/", req.url), 302);
   }
 
-  const url = `${RELEASE_BASE}/${ASSETS[platform]}`;
-  return NextResponse.redirect(url, 302);
+  // Windows isn't shipped yet — bounce back to the landing page.
+  if (platform === "win") {
+    return NextResponse.redirect(new URL("/", req.url), 302);
+  }
+
+  // Try the dynamic manifest first; fall back to the hardcoded asset name
+  // ONLY if the manifest is unreachable. The hardcoded fallback should
+  // always point at the same version the manifest does — bump them in
+  // lockstep on every release.
+  const dynamicUrl = await resolveFromManifest(platform);
+  if (dynamicUrl) {
+    return NextResponse.redirect(dynamicUrl, 302);
+  }
+
+  const fallback = FALLBACK[platform];
+  if (!fallback) {
+    return NextResponse.redirect(new URL("/", req.url), 302);
+  }
+  return NextResponse.redirect(`${RELEASE_BASE}/${fallback}`, 302);
 }
