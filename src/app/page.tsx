@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import WhatsNewToast from "@/components/WhatsNewToast";
 
 // Re-revalidate the home page every 5 minutes so the version pill picks
 // up new releases without a redeploy. Read directly from the
@@ -65,11 +66,14 @@ const COMPAT = [
   "Genius",
 ];
 
-export default function Home() {
+export default async function Home() {
+  // Resolve once at the page level so Hero pill + WhatsNewToast share
+  // the same source of truth (one fetch, one cache entry).
+  const latestVersion = await fetchLatestVersion();
   return (
     <main className="flex-1 flex flex-col font-sans">
       <Nav />
-      <Hero />
+      <Hero latestVersion={latestVersion} />
       <StatsStrip />
       <Compatibility />
       <Segments />
@@ -79,6 +83,7 @@ export default function Home() {
       <PricingTeaser />
       <FinalCTA />
       <Footer />
+      <WhatsNewToast version={latestVersion} />
     </main>
   );
 }
@@ -113,8 +118,7 @@ function Nav() {
 }
 
 /* ───────────── HERO ───────────── */
-async function Hero() {
-  const latestVersion = await fetchLatestVersion();
+function Hero({ latestVersion }: { latestVersion: string | null }) {
   return (
     <section className="relative px-6 sm:px-10 pt-20 sm:pt-32 pb-24 text-center overflow-hidden">
       {/* Aurora glow — brand red instead of multi-color */}
@@ -405,7 +409,7 @@ function WhatsNew() {
   ];
 
   return (
-    <section className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A]">
+    <section id="whats-new" className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A] scroll-mt-24">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center gap-3 mb-3">
           <span className="text-[10px] uppercase tracking-[0.25em] text-[#E8183A] font-bold">
