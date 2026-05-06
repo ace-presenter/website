@@ -1,6 +1,29 @@
 import Link from "next/link";
 import Image from "next/image";
 
+// Re-revalidate the home page every 5 minutes so the version pill picks
+// up new releases without a redeploy. Read directly from the
+// canonical manifest (dl.ace-presenter.app/latest-mac.yml) — same source
+// of truth that /api/latest and /api/download use.
+export const revalidate = 300;
+
+async function fetchLatestVersion(): Promise<string | null> {
+  try {
+    const r = await fetch("https://dl.ace-presenter.app/latest-mac.yml", {
+      next: { revalidate: 300 },
+    });
+    if (!r.ok) return null;
+    const text = await r.text();
+    for (const line of text.split(/\r?\n/)) {
+      const m = line.match(/^version:\s*['"]?([\d.]+)['"]?/);
+      if (m) return m[1];
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 const SEGMENTS: { hook: string; title: string; body: string }[] = [
   {
     hook: "Worship",
@@ -89,7 +112,8 @@ function Nav() {
 }
 
 /* ───────────── HERO ───────────── */
-function Hero() {
+async function Hero() {
+  const latestVersion = await fetchLatestVersion();
   return (
     <section className="relative px-6 sm:px-10 pt-20 sm:pt-32 pb-24 text-center overflow-hidden">
       {/* Aurora glow — brand red instead of multi-color */}
@@ -161,7 +185,15 @@ function Hero() {
         </div>
 
         <p className="mt-5 text-xs text-[#C4C4C4]">
-          Free during public beta · macOS 12+ · Auto-updates
+          Free during public beta · macOS 12+
+          {latestVersion && (
+            <>
+              {" · "}
+              <span className="text-[#888]">
+                Latest: <span className="text-white font-semibold tabular-nums">v{latestVersion}</span>
+              </span>
+            </>
+          )}
         </p>
       </div>
     </section>
@@ -327,9 +359,9 @@ function BentoFeatures() {
 
           <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
             <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
-            <h3 className="text-lg font-bold mb-2 text-white">Auto-updates</h3>
+            <h3 className="text-lg font-bold mb-2 text-white">Update prompts</h3>
             <p className="text-[#C4C4C4] text-sm leading-relaxed">
-              New version drops, ACE downloads it in the background, and prompts on next launch.
+              When a new version ships, ACE shows a download prompt on launch and hands off to your browser — no surprise installs mid-service.
             </p>
           </div>
         </div>
