@@ -32,8 +32,11 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 // just in case the manifest is unreachable — it's the SAFETY NET for users
 // arriving via the website while the bucket is down. Should match the most
 // recent successful upload.
+// v1.4.1 ships arm64-only — the x64 build hit an Apple timestamp-service
+// transient mid-codesign and we shipped arm64 (Apple Silicon) on its own
+// instead of waiting. Intel x64 still resolves to v1.4.0 until v1.4.2.
 const FALLBACK: Record<string, string> = {
-  "mac-arm64": "ACE-1.4.0-arm64.dmg",
+  "mac-arm64": "ACE-1.4.1-arm64.dmg",
   "mac-x64": "ACE-1.4.0.dmg",
 };
 

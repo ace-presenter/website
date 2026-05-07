@@ -7,8 +7,15 @@ export default function Support() {
         Help
       </div>
       <h1 className="text-4xl font-bold tracking-tight mb-4">Support</h1>
-      <p className="text-[#C4C4C4] text-lg mb-12">
+      <p className="text-[#C4C4C4] text-lg mb-6">
         ACE is built and supported by a small team. The fastest way to get help:
+      </p>
+      <p className="text-[#C4C4C4] text-base mb-12">
+        Most setup and operation questions are answered in the{" "}
+        <a href="/guide" className="text-[#E8183A] hover:text-white transition font-semibold">
+          User Guide
+        </a>
+        . Skim it once before your first service.
       </p>
 
       <div className="space-y-4">

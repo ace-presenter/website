@@ -107,6 +107,7 @@ function Nav() {
         <Link href="#use-cases" className="hover:text-white transition">Use cases</Link>
         <Link href="#features" className="hover:text-white transition">Features</Link>
         <Link href="#pricing" className="hover:text-white transition">Pricing</Link>
+        <Link href="/guide" className="hover:text-white transition">Guide</Link>
         <Link href="/support" className="hover:text-white transition">Support</Link>
       </div>
       <Link
@@ -661,6 +662,7 @@ function Footer() {
           </div>
         </div>
         <div className="flex items-center gap-6 flex-wrap justify-center">
+          <Link href="/guide" className="hover:text-white transition">Guide</Link>
           <Link href="/privacy" className="hover:text-white transition">Privacy</Link>
           <Link href="/terms" className="hover:text-white transition">Terms</Link>
           <Link href="/support" className="hover:text-white transition">Support</Link>
