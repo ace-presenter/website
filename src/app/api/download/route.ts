@@ -32,14 +32,14 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 // just in case the manifest is unreachable — it's the SAFETY NET for users
 // arriving via the website while the bucket is down. Should match the most
 // recent successful upload.
-// v1.5.0 — Service Plan tab actually works (7 backend endpoints + DB),
-// bilingual / multilingual song detection (Whisper auto + Deepgram
-// nova-2 multi), audio import via the central wizard, plus the slide-
-// on-HDMI fix (slide image now renders above background media instead
-// of being blocked by it). Folded all v1.4.4 fixes in.
+// v1.5.1 — critical regression fixes over v1.5.0: Whisper transcribe
+// pipeline was crashing on every call (pywhispercpp kwarg-incompatibility),
+// Deepgram WebSocket failed on every connect (SSL cert verify, same root
+// cause as v1.4.2's LibreOffice fix). Without v1.5.1, detection silently
+// failed end-to-end on v1.5.0 installs.
 const FALLBACK: Record<string, string> = {
-  "mac-arm64": "ACE-1.5.0-arm64.dmg",
-  "mac-x64": "ACE-1.5.0.dmg",
+  "mac-arm64": "ACE-1.5.1-arm64.dmg",
+  "mac-x64": "ACE-1.5.1.dmg",
 };
 
 function sniffPlatform(ua: string): string | null {

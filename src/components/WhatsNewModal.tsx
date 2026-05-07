@@ -109,44 +109,32 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.5.0",
+  version: "1.5.1",
   date: "May 7, 2026",
   highlights: [
     {
-      icon: I.layers,
-      title: "Service Plan tab works",
-      body: "Build a service order with songs, scripture, and announcements. Activate, Go, save — all functional now.",
+      icon: I.sparkle,
+      title: "Critical patch — update immediately",
+      body: "Two regressions in v1.5.0 silently broke detection end-to-end. Update now to restore Whisper transcription and Deepgram live transcript.",
     },
     {
       icon: I.book,
-      title: "Bilingual song detection",
-      body: "Settings → Audio → Language → Auto-detect. Whisper + Deepgram now follow code-switching mid-song.",
+      title: "Whisper transcription works again",
+      body: "v1.5.0 crashed on every transcribe call due to a pywhispercpp API mismatch — songs auto-matched only via RE-ID. v1.5.1 makes it forward-compatible.",
     },
     {
       icon: I.image,
-      title: "Slide reaches HDMI",
-      body: "Imported slides now display on the audience screen even when a worship loop is running.",
-    },
-    {
-      icon: I.sparkle,
-      title: "Audio import via the central wizard",
-      body: "MP3, WAV, M4A and friends now flow through the same ⌘I wizard as slides, songs, and bibles.",
+      title: "Deepgram live transcript reconnects",
+      body: "Same SSL fix v1.4.2 shipped for LibreOffice, applied globally — every TLS connection now uses the certifi CA bundle.",
     },
   ],
   improvements: [
-    "F2 / Clear Slide now clears lyrics + slide image together",
-    "Foreground video plays its audio (background loops stay muted)",
-    "Audio Bin delete button per file",
-    "Sermon transcript visible by default while recording",
-    "Genius song import is snappy — modal closes immediately",
-    "Library sidebar tidied (“Import” text removed; + button stays)",
+    "Defensive kwarg-discovery for pywhispercpp — survives future API changes",
+    "Global SSL context patch covers Deepgram, ACRCloud, Anthropic, requests, urllib, websockets",
   ],
   fixes: [
-    "Slide didn’t reach HDMI when a media background was active",
-    "Song-edit lyric changes now reflect immediately",
-    "LIVE badge no longer sticks on the previous song",
-    "Settings → Cancel, Permissions → Open Settings, Sermon → Export buttons",
-    "LibreOffice “installed” false-positive after a half-finished download",
+    "Whisper transcribe crashed every call (`whisper_full_params` has no attribute `beam_size`)",
+    "Deepgram WebSocket failed with CERTIFICATE_VERIFY_FAILED on every connect",
   ],
 };
 
