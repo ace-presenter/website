@@ -3,17 +3,17 @@
 /**
  * WhatsNewModal — release-announcement popup for the marketing site.
  *
- * Pops up centered on every page load when the visitor hasn't yet
- * acknowledged the current release. localStorage records the last-seen
- * version, so:
- *   • First-time visitor → modal shows for the latest release
- *   • Returning visitor on a new release → modal shows again
- *   • Same visitor, same release → modal stays hidden
+ * Pops up centered on EVERY page load. The localStorage "last-seen"
+ * dismissal check was removed — the operator/buyer audience is small
+ * and the release cadence is fast (multiple ships per week during
+ * launch), so seeing the changelog every visit is the desired
+ * behaviour. Dismissed for the current session via ✕, "Close",
+ * clicking the overlay, or Esc — refresh and it returns.
  *
  * Replaces the v1.2-era bottom-right toast. The modal pattern was
  * requested deliberately — it's the only surface that reliably draws
  * attention to a major release without a banner taking permanent real
- * estate. Dismissed via ✕, "Close", clicking the overlay, or Esc.
+ * estate.
  *
  * Server-side: `version` is passed in from the home page after it
  * resolves the live latest-mac.yml manifest. If the manifest fetch
@@ -21,8 +21,6 @@
  */
 
 import { useEffect, useState, useCallback } from "react";
-
-const STORAGE_KEY = "ace_marketing.last_seen_version";
 
 interface Highlight {
   icon: React.ReactNode;
@@ -111,67 +109,76 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.4.0",
+  version: "1.4.1",
   date: "May 7, 2026",
   highlights: [
     {
-      icon: I.layers,
-      title: "Unified render pipeline (opt-in)",
-      body: "One toggle in Settings → Screens & Display → Advanced flips ACE into Looks-driven rendering. Per-screen theme overrides, per-screen layer toggles, real-time edits — all flow through to outputs without reconfiguring downstream tooling. Off by default for the v1.4 burn-in window; flip on after rehearsal.",
-    },
-    {
-      icon: I.display,
-      title: "Different themes on different audience screens — simultaneously",
-      body: "Lobby TV in dark + sanctuary projector in scripture mode + balcony screen in branded? Each output reads its own theme override directly from the active Look. No more global flatten that clobbers other screens.",
-    },
-    {
-      icon: I.book,
-      title: "Bible references auto-detected on import",
-      body: "Drop a sermon PPTX → ACE scans every slide title and speaker note for scripture, attached inline to the import. Drop a song file (any format — ChordPro, OpenLyrics, OpenSong, ProPresenter, plain text) → references in the lyrics surface per section. The wizard's Summary groups them: 'Slide 3: Romans 8:28', 'Verse 2: John 3:16'.",
+      icon: I.sparkle,
+      title: "Security patch — credentials no longer bundled",
+      body: "v1.0 through v1.4.0 unintentionally shipped a copy of developer .env credentials inside the .app bundle. v1.4.1 strips it; every exposed API key (Apple, Anthropic, Deepgram, ACRCloud, Genius, Pixabay) has been rotated and revoked. Update immediately.",
     },
     {
       icon: I.image,
-      title: "Section-stuck detection bug fixed",
-      body: "Whisper's context-prompt builder used to bias toward whichever section the operator was currently locked on, creating a feedback loop that prevented section transitions. v1.4 rebalances every section equally with structural [TYPE N] labels — the band moves on, the detection follows.",
+      title: "Imported slide → audience screen, finally",
+      body: "Double-click an imported slide and it now reaches the HDMI output. The /stage renderer was missing the bgMode='image' branch, so image-bg slides displayed in Preview but never made it to Program. Fixed with a proper image-render path gated on the media layer.",
+    },
+    {
+      icon: I.book,
+      title: "In-app tour rewritten for everything since v1.0",
+      body: "The original 5-step tour ignored Looks, Theme tab, Stage editor, Service Plan, Quick Screens (⌘J), Screen Configuration (⌘⇧S), Audio traffic-light, the Settings gear, and the Import wizard. v1.4.1 bumps the tour to 10 steps covering all of them. Existing operators get re-prompted automatically (the tour version key is bumped).",
+    },
+    {
+      icon: I.layers,
+      title: "Full User Guide at ace-presenter.app/guide",
+      body: "A complete operator manual lives on the marketing site now: get-started checklist, dashboard breakdown, audio setup, Live vs Hold, Bible mode, imports, Looks & themes, multi-screen, Service Plan, every keyboard shortcut grouped into tables, and a troubleshooting FAQ. Skim once before your first service.",
     },
   ],
   whyBetter: [
     {
-      label: "From toggles to one source of truth",
-      body: "v1.0–1.3: outputs were configured by hand (NDI on, audience on, stage on, theme picked, layers off). v1.4: a Look encodes all of that — one click 'Make Live' applies the right theme to the right screen with the right layers, every time.",
+      label: "From bundled secrets to clean .app",
+      body: "Until v1.4.0, every shipped .app contained the developer's .env at Contents/Resources/seed-data/.env — trivially extractable with any file browser. v1.4.1 removes it, rotates all six exposed services' keys at the provider level, and adds pre-build + post-build greps so it cannot regress. Existing v1.4.0 installs are not vulnerable post-rotation (the embedded keys are dead).",
     },
     {
-      label: "From global to per-screen rendering",
-      body: "Prior versions flattened theme overrides through a single global settings struct, so multi-screen rigs couldn't show different content on each output. v1.4's renderer reads per-screen overrides directly — the architectural unblock for MultiView, edge-blend, and the Screen-vs-Output split coming in v2.",
+      label: "From hidden API config to embedded by default",
+      body: "Settings → Integrations was a panel where operators could see (and accidentally rotate) developer API keys. v1.4.1 hides the panel entirely — everything is configured server-side. CCLI moved into General settings. The operator's job is to present, not to manage credentials.",
     },
     {
-      label: "From 'stuck on verse 1' to actually following",
-      body: "v1.3 detection could lock onto a section and refuse to advance — the Whisper context prompt was self-reinforcing. v1.4's rewrite gives every section equal billing in the prompt; transcripts and votes flow naturally with the band.",
+      label: "From original 5-step tour to 10-step operator walk",
+      body: "v1.0's tour pointed at Library, Stage, Output, Bible mode, Start. Anything added since (Looks, Theme tab, Stage editor, Service Plan, Quick Screens ⌘J, Screen Configuration ⌘⇧S, Audio traffic-light, Settings gear, Import wizard) was invisible to first-time operators. v1.4.1's tour walks every one and the tour-version key bumps so existing operators get re-prompted.",
     },
     {
-      label: "From manual to automatic for sermon prep",
-      body: "Drop a PPTX in v1.3, you got slide images. Drop one in v1.4, you get slide images plus every Bible reference parsed out of titles and speaker notes, attached to your sermon prep — no manual hunting through 40-slide decks.",
+      label: "From toggles to one source of truth (v1.4 carry-over)",
+      body: "v1.0–1.3: outputs were configured by hand (NDI on, audience on, stage on, theme picked, layers off). v1.4: a Look encodes all of that — one click 'Make Live' applies the right theme to the right screen with the right layers, every time. Per-screen overrides let lobby + sanctuary + balcony each render their own theme simultaneously.",
     },
     {
-      label: "Build pipeline that actually rebuilds",
-      body: "v1.3 shipped with a stale v1.2.1 backend because the build script forgot the PyInstaller step. v1.4 chains backend:build first; every backend change actually lands in the .app. The symptom you saw — 'Settings shows v1.2.1 on a v1.3 install' — won't happen again.",
+      label: "From 'stuck on verse 1' to actually following (v1.4 carry-over)",
+      body: "v1.3 detection could lock onto a section and refuse to advance — Whisper's context prompt was self-reinforcing. v1.4 rebalanced every section equally with [TYPE N] labels; the band moves on, the detection follows.",
     },
   ],
   improvements: [
-    "Looks tab on the dashboard toolbar (between Theme and Stage) — opens LooksPanel directly. Was unreachable in v1.3 despite being fully implemented",
-    "Settings gear icon next to Import — direct one-click navigation to Settings",
-    "AudioVisualizer carries the mic-state signal end-to-end — traffic-light colours (amber/green/red) plus a slow pulse on low. Replaced the redundant 5-bar meter and the separate 'Low mic' badge",
-    "Stage Layout Editor's Inspector adds a Style dropdown — operators pick semantic tokens (Primary / Secondary / Next / Timer / Clock / Muted / Custom hex) instead of raw colour pickers",
-    "ThemeDesigner card-click now opens the editor — was: applied to display, requiring a hidden hover-pencil to actually edit. Hover ▶ to apply without editing; hover ✕ to delete",
-    "Sermon recording: scripture notes now save the live-transcript snippet that triggered each match. Export shows the spoken context alongside the canonical verse text",
-    "Sermon recording: Export button visibility hardened — defensive hydration so the button reliably appears after Stop, even on page reload or edge-case Start flows",
-    "LibreOffice deferred-install — first PPTX import on a Mac without LibreOffice triggers an in-app installer with SHA256-verified mirror download from dl.ace-presenter.app. ~280 MB per arch (ARM64 / x86_64)",
+    "Settings → Integrations panel hidden — operators no longer see (or accidentally rotate) developer API keys; integrations are configured at the build/server layer",
+    "CCLI moved into Settings → General — cleaner home for it now that the Integrations panel is gone",
+    "In-app tour rewritten to 10 steps covering Looks, Theme tab, Stage editor, Service Plan, Quick Screens (⌘J), Screen Configuration (⌘⇧S), Audio traffic-light, Settings gear, Import wizard, and the dashboard layout",
+    "Tour version key bumped (ace-tour-complete-v2) — existing operators get re-prompted exactly once with the new walk; one-time only",
+    "New User Guide at /guide on ace-presenter.app — 14 sections, full keyboard-shortcut tables, FAQ-style troubleshooting accordion",
+    "/guide linked from the top nav, footer, /support page, and registered in sitemap.ts (priority 0.7) for SEO",
+    "Pre-build + post-build grep checks added to the .app build pipeline — refuses to ship if any .env, secrets, credentials, or keychain strings are detected in the bundle. Defence-in-depth for the v1.4.0 incident",
+    "Looks (v1.4.0): Looks tab on the dashboard toolbar between Theme and Stage — opens LooksPanel directly. Was unreachable in v1.3 despite being fully implemented",
+    "Looks (v1.4.0): Settings gear icon next to Import — direct one-click navigation to Settings",
+    "Looks (v1.4.0): AudioVisualizer carries the mic-state signal end-to-end — traffic-light colours (amber/green/red) plus a slow pulse on low. Replaced the redundant 5-bar meter and the separate 'Low mic' badge",
+    "Looks (v1.4.0): Stage Layout Editor's Inspector adds a Style dropdown — operators pick semantic tokens (Primary / Secondary / Next / Timer / Clock / Muted / Custom hex) instead of raw colour pickers",
+    "Looks (v1.4.0): ThemeDesigner card-click now opens the editor — was: applied to display, requiring a hidden hover-pencil to actually edit. Hover ▶ to apply without editing; hover ✕ to delete",
+    "Looks (v1.4.0): Sermon recording — scripture notes now save the live-transcript snippet that triggered each match. Export shows the spoken context alongside the canonical verse text",
+    "Looks (v1.4.0): Sermon recording — Export button visibility hardened with defensive hydration so the button reliably appears after Stop, even on page reload or edge-case Start flows",
+    "Looks (v1.4.0): LibreOffice deferred-install — first PPTX import on a Mac without LibreOffice triggers an in-app installer with SHA256-verified mirror download from dl.ace-presenter.app. ~280 MB per arch (ARM64 / x86_64)",
   ],
   fixes: [
-    "Song detection getting stuck on verse 1 / chorus — Whisper context-prompt rebalanced; section transitions now flow with the band",
-    "Live transcript not following the song — same root cause as section-stuck; the same fix restores accurate transcript display",
-    "Settings → Updates showing 'Version: 1.2.1' on a v1.3 install — build pipeline now chains backend:build before electron-builder so v1.4.0 ships with the right baked version everywhere",
-    "LooksPanel single source of truth — operator edits previously kept a parallel state copy that could disagree with anywhere else reading active Look. Migrated to the central store",
+    "v1.4.1: Imported slide double-click not reaching HDMI / audience output — /stage renderer was missing the bgMode='image' render branch; image-backed slides were rendered in Preview but never in Program. Fixed with a proper image render path gated on the media layer",
+    "v1.4.1: All exposed credentials rotated and revoked at the provider level (Apple developer, Anthropic, Deepgram, ACRCloud, Genius, Pixabay). Embedded keys in v1.0–v1.4.0 bundles are dead — leaked file is harmless once revoked",
+    "v1.4.0: Song detection getting stuck on verse 1 / chorus — Whisper context-prompt rebalanced; section transitions now flow with the band",
+    "v1.4.0: Live transcript not following the song — same root cause as section-stuck; the same fix restores accurate transcript display",
+    "v1.4.0: Settings → Updates showing 'Version: 1.2.1' on a v1.3 install — build pipeline now chains backend:build before electron-builder so the right baked version ships everywhere",
+    "v1.4.0: LooksPanel single source of truth — operator edits previously kept a parallel state copy that could disagree with anywhere else reading the active Look. Migrated to the central store",
   ],
 };
 
@@ -191,21 +198,14 @@ export default function WhatsNewModal({ version }: Props) {
   const [openFixes, setOpenFixes] = useState(false);
   const [openRemoved, setOpenRemoved] = useState(false);
 
-  // Decide whether to show, based on last-seen version. Only fire once the
-  // server-fetched `version` matches the curated CURRENT — otherwise the
-  // visitor would see a stale modal pointing to an older release that the
-  // page deploy hasn't caught up to yet.
+  // Show on every page load. Version-match guard stays — without it the
+  // visitor would see a stale modal pointing to an older release during
+  // the deploy gap between R2 manifest update and Vercel CDN warm-up.
   const shouldShow = useCallback(() => {
     if (!version) return false;
     if (version !== CURRENT.version) return false;
     if (typeof window === "undefined") return false;
-    let lastSeen: string | null = null;
-    try {
-      lastSeen = window.localStorage.getItem(STORAGE_KEY);
-    } catch {
-      // private mode → show every visit
-    }
-    return lastSeen !== version;
+    return true;
   }, [version]);
 
   useEffect(() => {
@@ -216,17 +216,12 @@ export default function WhatsNewModal({ version }: Props) {
     return () => clearTimeout(t);
   }, [shouldShow]);
 
+  // Dismiss for the current session only — no localStorage write.
+  // Refreshing the page brings the modal back, by design (per request).
   const dismiss = useCallback(() => {
-    if (version) {
-      try {
-        window.localStorage.setItem(STORAGE_KEY, version);
-      } catch {
-        /* private mode — silently degrade */
-      }
-    }
     setExiting(true);
     setTimeout(() => setVisible(false), 200);
-  }, [version]);
+  }, []);
 
   // Esc to close
   useEffect(() => {
