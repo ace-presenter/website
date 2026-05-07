@@ -33,8 +33,8 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 // arriving via the website while the bucket is down. Should match the most
 // recent successful upload.
 const FALLBACK: Record<string, string> = {
-  "mac-arm64": "ACE-1.3.0-arm64.dmg",
-  "mac-x64": "ACE-1.3.0.dmg",
+  "mac-arm64": "ACE-1.4.0-arm64.dmg",
+  "mac-x64": "ACE-1.4.0.dmg",
 };
 
 function sniffPlatform(ua: string): string | null {

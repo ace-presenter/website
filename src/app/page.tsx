@@ -377,37 +377,37 @@ function BentoFeatures() {
   );
 }
 
-/* ───────────── WHAT'S NEW (v1.3 release marker) ───────────── */
+/* ───────────── WHAT'S NEW (v1.4 release marker) ───────────── */
 function WhatsNew() {
   const HIGHLIGHTS: { tag: string; title: string; body: string }[] = [
     {
-      tag: "Screen Configuration",
-      title: "One place for every output · ⌘⇧S",
-      body: "Audience and stage outputs, Identify, test patterns, multi-display assignment — all consolidated. The dashboard's old NDI / Audience / Stage toggles are gone.",
+      tag: "Unified render",
+      title: "Looks drive every output, in real time",
+      body: "One toggle in Settings → Screens & Display → Advanced flips ACE into Looks-driven rendering. Per-screen theme overrides, per-screen layer toggles, real-time edits — the audience output reflects every change within one slide tick.",
     },
     {
-      tag: "Multi-display per role",
-      title: "7 audience + 3 stage screens at once",
-      body: "Run as many audience and stage outputs as you have displays connected. Each role's toggle drives every assigned display in lockstep.",
+      tag: "Multi-screen, multi-theme",
+      title: "Different theme on each audience display, simultaneously",
+      body: "Lobby TV in dark + sanctuary projector in scripture + balcony screen in branded? Each output reads its own theme override directly. No more global flatten that clobbers other screens.",
     },
     {
-      tag: "Display Mode toggle",
-      title: "Borderless Fill or True Fullscreen, per output",
-      body: "Borderless preserves your operator menu bar and is multi-display friendly. True Fullscreen opens its own Mission Control Space — smoother for single-output rigs.",
+      tag: "Sermon prep auto-detect",
+      title: "Bible references parsed on import",
+      body: "Drop a sermon PPTX → ACE scans every slide title and speaker note for scripture, attached inline. Drop any song file → references in the lyrics surface per section. Wizard groups them: 'Slide 3: Romans 8:28', 'Verse 2: John 3:16'.",
     },
     {
-      tag: "Wider import support",
-      title: "Bible, songs, image-sequence slides",
-      body: "Bible: Zefania XML and OpenSong XML alongside MyBible/OSIS. Songs: OpenSong song format auto-detected. Slides: drop a numbered set of frames or a folder.",
+      tag: "Detection that actually follows",
+      title: "Section-stuck bug is gone",
+      body: "v1.3 detection could lock onto verse 1 and refuse to advance to chorus. v1.4's rewrite gives every section equal billing in Whisper's prompt — transcripts and votes flow naturally with the band.",
     },
   ];
 
   const FIXES = [
-    "Stage now fully covers its assigned display edge-to-edge (was capped to workArea)",
-    "Operator's macOS menu bar no longer hijacked when audience/stage outputs go live",
-    "Screen-config selections persist across restart — fixed the regression where the modal's per-screen schema wasn't being saved",
-    "Display ID mismatch resolved — picking your 3rd monitor actually opens output on your 3rd monitor now",
-    "Stage screen output simplified — removed Stage Monitor badge, layout switcher, clock, and connecting/waiting chrome",
+    "Song detection getting stuck on verse 1 / chorus — Whisper context-prompt rebalanced; section transitions flow with the band",
+    "Live transcript not following the song — same root cause as section-stuck; one fix restores accurate transcript display",
+    "Settings → Updates showing wrong version on a fresh install — build pipeline now chains backend:build before electron-builder so v1.4.0 ships with the right baked version everywhere",
+    "ThemeDesigner card-click now opens the editor (was: applied to display, requiring a hidden hover-pencil to actually edit)",
+    "AudioVisualizer carries the mic-state signal — traffic-light colour replaces the redundant 5-bar meter and 'Low mic' badge",
   ];
 
   return (
@@ -420,10 +420,10 @@ function WhatsNew() {
           <span className="h-px flex-1 bg-[#1F1F1F]" />
         </div>
         <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-12 leading-tight">
-          v1.3 — outputs that work
+          v1.4 — Looks drive
           <br />
           <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
-            on the rig you actually have
+            every screen
           </span>
         </h2>
 

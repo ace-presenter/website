@@ -35,6 +35,10 @@ interface ReleaseContent {
   date: string;          // human-readable, e.g. "May 6, 2026"
   codename?: string;     // optional release code-name
   highlights: Highlight[];
+  /** Why this release is more efficient / powerful than the previous
+   *  ones — appears as a divider section between the highlights and the
+   *  collapsible details. Each item is a short comparison line. */
+  whyBetter?: { label: string; body: string }[];
   improvements: string[];
   fixes: string[];
   removed?: string[];
@@ -107,45 +111,67 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.3.0",
-  date: "May 6, 2026",
+  version: "1.4.0",
+  date: "May 7, 2026",
   highlights: [
     {
-      icon: I.display,
-      title: "Screen Configuration is the single source of truth",
-      body: "Open with ⌘⇧S or the new Screens menu. Configure audience and stage outputs, identify displays, run test patterns — all in one place. The dashboard's old NDI / Audience / Stage toggles are gone.",
-    },
-    {
       icon: I.layers,
-      title: "Multi-display per role",
-      body: "Run as many audience and stage screens as you have displays — 7 audience + 3 stage at once if your rig supports it. Each role toggles every assigned display in lockstep.",
+      title: "Unified render pipeline (opt-in)",
+      body: "One toggle in Settings → Screens & Display → Advanced flips ACE into Looks-driven rendering. Per-screen theme overrides, per-screen layer toggles, real-time edits — all flow through to outputs without reconfiguring downstream tooling. Off by default for the v1.4 burn-in window; flip on after rehearsal.",
     },
     {
       icon: I.display,
-      title: "Per-output Display Mode toggle",
-      body: "Pick Borderless Fill (preserves your operator menu bar, multi-display friendly) or True Fullscreen (own Mission Control Space, smoother for single-output rigs) per output.",
+      title: "Different themes on different audience screens — simultaneously",
+      body: "Lobby TV in dark + sanctuary projector in scripture mode + balcony screen in branded? Each output reads its own theme override directly from the active Look. No more global flatten that clobbers other screens.",
     },
     {
       icon: I.book,
-      title: "Wider import support",
-      body: "Bible: Zefania XML and OpenSong XML now supported alongside MyBible and OSIS. Songs: OpenSong song format auto-detected on import. Slides: drop a numbered set of frames or a folder and they ingest as ordered slides.",
+      title: "Bible references auto-detected on import",
+      body: "Drop a sermon PPTX → ACE scans every slide title and speaker note for scripture, attached inline to the import. Drop a song file (any format — ChordPro, OpenLyrics, OpenSong, ProPresenter, plain text) → references in the lyrics surface per section. The wizard's Summary groups them: 'Slide 3: Romans 8:28', 'Verse 2: John 3:16'.",
+    },
+    {
+      icon: I.image,
+      title: "Section-stuck detection bug fixed",
+      body: "Whisper's context-prompt builder used to bias toward whichever section the operator was currently locked on, creating a feedback loop that prevented section transitions. v1.4 rebalances every section equally with structural [TYPE N] labels — the band moves on, the detection follows.",
+    },
+  ],
+  whyBetter: [
+    {
+      label: "From toggles to one source of truth",
+      body: "v1.0–1.3: outputs were configured by hand (NDI on, audience on, stage on, theme picked, layers off). v1.4: a Look encodes all of that — one click 'Make Live' applies the right theme to the right screen with the right layers, every time.",
+    },
+    {
+      label: "From global to per-screen rendering",
+      body: "Prior versions flattened theme overrides through a single global settings struct, so multi-screen rigs couldn't show different content on each output. v1.4's renderer reads per-screen overrides directly — the architectural unblock for MultiView, edge-blend, and the Screen-vs-Output split coming in v2.",
+    },
+    {
+      label: "From 'stuck on verse 1' to actually following",
+      body: "v1.3 detection could lock onto a section and refuse to advance — the Whisper context prompt was self-reinforcing. v1.4's rewrite gives every section equal billing in the prompt; transcripts and votes flow naturally with the band.",
+    },
+    {
+      label: "From manual to automatic for sermon prep",
+      body: "Drop a PPTX in v1.3, you got slide images. Drop one in v1.4, you get slide images plus every Bible reference parsed out of titles and speaker notes, attached to your sermon prep — no manual hunting through 40-slide decks.",
+    },
+    {
+      label: "Build pipeline that actually rebuilds",
+      body: "v1.3 shipped with a stale v1.2.1 backend because the build script forgot the PyInstaller step. v1.4 chains backend:build first; every backend change actually lands in the .app. The symptom you saw — 'Settings shows v1.2.1 on a v1.3 install' — won't happen again.",
     },
   ],
   improvements: [
-    "Output state badges per row in the modal — Live / Assigned / Unassigned / Identifying / Test Pattern — see at a glance what's hot",
-    "Delete-screen affordance — hover any screen row, click ✕ to remove and unassign in one action",
-    "Persistent Identify and reliable Test Patterns (Color Bars / Focus / Greyscale / Solid) — launchable from the modal or the Screens menu",
-    "Stage screen output simplified — removed Stage Monitor badge, layout switcher, clock, and connecting/waiting chrome; only the slide content + connection state render now",
+    "Looks tab on the dashboard toolbar (between Theme and Stage) — opens LooksPanel directly. Was unreachable in v1.3 despite being fully implemented",
+    "Settings gear icon next to Import — direct one-click navigation to Settings",
+    "AudioVisualizer carries the mic-state signal end-to-end — traffic-light colours (amber/green/red) plus a slow pulse on low. Replaced the redundant 5-bar meter and the separate 'Low mic' badge",
+    "Stage Layout Editor's Inspector adds a Style dropdown — operators pick semantic tokens (Primary / Secondary / Next / Timer / Clock / Muted / Custom hex) instead of raw colour pickers",
+    "ThemeDesigner card-click now opens the editor — was: applied to display, requiring a hidden hover-pencil to actually edit. Hover ▶ to apply without editing; hover ✕ to delete",
+    "Sermon recording: scripture notes now save the live-transcript snippet that triggered each match. Export shows the spoken context alongside the canonical verse text",
+    "Sermon recording: Export button visibility hardened — defensive hydration so the button reliably appears after Stop, even on page reload or edge-case Start flows",
+    "LibreOffice deferred-install — first PPTX import on a Mac without LibreOffice triggers an in-app installer with SHA256-verified mirror download from dl.ace-presenter.app. ~280 MB per arch (ARM64 / x86_64)",
   ],
   fixes: [
-    "Audience and Stage outputs now both fully cover their assigned displays edge-to-edge — previously Stage failed to enter fullscreen because macOS simpleFullscreen is app-wide and Audience grabbed it first",
-    "Operator's macOS menu bar no longer hijacked when outputs go live — borderless mode no longer touches app-wide presentation state",
-    "Screen-config selections persist across restart — fixed the regression where the modal's per-screen schema wasn't being saved",
-    "Display ID mismatch resolved — the modal now reads displays from Electron directly so picking your 3rd monitor actually opens output on your 3rd monitor",
-  ],
-  removed: [
-    "Dashboard NDI / Audience / Stage toggles — output management lives entirely in Screen Configuration now (⌘⇧S)",
-    "YouTube audio source for detection — yt-dlp is incompatible with the macOS App Store sandbox and raises content-policy concerns; detection is microphone-only going forward",
+    "Song detection getting stuck on verse 1 / chorus — Whisper context-prompt rebalanced; section transitions now flow with the band",
+    "Live transcript not following the song — same root cause as section-stuck; the same fix restores accurate transcript display",
+    "Settings → Updates showing 'Version: 1.2.1' on a v1.3 install — build pipeline now chains backend:build before electron-builder so v1.4.0 ships with the right baked version everywhere",
+    "LooksPanel single source of truth — operator edits previously kept a parallel state copy that could disagree with anywhere else reading active Look. Migrated to the central store",
   ],
 };
 
@@ -304,6 +330,48 @@ export default function WhatsNewModal({ version }: Props) {
             </div>
           ))}
         </div>
+
+        {/* Why this release outperforms past releases — appears between
+            highlights and the collapsible details. Adds a labelled
+            divider with side-by-side "before/after"-shaped comparison
+            lines, framing the release as a step-change rather than a
+            list of incremental items. */}
+        {CURRENT.whyBetter && CURRENT.whyBetter.length > 0 && (
+          <>
+            <div className="mx-7 mt-5 mb-3 flex items-center gap-3">
+              <span className="h-px flex-1 bg-white/[0.08]" />
+              <span
+                className="text-[10px] font-bold tracking-[0.18em] uppercase"
+                style={{ color: "#E8183A" }}
+              >
+                Why v{CURRENT.version} is more powerful
+              </span>
+              <span className="h-px flex-1 bg-white/[0.08]" />
+            </div>
+            <div className="px-7 pb-3 space-y-3">
+              {CURRENT.whyBetter.map((w, i) => (
+                <div
+                  key={i}
+                  className="rounded-md p-3"
+                  style={{
+                    background: "rgba(232,24,58,0.04)",
+                    border: "1px solid rgba(232,24,58,0.10)",
+                  }}
+                >
+                  <div
+                    className="text-[11.5px] font-bold mb-1"
+                    style={{ color: "#E8183A", letterSpacing: "0.02em" }}
+                  >
+                    {w.label}
+                  </div>
+                  <p className="text-[12px] text-[#B0B5C0] leading-[1.55]">
+                    {w.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
 
         {/* Vertical separator before collapsibles */}
         <div className="mx-7 my-3 h-px bg-white/[0.06]" />
