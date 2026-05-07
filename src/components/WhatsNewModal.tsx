@@ -109,39 +109,44 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.4.3",
+  version: "1.5.0",
   date: "May 7, 2026",
   highlights: [
     {
+      icon: I.layers,
+      title: "Service Plan tab works",
+      body: "Build a service order with songs, scripture, and announcements. Activate, Go, save — all functional now.",
+    },
+    {
       icon: I.book,
-      title: "Sermon transcript visible while recording",
-      body: "Live transcript shows by default with a transcripts count next to points + scriptures.",
+      title: "Bilingual song detection",
+      body: "Settings → Audio → Language → Auto-detect. Whisper + Deepgram now follow code-switching mid-song.",
     },
     {
       icon: I.image,
-      title: "PPTX placeholders show actual slide text",
-      body: "Even without LibreOffice, slides render with their title and body content.",
-    },
-    {
-      icon: I.layers,
-      title: "Buttons that actually work",
-      body: "Settings Cancel, wizard Open Settings, and Sermon Export now do what they say.",
+      title: "Slide reaches HDMI",
+      body: "Imported slides now display on the audience screen even when a worship loop is running.",
     },
     {
       icon: I.sparkle,
-      title: "LibreOffice install detection fixed",
-      body: "No more false-positive 'installed' banner after a half-finished download.",
+      title: "Audio import via the central wizard",
+      body: "MP3, WAV, M4A and friends now flow through the same ⌘I wizard as slides, songs, and bibles.",
     },
   ],
   improvements: [
-    "Sermon transcript visible by default + transcripts counter",
-    "Richer PPTX placeholder content when LibreOffice is missing",
+    "F2 / Clear Slide now clears lyrics + slide image together",
+    "Foreground video plays its audio (background loops stay muted)",
+    "Audio Bin delete button per file",
+    "Sermon transcript visible by default while recording",
+    "Genius song import is snappy — modal closes immediately",
+    "Library sidebar tidied (“Import” text removed; + button stays)",
   ],
   fixes: [
-    "Settings → Cancel button",
-    "Permissions wizard → Open Settings buttons",
-    "Sermon Recording → Export button",
-    "LibreOffice 'installed' false-positive after a partial download",
+    "Slide didn’t reach HDMI when a media background was active",
+    "Song-edit lyric changes now reflect immediately",
+    "LIVE badge no longer sticks on the previous song",
+    "Settings → Cancel, Permissions → Open Settings, Sermon → Export buttons",
+    "LibreOffice “installed” false-positive after a half-finished download",
   ],
 };
 

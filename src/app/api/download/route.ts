@@ -32,13 +32,14 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 // just in case the manifest is unreachable — it's the SAFETY NET for users
 // arriving via the website while the bucket is down. Should match the most
 // recent successful upload.
-// v1.4.3 — same-day patch over v1.4.2: LibreOffice false-positive fix,
-// Settings Cancel button, Permissions wizard Open-Settings buttons,
-// Sermon Recording Export, plus a richer PPTX placeholder fallback and
-// transcript-visible-by-default for sermon mode.
+// v1.5.0 — Service Plan tab actually works (7 backend endpoints + DB),
+// bilingual / multilingual song detection (Whisper auto + Deepgram
+// nova-2 multi), audio import via the central wizard, plus the slide-
+// on-HDMI fix (slide image now renders above background media instead
+// of being blocked by it). Folded all v1.4.4 fixes in.
 const FALLBACK: Record<string, string> = {
-  "mac-arm64": "ACE-1.4.3-arm64.dmg",
-  "mac-x64": "ACE-1.4.3.dmg",
+  "mac-arm64": "ACE-1.5.0-arm64.dmg",
+  "mac-x64": "ACE-1.5.0.dmg",
 };
 
 function sniffPlatform(ua: string): string | null {
