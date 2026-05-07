@@ -32,12 +32,12 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 // just in case the manifest is unreachable — it's the SAFETY NET for users
 // arriving via the website while the bucket is down. Should match the most
 // recent successful upload.
-// v1.4.1 ships arm64-only — the x64 build hit an Apple timestamp-service
-// transient mid-codesign and we shipped arm64 (Apple Silicon) on its own
-// instead of waiting. Intel x64 still resolves to v1.4.0 until v1.4.2.
+// v1.4.2 ships both arches — Apple's timestamp service was back so the
+// x64 build that failed in v1.4.1 went through cleanly this time. Intel
+// users are on the same release as Apple Silicon again.
 const FALLBACK: Record<string, string> = {
-  "mac-arm64": "ACE-1.4.1-arm64.dmg",
-  "mac-x64": "ACE-1.4.0.dmg",
+  "mac-arm64": "ACE-1.4.2-arm64.dmg",
+  "mac-x64": "ACE-1.4.2.dmg",
 };
 
 function sniffPlatform(ua: string): string | null {
