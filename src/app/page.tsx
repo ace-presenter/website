@@ -378,37 +378,42 @@ function BentoFeatures() {
   );
 }
 
-/* ───────────── WHAT'S NEW (v1.4 release marker) ───────────── */
+/* ───────────── WHAT'S NEW (v1.5 release marker) ───────────── */
 function WhatsNew() {
   const HIGHLIGHTS: { tag: string; title: string; body: string }[] = [
     {
-      tag: "Unified render",
-      title: "Looks drive every output, in real time",
-      body: "One toggle in Settings → Screens & Display → Advanced flips ACE into Looks-driven rendering. Per-screen theme overrides, per-screen layer toggles, real-time edits — the audience output reflects every change within one slide tick.",
+      tag: "Service Plan",
+      title: "Build the order of service, run it live",
+      body: "Songs, scripture, prayer, announcements — drag them into a plan, activate, and tap Go. The whole tab was missing its backend until now; v1.5 fills it in with proper persistence, single-active-plan invariant, and a Go handler that pushes through the same display engine your manual cues use.",
     },
     {
-      tag: "Multi-screen, multi-theme",
-      title: "Different theme on each audience display, simultaneously",
-      body: "Lobby TV in dark + sanctuary projector in scripture + balcony screen in branded? Each output reads its own theme override directly. No more global flatten that clobbers other screens.",
+      tag: "Bilingual detection",
+      title: "Songs that switch languages, followed correctly",
+      body: "Settings → Audio → Language → Auto-detect. Whisper runs in multilingual mode (no longer locks to the first language it hears) and Deepgram nova-2 handles code-switching natively. English+Spanish, English+Portuguese, English+French — your team can switch verses mid-song and the lyrics keep up.",
     },
     {
-      tag: "Sermon prep auto-detect",
-      title: "Bible references parsed on import",
-      body: "Drop a sermon PPTX → ACE scans every slide title and speaker note for scripture, attached inline. Drop any song file → references in the lyrics surface per section. Wizard groups them: 'Slide 3: Romans 8:28', 'Verse 2: John 3:16'.",
+      tag: "One import surface",
+      title: "Audio joins songs, slides, and bibles in ⌘I",
+      body: "MP3, WAV, M4A, AAC, OGG, FLAC, AIFF — all flow through the same import wizard now. The Audio Bin becomes a player + manager, no separate uploader. One discoverable path for everything.",
     },
     {
-      tag: "Detection that actually follows",
-      title: "Section-stuck bug is gone",
-      body: "v1.3 detection could lock onto verse 1 and refuse to advance to chorus. v1.4's rewrite gives every section equal billing in Whisper's prompt — transcripts and votes flow naturally with the band.",
+      tag: "Slide → HDMI",
+      title: "Imported slides reach the audience even with media on",
+      body: "Was: double-click an imported PPTX slide, it shows in Program but the HDMI screen keeps the worship loop. Now: slide-image is its own render layer above background media, just like the operator's preview pane already worked. Decoupled from the !backgroundMedia gate that was blocking it.",
     },
   ];
 
   const FIXES = [
-    "Song detection getting stuck on verse 1 / chorus — Whisper context-prompt rebalanced; section transitions flow with the band",
-    "Live transcript not following the song — same root cause as section-stuck; one fix restores accurate transcript display",
-    "Settings → Updates showing wrong version on a fresh install — build pipeline now chains backend:build before electron-builder so v1.4.0 ships with the right baked version everywhere",
-    "ThemeDesigner card-click now opens the editor (was: applied to display, requiring a hidden hover-pencil to actually edit)",
-    "AudioVisualizer carries the mic-state signal — traffic-light colour replaces the redundant 5-bar meter and 'Low mic' badge",
+    "F2 / Clear Slide now clears lyrics + slide background as one cue",
+    "Foreground video plays its audio — background loops stay muted to preserve the live PA",
+    "Audio Bin per-row delete with confirm + path-traversal-guarded backend",
+    "Sermon Recording — live transcript visible by default + transcripts counter",
+    "Genius song import is snappy — modal closes immediately, toast tracks the round-trip",
+    "Song-edit lyric changes reflect immediately across the dashboard, no click-away",
+    "LIVE badge no longer sticks on the previous song after detection moves on",
+    "Settings → Cancel, Permissions wizard → Open Settings, Sermon → Export buttons all work",
+    "LibreOffice deferred-install no longer false-positive-reports as installed after a partial download",
+    "Library sidebar tidied: redundant 'Import' text removed, + button stays for Genius search",
   ];
 
   return (
@@ -421,10 +426,10 @@ function WhatsNew() {
           <span className="h-px flex-1 bg-[#1F1F1F]" />
         </div>
         <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-12 leading-tight">
-          v1.4 — Looks drive
+          v1.5 — Service Plan,
           <br />
           <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
-            every screen
+            bilingual songs
           </span>
         </h2>
 
