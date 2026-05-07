@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import WhatsNewModal from "@/components/WhatsNewModal";
+import SchemaJsonLd from "@/components/SchemaJsonLd";
 
 // Re-revalidate the home page every 5 minutes so the version pill picks
 // up new releases without a redeploy. Read directly from the
@@ -72,6 +73,7 @@ export default async function Home() {
   const latestVersion = await fetchLatestVersion();
   return (
     <main className="flex-1 flex flex-col font-sans">
+      <SchemaJsonLd />
       <Nav />
       <Hero latestVersion={latestVersion} />
       <StatsStrip />

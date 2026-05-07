@@ -20,10 +20,54 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "ACE — Agentic Cue Experience",
+  // Title template — the home page sets `title` directly; child pages
+  // (segment landings, /support, etc.) supply their own title and the
+  // template wraps it as `<their title> | ACE`. Keeps brand visible
+  // without forcing every page to repeat the suffix.
+  title: {
+    default: "ACE — Agentic Cue Experience",
+    template: "%s | ACE",
+  },
   description:
     "AI-powered live presentation for worship, conferences, lectures, and theater. ACE listens to the room and pushes the right slide — automatically.",
-  metadataBase: new URL("https://ace-presenter.app"),
+  metadataBase: new URL("https://www.ace-presenter.app"),
+  applicationName: "ACE",
+  keywords: [
+    "ai presenter",
+    "worship presentation software",
+    "propresenter alternative",
+    "ai slide control",
+    "automatic slide advance",
+    "lyric detection",
+    "bible verse detection",
+    "church presentation software",
+    "conference slide automation",
+    "lecture presentation software",
+    "theater cue software",
+    "live event slides",
+  ],
+  authors: [{ name: "ACE", url: "https://www.ace-presenter.app" }],
+  creator: "ACE",
+  publisher: "ACE",
+  // Canonical fallback — child pages override via their own
+  // `alternates.canonical`. Without this, search engines may index
+  // tracking-param variants of the home page as separate URLs.
+  alternates: {
+    canonical: "/",
+  },
+  // Explicit robots directives — defaults are usually fine but being
+  // explicit eliminates any "are bots indexing me?" question.
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  category: "Presentation Software",
   // openGraph + twitter image fields are filled in automatically from
   // the colocated `opengraph-image.tsx` — Next.js wires the generated
   // 1200×630 PNG into both <meta property="og:image"> and
@@ -32,8 +76,9 @@ export const metadata: Metadata = {
     title: "ACE — Agentic Cue Experience",
     description:
       "ACE listens, you present. Worship, conferences, lectures, theater — one app that follows the speaker.",
-    url: "https://ace-presenter.app",
+    url: "https://www.ace-presenter.app",
     siteName: "ACE",
+    locale: "en_US",
     type: "website",
   },
   twitter: {
