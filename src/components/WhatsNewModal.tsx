@@ -109,39 +109,39 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.4.2",
+  version: "1.4.3",
   date: "May 7, 2026",
   highlights: [
     {
-      icon: I.layers,
-      title: "Guided first-launch setup",
-      body: "A new 5-step wizard walks you through the first launch.",
-    },
-    {
-      icon: I.sparkle,
-      title: "Stock Content Store is back",
-      body: "Pixabay search and other integrations work again out of the box.",
+      icon: I.book,
+      title: "Sermon transcript visible while recording",
+      body: "Live transcript shows by default with a transcripts count next to points + scriptures.",
     },
     {
       icon: I.image,
-      title: "PPTX import works on fresh Macs",
-      body: "LibreOffice download no longer fails on a clean install.",
+      title: "PPTX placeholders show actual slide text",
+      body: "Even without LibreOffice, slides render with their title and body content.",
     },
     {
-      icon: I.book,
-      title: "Polished DMG window",
-      body: "Clear drag-to-Applications instructions on the install disk.",
+      icon: I.layers,
+      title: "Buttons that actually work",
+      body: "Settings Cancel, wizard Open Settings, and Sermon Export now do what they say.",
+    },
+    {
+      icon: I.sparkle,
+      title: "LibreOffice install detection fixed",
+      body: "No more false-positive 'installed' banner after a half-finished download.",
     },
   ],
   improvements: [
-    "First-launch setup wizard",
-    "Polished DMG installer window",
-    "Faster, more reassuring backend boot UX",
+    "Sermon transcript visible by default + transcripts counter",
+    "Richer PPTX placeholder content when LibreOffice is missing",
   ],
   fixes: [
-    "PPTX import no longer fails with a certificate error",
-    "Stock Content Store and other integrations restored",
-    "First-run blank-screen window is gone",
+    "Settings → Cancel button",
+    "Permissions wizard → Open Settings buttons",
+    "Sermon Recording → Export button",
+    "LibreOffice 'installed' false-positive after a partial download",
   ],
 };
 

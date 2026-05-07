@@ -32,12 +32,13 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 // just in case the manifest is unreachable — it's the SAFETY NET for users
 // arriving via the website while the bucket is down. Should match the most
 // recent successful upload.
-// v1.4.2 ships both arches — Apple's timestamp service was back so the
-// x64 build that failed in v1.4.1 went through cleanly this time. Intel
-// users are on the same release as Apple Silicon again.
+// v1.4.3 — same-day patch over v1.4.2: LibreOffice false-positive fix,
+// Settings Cancel button, Permissions wizard Open-Settings buttons,
+// Sermon Recording Export, plus a richer PPTX placeholder fallback and
+// transcript-visible-by-default for sermon mode.
 const FALLBACK: Record<string, string> = {
-  "mac-arm64": "ACE-1.4.2-arm64.dmg",
-  "mac-x64": "ACE-1.4.2.dmg",
+  "mac-arm64": "ACE-1.4.3-arm64.dmg",
+  "mac-x64": "ACE-1.4.3.dmg",
 };
 
 function sniffPlatform(ua: string): string | null {
