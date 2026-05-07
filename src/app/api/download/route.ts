@@ -32,14 +32,13 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 // just in case the manifest is unreachable — it's the SAFETY NET for users
 // arriving via the website while the bucket is down. Should match the most
 // recent successful upload.
-// v1.5.1 — critical regression fixes over v1.5.0: Whisper transcribe
-// pipeline was crashing on every call (pywhispercpp kwarg-incompatibility),
-// Deepgram WebSocket failed on every connect (SSL cert verify, same root
-// cause as v1.4.2's LibreOffice fix). Without v1.5.1, detection silently
-// failed end-to-end on v1.5.0 installs.
+// v1.5.2 — fixes the wizard hang on Step 2 (closure-captured cancellation
+// race), adds dashboard fallback for Whisper model download (so operators
+// who bypass the wizard still get the model), and ships Settings →
+// Recovery buttons to re-download the speech model + re-run setup.
 const FALLBACK: Record<string, string> = {
-  "mac-arm64": "ACE-1.5.1-arm64.dmg",
-  "mac-x64": "ACE-1.5.1.dmg",
+  "mac-arm64": "ACE-1.5.2-arm64.dmg",
+  "mac-x64": "ACE-1.5.2.dmg",
 };
 
 function sniffPlatform(ua: string): string | null {

@@ -109,32 +109,32 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.5.1",
+  version: "1.5.2",
   date: "May 7, 2026",
   highlights: [
     {
+      icon: I.layers,
+      title: "Onboarding wizard no longer hangs",
+      body: "Step 2 'AI services ready' would stall instead of advancing. Fixed the React race that ate the auto-advance.",
+    },
+    {
       icon: I.sparkle,
-      title: "Critical patch — update immediately",
-      body: "Two regressions in v1.5.0 silently broke detection end-to-end. Update now to restore Whisper transcription and Deepgram live transcript.",
+      title: "Whisper download is bulletproof",
+      body: "If you skip the wizard, the dashboard now shows the model download as a fallback. No more silent Whisper-less installs.",
     },
     {
       icon: I.book,
-      title: "Whisper transcription works again",
-      body: "v1.5.0 crashed on every transcribe call due to a pywhispercpp API mismatch — songs auto-matched only via RE-ID. v1.5.1 makes it forward-compatible.",
-    },
-    {
-      icon: I.image,
-      title: "Deepgram live transcript reconnects",
-      body: "Same SSL fix v1.4.2 shipped for LibreOffice, applied globally — every TLS connection now uses the certifi CA bundle.",
+      title: "Settings → Recovery",
+      body: "Re-download speech model + re-run setup wizard buttons for when something goes sideways.",
     },
   ],
   improvements: [
-    "Defensive kwarg-discovery for pywhispercpp — survives future API changes",
-    "Global SSL context patch covers Deepgram, ACRCloud, Anthropic, requests, urllib, websockets",
+    "Stable parent handler memoisation across the wizard prevents future closure-cancellation races",
+    "ModelDownloadBanner self-detects on dashboard mount and auto-fires download if needed",
   ],
   fixes: [
-    "Whisper transcribe crashed every call (`whisper_full_params` has no attribute `beam_size`)",
-    "Deepgram WebSocket failed with CERTIFICATE_VERIFY_FAILED on every connect",
+    "Wizard Step 2 hung on 'AI services ready' instead of advancing to Step 3",
+    "Wizard skip-via-localStorage left install Whisper-less (no fallback path until v1.5.2)",
   ],
 };
 
