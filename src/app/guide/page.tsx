@@ -94,7 +94,7 @@ function GuideNav() {
       <div className="hidden sm:flex items-center gap-6 text-sm text-[#C4C4C4]">
         <Link href="/" className="hover:text-white transition">Home</Link>
         <Link href="/guide" className="text-white">Guide</Link>
-        <Link href="/manual/ACE_User_Manual_v1.5.3.pdf" className="hover:text-white transition" prefetch={false}>
+        <Link href="/manual/ACE_User_Manual.pdf" className="hover:text-white transition" prefetch={false}>
           PDF Manual
         </Link>
         <Link href="/support" className="hover:text-white transition">Support</Link>
@@ -129,14 +129,14 @@ export default function GuidePage() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a
-              href="/manual/ACE_User_Manual_v1.5.3.pdf"
+              href="/manual/ACE_User_Manual.pdf"
               className="px-5 py-2.5 rounded-full bg-[#C8102E] hover:bg-[#E8183A] text-white font-extrabold text-xs uppercase tracking-wider transition shadow-[0_4px_20px_rgba(200,16,46,0.45)]"
               download
             >
               Download Manual (PDF)
             </a>
             <a
-              href="/manual/ACE_User_Manual_v1.5.3.html"
+              href="/manual/ACE_User_Manual.html"
               className="px-5 py-2.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] border border-[#2A2A2A] text-white font-bold text-xs uppercase tracking-wider transition"
             >
               Read Manual (HTML)

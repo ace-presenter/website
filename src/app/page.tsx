@@ -129,7 +129,11 @@ function Nav() {
      - PDF (offline / print-friendly, ~370 KB)
    Both are versioned alongside the app and live under /manual/.    */
 function ManualBanner({ latestVersion }: { latestVersion: string | null }) {
-  const v = latestVersion || "1.5.3";
+  // Manual is shipped under a stable, version-agnostic filename
+  // (`/manual/ACE_User_Manual.{html,pdf}`) so the banner doesn't 404 every
+  // release before the per-version manual is rebuilt. The version label
+  // still tracks `latestVersion` so the headline reads correctly.
+  const v = latestVersion || "1.5.4";
   return (
     <div className="bg-[#C8102E] text-white px-4 sm:px-6 py-3 border-b border-[#A00D26]">
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 text-center sm:text-left">
@@ -145,14 +149,14 @@ function ManualBanner({ latestVersion }: { latestVersion: string | null }) {
         <span className="hidden sm:inline text-white/70 text-sm">—</span>
         <div className="flex items-center gap-2 sm:gap-3">
           <a
-            href={`/manual/ACE_User_Manual_v${v}.pdf`}
+            href="/manual/ACE_User_Manual.pdf"
             className="font-extrabold text-sm sm:text-base px-4 py-2 rounded-full bg-white text-[#C8102E] hover:bg-[#FFF0F2] transition shadow-[0_4px_20px_rgba(0,0,0,0.25)]"
             download
           >
             Download PDF
           </a>
           <a
-            href={`/manual/ACE_User_Manual_v${v}.html`}
+            href="/manual/ACE_User_Manual.html"
             className="font-bold text-sm sm:text-base px-4 py-2 rounded-full bg-[#7A0A1C] text-white hover:bg-[#5C0815] transition border border-white/20"
           >
             Read HTML
