@@ -109,13 +109,18 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.5.3",
+  version: "1.5.4",
   date: "May 8, 2026",
   highlights: [
     {
+      icon: I.sparkle,
+      title: "F2 / Clear Slide actually clears now",
+      body: "The keyboard shortcut path didn't drop the slide background image — it stayed stuck on the audience screen until you closed the app. v1.5.4 fixes every clear path. Update immediately.",
+    },
+    {
       icon: I.image,
       title: "Slides reach the audience screen",
-      body: "v1.5.0–v1.5.2 silently dropped slide images on Program (Electron cross-origin block). Routed through the local API now. Update immediately.",
+      body: "v1.5.0–v1.5.2 silently dropped slide images on Program (Electron cross-origin block). Routed through the local API now.",
     },
     {
       icon: I.layers,
