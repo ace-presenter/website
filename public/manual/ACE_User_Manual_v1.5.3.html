@@ -535,7 +535,11 @@ tbody tr { page-break-inside: avoid; }
   /* Override the print-mode color tokens for screen reading. The print
      palette is dark-text-on-paper-white (--ink #0a0a0a). On a black
      screen background that becomes invisible — we flip to light text
-     and a soft grey-scale ramp. Brand red stays the same. */
+     and a soft grey-scale ramp. Brand red stays the same.
+     v1.5.4 follow-up: also override --paper-tint-2 (used by inline
+     <code> backgrounds) — it was pinned at #f4f4f4 in the print
+     palette, which on a dark screen rendered light text on near-white
+     pills. */
   html, body, :root {
     --ink: #e8e8e8;
     --ink-soft: #b8b8b8;
@@ -543,6 +547,7 @@ tbody tr { page-break-inside: avoid; }
     --ink-subtle: #666666;
     --paper: #0a0a0a;
     --paper-tint: #111111;
+    --paper-tint-2: #1a1a1a;
     --rule: #1f1f1f;
     --border: #2a2a2a;
   }
