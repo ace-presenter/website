@@ -32,13 +32,15 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 // just in case the manifest is unreachable — it's the SAFETY NET for users
 // arriving via the website while the bucket is down. Should match the most
 // recent successful upload.
-// v1.5.2 — fixes the wizard hang on Step 2 (closure-captured cancellation
-// race), adds dashboard fallback for Whisper model download (so operators
-// who bypass the wizard still get the model), and ships Settings →
-// Recovery buttons to re-download the speech model + re-run setup.
+// v1.5.3 — slide-on-HDMI fix (renderer was using file:// which Electron
+// blocks cross-origin from app://; now routes through /api/media/file
+// which v1.5.3 also extends to search slides/<batch>/), Stage Mirror
+// Program toggle (speakers see what audience sees on confidence
+// monitor), global Bible verse advance/retreat shortcuts (PageDown/Up
+// from anywhere), and /api/detection/reset to clear hallucinated state.
 const FALLBACK: Record<string, string> = {
-  "mac-arm64": "ACE-1.5.2-arm64.dmg",
-  "mac-x64": "ACE-1.5.2.dmg",
+  "mac-arm64": "ACE-1.5.3-arm64.dmg",
+  "mac-x64": "ACE-1.5.3.dmg",
 };
 
 function sniffPlatform(ua: string): string | null {

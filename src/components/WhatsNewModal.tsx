@@ -109,32 +109,46 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.5.2",
-  date: "May 7, 2026",
+  version: "1.5.3",
+  date: "May 8, 2026",
   highlights: [
     {
-      icon: I.layers,
-      title: "Onboarding wizard no longer hangs",
-      body: "Step 2 'AI services ready' would stall instead of advancing. Fixed the React race that ate the auto-advance.",
+      icon: I.image,
+      title: "Slides reach the audience screen",
+      body: "v1.5.0–v1.5.2 silently dropped slide images on Program (Electron cross-origin block). Routed through the local API now. Update immediately.",
     },
     {
-      icon: I.sparkle,
-      title: "Whisper download is bulletproof",
-      body: "If you skip the wizard, the dashboard now shows the model download as a fallback. No more silent Whisper-less installs.",
+      icon: I.layers,
+      title: "Stage Mirror Program",
+      body: "One checkbox: stage screen shows the audience output as a full backdrop with confidence cues on top. Speakers see what the audience sees.",
     },
     {
       icon: I.book,
-      title: "Settings → Recovery",
-      body: "Re-download speech model + re-run setup wizard buttons for when something goes sideways.",
+      title: "Smart Bible auto-advance",
+      body: "Preacher just reads verse 17 directly — no 'next verse' phrase needed. Transcript-match scoring against verse N+1 advances automatically.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Section Editor — slide-grid",
+      body: "Edit lyrics in the same 16:9 grid you perform in. Drag cards across columns to reorder. Reordering 30 sections is now an 8-row grid, not a 30-row scroll.",
     },
   ],
   improvements: [
-    "Stable parent handler memoisation across the wizard prevents future closure-cancellation races",
-    "ModelDownloadBanner self-detects on dashboard mount and auto-fires download if needed",
+    "Global Bible PageDown / PageUp shortcuts work from anywhere in the app",
+    "Reset Detection (⌘⇧R) — clears hallucinated state without stopping capture",
+    "Whisper context-prompt rebuilds on Auto/Song/Bible mode change — no more vocabulary bleed",
+    "Bible auto-display confidence floor tightened (0.55 → 0.60) — fewer false-positive verse pushes",
+    "Slides now full-bleed on the audience display — no more black letterbox bars",
+    "Section edits reflect on the playback grid immediately (debounce 800ms → 400ms)",
+    "Cold-start audience reset — no leftover slide flashing from the previous service",
   ],
   fixes: [
-    "Wizard Step 2 hung on 'AI services ready' instead of advancing to Step 3",
-    "Wizard skip-via-localStorage left install Whisper-less (no fallback path until v1.5.2)",
+    "Mirror Program save did nothing until you flipped to Blank and back — now applies on save",
+    "Slide push didn't update the audience window in dev / React-output mode",
+    "Deleted PPTX kept showing on the audience screen until manual reset",
+    "Browser cached the prior deck's slide_0000.png across imports — fresh URL per slide path now",
+    "PPTX silently rendered as text-only placeholders when LibreOffice's profile was locked",
+    "Audience screen showed black + broken-image icon when an imported slide was pushed",
   ],
 };
 

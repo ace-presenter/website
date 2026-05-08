@@ -92,6 +92,19 @@ export default function GuidePage() {
             in a tab during.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
+            <a
+              href="/manual/ACE_User_Manual_v1.5.3.pdf"
+              className="px-5 py-2.5 rounded-full bg-[#C8102E] hover:bg-[#E8183A] text-white font-extrabold text-xs uppercase tracking-wider transition shadow-[0_4px_20px_rgba(200,16,46,0.45)]"
+              download
+            >
+              Download Manual (PDF)
+            </a>
+            <a
+              href="/manual/ACE_User_Manual_v1.5.3.html"
+              className="px-5 py-2.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] border border-[#2A2A2A] text-white font-bold text-xs uppercase tracking-wider transition"
+            >
+              Read Manual (HTML)
+            </a>
             <Link
               href="/api/download?platform=mac-arm64"
               className="px-5 py-2.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-xs uppercase tracking-wider transition"
@@ -441,10 +454,10 @@ export default function GuidePage() {
 
           <Section id="shortcuts" eyebrow="11" title="Keyboard shortcuts">
             <p>
-              All shortcuts are rebindable in{" "}
-              <strong className="text-white">Settings → Shortcuts</strong>.
-              The defaults below are tuned for ProPresenter parity where
-              possible.
+              Defaults are tuned for ProPresenter parity where possible.
+              Per-shortcut customisation is available through{" "}
+              <code className="text-zinc-300">localStorage</code> today and
+              gets a proper Settings panel in v1.5.4.
             </p>
 
             <ShortcutTable
@@ -507,8 +520,26 @@ export default function GuidePage() {
               title="Detection"
               rows={[
                 ["⌘ ⇧ D", "Cycle detection mode (Auto / Song / Bible)"],
+                ["⌘ ⇧ R", "Reset Detection — clear stuck votes / hallucinations (v1.5.3)"],
+                ["Page Down", "Bible — next verse, global from anywhere (v1.5.3)"],
+                ["Page Up", "Bible — previous verse, global from anywhere (v1.5.3)"],
               ]}
             />
+
+            <p className="text-sm text-zinc-500 mt-4">
+              <strong className="text-zinc-300">Customising shortcuts:</strong>{" "}
+              the engine supports per-shortcut overrides via{" "}
+              <code className="text-zinc-300">localStorage</code> key{" "}
+              <code className="text-zinc-300">ws-shortcuts-v1</code>. The in-app
+              rebinding UI lands in v1.5.4. Until then, see the{" "}
+              <a
+                href="https://github.com/ace-presenter/ace/blob/main/USER_GUIDE.md#11-keyboard-shortcuts-full-reference"
+                className="underline hover:text-white"
+              >
+                User Guide
+              </a>{" "}
+              for the DevTools-console snippet.
+            </p>
           </Section>
 
           <Section id="troubleshooting" eyebrow="12" title="Troubleshooting">
