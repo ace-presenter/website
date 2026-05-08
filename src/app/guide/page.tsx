@@ -74,9 +74,45 @@ function Section({
   );
 }
 
+/* ───────────── NAV ─────────────
+   Mirrors the home page Nav so the /guide page has a way back. Kept
+   inline (rather than extracted to a shared component) because Nav on
+   the home is also inline; the duplication is intentional until either
+   page outgrows it. */
+function GuideNav() {
+  return (
+    <nav className="sticky top-0 z-40 px-6 sm:px-10 py-4 flex items-center justify-between bg-[#0F0F0F]/85 backdrop-blur-xl border-b border-[#1A1A1A]">
+      <Link href="/" className="flex items-center gap-3">
+        <span aria-hidden className="inline-block w-7 h-7 rounded-md bg-[#C8102E]" />
+        <div className="flex flex-col leading-none">
+          <span className="font-bold tracking-tight text-base">ACE</span>
+          <span className="text-[9px] uppercase tracking-[0.2em] text-[#888] mt-0.5">
+            Agentic Cue Experience
+          </span>
+        </div>
+      </Link>
+      <div className="hidden sm:flex items-center gap-6 text-sm text-[#C4C4C4]">
+        <Link href="/" className="hover:text-white transition">Home</Link>
+        <Link href="/guide" className="text-white">Guide</Link>
+        <Link href="/manual/ACE_User_Manual_v1.5.3.pdf" className="hover:text-white transition" prefetch={false}>
+          PDF Manual
+        </Link>
+        <Link href="/support" className="hover:text-white transition">Support</Link>
+      </div>
+      <Link
+        href="/api/download?platform=mac-arm64"
+        className="px-4 sm:px-5 py-2 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-xs uppercase tracking-wider transition"
+      >
+        Download
+      </Link>
+    </nav>
+  );
+}
+
 export default function GuidePage() {
   return (
     <article className="min-h-screen">
+      <GuideNav />
       {/* HERO */}
       <header className="px-6 sm:px-10 pt-20 pb-12 border-b border-[#1A1A1A]">
         <div className="max-w-6xl mx-auto">
