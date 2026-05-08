@@ -569,6 +569,17 @@ tbody tr { page-break-inside: avoid; }
   strong, b { color: #ffffff; }
   /* Tables use --rule + --paper-tint via the var overrides above, so
      they pick up the dark palette automatically. */
+  /* Callout badge fixes — `.tip .label` and `.warn .label` use dark
+     greens/oranges designed for light-tinted boxes (print palette).
+     On a dark screen those become invisible. Bump them to bright
+     foliage / amber, and lift the box background tint from 6% to
+     16% alpha so the box itself is actually visible. `.note` already
+     uses `var(--brand)` for its label which works on both palettes. */
+  .tip { background: rgba(34,197,94,0.16); }
+  .tip .label { color: #5dd984; }
+  .warn { background: rgba(245,158,11,0.18); }
+  .warn .label { color: #fbbf24; }
+  .note { background: rgba(200,16,46,0.16); }
   .cover {
     width: 100%;
     height: auto;
