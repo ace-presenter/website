@@ -32,14 +32,17 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 // just in case the manifest is unreachable — it's the SAFETY NET for users
 // arriving via the website while the bucket is down. Should match the most
 // recent successful upload.
-// v1.6.0 — ProPresenter Migrator (5-stage wizard imports .pro libraries
-// + media + playlists in one shot), animated Welcome Splash on first
-// launch, and the critical Intel-architecture fix (v1.0–v1.5.7 silently
-// shipped an arm64 backend inside the x64 .app, breaking it for every
-// Intel Mac user; afterPack now copies per-arch PyInstaller dists).
+// v1.6.1 — same-day hotfix over v1.6.0: user-imported Bibles
+// (Zefania / OSIS / OpenSong / MyBible) were silently invisible —
+// import succeeded end-to-end but neither the BiblePanel dropdown nor
+// Settings → Bibles → Translations rendered them, because both UIs
+// pulled exclusively from a hardcoded 5-translation registry.
+// v1.6.1 makes both surfaces render from the actual loaded set
+// (/api/bible/translations) merged with the predefined registry,
+// falling back to the code itself for unknown identifiers.
 const FALLBACK: Record<string, string> = {
-  "mac-arm64": "ACE-1.6.0-arm64.dmg",
-  "mac-x64": "ACE-1.6.0.dmg",
+  "mac-arm64": "ACE-1.6.1-arm64.dmg",
+  "mac-x64": "ACE-1.6.1.dmg",
 };
 
 function sniffPlatform(ua: string): string | null {
