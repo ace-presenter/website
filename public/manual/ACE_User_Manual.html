@@ -409,6 +409,49 @@ tbody tr { page-break-inside: avoid; }
 }
 .colophon strong { color: var(--ink-soft); }
 
+/* ── Screen overrides ─────────────────────────────────────────────
+   The document is laid out for print (A4 pages at 210×297mm). In a
+   browser those fixed dimensions make every "page" look like a
+   small slip floating in the viewport. These overrides drop the
+   page boxes when viewing on screen so the content flows full
+   width. @media print rules above are untouched so PDF regeneration
+   still produces correct page breaks. */
+@media screen {
+  html, body {
+    background: var(--surface-deepest);
+  }
+  body {
+    max-width: 1100px;
+    margin: 32px auto !important;
+    padding: 0 20px;
+  }
+  .cover,
+  .section-divider,
+  section.content {
+    width: auto !important;
+    height: auto !important;
+    min-height: auto !important;
+    padding: 40px 48px !important;
+    margin: 0 0 20px 0 !important;
+    border-radius: 10px;
+    page-break-after: auto !important;
+    page-break-before: auto !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+  }
+  .cover {
+    text-align: center;
+    align-items: center;
+  }
+  .cover-mark { margin: 4mm auto 12mm; }
+  /* Section divider's red splash background sits behind content; on
+     screen it stretches across the section-divider block fine. */
+  .section-divider {
+    min-height: 280px !important;
+  }
+  /* Page-break-before on individual sections becomes a soft gap */
+  section.content { padding: 28px 36px !important; }
+}
+
 </style>
 </head>
 <body>
