@@ -77,6 +77,7 @@ export default async function Home() {
       <Nav />
       <ManualBanner latestVersion={latestVersion} />
       <Hero latestVersion={latestVersion} />
+      <PropresenterMigration />
       <StatsStrip />
       <Compatibility />
       <Segments />
@@ -259,6 +260,106 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
               </span>
             </>
           )}
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* ───────────── PROPRESENTER MIGRATION ───────────── */
+function PropresenterMigration() {
+  const chips = ["Songs", "Sections", "Media", "Playlists"];
+  return (
+    <section className="px-6 sm:px-10 py-20 border-b border-[#1A1A1A] relative overflow-hidden">
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(50% 60% at 50% 40%, rgba(200,16,46,0.10) 0%, rgba(200,16,46,0.03) 40%, rgba(200,16,46,0) 70%)",
+        }}
+      />
+      <div className="relative max-w-5xl mx-auto text-center">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-8">
+          <span aria-hidden>★</span>
+          New in v1.6
+        </div>
+
+        {/* Visual flow: PP wordmark → chips + arrow → ACE bullseye */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 mb-10">
+          <div className="flex flex-col items-center gap-2">
+            <div className="px-5 py-3 rounded-xl bg-[#0F0F0F] border border-[#2A2A2A]">
+              <span className="text-xl sm:text-2xl font-bold tracking-tight text-[#C4C4C4]">
+                Pro<span className="text-white">Presenter</span>
+              </span>
+            </div>
+            <span className="text-[9px] uppercase tracking-[0.2em] text-[#666] font-semibold">
+              From
+            </span>
+          </div>
+
+          <div className="flex flex-col items-center gap-2.5">
+            <div className="flex items-center gap-1.5 flex-wrap justify-center max-w-[280px]">
+              {chips.map((c) => (
+                <span
+                  key={c}
+                  className="px-2.5 py-1 rounded-full bg-[#1A1A1A] border border-[#C8102E]/30 text-[10px] font-semibold text-white tracking-wide"
+                >
+                  {c}
+                </span>
+              ))}
+            </div>
+            <svg
+              className="w-20 h-4 rotate-90 sm:rotate-0"
+              viewBox="0 0 80 16"
+              fill="none"
+              aria-hidden
+            >
+              <path
+                d="M0 8 L72 8 M64 2 L72 8 L64 14"
+                stroke="#C8102E"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+
+          <div className="flex flex-col items-center gap-2">
+            <div className="px-5 py-3 rounded-xl bg-[#0F0F0F] border border-[#C8102E]/40 shadow-[0_0_24px_rgba(200,16,46,0.15)] flex items-center gap-2.5">
+              <Image src="/logo.png" alt="ACE" width={28} height={28} className="rounded" />
+              <span className="text-xl sm:text-2xl font-bold tracking-tight text-white">ACE</span>
+            </div>
+            <span className="text-[9px] uppercase tracking-[0.2em] text-[#C8102E] font-semibold">
+              To
+            </span>
+          </div>
+        </div>
+
+        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-4 max-w-2xl mx-auto leading-[1.1]">
+          Migrating from{" "}
+          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
+            ProPresenter
+          </span>
+          , made easy<span className="text-[#C8102E]">.</span>
+        </h2>
+
+        <p className="text-[#C4C4C4] text-base sm:text-lg max-w-xl mx-auto mb-8 leading-relaxed">
+          Five-stage wizard finds your local ProPresenter library, previews exactly
+          what&apos;s coming across, then imports songs, sections, media, and playlists
+          in one click.
+        </p>
+
+        <a
+          href="/api/download?platform=mac-arm64"
+          className="inline-block px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.10)]"
+        >
+          Try the migrator →
+        </a>
+
+        <p className="mt-6 text-[11px] text-[#666] max-w-md mx-auto">
+          ProPresenter is a trademark of Renewed Vision. ACE is independent software
+          and is not affiliated with or endorsed by Renewed Vision.
         </p>
       </div>
     </section>
