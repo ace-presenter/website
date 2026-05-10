@@ -109,13 +109,28 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.5.4",
-  date: "May 8, 2026",
+  version: "1.5.5",
+  date: "May 9, 2026",
   highlights: [
     {
+      icon: I.book,
+      title: "Bible verse lock — ⌘⇧L",
+      body: "Catches the right verse but keeps suggesting alternatives mid-sermon? Press ⌘⇧L to lock the current verse. Suggestions still appear in the transcript; nothing auto-replaces what's on screen. PageDown / PageUp still work for manual advance.",
+    },
+    {
       icon: I.sparkle,
-      title: "F2 / Clear Slide actually clears now",
-      body: "The keyboard shortcut path didn't drop the slide background image — it stayed stuck on the audience screen until you closed the app. v1.5.4 fixes every clear path. Update immediately.",
+      title: "Onboarding fixes",
+      body: "Step 4 'Open Settings' buttons now actually open System Settings (was silent before — IPC rejected the macOS deep-link scheme). Step 5 button label clarified to 'Start using ACE'.",
+    },
+    {
+      icon: I.layers,
+      title: "Service Plan auto-creates first plan",
+      body: "On a fresh install, hitting + Add Item now creates 'Untitled Service' for today's date and adds the item — no more silent no-op when no plan exists yet.",
+    },
+    {
+      icon: I.sparkle,
+      title: "F2 / Clear Slide actually clears (v1.5.4)",
+      body: "Carried forward from the v1.5.4 hotfix — clearing slides now drops the slide image too, not just the lyric overlay.",
     },
     {
       icon: I.image,
