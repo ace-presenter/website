@@ -410,46 +410,53 @@ tbody tr { page-break-inside: avoid; }
 .colophon strong { color: var(--ink-soft); }
 
 /* ── Screen overrides ─────────────────────────────────────────────
-   The document is laid out for print (A4 pages at 210×297mm). In a
-   browser those fixed dimensions make every "page" look like a
-   small slip floating in the viewport. These overrides drop the
-   page boxes when viewing on screen so the content flows full
-   width. @media print rules above are untouched so PDF regeneration
-   still produces correct page breaks. */
+   Cowork's layout targets PRINT (A4 pages, paper-white body bg, dark
+   ink text). In a browser the fixed 210mm width makes every page
+   look like a small slip floating in the viewport. These overrides
+   relax the fixed dimensions so content flows fluidly without
+   touching any of the text/background colours — the print colour
+   palette stays intact, only sizing changes. @media print rules
+   above are untouched. */
 @media screen {
-  html, body {
-    background: var(--surface-deepest);
-  }
   body {
     max-width: 1100px;
-    margin: 32px auto !important;
-    padding: 0 20px;
+    margin: 24px auto !important;
+    padding: 0 16px;
   }
+  /* Print "pages" become fluid blocks; preserve their own bg/colour
+     palette (cover + section-divider have dark backgrounds; content
+     pages have paper background — DON'T override either). */
   .cover,
   .section-divider,
   section.content {
     width: auto !important;
     height: auto !important;
-    min-height: auto !important;
-    padding: 40px 48px !important;
-    margin: 0 0 20px 0 !important;
-    border-radius: 10px;
+    min-height: 0 !important;
+    margin: 0 0 16px 0 !important;
     page-break-after: auto !important;
     page-break-before: auto !important;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+  }
+  /* Cover + section-divider keep their dark hero look; trim padding
+     to feel like big banners not full A4 pages. */
+  .cover,
+  .section-divider {
+    padding: 56px 48px !important;
+    border-radius: 12px;
+  }
+  .section-divider {
+    min-height: 220px !important;
+  }
+  /* Content pages use paper background per print palette — adjust
+     padding so the wider screen flow doesn't feel cramped. */
+  section.content {
+    padding: 40px 56px !important;
+    border-radius: 12px;
   }
   .cover {
     text-align: center;
     align-items: center;
   }
-  .cover-mark { margin: 4mm auto 12mm; }
-  /* Section divider's red splash background sits behind content; on
-     screen it stretches across the section-divider block fine. */
-  .section-divider {
-    min-height: 280px !important;
-  }
-  /* Page-break-before on individual sections becomes a soft gap */
-  section.content { padding: 28px 36px !important; }
+  .cover-mark { margin: 0 auto 12mm; }
 }
 
 </style>
