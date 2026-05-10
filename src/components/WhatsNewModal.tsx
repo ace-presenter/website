@@ -109,22 +109,32 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.5.6",
+  version: "1.5.7",
   date: "May 10, 2026",
   highlights: [
     {
+      icon: I.sparkle,
+      title: "Dock no longer disappears when audience opens",
+      body: "Single-display Macs reported 'the app vanished' when the audience window came up — actually the audience layer was outranking the dock. Now we detect display count and back off to the right layer.",
+    },
+    {
+      icon: I.layers,
+      title: "Streamlined output focus",
+      body: "ProPresenter + ATEM external-output integrations hidden ahead of the v1.6 ProPresenter Migrator. Source preserved; one flag flip restores them. ACE is the destination now, not a controller for PP.",
+    },
+    {
       icon: I.book,
-      title: "Bible verse lock — ⌘⇧L",
-      body: "Catches the right verse but keeps suggesting alternatives mid-sermon? Press ⌘⇧L to lock the current verse. Suggestions still appear in the transcript; nothing auto-replaces what's on screen. PageDown / PageUp still work for manual advance.",
+      title: "Bible verse lock — ⌘⇧L (v1.5.5)",
+      body: "Catches the right verse but keeps suggesting alternatives mid-sermon? Press ⌘⇧L to lock the current verse. Suggestions still appear in the transcript; nothing auto-replaces what's on screen.",
     },
     {
       icon: I.sparkle,
-      title: "Onboarding fixes",
+      title: "Onboarding fixes (v1.5.5)",
       body: "Step 4 'Open Settings' buttons now actually open System Settings (was silent before — IPC rejected the macOS deep-link scheme). Step 5 button label clarified to 'Start using ACE'.",
     },
     {
       icon: I.layers,
-      title: "Service Plan auto-creates first plan",
+      title: "Service Plan auto-creates first plan (v1.5.5)",
       body: "On a fresh install, hitting + Add Item now creates 'Untitled Service' for today's date and adds the item — no more silent no-op when no plan exists yet.",
     },
     {
