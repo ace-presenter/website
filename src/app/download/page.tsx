@@ -131,19 +131,29 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
           Apple-signed and notarized. Auto-updates from here. Pick the build that matches your Mac.
         </p>
 
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div className="mt-10 flex flex-col sm:flex-row items-center sm:items-start justify-center gap-3">
           <a
             href="/api/download?platform=mac-arm64"
             className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.15)]"
           >
             Mac · Apple Silicon (M1+)
           </a>
-          <a
-            href="/api/download?platform=mac-x64"
-            className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
-          >
-            Mac · Intel
-          </a>
+          <div className="flex flex-col items-center gap-2.5">
+            <a
+              href="/api/download?platform=mac-x64"
+              className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
+            >
+              Mac · Intel
+            </a>
+            <Link
+              href="/download/intel"
+              className="text-[11px] text-[#F59E0B] hover:text-[#FBBF24] transition flex items-center gap-1.5 font-medium"
+            >
+              <span aria-hidden>⚠</span>
+              Important note for Intel Macs
+              <span aria-hidden>→</span>
+            </Link>
+          </div>
         </div>
 
         <p className="mt-5 text-xs text-[#C4C4C4]">

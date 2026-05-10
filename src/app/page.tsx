@@ -213,19 +213,29 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
         </p>
 
         {/* Pill CTAs — primary mac/arm64, secondary Intel; Windows in waitlist row below */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div className="mt-10 flex flex-col sm:flex-row items-center sm:items-start justify-center gap-3">
           <a
             href="/api/download?platform=mac-arm64"
             className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.15)]"
           >
             Download for Mac · Apple Silicon
           </a>
-          <a
-            href="/api/download?platform=mac-x64"
-            className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
-          >
-            Mac · Intel
-          </a>
+          <div className="flex flex-col items-center gap-2.5">
+            <a
+              href="/api/download?platform=mac-x64"
+              className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
+            >
+              Mac · Intel
+            </a>
+            <Link
+              href="/download/intel"
+              className="text-[11px] text-[#F59E0B] hover:text-[#FBBF24] transition flex items-center gap-1.5 font-medium"
+            >
+              <span aria-hidden>⚠</span>
+              Important note for Intel Macs
+              <span aria-hidden>→</span>
+            </Link>
+          </div>
         </div>
 
         {/* Windows is in build — separate row so it reads as future, not current */}
@@ -673,19 +683,29 @@ function FinalCTA() {
         <p className="text-[#C4C4C4] text-lg mb-10 max-w-xl mx-auto">
           Free during the public beta. New releases ship every few weeks — ACE prompts you on launch when one&apos;s ready.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center gap-3">
           <a
             href="/api/download?platform=mac-arm64"
             className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition"
           >
             Download for Mac · Apple Silicon
           </a>
-          <a
-            href="/api/download?platform=mac-x64"
-            className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
-          >
-            Mac · Intel
-          </a>
+          <div className="flex flex-col items-center gap-2.5">
+            <a
+              href="/api/download?platform=mac-x64"
+              className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
+            >
+              Mac · Intel
+            </a>
+            <Link
+              href="/download/intel"
+              className="text-[11px] text-[#F59E0B] hover:text-[#FBBF24] transition flex items-center gap-1.5 font-medium"
+            >
+              <span aria-hidden>⚠</span>
+              Important note for Intel Macs
+              <span aria-hidden>→</span>
+            </Link>
+          </div>
         </div>
         <div className="mt-3 flex items-center justify-center gap-2 text-xs">
           <span className="text-[#888]">Windows version</span>

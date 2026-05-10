@@ -32,15 +32,14 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 // just in case the manifest is unreachable — it's the SAFETY NET for users
 // arriving via the website while the bucket is down. Should match the most
 // recent successful upload.
-// v1.5.7 — slide-on-HDMI fix (renderer was using file:// which Electron
-// blocks cross-origin from app://; now routes through /api/media/file
-// which v1.5.7 also extends to search slides/<batch>/), Stage Mirror
-// Program toggle (speakers see what audience sees on confidence
-// monitor), global Bible verse advance/retreat shortcuts (PageDown/Up
-// from anywhere), and /api/detection/reset to clear hallucinated state.
+// v1.6.0 — ProPresenter Migrator (5-stage wizard imports .pro libraries
+// + media + playlists in one shot), animated Welcome Splash on first
+// launch, and the critical Intel-architecture fix (v1.0–v1.5.7 silently
+// shipped an arm64 backend inside the x64 .app, breaking it for every
+// Intel Mac user; afterPack now copies per-arch PyInstaller dists).
 const FALLBACK: Record<string, string> = {
-  "mac-arm64": "ACE-1.5.7-arm64.dmg",
-  "mac-x64": "ACE-1.5.7.dmg",
+  "mac-arm64": "ACE-1.6.0-arm64.dmg",
+  "mac-x64": "ACE-1.6.0.dmg",
 };
 
 function sniffPlatform(ua: string): string | null {

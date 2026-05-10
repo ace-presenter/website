@@ -109,18 +109,28 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.5.7",
-  date: "May 10, 2026",
+  version: "1.6.0",
+  date: "May 11, 2026",
   highlights: [
+    {
+      icon: I.layers,
+      title: "ProPresenter Migrator — bring your library across",
+      body: "Five-stage wizard detects your local ProPresenter folder, scans every .pro file + Media Bin, previews exactly what'll come over, then imports songs (with section structure), playlists, and media in one shot. Coming from PP no longer means starting empty.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Animated Welcome Splash",
+      body: "First-launch greeting now opens with concentric rings + the ACE bullseye while the wizard primes itself in the background. Replaces the dead-white window that used to flash before onboarding rendered.",
+    },
+    {
+      icon: I.image,
+      title: "Intel Macs — finally fixed",
+      body: "v1.0–v1.5.7 silently shipped an arm64 Python backend inside the Intel .app, so detection died on launch for every Intel Mac. afterPack now copies the right per-arch backend per build. If you were on an Intel Mac and ACE wouldn't start — install v1.6.0.",
+    },
     {
       icon: I.sparkle,
       title: "Dock no longer disappears when audience opens",
       body: "Single-display Macs reported 'the app vanished' when the audience window came up — actually the audience layer was outranking the dock. Now we detect display count and back off to the right layer.",
-    },
-    {
-      icon: I.layers,
-      title: "Streamlined output focus",
-      body: "ProPresenter + ATEM external-output integrations hidden ahead of the v1.6 ProPresenter Migrator. Source preserved; one flag flip restores them. ACE is the destination now, not a controller for PP.",
     },
     {
       icon: I.book,
