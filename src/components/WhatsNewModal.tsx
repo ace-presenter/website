@@ -109,8 +109,8 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.5.5",
-  date: "May 9, 2026",
+  version: "1.5.6",
+  date: "May 10, 2026",
   highlights: [
     {
       icon: I.book,
