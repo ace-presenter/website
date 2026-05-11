@@ -32,17 +32,20 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 // just in case the manifest is unreachable — it's the SAFETY NET for users
 // arriving via the website while the bucket is down. Should match the most
 // recent successful upload.
-// v1.6.1 — same-day hotfix over v1.6.0: user-imported Bibles
-// (Zefania / OSIS / OpenSong / MyBible) were silently invisible —
-// import succeeded end-to-end but neither the BiblePanel dropdown nor
-// Settings → Bibles → Translations rendered them, because both UIs
-// pulled exclusively from a hardcoded 5-translation registry.
-// v1.6.1 makes both surfaces render from the actual loaded set
-// (/api/bible/translations) merged with the predefined registry,
-// falling back to the code itself for unknown identifiers.
+// v1.6.2 — quality-of-life patch over v1.6.1. Four fixes:
+//   1. Genius lyrics no longer lump into one Verse 1 when the source
+//      has no [Section] headers — blank lines now act as soft section
+//      breaks, then a repetition-based smart sectioner tags chorus /
+//      pre-chorus / verses automatically.
+//   2. "Importing…" toast no longer pins forever after a Genius import
+//      (toast id mismatch fixed).
+//   3. Imported songs appear in the Library sidebar immediately, no
+//      restart required.
+//   4. BiblePanel + Settings → Bibles refresh after every Bible import,
+//      so newly-imported translations show up without restart.
 const FALLBACK: Record<string, string> = {
-  "mac-arm64": "ACE-1.6.1-arm64.dmg",
-  "mac-x64": "ACE-1.6.1.dmg",
+  "mac-arm64": "ACE-1.6.2-arm64.dmg",
+  "mac-x64": "ACE-1.6.2.dmg",
 };
 
 function sniffPlatform(ua: string): string | null {
