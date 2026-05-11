@@ -109,17 +109,27 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.7.0",
-  date: "May 11, 2026",
+  version: "1.7.1",
+  date: "May 12, 2026",
   highlights: [
     {
+      icon: I.book,
+      title: "12 public-domain hymns, ready to use",
+      body: "Fresh installs now ship with a starter hymn library — Amazing Grace, Holy Holy Holy, Blessed Assurance, It Is Well With My Soul–style classics, all confirmed pre-1928 public domain. If you're upgrading from v1.7.0, install them in one click via Settings → Data → Install Starter Hymns. Idempotent: clicking it again skips anything you already have by title.",
+    },
+    {
       icon: I.sparkle,
-      title: "Critical: stops the cold-launch data wipe",
-      body: "v1.6.0 through 1.6.2 had a bug where the first-launch seed routine could overwrite your database on every restart — silently wiping imported Bibles and replacing them with bundled defaults. If you noticed Bibles disappearing, this is why. v1.7.0 changes the seed gate so an existing database is never overwritten. If you lost translations, re-import them from your original files; they'll persist from now on.",
+      title: "Splash no longer replays when you come back from Settings",
+      body: "v1.7.0 made the welcome splash play on every cold launch — but clicking Cancel or Back in Settings was sending you back through the splash too. v1.7.1 persists the dismissed state for the session, so the splash only fires on a real cold launch. Quit and relaunch to see it again.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Critical: stops the cold-launch data wipe (v1.7.0)",
+      body: "v1.6.0 through 1.6.2 had a bug where the first-launch seed routine could overwrite your database on every restart — silently wiping imported Bibles and replacing them with bundled defaults. If you noticed Bibles disappearing, this is why. v1.7.0+ changes the seed gate so an existing database is never overwritten. If you lost translations, re-import them; they'll persist from now on.",
     },
     {
       icon: I.layers,
-      title: "Multi-day Service Plan tabs",
+      title: "Multi-day Service Plan tabs (v1.7.0)",
       body: "Run more than one service a week — Sunday morning + Sunday evening + Midweek — and switch between them with one click. Each tab shows name + date; + New creates a fresh plan inline; hover a tab and click × to delete (with confirm). Plans sort most-recent-date first.",
     },
     {
