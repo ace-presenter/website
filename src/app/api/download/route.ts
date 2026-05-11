@@ -32,22 +32,17 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 // just in case the manifest is unreachable — it's the SAFETY NET for users
 // arriving via the website while the bucket is down. Should match the most
 // recent successful upload.
-// v1.7.0 — critical data-loss fix + multi-day Service Plan tabs.
-//   1. (Showstopper) First-launch seed routine had been silently wiping
-//      user data on every cold launch for any operator without
-//      imported songs. The gate is now worship_songs.db's existence,
-//      not the songs-FAISS map size. Anyone affected has to re-import
-//      their Bibles from the original XMLs (no automatic recovery
-//      possible — the data was actually deleted).
-//   2. Build pipeline now runs `seed:clean` before every release —
-//      asserts the bundled seed contains ONLY the 5 public-domain
-//      Bibles (KJV / ASV / BBE / WEB / RV1960) and zero songs.
-//   3. Multi-day Service Plan tabs — operator can keep Sunday +
-//      Midweek + evening services as separate tabs, switch with one
-//      click, + New / delete inline.
+// v1.7.1 — starter hymn library + splash navigation fix.
+//   1. Bundles 12 public-domain hymns into fresh installs (Amazing
+//      Grace, Holy Holy Holy, Abide With Me, Blessed Assurance, etc.).
+//      v1.7.0 upgraders install via Settings → Data → 'Install
+//      Starter Hymns' (idempotent).
+//   2. Fixes the splash replaying when navigating from Settings back
+//      to the dashboard — now persisted in sessionStorage so it only
+//      fires on cold launch.
 const FALLBACK: Record<string, string> = {
-  "mac-arm64": "ACE-1.7.0-arm64.dmg",
-  "mac-x64": "ACE-1.7.0.dmg",
+  "mac-arm64": "ACE-1.7.1-arm64.dmg",
+  "mac-x64": "ACE-1.7.1.dmg",
 };
 
 function sniffPlatform(ua: string): string | null {
