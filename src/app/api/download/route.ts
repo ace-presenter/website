@@ -32,20 +32,22 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 // just in case the manifest is unreachable — it's the SAFETY NET for users
 // arriving via the website while the bucket is down. Should match the most
 // recent successful upload.
-// v1.6.2 — quality-of-life patch over v1.6.1. Four fixes:
-//   1. Genius lyrics no longer lump into one Verse 1 when the source
-//      has no [Section] headers — blank lines now act as soft section
-//      breaks, then a repetition-based smart sectioner tags chorus /
-//      pre-chorus / verses automatically.
-//   2. "Importing…" toast no longer pins forever after a Genius import
-//      (toast id mismatch fixed).
-//   3. Imported songs appear in the Library sidebar immediately, no
-//      restart required.
-//   4. BiblePanel + Settings → Bibles refresh after every Bible import,
-//      so newly-imported translations show up without restart.
+// v1.7.0 — critical data-loss fix + multi-day Service Plan tabs.
+//   1. (Showstopper) First-launch seed routine had been silently wiping
+//      user data on every cold launch for any operator without
+//      imported songs. The gate is now worship_songs.db's existence,
+//      not the songs-FAISS map size. Anyone affected has to re-import
+//      their Bibles from the original XMLs (no automatic recovery
+//      possible — the data was actually deleted).
+//   2. Build pipeline now runs `seed:clean` before every release —
+//      asserts the bundled seed contains ONLY the 5 public-domain
+//      Bibles (KJV / ASV / BBE / WEB / RV1960) and zero songs.
+//   3. Multi-day Service Plan tabs — operator can keep Sunday +
+//      Midweek + evening services as separate tabs, switch with one
+//      click, + New / delete inline.
 const FALLBACK: Record<string, string> = {
-  "mac-arm64": "ACE-1.6.2-arm64.dmg",
-  "mac-x64": "ACE-1.6.2.dmg",
+  "mac-arm64": "ACE-1.7.0-arm64.dmg",
+  "mac-x64": "ACE-1.7.0.dmg",
 };
 
 function sniffPlatform(ua: string): string | null {
