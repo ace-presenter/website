@@ -109,86 +109,71 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.6.0",
+  version: "1.7.0",
   date: "May 11, 2026",
   highlights: [
     {
+      icon: I.sparkle,
+      title: "Critical: stops the cold-launch data wipe",
+      body: "v1.6.0 through 1.6.2 had a bug where the first-launch seed routine could overwrite your database on every restart — silently wiping imported Bibles and replacing them with bundled defaults. If you noticed Bibles disappearing, this is why. v1.7.0 changes the seed gate so an existing database is never overwritten. If you lost translations, re-import them from your original files; they'll persist from now on.",
+    },
+    {
       icon: I.layers,
-      title: "ProPresenter Migrator — bring your library across",
+      title: "Multi-day Service Plan tabs",
+      body: "Run more than one service a week — Sunday morning + Sunday evening + Midweek — and switch between them with one click. Each tab shows name + date; + New creates a fresh plan inline; hover a tab and click × to delete (with confirm). Plans sort most-recent-date first.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Genius imports — proper section detection",
+      body: "Genius pages without [Section] headers used to lump every lyric into one Verse 1. Blank lines now act as section breaks and a repetition-based smart sectioner tags chorus / pre-chorus / verses automatically.",
+    },
+    {
+      icon: I.image,
+      title: "Imports show up immediately — no restart",
+      body: "Imported a song? It now appears in the Library sidebar instantly. Imported a Bible? It's in the BiblePanel dropdown and Settings → Bibles right away. The 'Importing…' toast also dismisses properly now (no more pinned spinners).",
+    },
+    {
+      icon: I.layers,
+      title: "ProPresenter Migrator (v1.6.0)",
       body: "Five-stage wizard detects your local ProPresenter folder, scans every .pro file + Media Bin, previews exactly what'll come over, then imports songs (with section structure), playlists, and media in one shot. Coming from PP no longer means starting empty.",
     },
     {
       icon: I.sparkle,
-      title: "Animated Welcome Splash",
-      body: "First-launch greeting now opens with concentric rings + the ACE bullseye while the wizard primes itself in the background. Replaces the dead-white window that used to flash before onboarding rendered.",
+      title: "Animated Welcome Splash (v1.6.0)",
+      body: "First-launch greeting opens with concentric rings + the ACE bullseye while the app primes itself in the background.",
     },
     {
       icon: I.image,
-      title: "Intel Macs — finally fixed",
-      body: "v1.0–v1.5.7 silently shipped an arm64 Python backend inside the Intel .app, so detection died on launch for every Intel Mac. afterPack now copies the right per-arch backend per build. If you were on an Intel Mac and ACE wouldn't start — install v1.6.0.",
+      title: "Intel Macs — fully working (v1.6.0)",
+      body: "v1.0–v1.5.7 silently shipped an arm64 Python backend inside the Intel .app, so detection died on launch for every Intel Mac. The build pipeline now copies the right per-arch backend. If you tried ACE on Intel before and it wouldn't start — install v1.7.0.",
     },
     {
-      icon: I.sparkle,
-      title: "Dock no longer disappears when audience opens",
-      body: "Single-display Macs reported 'the app vanished' when the audience window came up — actually the audience layer was outranking the dock. Now we detect display count and back off to the right layer.",
+      icon: I.book,
+      title: "Imported Bibles visible in the panel (v1.6.1)",
+      body: "Through v1.6.0, the BiblePanel dropdown showed only the 5 bundled translations — imported XML Bibles were invisible. Now the dropdown renders every translation actually in your database, with a 'Custom' group for codes outside the standard registry.",
     },
     {
       icon: I.book,
       title: "Bible verse lock — ⌘⇧L (v1.5.5)",
       body: "Catches the right verse but keeps suggesting alternatives mid-sermon? Press ⌘⇧L to lock the current verse. Suggestions still appear in the transcript; nothing auto-replaces what's on screen.",
     },
-    {
-      icon: I.sparkle,
-      title: "Onboarding fixes (v1.5.5)",
-      body: "Step 4 'Open Settings' buttons now actually open System Settings (was silent before — IPC rejected the macOS deep-link scheme). Step 5 button label clarified to 'Start using ACE'.",
-    },
-    {
-      icon: I.layers,
-      title: "Service Plan auto-creates first plan (v1.5.5)",
-      body: "On a fresh install, hitting + Add Item now creates 'Untitled Service' for today's date and adds the item — no more silent no-op when no plan exists yet.",
-    },
-    {
-      icon: I.sparkle,
-      title: "F2 / Clear Slide actually clears (v1.5.4)",
-      body: "Carried forward from the v1.5.4 hotfix — clearing slides now drops the slide image too, not just the lyric overlay.",
-    },
-    {
-      icon: I.image,
-      title: "Slides reach the audience screen",
-      body: "v1.5.0–v1.5.2 silently dropped slide images on Program (Electron cross-origin block). Routed through the local API now.",
-    },
-    {
-      icon: I.layers,
-      title: "Stage Mirror Program",
-      body: "One checkbox: stage screen shows the audience output as a full backdrop with confidence cues on top. Speakers see what the audience sees.",
-    },
-    {
-      icon: I.book,
-      title: "Smart Bible auto-advance",
-      body: "Preacher just reads verse 17 directly — no 'next verse' phrase needed. Transcript-match scoring against verse N+1 advances automatically.",
-    },
-    {
-      icon: I.sparkle,
-      title: "Section Editor — slide-grid",
-      body: "Edit lyrics in the same 16:9 grid you perform in. Drag cards across columns to reorder. Reordering 30 sections is now an 8-row grid, not a 30-row scroll.",
-    },
   ],
   improvements: [
+    "Build pipeline now runs a `seed:clean` script before every release — asserts only the 5 public-domain Bibles are in the bundled seed, zero songs, zero dev residue",
+    "Tab strip in Service Plan shows date below name; supports + New / delete with confirm",
     "Global Bible PageDown / PageUp shortcuts work from anywhere in the app",
     "Reset Detection (⌘⇧R) — clears hallucinated state without stopping capture",
     "Whisper context-prompt rebuilds on Auto/Song/Bible mode change — no more vocabulary bleed",
-    "Bible auto-display confidence floor tightened (0.55 → 0.60) — fewer false-positive verse pushes",
-    "Slides now full-bleed on the audience display — no more black letterbox bars",
-    "Section edits reflect on the playback grid immediately (debounce 800ms → 400ms)",
     "Cold-start audience reset — no leftover slide flashing from the previous service",
   ],
   fixes: [
-    "Mirror Program save did nothing until you flipped to Blank and back — now applies on save",
-    "Slide push didn't update the audience window in dev / React-output mode",
-    "Deleted PPTX kept showing on the audience screen until manual reset",
-    "Browser cached the prior deck's slide_0000.png across imports — fresh URL per slide path now",
-    "PPTX silently rendered as text-only placeholders when LibreOffice's profile was locked",
-    "Audience screen showed black + broken-image icon when an imported slide was pushed",
+    "Cold-launch data wipe affecting Bible-only operators on v1.6.x (now stopped)",
+    "Genius lyrics lumping into one Verse 1 when source had no [Section] headers",
+    "'Importing…' toast pinned forever after song import (toast id mismatch)",
+    "Imported songs not appearing in Library sidebar without restart",
+    "BiblePanel + Settings not refreshing after a Bible import",
+    "Dock disappearing on single-display Macs when audience window opened",
+    "Service Plan + New button doing nothing (Electron window.prompt incompatibility)",
   ],
 };
 
