@@ -109,18 +109,28 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.7.1",
+  version: "1.7.2",
   date: "May 12, 2026",
   highlights: [
     {
-      icon: I.book,
-      title: "12 public-domain hymns, ready to use",
-      body: "Fresh installs now ship with a starter hymn library — Amazing Grace, Holy Holy Holy, Blessed Assurance, It Is Well With My Soul–style classics, all confirmed pre-1928 public domain. If you're upgrading from v1.7.0, install them in one click via Settings → Data → Install Starter Hymns. Idempotent: clicking it again skips anything you already have by title.",
+      icon: I.sparkle,
+      title: "Stops the random freezes during detection",
+      body: "Multiple operators reported ACE locking up mid-service. Three independent causes stacked: every backend log line was a blocking sync disk write (the log had grown to 37 MB on busy installs), launching a second copy from the dock spawned a duplicate backend that fought for the port, and force-quitting a frozen ACE left ghost processes that the next launch piled on top of. All three are fixed: async logger with 5 MB rotation, single-instance lock, and a startup orphan-reaper that kills any stale backend before spawning a fresh one. If you've seen 'Activity Monitor showing two ace-backends,' that's gone.",
     },
     {
-      icon: I.sparkle,
-      title: "Splash no longer replays when you come back from Settings",
-      body: "v1.7.0 made the welcome splash play on every cold launch — but clicking Cancel or Back in Settings was sending you back through the splash too. v1.7.1 persists the dismissed state for the session, so the splash only fires on a real cold launch. Quit and relaunch to see it again.",
+      icon: I.book,
+      title: "Bible verses now show in the operator's Preview + Program",
+      body: "Manually clicked a Bible verse from the panel and it showed on the audience output but stayed blank in your own preview/program panes? The manual-click path didn't auto-switch the active Look to 'bibles,' so the bible layer stayed gated off in the operator window. Now the backend signals a Look switch alongside the verse — your monitor matches HDMI immediately.",
+    },
+    {
+      icon: I.image,
+      title: "Clear actually clears the slide image now",
+      body: "v1.5.4 patched the layer-specific clear (F2 / Clear Slide) to drop the slide background image, but the general Clear button only dropped the lyric text — the image stayed on screen. Fixed: the main Clear now also resets display_bg_image_path when the background is an ephemeral slide push. Your uploaded gradient/solid backdrops are left alone.",
+    },
+    {
+      icon: I.book,
+      title: "12 public-domain hymns, ready to use (v1.7.1)",
+      body: "Fresh installs ship with a starter hymn library — Amazing Grace, Holy Holy Holy, Blessed Assurance, It Is Well With My Soul–style classics, all confirmed pre-1928 public domain. If you're upgrading, install them in one click via Settings → Data → Install Starter Hymns. Idempotent: clicking it again skips anything you already have by title.",
     },
     {
       icon: I.sparkle,
@@ -177,6 +187,11 @@ const CURRENT: ReleaseContent = {
     "Cold-start audience reset — no leftover slide flashing from the previous service",
   ],
   fixes: [
+    "Random freezes during active detection (async logger + single-instance lock + startup orphan reaper)",
+    "Bible verses invisible in operator Preview/Program when displayed via the Bible panel",
+    "Slide image staying on screen after pressing Clear (only F2 / Clear Slide had been patched)",
+    "CCLI SongSelect import silently broken (called a function that doesn't exist — surfaced during code audit)",
+    "Macro execute path referenced dead lazy-init helpers — would have NameError'd on first run",
     "Cold-launch data wipe affecting Bible-only operators on v1.6.x (now stopped)",
     "Genius lyrics lumping into one Verse 1 when source had no [Section] headers",
     "'Importing…' toast pinned forever after song import (toast id mismatch)",
