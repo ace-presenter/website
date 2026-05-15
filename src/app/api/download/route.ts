@@ -32,17 +32,14 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 // just in case the manifest is unreachable — it's the SAFETY NET for users
 // arriving via the website while the bucket is down. Should match the most
 // recent successful upload.
-// v1.7.1 — starter hymn library + splash navigation fix.
-//   1. Bundles 12 public-domain hymns into fresh installs (Amazing
-//      Grace, Holy Holy Holy, Abide With Me, Blessed Assurance, etc.).
-//      v1.7.0 upgraders install via Settings → Data → 'Install
-//      Starter Hymns' (idempotent).
-//   2. Fixes the splash replaying when navigating from Settings back
-//      to the dashboard — now persisted in sessionStorage so it only
-//      fires on cold launch.
+// v1.7.3 — click-to-expand Bible chapter reader + Bible recall improvements
+// (Whisper vocab + parser punctuation acceptance) + phrase-loop hallucination
+// filter + Deepgram auto-flip + tighter auto-display threshold (≥0.88 + ≥5
+// words for non-intent) + transcript-history clear (kills Romans-1:16
+// stuck-loop) + theme-editor → Bible projection + eager Bible FAISS load.
 const FALLBACK: Record<string, string> = {
-  "mac-arm64": "ACE-1.7.1-arm64.dmg",
-  "mac-x64": "ACE-1.7.1.dmg",
+  "mac-arm64": "ACE-1.7.3-arm64.dmg",
+  "mac-x64": "ACE-1.7.3.dmg",
 };
 
 function sniffPlatform(ua: string): string | null {
