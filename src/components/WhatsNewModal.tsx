@@ -109,23 +109,48 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.7.2",
+  version: "1.7.3",
   date: "May 12, 2026",
   highlights: [
     {
+      icon: I.book,
+      title: "Click a Bible verse → see the full chapter",
+      body: "When a verse is auto-detected and displayed, click it in the Program or Preview pane and a modal opens with the full chapter. The active verse is highlighted in gold and auto-scrolls to the middle of the reader. Each verse in the chapter has a 'Push' button — pivot to a different verse without leaving the modal. Backed by a new chapter API; works on every translation you've loaded.",
+    },
+    {
       icon: I.sparkle,
-      title: "Stops the random freezes during detection",
-      body: "Multiple operators reported ACE locking up mid-service. Three independent causes stacked: every backend log line was a blocking sync disk write (the log had grown to 37 MB on busy installs), launching a second copy from the dock spawned a duplicate backend that fought for the port, and force-quitting a frozen ACE left ghost processes that the next launch piled on top of. All three are fixed: async logger with 5 MB rotation, single-instance lock, and a startup orphan-reaper that kills any stale backend before spawning a fresh one. If you've seen 'Activity Monitor showing two ace-backends,' that's gone.",
+      title: "Bible reference detection — works on the verses that used to slip",
+      body: "Operators reported 'Luke 4:1 detects but Luke 6:20 doesn't.' Root cause: Whisper had zero bias toward biblical reference patterns, so it transcribed numbers inconsistently. v1.7.3 bakes all 66 book names + sample references (John 3:16, Romans 8:28, First Corinthians 13:4) into Whisper's English prompt. Also: the parser now accepts 'Matthew 8.8', 'Matthew 8-8', 'John 17, 17' — Whisper invents punctuation differently each time, so we accept all of them.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Phrase-loop hallucination killed",
+      body: "If you saw the backend log spamming 'fast falls the eventide; fast falls the eventide; fast falls the eventide.' that's Whisper biased by Abide With Me's lyrics inventing text from quiet audio. v1.7.3 detects 3+ copies of any 10+ char phrase and drops them before search — no more wrong-verse flicker triggered by a hallucinated loop.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Deepgram auto-flip when you save an API key",
+      body: "Save a Deepgram API key in Settings → Audio and transcription_mode flips to online automatically. Clear the key and it flips back to offline. Operators kept saving the key and wondering why Whisper was still running — that two-step is gone.",
     },
     {
       icon: I.book,
-      title: "Bible verses now show in the operator's Preview + Program",
-      body: "Manually clicked a Bible verse from the panel and it showed on the audience output but stayed blank in your own preview/program panes? The manual-click path didn't auto-switch the active Look to 'bibles,' so the bible layer stayed gated off in the operator window. Now the backend signals a Look switch alongside the verse — your monitor matches HDMI immediately.",
+      title: "Bible auto-display: tuned so wrong-verse flicker is rare",
+      body: "Detection now requires score ≥ 0.88 AND ≥5 words for non-intent matches. v1.7.2's aggressive 0.80 threshold caused 'I shall be' (3 words) to match Ezekiel 28:24 at 98% — meaningless embedding similarity for short fragments. Legitimate hits like 'ashamed of the gospel of Christ' → Romans 1:16 still fire; the noise is gone.",
     },
     {
       icon: I.image,
-      title: "Clear actually clears the slide image now",
-      body: "v1.5.4 patched the layer-specific clear (F2 / Clear Slide) to drop the slide background image, but the general Clear button only dropped the lyric text — the image stayed on screen. Fixed: the main Clear now also resets display_bg_image_path when the background is an ephemeral slide push. Your uploaded gradient/solid backdrops are left alone.",
+      title: "Theme editor changes finally apply to Bible projection",
+      body: "Customised your font / colour / shadow in the theme editor and Bible verses kept the original gold-on-black? The Bible verse renderer was using hardcoded styles. v1.7.3 wires the active theme through so your verses match your songs.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Stops the random freezes during detection (v1.7.2)",
+      body: "Three causes stacked: every backend log line was a blocking sync disk write (37 MB log on busy installs), launching a second copy spawned a duplicate backend, and force-quitting left ghost processes. v1.7.2 fixed all three: async logger + 5 MB rotation, single-instance lock, startup orphan-reaper.",
+    },
+    {
+      icon: I.image,
+      title: "Clear actually clears the slide image (v1.7.2)",
+      body: "v1.5.4 patched the layer-specific Clear (F2 / Clear Slide) but the general Clear button only dropped the lyric text — the image stayed on screen. v1.7.2 fixed: main Clear now resets display_bg_image_path when the background is an ephemeral slide push. Solid/gradient backdrops left alone.",
     },
     {
       icon: I.book,
@@ -187,6 +212,14 @@ const CURRENT: ReleaseContent = {
     "Cold-start audience reset — no leftover slide flashing from the previous service",
   ],
   fixes: [
+    "Bible references being missed because Whisper transcribed numbers inconsistently (added 66 book names + ref examples to Whisper's prompt)",
+    "Reference parser now accepts 'Matthew 8.8' / 'Matthew 8-8' / 'John 17, 17' alongside the existing colon/space forms",
+    "Wrong-verse flicker from short fragments (auto-display now requires score ≥0.88 AND ≥5 words for non-intent matches)",
+    "Romans-1:16 stuck-loop after a correct match (transcript-history accumulator cleared after every auto-display)",
+    "First-detection lag at boot (Bible FAISS now eager-loads at startup instead of on first sermon-mode activation)",
+    "Theme editor not applying to Bible projection (BibleVerseDisplay was using hardcoded styles)",
+    "Whisper hallucination loop 'fast falls the eventide; …' filling backend logs (3+ phrase-repeat filter)",
+    "Saving a Deepgram key but staying on Whisper (auto-flips transcription_mode now)",
     "Random freezes during active detection (async logger + single-instance lock + startup orphan reaper)",
     "Bible verses invisible in operator Preview/Program when displayed via the Bible panel",
     "Slide image staying on screen after pressing Clear (only F2 / Clear Slide had been patched)",
