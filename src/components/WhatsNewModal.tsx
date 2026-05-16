@@ -109,17 +109,37 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.7.3",
-  date: "May 12, 2026",
+  version: "1.7.4",
+  date: "May 16, 2026",
   highlights: [
     {
       icon: I.book,
-      title: "Click a Bible verse → see the full chapter",
-      body: "When a verse is auto-detected and displayed, click it in the Program or Preview pane and a modal opens with the full chapter. The active verse is highlighted in gold and auto-scrolls to the middle of the reader. Each verse in the chapter has a 'Push' button — pivot to a different verse without leaving the modal. Backed by a new chapter API; works on every translation you've loaded.",
+      title: "Chapter reader actually opens when you click a verse",
+      body: "v1.7.3 shipped the click-to-expand chapter modal but the click handler wasn't getting attached — clicking the verse in Program or Preview did nothing. v1.7.4 fixes the wiring on both panes, and the DETECTED card in the Bible panel is now also clickable as the primary entry point. Four ways in: DETECTED card, Program, Preview, suggestion cards.",
     },
     {
       icon: I.sparkle,
-      title: "Bible reference detection — works on the verses that used to slip",
+      title: "Chapter reader opens instantly (no more verse-by-verse loading)",
+      body: "v1.7.3's reader was issuing one HTTP request per verse — opening Psalm 119 meant 176 round-trips and a visible loading flicker. v1.7.4 fetches the entire chapter in a single batched request. The modal now pops open and scrolls to the active verse in one frame.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Chapter reader no longer mixes 1 John / 2 John / 3 John verses",
+      body: "The chapter endpoint was doing a fuzzy LIKE '%John%' match on the book column — so opening 'John 3' returned verses from John AND 1 John, 2 John, 3 John, interleaved by verse number. Switched to exact-book match. Same fix applied to the single-verse endpoint.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Deepgram no longer fires twice per sentence",
+      body: "The Deepgram SDK emits both is_final and speech_final for the same finalised utterance. v1.7.3's dispatch ran the FAISS pipeline on both — every spoken sentence got searched twice, doubling backend log noise and detection latency. v1.7.4 tracks the last-fired transcript per session and short-circuits the duplicate immediately.",
+    },
+    {
+      icon: I.book,
+      title: "Click a Bible verse → see the full chapter (v1.7.3)",
+      body: "When a verse is auto-detected and displayed, click it in the Program or Preview pane and a modal opens with the full chapter. The active verse is highlighted in gold and auto-scrolls to the middle of the reader. Each verse in the chapter has a 'Push' button — pivot to a different verse without leaving the modal.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Bible reference detection — works on the verses that used to slip (v1.7.3)",
       body: "Operators reported 'Luke 4:1 detects but Luke 6:20 doesn't.' Root cause: Whisper had zero bias toward biblical reference patterns, so it transcribed numbers inconsistently. v1.7.3 bakes all 66 book names + sample references (John 3:16, Romans 8:28, First Corinthians 13:4) into Whisper's English prompt. Also: the parser now accepts 'Matthew 8.8', 'Matthew 8-8', 'John 17, 17' — Whisper invents punctuation differently each time, so we accept all of them.",
     },
     {

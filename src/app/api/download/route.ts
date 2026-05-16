@@ -32,14 +32,14 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 // just in case the manifest is unreachable — it's the SAFETY NET for users
 // arriving via the website while the bucket is down. Should match the most
 // recent successful upload.
-// v1.7.3 — click-to-expand Bible chapter reader + Bible recall improvements
-// (Whisper vocab + parser punctuation acceptance) + phrase-loop hallucination
-// filter + Deepgram auto-flip + tighter auto-display threshold (≥0.88 + ≥5
-// words for non-intent) + transcript-history clear (kills Romans-1:16
-// stuck-loop) + theme-editor → Bible projection + eager Bible FAISS load.
+// v1.7.4 — chapter-modal click handler wired (was broken in v1.7.3) on all
+// 4 entry points (DETECTED card + Program + Preview + suggestions); chapter
+// reader fetches whole chapter in one batch (was N+1); exact-book SQL match
+// stops 1/2/3 John from mixing into John 3 view; Deepgram no longer fires
+// twice per finalised utterance (is_final + speech_final dedup).
 const FALLBACK: Record<string, string> = {
-  "mac-arm64": "ACE-1.7.3-arm64.dmg",
-  "mac-x64": "ACE-1.7.3.dmg",
+  "mac-arm64": "ACE-1.7.4-arm64.dmg",
+  "mac-x64": "ACE-1.7.4.dmg",
 };
 
 function sniffPlatform(ua: string): string | null {
