@@ -109,13 +109,53 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.8.1",
-  date: "May 17, 2026",
+  version: "1.8.2",
+  date: "May 18, 2026",
   highlights: [
     {
+      icon: I.bug,
+      title: "Deepgram duplicate-word noise fixed",
+      body: "On v1.8.1, Deepgram's overlapping interim transcripts polluted the FAISS query as 'I was was in a meeting' / 'the the the New Testament Testament saint'. Real matches still landed sometimes — but at lower confidence than they should have, and occasionally on the wrong verse. v1.8.2 dedups at three points (fragment add, sentence join, final query). The search engine sees clean text.",
+    },
+    {
+      icon: I.bug,
+      title: "Voice nav: \"chapter N verse M\" now parses both numbers",
+      body: "When the preacher said 'chapter seven verse fourteen' while 2 Corinthians 3 was on screen, v1.8.1 only parsed 'verse 14' and stayed on chapter 3 — landing on 2 Cor 3:14 instead of 2 Cor 7:14. v1.8.2 catches the paired reference and jumps to the right chapter+verse together. The bare 'verse N' fallback still works when only the verse is named.",
+    },
+    {
+      icon: I.bug,
+      title: "Following-mode is more patient with paraphrase",
+      body: "v1.8.1 exited 'following the preacher verse-by-verse' mode after just 1-2 transcripts that didn't quote scripture verbatim. Preachers rarely quote verbatim — they cite verse, paraphrase three lines, cite the next verse. v1.8.2 keeps follow-along alive through those paraphrase gaps (limit bumped 4 → 7 misses).",
+    },
+    {
+      icon: I.bug,
+      title: "\"Holy Spirit\" search now finds KJV's \"Holy Ghost\"",
+      body: "Whisper transcribes modern English; the KJV index stores archaic forms. v1.8.1 lost legitimate verse matches because 'Holy Spirit' didn't match 'Holy Ghost', 'says' didn't match 'saith', etc. — and 2 Peter 1:21 (the actual verse) lost to the wrong verse. v1.8.2 augments each search chunk with archaic-form variants for a small set of well-known modern↔KJV pairs before embedding.",
+    },
+    {
+      icon: I.bug,
+      title: "Bible auto-display catches paraphrase matches",
+      body: "Operator log showed real verse matches landing at 0.50-0.59 confidence — just below the 0.65 floor — and never reaching the screen. v1.8.2 drops the intent-active threshold to 0.50 (combined with the synonym augmentation above, real verses now display). The non-intent path keeps its 0.88+5-word floor so random commentary doesn't fire random verses.",
+    },
+    {
+      icon: I.bug,
+      title: "Bible mode: no more \"fast falls the eventide\" hallucinations",
+      body: "When detection_mode was 'bible', Whisper was still biased by the song library from earlier in the service — so silent buffers during sermons kept hallucinating 'fast falls the eventide' (Abide With Me). v1.8.2 drops the song-library prompt entirely in bible mode and uses scripture vocab + Bible-book names only.",
+    },
+    {
+      icon: I.bug,
+      title: "Backend log noise: uvicorn INFO no longer shows as [backend:err]",
+      body: "Every HTTP request hitting the backend used to log as '[backend:err]' because uvicorn writes its access logs to stderr. Looked alarming. Real errors still go to :err; INFO lines, [Pipeline], [Bible], [Audio…], [VAD], [Deepgram], etc. now route to stdout cleanly.",
+    },
+    {
+      icon: I.bug,
+      title: "Two quieter fixes",
+      body: "(a) 'intent=True' flag stops firing on transcripts that inherited a book/chapter from earlier text — it now requires the parsed book name to actually appear in the current utterance. (b) Audio buffer pre-fills its stride counter on Start, so the first callback fires one stride earlier — the dashboard feels responsive ~2 s sooner after pressing Start.",
+    },
+    {
       icon: I.book,
-      title: "Every Bible is Ready out of the box",
-      body: "v1.8.0 shipped only KJV + RV1960 pre-indexed and asked operators to click 'Set up' on the other seven Bibles from Settings → Bible — with a progress bar that ran for minutes. Operators rightly said no. v1.8.1 pre-builds the search index for every one of the nine bundled translations at release time. They all arrive 'Ready'. You never have to manage that during a service.",
+      title: "Every Bible is Ready out of the box (since v1.8.1)",
+      body: "Nine public-domain translations bundled and pre-indexed — KJV, ASV, BBE, WEB, RV1960, CUV (Chinese), Van Dyck (Arabic), Almeida Atualizada (Portuguese), French APEE. Live detection in every one. Settings → Bible shows them all as 'Ready' on first launch; you never see a 'Preparing 35%' progress bar during a service.",
     },
     {
       icon: I.bug,
