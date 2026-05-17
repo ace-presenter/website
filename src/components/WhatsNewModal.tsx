@@ -109,33 +109,53 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.8.0",
+  version: "1.8.1",
   date: "May 17, 2026",
   highlights: [
     {
       icon: I.book,
-      title: "Multilingual Bible — 9 translations now bundled",
-      body: "v1.8 ships ACE with public-domain Bibles in English (KJV, ASV, BBE, WEB), Spanish (Reina-Valera 1960), Chinese (Union Version), Arabic (Van Dyck), Portuguese (Almeida Atualizada), and French. Live detection works in any of them — preach in Spanish and Spanish verses display; preach in Mandarin and the Chinese Union Version comes up. The English + Spanish search indexes ship pre-built; everything else activates from Settings → Bible with one click.",
+      title: "Every Bible is Ready out of the box",
+      body: "v1.8.0 shipped only KJV + RV1960 pre-indexed and asked operators to click 'Set up' on the other seven Bibles from Settings → Bible — with a progress bar that ran for minutes. Operators rightly said no. v1.8.1 pre-builds the search index for every one of the nine bundled translations at release time. They all arrive 'Ready'. You never have to manage that during a service.",
+    },
+    {
+      icon: I.bug,
+      title: "Bible detection silently dead after activating translations — fixed",
+      body: "On v1.8.0, clicking 'Set up' on several Bibles at once spawned background index builders that competed with the live-detection engine for the same single-threaded embedder. Net result: Whisper transcribed normally but verses never displayed. v1.8.1 hard-caps concurrent builds at 1 across the whole process and (because every bundled Bible is now pre-built) the build path mostly only ever runs for user-imported Bibles you add yourself.",
+    },
+    {
+      icon: I.bug,
+      title: "Confidence ± buttons work on cold start",
+      body: "On a fresh install the toolbar's confidence threshold buttons silently no-op'd until you visited Settings — the click was computing `undefined + 0.05 = NaN` against an empty config and the backend rejected it. v1.8.1 falls back to 60% if no value is saved, so the toolbar works from the first launch.",
+    },
+    {
+      icon: I.bug,
+      title: "Sermon-mode Bible detection now attaches verse context",
+      body: "When ACE picks a verse out of a sermon transcript (not direct quotation), it tries to attach the 1–2 verses on either side for context display. A scope bug in v1.8.0 meant that call silently failed every time — verses landed correct but bare. v1.8.1 calls the right helper.",
+    },
+    {
+      icon: I.bug,
+      title: "Five quieter bugs from a post-ship audit",
+      body: "/api/propresenter/verify was permanently returning an error string because `requests` was never imported at module top. Settings PUT could NameError-crash when flipping Deepgram on mid-session. Sermon-mode verse context, a dormant route landmine, dead code with an undefined variable, and an edge case in the Bible loader where intra-file duplicates could land twice — all fixed.",
+    },
+    {
+      icon: I.layers,
+      title: "Bundle bigger to keep operations simpler",
+      body: "v1.8.0's 863 MB download was thanks to leaving most translations as 'install later'. The detection-dead bug we just fixed taught us that's the wrong trade. v1.8.1 ships at ~3.4 GB so all nine translations are present + ready. Operators never see a 'Preparing 35%' progress bar in Settings during a service. The auto-updater pulls only the delta thanks to blockmaps; first install is the one slow download.",
     },
     {
       icon: I.book,
-      title: "Bible Translations settings panel",
-      body: "Settings → Bible now has a clean operator-facing panel grouped by language. Each translation shows its state — Ready, Needs setup, Preparing… (with progress), or Disabled — plus license + copyright info you can expand. Click 'Set up' on any translation and the search index builds in the background while you keep working. No more guessing which Bibles ACE actually knows about.",
+      title: "Multilingual Bible — 9 translations bundled (from v1.8)",
+      body: "Public-domain Bibles in English (KJV, ASV, BBE, WEB), Spanish (Reina-Valera 1960), Chinese (Union Version), Arabic (Van Dyck), Portuguese (Almeida Atualizada), and French. Live detection works in any of them — preach in Spanish and Spanish verses display; preach in Mandarin and the Chinese Union Version comes up.",
     },
     {
       icon: I.sparkle,
       title: "Yoruba, Igbo, Hausa, Swahili — visible as 'Coming later'",
-      body: "African-language Bibles are on the roadmap. They appear in the translations panel as 'Coming later' so you can see exactly what's planned. v1.8 doesn't bundle them yet because we don't have written redistribution clearance from the rights holders — the licensing conversation is in progress with the Bible Societies. Once each language is cleared, it ships as a free pack and existing v1.8 installs get it on the next update.",
+      body: "African-language Bibles are on the roadmap. They appear in the translations panel as 'Coming later' so you can see exactly what's planned. We don't have written redistribution clearance from the rights holders yet — the licensing conversation is in progress with the Bible Societies. Once each language is cleared, it ships as a free pack and existing installs get it on the next update.",
     },
     {
-      icon: I.sparkle,
-      title: "Bundle 4× smaller — 3.2 GB → 863 MB",
-      body: "Pre-v1.8 the app shipped one monolithic Bible search index that ballooned to 3.2 GB once we added more languages. v1.8 splits it into per-translation shards — only the languages you actively use take space. The download dropped from 3.2 GB to 863 MB, and the .app footprint drops by the same amount. Adding more translations later is also nearly free.",
-    },
-    {
-      icon: I.sparkle,
-      title: "Bible imports + first-run setup now seconds, not minutes",
-      body: "The Bible loader had a per-verse duplicate check that turned into a 25-minute job once nine translations were involved. v1.8 hoists that check into a single bulk query — the entire 280k-verse import for all bundled translations now completes in under a minute. First launch is back to feeling snappy.",
+      icon: I.book,
+      title: "Bible Translations settings panel",
+      body: "Settings → Bible has a clean operator-facing panel grouped by language. Each translation shows its state — Ready / Coming later / Disabled — plus license + copyright info you can expand. You don't need to set anything up for normal use; the panel is there for managing translations during a service and for handling Bibles you've imported yourself.",
     },
     {
       icon: I.book,
