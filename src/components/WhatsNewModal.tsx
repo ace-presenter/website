@@ -109,12 +109,37 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.7.4",
-  date: "May 16, 2026",
+  version: "1.8.0",
+  date: "May 17, 2026",
   highlights: [
     {
       icon: I.book,
-      title: "Chapter reader actually opens when you click a verse",
+      title: "Multilingual Bible — 9 translations now bundled",
+      body: "v1.8 ships ACE with public-domain Bibles in English (KJV, ASV, BBE, WEB), Spanish (Reina-Valera 1960), Chinese (Union Version), Arabic (Van Dyck), Portuguese (Almeida Atualizada), and French. Live detection works in any of them — preach in Spanish and Spanish verses display; preach in Mandarin and the Chinese Union Version comes up. The English + Spanish search indexes ship pre-built; everything else activates from Settings → Bible with one click.",
+    },
+    {
+      icon: I.book,
+      title: "Bible Translations settings panel",
+      body: "Settings → Bible now has a clean operator-facing panel grouped by language. Each translation shows its state — Ready, Needs setup, Preparing… (with progress), or Disabled — plus license + copyright info you can expand. Click 'Set up' on any translation and the search index builds in the background while you keep working. No more guessing which Bibles ACE actually knows about.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Yoruba, Igbo, Hausa, Swahili — visible as 'Coming later'",
+      body: "African-language Bibles are on the roadmap. They appear in the translations panel as 'Coming later' so you can see exactly what's planned. v1.8 doesn't bundle them yet because we don't have written redistribution clearance from the rights holders — the licensing conversation is in progress with the Bible Societies. Once each language is cleared, it ships as a free pack and existing v1.8 installs get it on the next update.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Bundle 4× smaller — 3.2 GB → 863 MB",
+      body: "Pre-v1.8 the app shipped one monolithic Bible search index that ballooned to 3.2 GB once we added more languages. v1.8 splits it into per-translation shards — only the languages you actively use take space. The download dropped from 3.2 GB to 863 MB, and the .app footprint drops by the same amount. Adding more translations later is also nearly free.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Bible imports + first-run setup now seconds, not minutes",
+      body: "The Bible loader had a per-verse duplicate check that turned into a 25-minute job once nine translations were involved. v1.8 hoists that check into a single bulk query — the entire 280k-verse import for all bundled translations now completes in under a minute. First launch is back to feeling snappy.",
+    },
+    {
+      icon: I.book,
+      title: "Chapter reader click handlers (v1.7.4)",
       body: "v1.7.3 shipped the click-to-expand chapter modal but the click handler wasn't getting attached — clicking the verse in Program or Preview did nothing. v1.7.4 fixes the wiring on both panes, and the DETECTED card in the Bible panel is now also clickable as the primary entry point. Four ways in: DETECTED card, Program, Preview, suggestion cards.",
     },
     {
