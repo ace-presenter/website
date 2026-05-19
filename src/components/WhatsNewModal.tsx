@@ -109,12 +109,52 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.8.3",
+  version: "1.8.4",
   date: "May 19, 2026",
   highlights: [
     {
       icon: I.bug,
-      title: "Wrong-verse flicker on hymn audio — eliminated",
+      title: "\"Genesis 47 verse 15\" — now displays Genesis 47:15 (not 47:1)",
+      body: "Live-service log on v1.8.3 surfaced the preacher saying 'Genesis 47 verse 15 to 27' and the system auto-displaying Genesis 47:**1** at 95% confidence — wrong verse on screen. Root cause: no parse path between the digit-form 'Book 47:15' and the spoken-form 'Book chapter 47 verse 15' handled the elision where the preacher drops 'chapter' when chapter is a digit. v1.8.4 adds the missing rung. 'Romans 8 verse 28', '1 Timothy 2 verse 11', 'John 3 verse 16' — all now land correctly. Range suffixes like 'verse 15 to 27' resolve to the start verse so sequential-following picks up the right cursor.",
+    },
+    {
+      icon: I.bug,
+      title: "Auto-imported songs no longer arrive empty or with just one verse",
+      body: "When ACR identified a new worship song via fingerprint and the system tried to fetch lyrics from Genius, some imports landed with 0 sections (Genius scrape returned nothing usable) or 1 section (Genius page had no [Section] markers and the lyrics were a single stanza, so the smart-sectioner couldn't fire). The operator then saw 'one verse' placeholder rows or a useless empty song in the library. v1.8.4 rejects imports with fewer than 2 sections or less than 100 characters of total lyrics. When auto-import fails, the system stays unconfirmed and the operator gets a clean retry instead of a half-imported lock-in.",
+    },
+    {
+      icon: I.bug,
+      title: "ACR-identified songs with decorated titles now find their Genius page",
+      body: "ACR returns titles like 'Nagode (Live) feat. David Dam' or 'Holy Spirit (Acoustic) [Single]'. Genius indexes by canonical title and was returning zero results, so the system stayed stuck on the previously-confirmed song for ~30 seconds while a different live song was actually playing. v1.8.4 strips parenthetical/bracket suffixes, 'feat.'/'ft.'/'featuring'/'with' tails, and version-tail dashes ('- Live') before the Genius query. Nine real-world test titles all map cleanly to the canonical form.",
+    },
+    {
+      icon: I.bug,
+      title: "Chorus 2 ↔ Chorus 3 ↔ Chorus 4 flicker on iterating-noun choruses",
+      body: "v1.8.3 phrase-family chorus dedup used token-set Jaccard ≥ 0.85, which folded near-duplicate chorus variants with extra 'oh's or dropped articles. But Ekondo-style choruses iterate a single noun position ('I see North America' / 'I see South America' / 'I see Africa') and score only 0.60 Jaccard — below threshold. v1.8.4 adds a second signal: position-aligned token similarity. When two chorus sections share the same scaffold and ≥70% of their token positions match, they fold into one family. Either signal qualifies. The slide stops oscillating between chorus variants on prophetic-declaration worship songs.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Voice nav: spoken verse numbers + smart deference to fresh references",
+      body: "Two fixes for verse navigation commands the preacher speaks mid-sermon. (a) v1.8.2's regex required digit-form verse numbers, so 'Exodus chapter 16 verse eight and verse 35' skipped past 'verse eight' and grabbed 'verse 35'. v1.8.4 accepts spoken numbers and the non-greedy regex keeps the FIRST verse mentioned. (b) When a preacher names a new book and chapter ('Genesis 47 verse 15'), voice nav used to fire 'goto:15' against whatever stale follow position was set — landing on Exodus 9:15 if the preacher had been in Exodus earlier. v1.8.4 detects the book name in the utterance and defers to fresh-reference parsing.",
+    },
+    {
+      icon: I.bug,
+      title: "\"Chapter six and verse 17\" — mixed-form parsing fixed",
+      body: "v1.8.2's regex over-caught the connector word 'and' into the chapter group, so 'Galatians chapter six and verse 17' captured 'six and' as the chapter, which can't be parsed as a number — system fell through to chapter-only fallback (verse=1). v1.8.4 strips leading/trailing connector words ('and', 'et', 'und', 'e', 'y' for English, French, German, Italian, Spanish) before number parsing. Now works for digit-spoken-mixed forms across all five languages.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Mode switch (Bible → Song) no longer falls back to Whisper",
+      body: "When the operator toggled detection mode from Bible to Song mid-service, the new Deepgram WebSocket open was racing with the old session's teardown — the system gave up after the 5-second ready timeout and fell back to Whisper, even though the WS opened cleanly ~7 seconds later. v1.8.4 awaits the previous session's clean shutdown (with a 5s timeout + cancel fallback) before opening the new one. Mode switches now stay on Deepgram if Deepgram is configured.",
+    },
+    {
+      icon: I.layers,
+      title: "Bible lookup latency instrumentation",
+      body: "Added perf_counter timing around the Signal A SQL lookup so any regression on cold-cache or large-translation-set lookups surfaces in the backend log. Blueprint target: <50ms; typical observed: 1-5ms with the indexed primary key. Logged at >10ms (info) and >50ms (warning) so trends are visible without requiring you to attach a profiler.",
+    },
+    {
+      icon: I.bug,
+      title: "Wrong-verse flicker on hymn audio — eliminated (from v1.8.3)",
       body: "On v1.8.2 with a worship-music bed playing during a sermon, Whisper would invent Bible-flavored fragments ('In the name of Jesus, Amen.', 'the world and all its intellectual') that FAISS scored ≥0.88 against verses sharing those tokens — Luke 4:3 and 1 Thessalonians 4:1 were the recurring false positives. No purely semantic gate could separate that noise from real paraphrases (the embedder rewards token co-occurrence equally). v1.8.3 stops auto-display from firing on semantic-only matches when the preacher hasn't either named a reference (\"Luke 4:3\") or used a recognizable intent phrase (\"open your Bibles to…\", \"the scripture says\"). Those matches still appear in the suggestion sidebar — they just don't take over the screen.",
     },
     {
