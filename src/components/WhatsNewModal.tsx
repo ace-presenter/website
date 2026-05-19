@@ -109,53 +109,39 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.8.5",
+  version: "1.9.0",
   date: "May 19, 2026",
   highlights: [
     {
       icon: I.sparkle,
-      title: "Cleaner audio, sharper detection",
-      body: "ACE now filters out background hum, fans, and congregation noise before it listens. Lyrics and verses land more reliably, even in busy rooms.",
+      title: "Scanned PDFs and phone photos now import too",
+      body: "If the lyrics arrive as a scanned PDF or a photo saved as PDF, ACE reads the text from the image and adds it to your library.",
     },
     {
       icon: I.sparkle,
-      title: "Import lyrics from any document",
-      body: "Drop your lyric sheets straight into the library. ACE pulls out the words and splits them into verses and choruses automatically.",
+      title: "Open Word, Keynote, and Pages files directly",
+      body: "Older Word files (.doc), Apple Keynote decks, and Apple Pages docs now import straight into the library — no save-as step.",
     },
     {
       icon: I.sparkle,
-      title: "Handles mixed-language services on its own",
-      body: "If worship switches languages mid-service, ACE adapts without a setting change. Keep singing — it'll keep up.",
-    },
-    {
-      icon: I.bug,
-      title: "Stays running through network hiccups",
-      body: "Lost the internet for a moment? ACE keeps detecting without skipping a beat. No more silent dead air on screen.",
+      title: "NDI output ready out of the box",
+      body: "No more 'install NDI tools first' prompt. Open Settings → NDI and start streaming to your video board.",
     },
     {
       icon: I.sparkle,
-      title: "Bible paraphrases follow your lead",
-      body: "After you display a verse, paraphrases in the same book auto-display for the next 60 seconds — even without an explicit cue from the preacher.",
-    },
-    {
-      icon: I.bug,
-      title: "Follow-along stays alive on verbatim readings",
-      body: "Reading a verse word-for-word no longer drops you out of follow-along mode.",
+      title: "Settings, simplified",
+      body: "Settings now shows only what you control during a service. Engineering knobs hide behind a single 'Show advanced' toggle for support and power users.",
     },
   ],
   improvements: [
-    "Library shows live confidence for every detected song, with the active one clearly highlighted",
-    "Mid-service edits to verses and choruses take effect right away — no restart needed",
-    "Manually selecting a Bible verse keeps follow-along running",
-    "Spoken references like \"Matthew 6, verse 17\" now land correctly (comma, period, or dash all accepted)",
+    "Cleaner Settings page — model selectors, debug overlays, and tuning sliders moved behind 'Show advanced'",
+    "Operator-facing language across the board — fewer technical terms, more plain English",
+    "First-launch experience focuses on what to set up, not what to ignore",
   ],
   fixes: [
-    "Network drops no longer cause silent dead air on screen",
-    "\"Currently listening\" indicator no longer stays lit on the previous song",
-    "Detection no longer gets stuck on lyrics edited mid-service",
-    "\"Matthew 6, verse 17\" used to land on 6:1 if the preacher comma-paused — now lands on 6:17",
-    "Follow-along no longer exits when the preacher lingers on a verse",
-    "Manual verse selection no longer kicks you out of follow-along on the next sentence",
+    "PDF imports that used to silently fail on scanned documents now run OCR automatically",
+    "Legacy Word (.doc), Keynote, and Pages files no longer hit a dead end in the importer",
+    "NDI 'Setup required' panel no longer shown when ACE already has everything needed",
   ],
 };
 
