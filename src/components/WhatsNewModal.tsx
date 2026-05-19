@@ -109,12 +109,62 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.8.4",
+  version: "1.8.5",
   date: "May 19, 2026",
   highlights: [
     {
+      icon: I.sparkle,
+      title: "Real noise suppression in front of Whisper (RNNoise)",
+      body: "ACE now denoises every audio frame before it reaches the transcription engine. The biggest architecture gap from our internal audio-recognition blueprint — closed. RNNoise (the open-source recurrent-NN noise filter from Xiph.org, same one used in Zoom-grade telephony) runs at the audio interface's native 48 kHz rate before the resample to 16 kHz, so it sees the cleanest possible signal. Sirens, HVAC, congregation noise, and stage-bleed get attenuated; voice stays clean. Apple Silicon only in v1.8.5 (Intel Macs get a graceful passthrough — no regression). Operator-tunable via Settings; default on. Internal smoke test on synthetic white noise: 99.99% energy reduction with voice signal preserved.",
+    },
+    {
       icon: I.bug,
-      title: "\"Genesis 47 verse 15\" — now displays Genesis 47:15 (not 47:1)",
+      title: "Deepgram WebSocket dies → ACE flips to Whisper automatically",
+      body: "Live-service log on v1.8.4 surfaced Deepgram's WebSocket dropping with a 'keepalive ping timeout' mid-sermon. The send loop kept firing audio into the dead socket for ~7 minutes — no transcripts produced, the operator didn't know until they manually toggled offline mode. v1.8.5 detects the terminal error class (1011, keepalive timeout, connection-closed, internal-error) at the source, clears the dead socket, and triggers an automatic fallback to Whisper within one detection cycle. No more silent audio loss.",
+    },
+    {
+      icon: I.bug,
+      title: "Following-mode no longer exits while the preacher's still on the verse",
+      body: "When a Bible verse is displayed and the preacher reads it word-for-word, every transcript counts as a 'miss' against following mode (because the seq-advance logic only checks the NEXT verse). After 7 such 'misses' the system exited following mode — exactly as the preacher was about to transition to the next verse. v1.8.5 adds a 'hold' path: when the transcript matches the CURRENT verse, the miss counter resets and following mode stays alive. Verbatim reading of Genesis 1:26 → seamless transition to 1:27/1:28 when the preacher moves on.",
+    },
+    {
+      icon: I.bug,
+      title: "Manual click on a verse no longer exits following mode immediately",
+      body: "After manually clicking a Bible verse, the very next preacher transcript could trip 'too many misses' and exit following mode — because the manual-display path was setting following=True but not resetting the stale miss counter from the prior session. v1.8.5 zeros the counter on every manual click. Operator-corrected verses now get a fresh follow-along window.",
+    },
+    {
+      icon: I.bug,
+      title: "\"Matthew 6, verse 17\" — now displays 6:17, not 6:1",
+      body: "Field log surfaced 'Matthew 6, verse 17' parsing as Matthew 6:1 because the regex required whitespace between the chapter digit and the 'verse' keyword. The comma immediately after '6' broke the match. v1.8.5 widens the separator to accept comma, period, dash, OR whitespace — mirroring what the pure-digit form ('Matthew 6:17') already does. Preachers who comma-pause between chapter and verse now land on the right verse.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Recent-display window: paraphrases follow the operator's lead",
+      body: "When a Bible verse has been displayed (auto OR manual) in the same book within the last 60 seconds, the system now allows paraphrase auto-display without requiring an explicit intent phrase. Operator's prior click is the intent signal. Field log: preacher quoted 2 Corinthians 4:6 verbatim ('For God who commanded the lights to shine out of darkness') right after manually displaying 1 Corinthians 4:1 — FAISS correctly identified the verse but v1.8.3's no-intent kill held it back. v1.8.5 lets it through when the recent-display window is active. Tighter score gate (≥0.60) + multi-window stability still required so this doesn't reopen the hymn-noise false-positive class.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Import song lyrics from PDF, Word, and PowerPoint",
+      body: "Most operators receive the week's lyrics as PDFs from pastors, Word docs from worship leaders, or PowerPoint decks already structured one-slide-per-section. v1.8.5 accepts all three: .pdf (pdfplumber extracts text-based PDFs; image-only scans need OCR which isn't bundled), .docx (python-docx for Office Open XML; legacy binary .doc not supported), and .pptx (python-pptx with title-placeholder promotion — if a slide title says 'Verse 1' or 'Chorus', that becomes the section header; otherwise the smart sectioner clusters stanzas by repetition). Imported songs land directly in the library on save. Plus all the formats already supported: plain text, ChordPro, ProPresenter 6/7, OpenLyrics XML, OpenLP archive.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Auto-switches Deepgram to multilingual when it stops hearing English",
+      body: "Live-service log surfaced 7+ minutes of Deepgram empty Results with real audio present (RMS 0.05-0.10, well above the silence floor). Root cause: operator left Deepgram on English while the worship leader sang an Efik chorus / preached a Spanish testimonial — Deepgram's English speech-detector rejected non-English vocals as 'no speech' indefinitely. v1.8.5 tracks consecutive empty Results plus a rolling RMS buffer: when 80+ empties land while audio is present, ACE persists 'auto-detect' to your settings and reconnects Deepgram in multilingual nova-2 mode. No operator action required, no rebuild, no manual setting flip. The next service start re-arms the trigger so an English-only week doesn't get stuck in multilingual unnecessarily.",
+    },
+    {
+      icon: I.bug,
+      title: "Section detection now follows mid-service song edits",
+      body: "Field log surfaced section detection failing to advance after an operator edited a song's sections during a live service. Root cause: ACE caches embedded sections per song to avoid recomputing on every detection window, but the cache had no invalidation path on the six section-mutating endpoints (add, edit, delete, reorder, merge, split). After an edit, FAISS section similarity kept scoring against the stale pre-edit embeddings. v1.8.5 wires invalidate_section_cache to every mutation endpoint so edits take effect on the next detection cycle — no more 'stop and restart detection' workaround.",
+    },
+    {
+      icon: I.bug,
+      title: "Library 'currently listening' indicator no longer sticks on the previous song",
+      body: "When ACE confirmed a new song mid-service, the animated EQ-bars indicator and bold-white title styling stayed lit on the previous song in the library list. Both songs looked active. Root cause: the indicator was keyed off the rolling detection-history (up to 20 candidates kept indefinitely), so every song that had ever been a candidate kept its icon lit forever. v1.8.5 keys the icon and title styling off the currently active detection only. The confidence-percent badge still shows for every candidate so operators see the ranked picture in multi-song scenes — just one song lights up at a time.",
+    },
+    {
+      icon: I.bug,
+      title: "\"Genesis 47 verse 15\" — now displays Genesis 47:15 (not 47:1) (from v1.8.4)",
       body: "Live-service log on v1.8.3 surfaced the preacher saying 'Genesis 47 verse 15 to 27' and the system auto-displaying Genesis 47:**1** at 95% confidence — wrong verse on screen. Root cause: no parse path between the digit-form 'Book 47:15' and the spoken-form 'Book chapter 47 verse 15' handled the elision where the preacher drops 'chapter' when chapter is a digit. v1.8.4 adds the missing rung. 'Romans 8 verse 28', '1 Timothy 2 verse 11', 'John 3 verse 16' — all now land correctly. Range suffixes like 'verse 15 to 27' resolve to the start verse so sequential-following picks up the right cursor.",
     },
     {
