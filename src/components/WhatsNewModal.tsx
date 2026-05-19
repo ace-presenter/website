@@ -109,47 +109,87 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.8.2",
-  date: "May 18, 2026",
+  version: "1.8.3",
+  date: "May 19, 2026",
   highlights: [
     {
       icon: I.bug,
-      title: "Deepgram duplicate-word noise fixed",
+      title: "Wrong-verse flicker on hymn audio — eliminated",
+      body: "On v1.8.2 with a worship-music bed playing during a sermon, Whisper would invent Bible-flavored fragments ('In the name of Jesus, Amen.', 'the world and all its intellectual') that FAISS scored ≥0.88 against verses sharing those tokens — Luke 4:3 and 1 Thessalonians 4:1 were the recurring false positives. No purely semantic gate could separate that noise from real paraphrases (the embedder rewards token co-occurrence equally). v1.8.3 stops auto-display from firing on semantic-only matches when the preacher hasn't either named a reference (\"Luke 4:3\") or used a recognizable intent phrase (\"open your Bibles to…\", \"the scripture says\"). Those matches still appear in the suggestion sidebar — they just don't take over the screen.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Multi-window stability gate for paraphrase auto-display",
+      body: "Even with reading intent active, a single 0.95+ FAISS match on a noisy transcript could fire the wrong verse. v1.8.3 adds a stability requirement: semantic matches in intent-active mode must hit the same verse across 2 consecutive detection windows before they take over the screen. Explicit references (\"Luke 8:1\") still fire instantly — only the semantic path waits. Adds ~3-5 seconds of latency on paraphrases; eliminates the wrong-verse flash class.",
+    },
+    {
+      icon: I.image,
+      title: "Display stays put through quiet moments in worship",
+      body: "Old behavior cleared song + section after 15s of silence in one shot — so a worship leader pausing between phrases for breath would drop the slide and reacquire it noisily. v1.8.3 graduates: at 10s of silence, section-progression bias relaxes (vocals returning can re-pick the section); at 20s, the slide clears. The current song stays anchored through the pause.",
+    },
+    {
+      icon: I.bug,
+      title: "Chorus 1 ↔ Chorus 2 flicker — fewer cases left",
+      body: "v1.7.5 fixed this for verbatim-identical chorus lyrics. v1.8.3 extends it to near-duplicates — when Chorus 1 and Chorus 2 share most of their words but differ by an extra 'oh', a dropped article, or a tag line, they're now treated as one chorus family and the slide stops flipping between them.",
+    },
+    {
+      icon: I.book,
+      title: "Six more languages for \"open your Bibles to…\"",
+      body: "Reading-intent phrases now cover Chinese (Simplified + Traditional), Arabic, Hausa, Russian, Italian, and Tagalog — joining the existing English, Spanish, French, German, Portuguese, Yoruba, Igbo, Swahili, Korean, Dutch/Afrikaans, and Nigerian English/Pidgin. A pastor saying \"圣经说\" or \"الكتاب المقدس يقول\" or \"la Bibbia dice\" now trips the same intent flag that opens the auto-display gate.",
+    },
+    {
+      icon: I.book,
+      title: "Four more languages for Bible references",
+      body: "\"Matthieu chapitre 5 verset 3\" (French), \"Matthäus Kapitel 5 Vers 3\" (German), \"Matteo capitolo 5 versetto 3\" (Italian), \"João 3:16\" (Portuguese) now all parse to the right verse. All 66 Bible books got French/German/Portuguese/Italian aliases — total dictionary now 547 book aliases × 617 intent phrases across 13 languages. Closed a latent bug too: French/German/Portuguese/Italian digit references (\"jean 3:16\", \"matteo 5:3\") were silently returning no match in some dev builds — fixed.",
+    },
+    {
+      icon: I.sparkle,
+      title: "Lower ACRCloud API costs per service",
+      body: "Audio-fingerprint identification used to fire any time the detector was uncertain — burning credits on questions ACR couldn't actually answer. v1.8.3 only calls ACR when the lyric-FAISS top match sits in the murky 0.40–0.60 confidence band. Below that, the no-match fallback handles it; above, FAISS is confident enough that ACR would just confirm what we already know. Field testing: ~10–15 ACR calls per service vs. the old unbounded 30+.",
+    },
+    {
+      icon: I.layers,
+      title: "Offline accuracy measurement (replay harness)",
+      body: "New backend script — `replay_audio.py` — takes any recorded service audio file, streams it through the same Whisper + Bible-FAISS + check_bible pipeline the live backend uses, and writes a CSV of every detection event (transcript, score, votes, streak, auto_display flag). Operators with engineering capacity can now measure 'right verse on screen' rate against their own recorded services and compare across releases. Run with `python -m backend.scripts.replay_audio --audio path/to/service.wav`.",
+    },
+    {
+      icon: I.bug,
+      title: "Deepgram duplicate-word noise fixed (from v1.8.2)",
       body: "On v1.8.1, Deepgram's overlapping interim transcripts polluted the FAISS query as 'I was was in a meeting' / 'the the the New Testament Testament saint'. Real matches still landed sometimes — but at lower confidence than they should have, and occasionally on the wrong verse. v1.8.2 dedups at three points (fragment add, sentence join, final query). The search engine sees clean text.",
     },
     {
       icon: I.bug,
-      title: "Voice nav: \"chapter N verse M\" now parses both numbers",
+      title: "Voice nav: \"chapter N verse M\" now parses both numbers (from v1.8.2)",
       body: "When the preacher said 'chapter seven verse fourteen' while 2 Corinthians 3 was on screen, v1.8.1 only parsed 'verse 14' and stayed on chapter 3 — landing on 2 Cor 3:14 instead of 2 Cor 7:14. v1.8.2 catches the paired reference and jumps to the right chapter+verse together. The bare 'verse N' fallback still works when only the verse is named.",
     },
     {
       icon: I.bug,
-      title: "Following-mode is more patient with paraphrase",
+      title: "Following-mode is more patient with paraphrase (from v1.8.2)",
       body: "v1.8.1 exited 'following the preacher verse-by-verse' mode after just 1-2 transcripts that didn't quote scripture verbatim. Preachers rarely quote verbatim — they cite verse, paraphrase three lines, cite the next verse. v1.8.2 keeps follow-along alive through those paraphrase gaps (limit bumped 4 → 7 misses).",
     },
     {
       icon: I.bug,
-      title: "\"Holy Spirit\" search now finds KJV's \"Holy Ghost\"",
+      title: "\"Holy Spirit\" search now finds KJV's \"Holy Ghost\" (from v1.8.2)",
       body: "Whisper transcribes modern English; the KJV index stores archaic forms. v1.8.1 lost legitimate verse matches because 'Holy Spirit' didn't match 'Holy Ghost', 'says' didn't match 'saith', etc. — and 2 Peter 1:21 (the actual verse) lost to the wrong verse. v1.8.2 augments each search chunk with archaic-form variants for a small set of well-known modern↔KJV pairs before embedding.",
     },
     {
       icon: I.bug,
-      title: "Bible auto-display catches paraphrase matches",
+      title: "Bible auto-display catches paraphrase matches (from v1.8.2)",
       body: "Operator log showed real verse matches landing at 0.50-0.59 confidence — just below the 0.65 floor — and never reaching the screen. v1.8.2 drops the intent-active threshold to 0.50 (combined with the synonym augmentation above, real verses now display). The non-intent path keeps its 0.88+5-word floor so random commentary doesn't fire random verses.",
     },
     {
       icon: I.bug,
-      title: "Bible mode: no more \"fast falls the eventide\" hallucinations",
+      title: "Bible mode: no more \"fast falls the eventide\" hallucinations (from v1.8.2)",
       body: "When detection_mode was 'bible', Whisper was still biased by the song library from earlier in the service — so silent buffers during sermons kept hallucinating 'fast falls the eventide' (Abide With Me). v1.8.2 drops the song-library prompt entirely in bible mode and uses scripture vocab + Bible-book names only.",
     },
     {
       icon: I.bug,
-      title: "Backend log noise: uvicorn INFO no longer shows as [backend:err]",
+      title: "Backend log noise: uvicorn INFO no longer shows as [backend:err] (from v1.8.2)",
       body: "Every HTTP request hitting the backend used to log as '[backend:err]' because uvicorn writes its access logs to stderr. Looked alarming. Real errors still go to :err; INFO lines, [Pipeline], [Bible], [Audio…], [VAD], [Deepgram], etc. now route to stdout cleanly.",
     },
     {
       icon: I.bug,
-      title: "Two quieter fixes",
+      title: "Two quieter fixes (from v1.8.2)",
       body: "(a) 'intent=True' flag stops firing on transcripts that inherited a book/chapter from earlier text — it now requires the parsed book name to actually appear in the current utterance. (b) Audio buffer pre-fills its stride counter on Start, so the first callback fires one stride earlier — the dashboard feels responsive ~2 s sooner after pressing Start.",
     },
     {
