@@ -109,39 +109,31 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.9.0",
-  date: "May 19, 2026",
+  version: "1.9.1",
+  date: "May 25, 2026",
   highlights: [
     {
       icon: I.sparkle,
-      title: "Scanned PDFs and phone photos now import too",
-      body: "If the lyrics arrive as a scanned PDF or a photo saved as PDF, ACE reads the text from the image and adds it to your library.",
+      title: "Verses you recite now reach the screen — even without saying the verse number",
+      body: "Say 'In Isaiah 55' then read the passage. ACE recognises the recital, picks the right verse, and puts it on screen.",
     },
     {
       icon: I.sparkle,
-      title: "Open Word, Keynote, and Pages files directly",
-      body: "Older Word files (.doc), Apple Keynote decks, and Apple Pages docs now import straight into the library — no save-as step.",
+      title: "Voice nav lands on the book the preacher just named",
+      body: "Saying 'chapter four verse one' after naming a new book now jumps to that book — not whichever passage was previously on screen.",
     },
     {
       icon: I.sparkle,
-      title: "NDI output ready out of the box",
-      body: "No more 'install NDI tools first' prompt. Open Settings → NDI and start streaming to your video board.",
+      title: "Worship songs detect through sung-only audio",
+      body: "When sustained singing makes the lyrics hard to transcribe, ACE now identifies the song from the audio itself instead of going quiet.",
     },
-    {
-      icon: I.sparkle,
-      title: "Settings, simplified",
-      body: "Settings now shows only what you control during a service. Engineering knobs hide behind a single 'Show advanced' toggle for support and power users.",
-    },
-  ],
-  improvements: [
-    "Cleaner Settings page — model selectors, debug overlays, and tuning sliders moved behind 'Show advanced'",
-    "Operator-facing language across the board — fewer technical terms, more plain English",
-    "First-launch experience focuses on what to set up, not what to ignore",
   ],
   fixes: [
-    "PDF imports that used to silently fail on scanned documents now run OCR automatically",
-    "Legacy Word (.doc), Keynote, and Pages files no longer hit a dead end in the importer",
-    "NDI 'Setup required' panel no longer shown when ACE already has everything needed",
+    "Chapter-only mentions ('In Psalm 33') now anchor the book so the verses recited afterward auto-display",
+    "Voice nav respects the most recently named book across utterances — no more landing on a leftover passage",
+    "'Isaiah chapter 46, and verse 10' now parses to 46:10 even if the transcript inserts a comma between chapter and verse",
+    "'Malachi three and verse 18' (chapter spoken in words, no 'chapter' keyword) now finds the verse",
+    "Sung-only worship audio promotes to ACR fingerprinting instead of stalling the song detector",
   ],
 };
 
