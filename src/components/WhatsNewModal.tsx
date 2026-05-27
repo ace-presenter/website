@@ -109,31 +109,29 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.9.1",
-  date: "May 25, 2026",
+  version: "1.9.2",
+  date: "May 26, 2026",
   highlights: [
     {
       icon: I.sparkle,
-      title: "Verses you recite now reach the screen — even without saying the verse number",
-      body: "Say 'In Isaiah 55' then read the passage. ACE recognises the recital, picks the right verse, and puts it on screen.",
+      title: "Lyric tracking finally works during sung worship",
+      body: "ACE retunes Deepgram for sung vocals when song mode is active and Whisper kicks in as a parallel signal whenever Deepgram drops out. Section tracking advances slide-by-slide as the band moves through the song.",
     },
     {
       icon: I.sparkle,
-      title: "Voice nav lands on the book the preacher just named",
-      body: "Saying 'chapter four verse one' after naming a new book now jumps to that book — not whichever passage was previously on screen.",
+      title: "Scripture suggestions for paraphrases — in every language you preach in",
+      body: "Preach a verse paraphrased in English and the matching Spanish, Portuguese, French, or Chinese verse appears as a one-click suggestion. The Bible search now uses a multilingual paraphrase model so loose recitations still surface the right reference.",
     },
     {
       icon: I.sparkle,
-      title: "Worship songs detect through sung-only audio",
-      body: "When sustained singing makes the lyrics hard to transcribe, ACE now identifies the song from the audio itself instead of going quiet.",
+      title: "Next / Previous chapter buttons in the Bible reader",
+      body: "Read straight through Malachi 4 → Matthew 1 without closing and reopening the modal. ← / → arrow keys work too.",
     },
   ],
   fixes: [
-    "Chapter-only mentions ('In Psalm 33') now anchor the book so the verses recited afterward auto-display",
-    "Voice nav respects the most recently named book across utterances — no more landing on a leftover passage",
-    "'Isaiah chapter 46, and verse 10' now parses to 46:10 even if the transcript inserts a comma between chapter and verse",
-    "'Malachi three and verse 18' (chapter spoken in words, no 'chapter' keyword) now finds the verse",
-    "Sung-only worship audio promotes to ACR fingerprinting instead of stalling the song detector",
+    "Song detection no longer goes silent when the band is singing — Deepgram is auto-reconfigured for sung vocals when it would otherwise drop them",
+    "When Deepgram still can't hear the vocals, Whisper picks up the slack and ACRCloud identifies the song from raw audio — no operator intervention needed",
+    "Bible suggestion floor lowered so paraphrase matches surface in the sidebar without changing what auto-displays",
   ],
 };
 
