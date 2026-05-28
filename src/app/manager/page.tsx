@@ -4,7 +4,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
 
-export const meta Metadata = {
+export const metadata: Metadata = {
   title: "ACE Manager — Church & Ministry Management",
   description:
     "ACE Manager is the organizational command layer of the ACE suite. Run members, departments, tasks, events, communication, and reporting from one coordinated system. Built for churches, ministries, and teams.",
