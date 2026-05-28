@@ -23,10 +23,12 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 
 /** Per-product manifest paths on dl.ace-presenter.app */
 const MANIFEST_PATHS: Record<string, string> = {
-  presenter: "/latest-mac.yml",
+  presenter:       "/latest-mac.yml",
   "editors-notes": "/editors-notes/latest-mac.yml",
-  // schedule has no DMG yet (web app only); placeholder for when it ships
-  schedule: "/schedule/latest-mac.yml",
+  // schedule: web app only — no DMG yet; placeholder for when desktop ships
+  schedule:        "/schedule/latest-mac.yml",
+  // world: not shipped yet; placeholder for ACE World desktop release
+  world:           "/world/latest-mac.yml",
 };
 
 /**
@@ -96,9 +98,13 @@ export async function GET(req: NextRequest) {
     // Windows not shipped for any product yet
     return NextResponse.redirect(new URL("/", req.url), 302);
   }
-  // Schedule has no desktop build yet
+  // Web-only / not-yet-shipped products — send to their marketing page
   if (product === "schedule") {
     return NextResponse.redirect(new URL("/schedule", req.url), 302);
+  }
+  if (product === "world") {
+    // ACE World desktop not shipped yet
+    return NextResponse.redirect(new URL("/", req.url), 302);
   }
 
   const dynamicUrl = await resolveFromManifest(product, platform);
