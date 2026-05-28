@@ -103,14 +103,33 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(new URL("/schedule", req.url), 302);
   }
   if (product === "world") {
-    // ACE World desktop not shipped yet
     return NextResponse.redirect(new URL("/", req.url), 302);
   }
 
+  // Try dynamic manifest first (live R2 path)
   const dynamicUrl = await resolveFromManifest(product, platform);
   if (dynamicUrl) return NextResponse.redirect(dynamicUrl, 302);
 
+  // Fallback to hardcoded asset path — verify the file exists before
+  // redirecting so we don't send users to a 404 on the R2 bucket.
   const fallback = FALLBACK[product]?.[platform];
-  if (!fallback) return NextResponse.redirect(new URL("/", req.url), 302);
+  if (!fallback) {
+    // No known asset for this product/platform — send to product page
+    const productPage = product === "editors-notes" ? "/editors-notes" : "/";
+    return NextResponse.redirect(new URL(productPage, req.url), 302);
+  }
+
+  // HEAD-check the R2 asset before committing the redirect
+  try {
+    const check = await fetch(`${RELEASE_BASE}/${fallback}`, { method: "HEAD" });
+    if (!check.ok) {
+      const productPage = product === "editors-notes" ? "/editors-notes" : "/";
+      return NextResponse.redirect(new URL(productPage, req.url), 302);
+    }
+  } catch {
+    const productPage = product === "editors-notes" ? "/editors-notes" : "/";
+    return NextResponse.redirect(new URL(productPage, req.url), 302);
+  }
+
   return NextResponse.redirect(`${RELEASE_BASE}/${fallback}`, 302);
 }
