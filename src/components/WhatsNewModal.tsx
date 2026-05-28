@@ -128,6 +128,11 @@ const CURRENT: ReleaseContent = {
       body: "Read straight through Malachi 4 → Matthew 1 without closing and reopening the modal. ← / → arrow keys work too.",
     },
   ],
+  improvements: [
+    "Modal opens faster on second launch — release content is cached after the first fetch",
+    "Sidebar paraphrase results load in parallel with the main Bible text, cutting perceived wait time",
+    "Voice navigation commands now accept abbreviations: 'Rev' resolves to Revelation, '1 Cor' to 1 Corinthians",
+  ],
   fixes: [
     "Song detection no longer goes silent when the band is singing — Deepgram is auto-reconfigured for sung vocals when it would otherwise drop them",
     "When Deepgram still can't hear the vocals, Whisper picks up the slack and ACRCloud identifies the song from raw audio — no operator intervention needed",
