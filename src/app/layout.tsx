@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     template: "%s | ACE",
   },
   description:
-    "AI-powered live presentation for worship, conferences, lectures, and theater. ACE listens to the room and pushes the right slide — automatically.",
+    "ACE is a suite of agentic tools for live events, organizations, and post-production. Presenter listens to the room. Schedule plans the day. Manager runs the organization. Editors' Notes annotates the cut.",
   metadataBase: new URL("https://www.ace-presenter.app"),
   applicationName: "ACE",
   keywords: [

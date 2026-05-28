@@ -1,0 +1,525 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import Image from "next/image";
+import WhatsNewModal from "@/components/WhatsNewModal";
+import SchemaJsonLd from "@/components/SchemaJsonLd";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
+import ManualBanner from "@/components/ManualBanner";
+import FinalCTA from "@/components/FinalCTA";
+
+export const metadata: Metadata = {
+  title: "ACE Presenter",
+  description:
+    "AI-powered live presentation for worship, conferences, lectures, and theater. ACE listens to the room and pushes the right slide — automatically.",
+  alternates: { canonical: "/presenter" },
+};
+
+export const revalidate = 300;
+
+async function fetchLatestVersion(): Promise<string | null> {
+  try {
+    const r = await fetch("https://dl.ace-presenter.app/latest-mac.yml", {
+      next: { revalidate: 300 },
+    });
+    if (!r.ok) return null;
+    const text = await r.text();
+    for (const line of text.split(/\r?\n/)) {
+      const m = line.match(/^version:\s*['"]?([\d.]+)['"]?/);
+      if (m) return m[1];
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+const SEGMENTS: { hook: string; title: string; body: string }[] = [
+  {
+    hook: "Worship",
+    title: "Stop clicking slides during the service",
+    body: "ACE listens to what the team is singing and pushes the right lyrics. Bible mode follows the preacher through scripture references in real time.",
+  },
+  {
+    hook: "Conference",
+    title: "Speakers improvise. Slides stay aligned anyway.",
+    body: "Drop the deck in. ACE follows the speaker through it — even when they jump around, skip slides, or extend a section.",
+  },
+  {
+    hook: "Education",
+    title: "Lectures that don't lose the slide",
+    body: "Your tempo, your order. The deck follows you, not a pre-baked cue list. Works for any subject, any language.",
+  },
+  {
+    hook: "Theater & live shows",
+    title: "AI handles the cues — one operator runs the show",
+    body: "Voice-triggered cue advance + automatic dialog beat detection. The stage manager focuses on the room, not the laptop.",
+  },
+];
+
+const STATS = [
+  { label: "Latency", value: "< 1s" },
+  { label: "Languages", value: "12+" },
+  { label: "Output formats", value: "HDMI · NDI · OSC" },
+  { label: "Cloud dependency", value: "Zero" },
+];
+
+const COMPAT = [
+  "ProPresenter",
+  "ATEM",
+  "OBS",
+  "NDI",
+  "MIDI",
+  "OSC",
+  "Whisper",
+  "Genius",
+];
+
+export default async function PresenterPage() {
+  const latestVersion = await fetchLatestVersion();
+  return (
+    <main className="flex-1 flex flex-col font-sans">
+      <SchemaJsonLd />
+      <Nav activeProduct="presenter" />
+      <ManualBanner latestVersion={latestVersion} />
+      <Hero latestVersion={latestVersion} />
+      <PropresenterMigration />
+      <StatsStrip />
+      <Compatibility />
+      <Segments />
+      <BentoFeatures />
+      <WhatsNew />
+      <BigStats />
+      <PricingTeaser />
+      <FinalCTA variant="presenter" />
+      <Footer />
+      <WhatsNewModal version={latestVersion} />
+    </main>
+  );
+}
+
+/* ───────────── HERO ───────────── */
+function Hero({ latestVersion }: { latestVersion: string | null }) {
+  return (
+    <section className="relative px-6 sm:px-10 pt-20 sm:pt-32 pb-24 text-center overflow-hidden">
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(70% 50% at 50% 0%, rgba(200,16,46,0.35) 0%, rgba(200,16,46,0.10) 35%, rgba(200,16,46,0) 70%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-[60vh] pointer-events-none opacity-60 mix-blend-screen"
+        style={{
+          background:
+            "conic-gradient(from 200deg at 50% 0%, rgba(232,24,58,0.0) 0deg, rgba(232,24,58,0.18) 90deg, rgba(60,0,10,0.20) 180deg, rgba(232,24,58,0.18) 270deg, rgba(232,24,58,0.0) 360deg)",
+          filter: "blur(60px)",
+        }}
+      />
+
+      <div className="relative max-w-5xl mx-auto">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C4C4C4] font-semibold mb-8">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#C8102E] animate-pulse" />
+          Live presentation, on autopilot
+        </div>
+
+        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] text-white">
+          ACE listens.
+          <br />
+          You{" "}
+          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
+            present
+          </span>
+          <span className="text-[#C8102E]">.</span>
+        </h1>
+
+        <p className="mt-8 max-w-2xl mx-auto text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
+          AI-powered live presentation for worship, conferences, lectures, and theater. ACE listens to the room and pushes the right slide — automatically.
+        </p>
+
+        <div className="mt-10 flex flex-col sm:flex-row items-center sm:items-start justify-center gap-3">
+          <a
+            href="/api/download?platform=mac-arm64"
+            className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.15)]"
+          >
+            Download for Mac · Apple Silicon
+          </a>
+          <div className="flex flex-col items-center gap-2.5">
+            <a
+              href="/api/download?platform=mac-x64"
+              className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
+            >
+              Mac · Intel
+            </a>
+            <Link
+              href="/download/intel"
+              className="text-[11px] text-[#F59E0B] hover:text-[#FBBF24] transition flex items-center gap-1.5 font-medium"
+            >
+              <span aria-hidden>⚠</span>
+              Important note for Intel Macs
+              <span aria-hidden>→</span>
+            </Link>
+          </div>
+        </div>
+
+        <div className="mt-3 flex items-center justify-center gap-2 text-xs">
+          <span className="text-[#888]">Windows version</span>
+          <a
+            href="mailto:hello@ace-presenter.app?subject=ACE%20Windows%20waitlist&body=Please%20add%20me%20to%20the%20Windows%20waitlist."
+            className="text-[#E8183A] hover:text-white transition font-semibold"
+          >
+            join the waitlist →
+          </a>
+        </div>
+
+        <p className="mt-5 text-xs text-[#C4C4C4]">
+          Free during public beta · macOS 12+
+          {latestVersion && (
+            <>
+              {" · "}
+              <span className="text-[#888]">
+                Latest: <span className="text-white font-semibold tabular-nums">v{latestVersion}</span>
+              </span>
+            </>
+          )}
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* ───────────── PROPRESENTER MIGRATION ───────────── */
+function PropresenterMigration() {
+  const chips = ["Songs", "Sections", "Media", "Playlists"];
+  return (
+    <section className="px-6 sm:px-10 py-20 border-b border-[#1A1A1A] relative overflow-hidden">
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(50% 60% at 50% 40%, rgba(200,16,46,0.10) 0%, rgba(200,16,46,0.03) 40%, rgba(200,16,46,0) 70%)",
+        }}
+      />
+      <div className="relative max-w-5xl mx-auto text-center">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-8">
+          <span aria-hidden>★</span>
+          New in v1.6
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 mb-10">
+          <div className="flex flex-col items-center gap-2">
+            <div className="px-5 py-3 rounded-xl bg-[#0F0F0F] border border-[#2A2A2A]">
+              <span className="text-xl sm:text-2xl font-bold tracking-tight text-[#C4C4C4]">
+                Pro<span className="text-white">Presenter</span>
+              </span>
+            </div>
+            <span className="text-[9px] uppercase tracking-[0.2em] text-[#666] font-semibold">From</span>
+          </div>
+
+          <div className="flex flex-col items-center gap-2.5">
+            <div className="flex items-center gap-1.5 flex-wrap justify-center max-w-[280px]">
+              {chips.map((c) => (
+                <span
+                  key={c}
+                  className="px-2.5 py-1 rounded-full bg-[#1A1A1A] border border-[#C8102E]/30 text-[10px] font-semibold text-white tracking-wide"
+                >
+                  {c}
+                </span>
+              ))}
+            </div>
+            <svg className="w-20 h-4 rotate-90 sm:rotate-0" viewBox="0 0 80 16" fill="none" aria-hidden>
+              <path d="M0 8 L72 8 M64 2 L72 8 L64 14" stroke="#C8102E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+
+          <div className="flex flex-col items-center gap-2">
+            <div className="px-5 py-3 rounded-xl bg-[#0F0F0F] border border-[#C8102E]/40 shadow-[0_0_24px_rgba(200,16,46,0.15)] flex items-center gap-2.5">
+              <Image src="/logo.png" alt="ACE" width={28} height={28} className="rounded" />
+              <span className="text-xl sm:text-2xl font-bold tracking-tight text-white">ACE</span>
+            </div>
+            <span className="text-[9px] uppercase tracking-[0.2em] text-[#C8102E] font-semibold">To</span>
+          </div>
+        </div>
+
+        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-4 max-w-2xl mx-auto leading-[1.1]">
+          Migrating from{" "}
+          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
+            ProPresenter
+          </span>
+          , made easy<span className="text-[#C8102E]">.</span>
+        </h2>
+
+        <p className="text-[#C4C4C4] text-base sm:text-lg max-w-xl mx-auto mb-8 leading-relaxed">
+          Five-stage wizard finds your local ProPresenter library, previews exactly
+          what&apos;s coming across, then imports songs, sections, media, and playlists in one click.
+        </p>
+
+        <a
+          href="/api/download?platform=mac-arm64"
+          className="inline-block px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.10)]"
+        >
+          Try the migrator →
+        </a>
+
+        <p className="mt-6 text-[11px] text-[#666] max-w-md mx-auto">
+          ProPresenter is a trademark of Renewed Vision. ACE is independent software
+          and is not affiliated with or endorsed by Renewed Vision.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* ───────────── STATS STRIP ───────────── */
+function StatsStrip() {
+  return (
+    <section className="border-y border-[#1A1A1A] bg-[#0A0A0A]">
+      <div className="max-w-6xl mx-auto px-6 sm:px-10 py-6 grid grid-cols-2 sm:grid-cols-4 gap-y-6 gap-x-6">
+        {STATS.map((s, i) => (
+          <div key={s.label} className={`flex flex-col gap-1 ${i > 0 ? "sm:border-l sm:border-[#1F1F1F] sm:pl-6" : ""}`}>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-[#C4C4C4] font-semibold">{s.label}</span>
+            <span className="text-base sm:text-lg font-semibold text-white">{s.value}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ───────────── COMPATIBILITY LOGO WALL ───────────── */
+function Compatibility() {
+  return (
+    <section className="px-6 sm:px-10 py-16 border-b border-[#1A1A1A]">
+      <div className="max-w-6xl mx-auto">
+        <p className="text-center text-[11px] uppercase tracking-[0.25em] text-[#C4C4C4] font-bold mb-8">
+          Plays nicely with the rest of your rig
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+          {COMPAT.map((name) => (
+            <span key={name} className="text-[#888] hover:text-white transition text-base sm:text-lg font-semibold tracking-tight">
+              {name}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ───────────── SEGMENTS ───────────── */
+function Segments() {
+  return (
+    <section id="use-cases" className="px-6 sm:px-10 py-24 relative">
+      <div className="max-w-6xl mx-auto relative">
+        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Use cases</div>
+        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 text-white max-w-2xl">
+          One app, every <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">live</span> event
+        </h2>
+        <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">Built for any room where someone speaks and slides need to follow them.</p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {SEGMENTS.map((s, i) => (
+            <Link
+              key={s.hook}
+              href={`/presenter/${s.hook.toLowerCase().split(" ")[0]}`}
+              className="group relative p-6 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#121212] border border-[#222] hover:border-[#C8102E]/50 transition-colors overflow-hidden"
+            >
+              <div aria-hidden className="absolute -bottom-20 -right-20 w-40 h-40 rounded-full bg-[#C8102E]/0 group-hover:bg-[#C8102E]/15 blur-3xl transition-all duration-500" />
+              <div className="relative">
+                <div className="flex items-baseline justify-between mb-6">
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-[#E8183A] font-bold">{s.hook}</div>
+                  <div className="text-3xl font-bold text-[#2A2A2A] group-hover:text-[#C8102E]/60 transition tabular-nums">0{i + 1}</div>
+                </div>
+                <h3 className="text-lg font-bold mb-3 text-white leading-tight">{s.title}</h3>
+                <p className="text-[#C4C4C4] text-sm leading-relaxed">{s.body}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ───────────── BENTO FEATURE GRID ───────────── */
+function BentoFeatures() {
+  return (
+    <section id="features" className="px-6 sm:px-10 py-24 border-y border-[#1A1A1A] bg-[#0A0A0A]">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Capabilities</div>
+        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 text-white max-w-2xl">
+          What ACE actually <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">does</span>
+        </h2>
+        <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">Local-first, latency-conscious, built for the kind of pressure where mistakes are visible.</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="sm:col-span-2 sm:row-span-2 p-8 rounded-2xl bg-gradient-to-br from-[#1A1A1A] to-[#101010] border border-[#222] relative overflow-hidden min-h-[280px]">
+            <div aria-hidden className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-[#C8102E]/15 blur-3xl" />
+            <div className="relative">
+              <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-6" />
+              <h3 className="text-2xl sm:text-3xl font-bold mb-3 text-white">Listens to live audio</h3>
+              <p className="text-[#C4C4C4] leading-relaxed max-w-md">Microphone or NDI in. Whisper transcribes locally on your device — your audio never leaves the room by default. Sub-second latency on M-series Macs.</p>
+            </div>
+          </div>
+          <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
+            <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
+            <h3 className="text-lg font-bold mb-2 text-white">Detects what&apos;s being said</h3>
+            <p className="text-[#C4C4C4] text-sm leading-relaxed">Songs, scripture, conference talks. Vector search matches transcripts against your library in real time.</p>
+          </div>
+          <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
+            <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
+            <h3 className="text-lg font-bold mb-2 text-white">Outputs anywhere</h3>
+            <p className="text-[#C4C4C4] text-sm leading-relaxed">Fullscreen HDMI, NDI to ATEM, ProPresenter passthrough, browser-based stage monitor.</p>
+          </div>
+          <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
+            <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
+            <h3 className="text-lg font-bold mb-2 text-white">Built for live</h3>
+            <p className="text-[#C4C4C4] text-sm leading-relaxed">Survives Wi-Fi drops, audio device swaps, and the occasional shouted prayer.</p>
+          </div>
+          <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
+            <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
+            <h3 className="text-lg font-bold mb-2 text-white">Voice control</h3>
+            <p className="text-[#C4C4C4] text-sm leading-relaxed">&quot;Next slide&quot;, &quot;clear&quot;, &quot;Bible mode on&quot;. Operator hands stay free.</p>
+          </div>
+          <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
+            <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
+            <h3 className="text-lg font-bold mb-2 text-white">Update prompts</h3>
+            <p className="text-[#C4C4C4] text-sm leading-relaxed">When a new version ships, ACE shows a download prompt on launch and hands off to your browser — no surprise installs mid-service.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ───────────── WHAT'S NEW ───────────── */
+function WhatsNew() {
+  const HIGHLIGHTS = [
+    { tag: "Service Plan", title: "Build the order of service, run it live", body: "Songs, scripture, prayer, announcements — drag them into a plan, activate, and tap Go. The whole tab was missing its backend until now; v1.5 fills it in with proper persistence, single-active-plan invariant, and a Go handler that pushes through the same display engine your manual cues use." },
+    { tag: "Bilingual detection", title: "Songs that switch languages, followed correctly", body: "Settings → Audio → Language → Auto-detect. Whisper runs in multilingual mode (no longer locks to the first language it hears) and Deepgram nova-2 handles code-switching natively. English+Spanish, English+Portuguese, English+French — your team can switch verses mid-song and the lyrics keep up." },
+    { tag: "One import surface", title: "Audio joins songs, slides, and bibles in ⌘I", body: "MP3, WAV, M4A, AAC, OGG, FLAC, AIFF — all flow through the same import wizard now. The Audio Bin becomes a player + manager, no separate uploader. One discoverable path for everything." },
+    { tag: "Slide → HDMI", title: "Imported slides reach the audience even with media on", body: "Was: double-click an imported PPTX slide, it shows in Program but the HDMI screen keeps the worship loop. Now: slide-image is its own render layer above background media, just like the operator's preview pane already worked." },
+  ];
+  const FIXES = [
+    "F2 / Clear Slide now clears lyrics + slide background as one cue",
+    "Foreground video plays its audio — background loops stay muted to preserve the live PA",
+    "Audio Bin per-row delete with confirm + path-traversal-guarded backend",
+    "Sermon Recording — live transcript visible by default + transcripts counter",
+    "Genius song import is snappy — modal closes immediately, toast tracks the round-trip",
+    "Song-edit lyric changes reflect immediately across the dashboard, no click-away",
+    "LIVE badge no longer sticks on the previous song after detection moves on",
+    "Settings → Cancel, Permissions wizard → Open Settings, Sermon → Export buttons all work",
+    "LibreOffice deferred-install no longer false-positive-reports as installed after a partial download",
+    "Library sidebar tidied: redundant 'Import' text removed, + button stays for Genius search",
+  ];
+  return (
+    <section id="whats-new" className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A] scroll-mt-24">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex items-center gap-3 mb-3">
+          <span className="text-[10px] uppercase tracking-[0.25em] text-[#E8183A] font-bold">What&apos;s new</span>
+          <span className="h-px flex-1 bg-[#1F1F1F]" />
+        </div>
+        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-12 leading-tight">
+          v1.5 — Service Plan,<br />
+          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">bilingual songs</span>
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+          {HIGHLIGHTS.map((h) => (
+            <div key={h.tag} className="p-6 rounded-2xl bg-[#141414] border border-[#222] hover:border-[#2F2F2F] transition-colors">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#E8183A]" />
+                <span className="text-[10px] uppercase tracking-[0.18em] text-[#E8183A] font-bold">{h.tag}</span>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2 leading-tight">{h.title}</h3>
+              <p className="text-[#C4C4C4] text-sm leading-relaxed">{h.body}</p>
+            </div>
+          ))}
+        </div>
+        <div className="rounded-2xl bg-[#101010] border border-[#1F1F1F] p-6">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-[10px] uppercase tracking-[0.18em] text-[#888] font-bold">Also fixed</span>
+            <span className="h-px flex-1 bg-[#1F1F1F]" />
+          </div>
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
+            {FIXES.map((f, i) => (
+              <li key={i} className="flex items-start gap-2 text-[#A3A3A3] text-sm leading-relaxed">
+                <span className="mt-2 w-1 h-1 rounded-full bg-[#444] shrink-0" />
+                {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <p className="text-[12px] text-[#666] mt-6">Full release notes live in-app under Settings → Updates.</p>
+      </div>
+    </section>
+  );
+}
+
+/* ───────────── BIG STATS ───────────── */
+function BigStats() {
+  return (
+    <section className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A]">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8">
+        {[
+          { number: "< 1s", label: "Detection latency on M-series Macs" },
+          { number: "100%", label: "On-device transcription by default" },
+          { number: "12+", label: "Languages with auto-detect" },
+        ].map(({ number, label }) => (
+          <div key={number} className="text-center sm:text-left">
+            <div className="text-6xl sm:text-7xl font-bold tracking-tight text-white tabular-nums">
+              <span className="bg-gradient-to-b from-white to-[#666] bg-clip-text text-transparent">{number}</span>
+            </div>
+            <div className="mt-3 text-[#C4C4C4] text-sm leading-relaxed max-w-[280px] mx-auto sm:mx-0">{label}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ───────────── PRICING TEASER ───────────── */
+function PricingTeaser() {
+  const tiers = [
+    { name: "Beta", price: "Free", period: "until Day 90", note: "Available now", primary: true, features: ["Full feature access", "All output formats", "Auto-updates", "Grandfathered to Standard for life"] },
+    { name: "Standard", price: "$19", period: "/ month", features: ["Bundled API access (ACR · Whisper · Claude)", "Priority detection updates", "Email support", "Single-seat license"] },
+    { name: "Pro", price: "$39", period: "/ month", features: ["Everything in Standard", "Multi-seat (up to 5)", "Priority support + onboarding call", "Sponsor early-access features"] },
+  ] as const;
+  return (
+    <section id="pricing" className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A] bg-[#0A0A0A]">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3 text-center">Pricing</div>
+        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 text-white text-center">
+          Free now. <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">Fair</span> later.
+        </h2>
+        <p className="text-[#C4C4C4] text-lg mb-6 max-w-2xl mx-auto text-center">Public beta is completely free. Paid tiers begin Day 90 — every beta user is grandfathered into Standard for life.</p>
+        <p className="text-center mb-12">
+          <Link href="/pricing" className="text-sm text-[#C8102E] hover:text-[#E8183A] transition font-semibold">View suite pricing →</Link>
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {tiers.map((t) => (
+            <div key={t.name} className={`p-7 rounded-2xl relative ${"primary" in t && t.primary ? "bg-gradient-to-b from-[#C8102E]/15 to-[#1A1A1A] border border-[#C8102E]/40" : "bg-[#141414] border border-[#222]"}`}>
+              {"note" in t && t.note && (
+                <div className="absolute -top-2.5 left-7 px-2.5 py-0.5 rounded-full bg-[#C8102E] text-white text-[10px] uppercase tracking-wider font-bold">{t.note}</div>
+              )}
+              <div className="text-sm font-bold uppercase tracking-wider text-[#C4C4C4] mb-3">{t.name}</div>
+              <div className="flex items-baseline gap-1.5 mb-6">
+                <span className="text-4xl font-bold text-white tracking-tight">{t.price}</span>
+                <span className="text-[#C4C4C4] text-sm">{t.period}</span>
+              </div>
+              <ul className="space-y-2.5 text-sm text-[#D4D4D4]">
+                {t.features.map((f) => (
+                  <li key={f} className="flex items-start gap-2">
+                    <span className="text-[#C8102E] mt-0.5">✓</span>
+                    <span className="leading-relaxed">{f}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

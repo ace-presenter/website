@@ -1,849 +1,284 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import WhatsNewModal from "@/components/WhatsNewModal";
-import SchemaJsonLd from "@/components/SchemaJsonLd";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
+import FinalCTA from "@/components/FinalCTA";
 
-// Re-revalidate the home page every 5 minutes so the version pill picks
-// up new releases without a redeploy. Read directly from the
-// canonical manifest (dl.ace-presenter.app/latest-mac.yml) — same source
-// of truth that /api/latest and /api/download use.
-export const revalidate = 300;
-
-async function fetchLatestVersion(): Promise<string | null> {
-  try {
-    const r = await fetch("https://dl.ace-presenter.app/latest-mac.yml", {
-      next: { revalidate: 300 },
-    });
-    if (!r.ok) return null;
-    const text = await r.text();
-    for (const line of text.split(/\r?\n/)) {
-      const m = line.match(/^version:\s*['"]?([\d.]+)['"]?/);
-      if (m) return m[1];
-    }
-    return null;
-  } catch {
-    return null;
-  }
-}
-
-const SEGMENTS: { hook: string; title: string; body: string }[] = [
-  {
-    hook: "Worship",
-    title: "Stop clicking slides during the service",
-    body: "ACE listens to what the team is singing and pushes the right lyrics. Bible mode follows the preacher through scripture references in real time.",
+export const metadata: Metadata = {
+  title: {
+    absolute: "ACE — Agentic Cue Experience",
   },
-  {
-    hook: "Conference",
-    title: "Speakers improvise. Slides stay aligned anyway.",
-    body: "Drop the deck in. ACE follows the speaker through it — even when they jump around, skip slides, or extend a section.",
-  },
-  {
-    hook: "Education",
-    title: "Lectures that don't lose the slide",
-    body: "Your tempo, your order. The deck follows you, not a pre-baked cue list. Works for any subject, any language.",
-  },
-  {
-    hook: "Theater & live shows",
-    title: "AI handles the cues — one operator runs the show",
-    body: "Voice-triggered cue advance + automatic dialog beat detection. The stage manager focuses on the room, not the laptop.",
-  },
-];
+  description:
+    "ACE is a suite of agentic tools for live events, post-production, and personal productivity. Presenter listens to the room. Schedule plans the day. Editors' Notes annotates the cut. More coming.",
+  alternates: { canonical: "/" },
+};
 
-const STATS = [
-  { label: "Latency", value: "< 1s" },
-  { label: "Languages", value: "12+" },
-  { label: "Output formats", value: "HDMI · NDI · OSC" },
-  { label: "Cloud dependency", value: "Zero" },
-];
-
-const COMPAT = [
-  "ProPresenter",
-  "ATEM",
-  "OBS",
-  "NDI",
-  "MIDI",
-  "OSC",
-  "Whisper",
-  "Genius",
-];
-
-export default async function Home() {
-  // Resolve once at the page level so Hero pill + WhatsNewModal share
-  // the same source of truth (one fetch, one cache entry).
-  const latestVersion = await fetchLatestVersion();
+export default function SuiteHome() {
   return (
     <main className="flex-1 flex flex-col font-sans">
-      <SchemaJsonLd />
       <Nav />
-      <ManualBanner latestVersion={latestVersion} />
-      <Hero latestVersion={latestVersion} />
-      <PropresenterMigration />
-      <StatsStrip />
-      <Compatibility />
-      <Segments />
-      <BentoFeatures />
-      <WhatsNew />
-      <BigStats />
+      <Hero />
+      <ProductTriptych />
+      <SuiteWhy />
       <PricingTeaser />
-      <FinalCTA />
+      <FinalCTA variant="suite" />
       <Footer />
-      <WhatsNewModal version={latestVersion} />
     </main>
   );
 }
 
-/* ───────────── NAV ───────────── */
-function Nav() {
-  return (
-    <nav className="sticky top-0 z-40 px-6 sm:px-10 py-5 flex items-center justify-between bg-[#0F0F0F]/80 backdrop-blur-xl border-b border-[#1A1A1A]">
-      <Link href="/" className="flex items-center gap-3">
-        <Image src="/logo.png" alt="ACE — Agentic Cue Experience" width={32} height={32} priority className="rounded-md" />
-        <div className="flex flex-col leading-none">
-          <span className="font-bold tracking-tight text-lg">ACE</span>
-          <span className="text-[9px] uppercase tracking-[0.2em] text-[#888] mt-0.5">
-            Agentic Cue Experience
-          </span>
-        </div>
-      </Link>
-      <div className="hidden sm:flex items-center gap-8 text-sm text-[#C4C4C4]">
-        <Link href="#use-cases" className="hover:text-white transition">Use cases</Link>
-        <Link href="#features" className="hover:text-white transition">Features</Link>
-        <Link href="#pricing" className="hover:text-white transition">Pricing</Link>
-        <Link href="/guide" className="hover:text-white transition">Guide</Link>
-        <Link href="/support" className="hover:text-white transition">Support</Link>
-      </div>
-      <Link
-        href="/api/download?platform=mac-arm64"
-        className="px-4 sm:px-5 py-2 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-xs uppercase tracking-wider transition"
-      >
-        Download
-      </Link>
-    </nav>
-  );
-}
-
-/* ───────────── MANUAL BANNER ─────────────
-   Sits between the Nav and the Hero. Bold + brand-red so first-time
-   visitors can grab the user manual without hunting through the guide
-   route or scrolling. Two formats:
-     - HTML (in-browser, searchable)
-     - PDF (offline / print-friendly, ~370 KB)
-   Both are versioned alongside the app and live under /manual/.    */
-function ManualBanner({ latestVersion }: { latestVersion: string | null }) {
-  // Manual is shipped under a stable, version-agnostic filename
-  // (`/manual/ACE_User_Manual.{html,pdf}`) so the banner doesn't 404 every
-  // release before the per-version manual is rebuilt. The version label
-  // still tracks `latestVersion` so the headline reads correctly.
-  const v = latestVersion || "1.7.4";
-  return (
-    <div className="bg-[#C8102E] text-white px-4 sm:px-6 py-3 border-b border-[#A00D26]">
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 text-center sm:text-left">
-        <div className="flex items-center gap-2">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-          </svg>
-          <span className="font-bold text-sm sm:text-base tracking-tight">
-            New: ACE v{v} User Manual
-          </span>
-        </div>
-        <span className="hidden sm:inline text-white/70 text-sm">—</span>
-        <div className="flex items-center gap-2 sm:gap-3">
-          <a
-            href="/manual/ACE_User_Manual.pdf"
-            className="font-extrabold text-sm sm:text-base px-4 py-2 rounded-full bg-white text-[#C8102E] hover:bg-[#FFF0F2] transition shadow-[0_4px_20px_rgba(0,0,0,0.25)]"
-            download
-          >
-            Download PDF
-          </a>
-          <a
-            href="/manual/ACE_User_Manual.html"
-            className="font-bold text-sm sm:text-base px-4 py-2 rounded-full bg-[#7A0A1C] text-white hover:bg-[#5C0815] transition border border-white/20"
-          >
-            Read HTML
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /* ───────────── HERO ───────────── */
-function Hero({ latestVersion }: { latestVersion: string | null }) {
+function Hero() {
   return (
     <section className="relative px-6 sm:px-10 pt-20 sm:pt-32 pb-24 text-center overflow-hidden">
-      {/* Aurora glow — brand red instead of multi-color */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(70% 50% at 50% 0%, rgba(200,16,46,0.35) 0%, rgba(200,16,46,0.10) 35%, rgba(200,16,46,0) 70%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute inset-x-0 top-0 h-[60vh] pointer-events-none opacity-60 mix-blend-screen"
-        style={{
-          background:
-            "conic-gradient(from 200deg at 50% 0%, rgba(232,24,58,0.0) 0deg, rgba(232,24,58,0.18) 90deg, rgba(60,0,10,0.20) 180deg, rgba(232,24,58,0.18) 270deg, rgba(232,24,58,0.0) 360deg)",
-          filter: "blur(60px)",
+            "radial-gradient(70% 50% at 50% 0%, rgba(200,16,46,0.30) 0%, rgba(200,16,46,0.08) 40%, rgba(200,16,46,0) 70%)",
         }}
       />
 
       <div className="relative max-w-5xl mx-auto">
-        {/* Tag pill */}
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C4C4C4] font-semibold mb-8">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#C8102E] animate-pulse" />
-          Live presentation, on autopilot
+          <span className="w-1.5 h-1.5 rounded-full bg-[#22C55E] animate-pulse" />
+          Agentic tools for the room
         </div>
 
-        {/* Headline — bold sans + italic serif accent (Profico-style tension) */}
         <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] text-white">
-          ACE listens.
-          <br />
-          You{" "}
+          ACE runs the{" "}
           <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
-            present
+            cues
+          </span>
+          ,<br />
+          the schedule, the{" "}
+          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
+            org
+          </span>
+          ,<br />
+          the{" "}
+          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
+            notes
           </span>
           <span className="text-[#C8102E]">.</span>
         </h1>
 
         <p className="mt-8 max-w-2xl mx-auto text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
-          AI-powered live presentation for worship, conferences, lectures, and theater. ACE listens to the room and pushes the right slide — automatically.
+          A suite of agentic tools. One account. Built for people who run live events, personal workflows, and post-production — with more on the way.
         </p>
 
-        {/* Pill CTAs — primary mac/arm64, secondary Intel; Windows in waitlist row below */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center sm:items-start justify-center gap-3">
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
             href="/api/download?platform=mac-arm64"
-            className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.15)]"
+            className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.12)]"
           >
-            Download for Mac · Apple Silicon
+            Download Presenter
           </a>
-          <div className="flex flex-col items-center gap-2.5">
-            <a
-              href="/api/download?platform=mac-x64"
-              className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
-            >
-              Mac · Intel
-            </a>
-            <Link
-              href="/download/intel"
-              className="text-[11px] text-[#F59E0B] hover:text-[#FBBF24] transition flex items-center gap-1.5 font-medium"
-            >
-              <span aria-hidden>⚠</span>
-              Important note for Intel Macs
-              <span aria-hidden>→</span>
-            </Link>
-          </div>
-        </div>
-
-        {/* Windows is in build — separate row so it reads as future, not current */}
-        <div className="mt-3 flex items-center justify-center gap-2 text-xs">
-          <span className="text-[#888]">Windows version</span>
           <a
-            href="mailto:hello@ace-presenter.app?subject=ACE%20Windows%20waitlist&body=Please%20add%20me%20to%20the%20Windows%20waitlist."
-            className="text-[#E8183A] hover:text-white transition font-semibold"
+            href="https://app.ace-presenter.app/auth"
+            className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
           >
-            join the waitlist →
+            Open Schedule Manager
           </a>
         </div>
 
-        <p className="mt-5 text-xs text-[#C4C4C4]">
-          Free during public beta · macOS 12+
-          {latestVersion && (
-            <>
-              {" · "}
-              <span className="text-[#888]">
-                Latest: <span className="text-white font-semibold tabular-nums">v{latestVersion}</span>
-              </span>
-            </>
-          )}
-        </p>
+        <p className="mt-5 text-xs text-[#888]">Free to start · macOS 12+ for desktop apps</p>
       </div>
     </section>
   );
 }
 
-/* ───────────── PROPRESENTER MIGRATION ───────────── */
-function PropresenterMigration() {
-  const chips = ["Songs", "Sections", "Media", "Playlists"];
+/* ───────────── PRODUCT TRIPTYCH ───────────── */
+const PRODUCTS = [
+  {
+    chip: "ACE · Presenter",
+    href: "/presenter",
+    headline: "The room listens. The slides follow.",
+    body: "Native macOS app. Audio in, slide out. Sub-second detection for worship, conferences, lectures, and theater. Zero cloud dependency by default.",
+    cta: "Download for Mac",
+    ctaHref: "/api/download?platform=mac-arm64",
+    stat: "< 1s latency",
+  },
+  {
+    chip: "ACE · Schedule",
+    href: "/schedule",
+    headline: "Build the schedule. Run the day.",
+    body: "AI-powered routine and task manager. Photograph a syllabus, extract tasks in one step. Daily AI guidance. Cloud-synced via Supabase.",
+    cta: "Open Schedule Manager",
+    ctaHref: "https://app.ace-presenter.app/auth",
+    stat: "Web + desktop",
+  },
+  {
+    chip: "ACE · Editors' Notes",
+    href: "/editors-notes",
+    headline: "Notes that talk to Resolve.",
+    body: "Qt6 macOS app, DaVinci Resolve integration. Every timecode in your notes is a click that jumps Resolve to that frame.",
+    cta: "Download for Mac",
+    ctaHref: "/api/download?product=editors-notes&platform=mac-arm64",
+    stat: "DaVinci Resolve",
+  },
+] as const;
+
+const COMING_SOON = [
+  {
+    chip: "ACE · Manager",
+    headline: "Run the organization.",
+    body: "Church and team management for members, departments, events, tasks, and campaigns. Multi-tenant. Role-based. AI agent actions built in.",
+    stat: "Churches & ministries",
+  },
+  {
+    chip: "ACE · World",
+    headline: "Live audience. Virtual space.",
+    body: "3D audience environment for live events. Babylon.js on desktop and WebXR on the web. Attendees enter a shared space tied to your stage feed.",
+    stat: "Electron + WebXR",
+  },
+] as const;
+
+function ProductTriptych() {
   return (
-    <section className="px-6 sm:px-10 py-20 border-b border-[#1A1A1A] relative overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(50% 60% at 50% 40%, rgba(200,16,46,0.10) 0%, rgba(200,16,46,0.03) 40%, rgba(200,16,46,0) 70%)",
-        }}
-      />
-      <div className="relative max-w-5xl mx-auto text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-8">
-          <span aria-hidden>★</span>
-          New in v1.6
-        </div>
-
-        {/* Visual flow: PP wordmark → chips + arrow → ACE bullseye */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 mb-10">
-          <div className="flex flex-col items-center gap-2">
-            <div className="px-5 py-3 rounded-xl bg-[#0F0F0F] border border-[#2A2A2A]">
-              <span className="text-xl sm:text-2xl font-bold tracking-tight text-[#C4C4C4]">
-                Pro<span className="text-white">Presenter</span>
-              </span>
-            </div>
-            <span className="text-[9px] uppercase tracking-[0.2em] text-[#666] font-semibold">
-              From
-            </span>
-          </div>
-
-          <div className="flex flex-col items-center gap-2.5">
-            <div className="flex items-center gap-1.5 flex-wrap justify-center max-w-[280px]">
-              {chips.map((c) => (
-                <span
-                  key={c}
-                  className="px-2.5 py-1 rounded-full bg-[#1A1A1A] border border-[#C8102E]/30 text-[10px] font-semibold text-white tracking-wide"
-                >
-                  {c}
-                </span>
-              ))}
-            </div>
-            <svg
-              className="w-20 h-4 rotate-90 sm:rotate-0"
-              viewBox="0 0 80 16"
-              fill="none"
-              aria-hidden
-            >
-              <path
-                d="M0 8 L72 8 M64 2 L72 8 L64 14"
-                stroke="#C8102E"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-
-          <div className="flex flex-col items-center gap-2">
-            <div className="px-5 py-3 rounded-xl bg-[#0F0F0F] border border-[#C8102E]/40 shadow-[0_0_24px_rgba(200,16,46,0.15)] flex items-center gap-2.5">
-              <Image src="/logo.png" alt="ACE" width={28} height={28} className="rounded" />
-              <span className="text-xl sm:text-2xl font-bold tracking-tight text-white">ACE</span>
-            </div>
-            <span className="text-[9px] uppercase tracking-[0.2em] text-[#C8102E] font-semibold">
-              To
-            </span>
-          </div>
-        </div>
-
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-4 max-w-2xl mx-auto leading-[1.1]">
-          Migrating from{" "}
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
-            ProPresenter
-          </span>
-          , made easy<span className="text-[#C8102E]">.</span>
-        </h2>
-
-        <p className="text-[#C4C4C4] text-base sm:text-lg max-w-xl mx-auto mb-8 leading-relaxed">
-          Five-stage wizard finds your local ProPresenter library, previews exactly
-          what&apos;s coming across, then imports songs, sections, media, and playlists
-          in one click.
-        </p>
-
-        <a
-          href="/api/download?platform=mac-arm64"
-          className="inline-block px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.10)]"
-        >
-          Try the migrator →
-        </a>
-
-        <p className="mt-6 text-[11px] text-[#666] max-w-md mx-auto">
-          ProPresenter is a trademark of Renewed Vision. ACE is independent software
-          and is not affiliated with or endorsed by Renewed Vision.
-        </p>
-      </div>
-    </section>
-  );
-}
-
-/* ───────────── STATS STRIP ───────────── */
-function StatsStrip() {
-  return (
-    <section className="border-y border-[#1A1A1A] bg-[#0A0A0A]">
-      <div className="max-w-6xl mx-auto px-6 sm:px-10 py-6 grid grid-cols-2 sm:grid-cols-4 gap-y-6 gap-x-6">
-        {STATS.map((s, i) => (
-          <div
-            key={s.label}
-            className={`flex flex-col gap-1 ${i > 0 ? "sm:border-l sm:border-[#1F1F1F] sm:pl-6" : ""}`}
-          >
-            <span className="text-[10px] uppercase tracking-[0.2em] text-[#C4C4C4] font-semibold">
-              {s.label}
-            </span>
-            <span className="text-base sm:text-lg font-semibold text-white">{s.value}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* ───────────── COMPATIBILITY LOGO WALL ───────────── */
-function Compatibility() {
-  return (
-    <section className="px-6 sm:px-10 py-16 border-b border-[#1A1A1A]">
+    <section className="px-6 sm:px-10 py-24 border-y border-[#1A1A1A] bg-[#0A0A0A]">
       <div className="max-w-6xl mx-auto">
-        <p className="text-center text-[11px] uppercase tracking-[0.25em] text-[#C4C4C4] font-bold mb-8">
-          Plays nicely with the rest of your rig
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-          {COMPAT.map((name) => (
-            <span
-              key={name}
-              className="text-[#888] hover:text-white transition text-base sm:text-lg font-semibold tracking-tight"
-            >
-              {name}
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────────── SEGMENTS (numbered glass cards) ───────────── */
-function Segments() {
-  return (
-    <section id="use-cases" className="px-6 sm:px-10 py-24 relative">
-      <div className="max-w-6xl mx-auto relative">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">
-          Use cases
-        </div>
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 text-white max-w-2xl">
-          One app, every <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">live</span> event
+        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Available now</div>
+        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-12 text-white max-w-2xl">
+          Three tools,{" "}
+          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
+            one account
+          </span>
         </h2>
-        <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">
-          Built for any room where someone speaks and slides need to follow them.
-        </p>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {SEGMENTS.map((s, i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-16">
+          {PRODUCTS.map((p) => (
             <div
-              key={s.hook}
-              className="group relative p-6 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#121212] border border-[#222] hover:border-[#C8102E]/50 transition-colors overflow-hidden"
+              key={p.chip}
+              className="group p-7 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#111] border border-[#222] hover:border-[#C8102E]/40 transition-colors flex flex-col gap-5 relative overflow-hidden"
             >
-              {/* Card glow on hover */}
-              <div
-                aria-hidden
-                className="absolute -bottom-20 -right-20 w-40 h-40 rounded-full bg-[#C8102E]/0 group-hover:bg-[#C8102E]/15 blur-3xl transition-all duration-500"
-              />
+              <div aria-hidden className="absolute -bottom-16 -right-16 w-40 h-40 rounded-full bg-[#C8102E]/0 group-hover:bg-[#C8102E]/10 blur-3xl transition-all duration-500" />
 
               <div className="relative">
-                <div className="flex items-baseline justify-between mb-6">
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-[#E8183A] font-bold">
-                    {s.hook}
-                  </div>
-                  <div className="text-3xl font-bold text-[#2A2A2A] group-hover:text-[#C8102E]/60 transition tabular-nums">
-                    0{i + 1}
-                  </div>
+                {/* Chip */}
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0F0F0F] border border-[#2A2A2A] text-[9px] uppercase tracking-[0.2em] text-[#C8102E] font-bold mb-4">
+                  <span className="w-1 h-1 rounded-full bg-[#C8102E]" />
+                  {p.chip}
                 </div>
-                <h3 className="text-lg font-bold mb-3 text-white leading-tight">{s.title}</h3>
-                <p className="text-[#C4C4C4] text-sm leading-relaxed">{s.body}</p>
+
+                <h3 className="text-xl font-bold text-white mb-3 leading-tight">{p.headline}</h3>
+                <p className="text-[#C4C4C4] text-sm leading-relaxed mb-4">{p.body}</p>
+
+                {/* Stat */}
+                <div className="text-[10px] uppercase tracking-[0.2em] text-[#888] font-semibold mb-5">{p.stat}</div>
+
+                {/* CTAs */}
+                <div className="flex flex-col gap-2">
+                  <a
+                    href={p.ctaHref}
+                    className="px-5 py-2.5 rounded-full bg-[#C8102E] hover:bg-[#E8183A] text-white font-bold text-xs transition text-center"
+                  >
+                    {p.cta}
+                  </a>
+                  <Link
+                    href={p.href}
+                    className="px-5 py-2.5 rounded-full bg-[#141414] hover:bg-[#1F1F1F] text-[#C4C4C4] font-semibold text-xs transition border border-[#2A2A2A] text-center"
+                  >
+                    Learn more →
+                  </Link>
+                </div>
               </div>
             </div>
           ))}
         </div>
-      </div>
-    </section>
-  );
-}
 
-/* ───────────── BENTO FEATURE GRID ───────────── */
-function BentoFeatures() {
-  return (
-    <section id="features" className="px-6 sm:px-10 py-24 border-y border-[#1A1A1A] bg-[#0A0A0A]">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">
-          Capabilities
-        </div>
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 text-white max-w-2xl">
-          What ACE actually <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">does</span>
-        </h2>
-        <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">
-          Local-first, latency-conscious, built for the kind of pressure where mistakes are visible.
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {/* Big card — listening (spans 2 cols on desktop) */}
-          <div className="sm:col-span-2 sm:row-span-2 p-8 rounded-2xl bg-gradient-to-br from-[#1A1A1A] to-[#101010] border border-[#222] relative overflow-hidden min-h-[280px]">
-            <div
-              aria-hidden
-              className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-[#C8102E]/15 blur-3xl"
-            />
-            <div className="relative">
-              <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-6" />
-              <h3 className="text-2xl sm:text-3xl font-bold mb-3 text-white">Listens to live audio</h3>
-              <p className="text-[#C4C4C4] leading-relaxed max-w-md">
-                Microphone or NDI in. Whisper transcribes locally on your device — your audio never leaves the room by default. Sub-second latency on M-series Macs.
-              </p>
-            </div>
-          </div>
-
-          {/* Detect */}
-          <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
-            <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
-            <h3 className="text-lg font-bold mb-2 text-white">Detects what&apos;s being said</h3>
-            <p className="text-[#C4C4C4] text-sm leading-relaxed">
-              Songs, scripture, conference talks. Vector search matches transcripts against your library in real time.
-            </p>
-          </div>
-
-          {/* Output */}
-          <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
-            <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
-            <h3 className="text-lg font-bold mb-2 text-white">Outputs anywhere</h3>
-            <p className="text-[#C4C4C4] text-sm leading-relaxed">
-              Fullscreen HDMI, NDI to ATEM, ProPresenter passthrough, browser-based stage monitor.
-            </p>
-          </div>
-
-          {/* Three side-by-side cards in second row */}
-          <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
-            <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
-            <h3 className="text-lg font-bold mb-2 text-white">Built for live</h3>
-            <p className="text-[#C4C4C4] text-sm leading-relaxed">
-              Survives Wi-Fi drops, audio device swaps, and the occasional shouted prayer.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
-            <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
-            <h3 className="text-lg font-bold mb-2 text-white">Voice control</h3>
-            <p className="text-[#C4C4C4] text-sm leading-relaxed">
-              &quot;Next slide&quot;, &quot;clear&quot;, &quot;Bible mode on&quot;. Operator hands stay free.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
-            <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
-            <h3 className="text-lg font-bold mb-2 text-white">Update prompts</h3>
-            <p className="text-[#C4C4C4] text-sm leading-relaxed">
-              When a new version ships, ACE shows a download prompt on launch and hands off to your browser — no surprise installs mid-service.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────────── WHAT'S NEW (v1.5 release marker) ───────────── */
-function WhatsNew() {
-  const HIGHLIGHTS: { tag: string; title: string; body: string }[] = [
-    {
-      tag: "Service Plan",
-      title: "Build the order of service, run it live",
-      body: "Songs, scripture, prayer, announcements — drag them into a plan, activate, and tap Go. The whole tab was missing its backend until now; v1.5 fills it in with proper persistence, single-active-plan invariant, and a Go handler that pushes through the same display engine your manual cues use.",
-    },
-    {
-      tag: "Bilingual detection",
-      title: "Songs that switch languages, followed correctly",
-      body: "Settings → Audio → Language → Auto-detect. Whisper runs in multilingual mode (no longer locks to the first language it hears) and Deepgram nova-2 handles code-switching natively. English+Spanish, English+Portuguese, English+French — your team can switch verses mid-song and the lyrics keep up.",
-    },
-    {
-      tag: "One import surface",
-      title: "Audio joins songs, slides, and bibles in ⌘I",
-      body: "MP3, WAV, M4A, AAC, OGG, FLAC, AIFF — all flow through the same import wizard now. The Audio Bin becomes a player + manager, no separate uploader. One discoverable path for everything.",
-    },
-    {
-      tag: "Slide → HDMI",
-      title: "Imported slides reach the audience even with media on",
-      body: "Was: double-click an imported PPTX slide, it shows in Program but the HDMI screen keeps the worship loop. Now: slide-image is its own render layer above background media, just like the operator's preview pane already worked. Decoupled from the !backgroundMedia gate that was blocking it.",
-    },
-  ];
-
-  const FIXES = [
-    "F2 / Clear Slide now clears lyrics + slide background as one cue",
-    "Foreground video plays its audio — background loops stay muted to preserve the live PA",
-    "Audio Bin per-row delete with confirm + path-traversal-guarded backend",
-    "Sermon Recording — live transcript visible by default + transcripts counter",
-    "Genius song import is snappy — modal closes immediately, toast tracks the round-trip",
-    "Song-edit lyric changes reflect immediately across the dashboard, no click-away",
-    "LIVE badge no longer sticks on the previous song after detection moves on",
-    "Settings → Cancel, Permissions wizard → Open Settings, Sermon → Export buttons all work",
-    "LibreOffice deferred-install no longer false-positive-reports as installed after a partial download",
-    "Library sidebar tidied: redundant 'Import' text removed, + button stays for Genius search",
-  ];
-
-  return (
-    <section id="whats-new" className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A] scroll-mt-24">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex items-center gap-3 mb-3">
-          <span className="text-[10px] uppercase tracking-[0.25em] text-[#E8183A] font-bold">
-            What&apos;s new
-          </span>
-          <span className="h-px flex-1 bg-[#1F1F1F]" />
-        </div>
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-12 leading-tight">
-          v1.5 — Service Plan,
-          <br />
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
-            bilingual songs
-          </span>
-        </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
-          {HIGHLIGHTS.map((h) => (
-            <div
-              key={h.tag}
-              className="p-6 rounded-2xl bg-[#141414] border border-[#222] hover:border-[#2F2F2F] transition-colors"
-            >
-              <div className="flex items-center gap-2 mb-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#E8183A]" />
-                <span className="text-[10px] uppercase tracking-[0.18em] text-[#E8183A] font-bold">
-                  {h.tag}
-                </span>
+        {/* Coming soon strip */}
+        <div className="border-t border-[#1A1A1A] pt-10">
+          <div className="text-[10px] uppercase tracking-[0.25em] text-[#555] font-bold mb-6">In development</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {COMING_SOON.map((p) => (
+              <div
+                key={p.chip}
+                className="p-6 rounded-2xl border border-[#1A1A1A] bg-[#0D0D0D] flex flex-col gap-3 opacity-70"
+              >
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0F0F0F] border border-[#222] text-[9px] uppercase tracking-[0.2em] text-[#555] font-bold w-fit">
+                  <span className="w-1 h-1 rounded-full bg-[#555]" />
+                  {p.chip}
+                </div>
+                <h3 className="text-base font-bold text-[#888] leading-tight">{p.headline}</h3>
+                <p className="text-[#555] text-sm leading-relaxed">{p.body}</p>
+                <div className="text-[10px] uppercase tracking-[0.2em] text-[#444] font-semibold">{p.stat}</div>
               </div>
-              <h3 className="text-lg font-bold text-white mb-2 leading-tight">{h.title}</h3>
-              <p className="text-[#C4C4C4] text-sm leading-relaxed">{h.body}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="rounded-2xl bg-[#101010] border border-[#1F1F1F] p-6">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-[10px] uppercase tracking-[0.18em] text-[#888] font-bold">
-              Also fixed
-            </span>
-            <span className="h-px flex-1 bg-[#1F1F1F]" />
-          </div>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
-            {FIXES.map((f, i) => (
-              <li key={i} className="flex items-start gap-2 text-[#A3A3A3] text-sm leading-relaxed">
-                <span className="mt-2 w-1 h-1 rounded-full bg-[#444] shrink-0" />
-                {f}
-              </li>
             ))}
-          </ul>
+          </div>
         </div>
-
-        <p className="text-[12px] text-[#666] mt-6">
-          Full release notes live in-app under Settings → Updates. Earlier
-          releases (v1.0.0–v1.1.0) listed there too.
-        </p>
       </div>
     </section>
   );
 }
 
-/* ───────────── BIG STAT CALLOUTS ───────────── */
-function BigStats() {
+/* ───────────── SUITE WHY ───────────── */
+function SuiteWhy() {
+  const points = [
+    {
+      label: "One account",
+      body: "Sign in once. Your license covers Presenter, Schedule Manager, and Editors' Notes today — with Manager and World joining as they ship. One ACE subscription, the whole suite.",
+    },
+    {
+      label: "Integrated workflow",
+      body: "Plan the schedule in Schedule Manager. Fire up Presenter for the room. Mark up the recording in Editors' Notes. The tools are built to hand off cleanly — and more connections are coming.",
+    },
+    {
+      label: "One system, expanding",
+      body: "Same dark palette, same Geist type, same ACE mark across every surface. Every tool we add is built to the same standard: confident, technical, and built for people running real rooms.",
+    },
+  ];
+
   return (
     <section className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A]">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8">
-        <BigStat number="< 1s" label="Detection latency on M-series Macs" />
-        <BigStat number="100%" label="On-device transcription by default" />
-        <BigStat number="12+" label="Languages with auto-detect" />
+      <div className="max-w-6xl mx-auto">
+        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Why ACE</div>
+        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-12 text-white max-w-2xl">
+          Built to work{" "}
+          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
+            together
+          </span>
+        </h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+          {points.map((p) => (
+            <div key={p.label}>
+              <div className="w-8 h-0.5 bg-[#C8102E] mb-4" />
+              <h3 className="text-lg font-bold text-white mb-2">{p.label}</h3>
+              <p className="text-[#C4C4C4] text-sm leading-relaxed">{p.body}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
-  );
-}
-
-function BigStat({ number, label }: { number: string; label: string }) {
-  return (
-    <div className="text-center sm:text-left">
-      <div className="text-6xl sm:text-7xl font-bold tracking-tight text-white tabular-nums">
-        <span className="bg-gradient-to-b from-white to-[#666] bg-clip-text text-transparent">
-          {number}
-        </span>
-      </div>
-      <div className="mt-3 text-[#C4C4C4] text-sm leading-relaxed max-w-[280px] mx-auto sm:mx-0">
-        {label}
-      </div>
-    </div>
   );
 }
 
 /* ───────────── PRICING TEASER ───────────── */
 function PricingTeaser() {
-  const tiers: {
-    name: string;
-    price: string;
-    period: string;
-    note?: string;
-    features: string[];
-    primary?: boolean;
-  }[] = [
-    {
-      name: "Beta",
-      price: "Free",
-      period: "until Day 90",
-      note: "Available now",
-      features: [
-        "Full feature access",
-        "All output formats",
-        "Auto-updates",
-        "Grandfathered to Standard for life",
-      ],
-      primary: true,
-    },
-    {
-      name: "Standard",
-      price: "$19",
-      period: "/ month",
-      features: [
-        "Bundled API access (ACR · Whisper · Claude)",
-        "Priority detection updates",
-        "Email support",
-        "Single-seat license",
-      ],
-    },
-    {
-      name: "Pro",
-      price: "$39",
-      period: "/ month",
-      features: [
-        "Everything in Standard",
-        "Multi-seat (up to 5)",
-        "Priority support + onboarding call",
-        "Sponsor early-access features",
-      ],
-    },
-  ];
-
   return (
-    <section id="pricing" className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A] bg-[#0A0A0A]">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3 text-center">
-          Pricing
-        </div>
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 text-white text-center">
-          Free now. <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">Fair</span> later.
-        </h2>
-        <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl mx-auto text-center">
-          Public beta is completely free. Paid tiers begin Day 90 — and every beta user is grandfathered into Standard for life as a thank-you.
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {tiers.map((t) => (
-            <div
-              key={t.name}
-              className={`p-7 rounded-2xl relative ${
-                t.primary
-                  ? "bg-gradient-to-b from-[#C8102E]/15 to-[#1A1A1A] border border-[#C8102E]/40"
-                  : "bg-[#141414] border border-[#222]"
-              }`}
-            >
-              {t.note && (
-                <div className="absolute -top-2.5 left-7 px-2.5 py-0.5 rounded-full bg-[#C8102E] text-white text-[10px] uppercase tracking-wider font-bold">
-                  {t.note}
-                </div>
-              )}
-              <div className="text-sm font-bold uppercase tracking-wider text-[#C4C4C4] mb-3">
-                {t.name}
-              </div>
-              <div className="flex items-baseline gap-1.5 mb-6">
-                <span className="text-4xl font-bold text-white tracking-tight">{t.price}</span>
-                <span className="text-[#C4C4C4] text-sm">{t.period}</span>
-              </div>
-              <ul className="space-y-2.5 text-sm text-[#D4D4D4]">
-                {t.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2">
-                    <span className="text-[#C8102E] mt-0.5">✓</span>
-                    <span className="leading-relaxed">{f}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────────── FINAL CTA ───────────── */
-function FinalCTA() {
-  return (
-    <section className="px-6 sm:px-10 py-28 relative overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(60% 80% at 50% 100%, rgba(200,16,46,0.20) 0%, rgba(200,16,46,0) 70%)",
-        }}
-      />
-      <div className="max-w-3xl mx-auto text-center relative">
-        <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-5 text-white">
-          Ready to{" "}
+    <section className="px-6 sm:px-10 py-20 border-b border-[#1A1A1A] bg-[#0A0A0A]">
+      <div className="max-w-6xl mx-auto text-center">
+        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Pricing</div>
+        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-4 text-white">
+          Free to start.{" "}
           <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
-            stop clicking
-          </span>
-          ?
+            Fair
+          </span>{" "}
+          to grow.
         </h2>
-        <p className="text-[#C4C4C4] text-lg mb-10 max-w-xl mx-auto">
-          Free during the public beta. New releases ship every few weeks — ACE prompts you on launch when one&apos;s ready.
+        <p className="text-[#C4C4C4] text-lg mb-8 max-w-xl mx-auto">
+          Per-product plans or a suite bundle. No surprise costs.
         </p>
-        <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center gap-3">
-          <a
-            href="/api/download?platform=mac-arm64"
-            className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition"
-          >
-            Download for Mac · Apple Silicon
-          </a>
-          <div className="flex flex-col items-center gap-2.5">
-            <a
-              href="/api/download?platform=mac-x64"
-              className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
-            >
-              Mac · Intel
-            </a>
-            <Link
-              href="/download/intel"
-              className="text-[11px] text-[#F59E0B] hover:text-[#FBBF24] transition flex items-center gap-1.5 font-medium"
-            >
-              <span aria-hidden>⚠</span>
-              Important note for Intel Macs
-              <span aria-hidden>→</span>
-            </Link>
-          </div>
-        </div>
-        <div className="mt-3 flex items-center justify-center gap-2 text-xs">
-          <span className="text-[#888]">Windows version</span>
-          <a
-            href="mailto:hello@ace-presenter.app?subject=ACE%20Windows%20waitlist&body=Please%20add%20me%20to%20the%20Windows%20waitlist."
-            className="text-[#E8183A] hover:text-white transition font-semibold"
-          >
-            join the waitlist →
-          </a>
-        </div>
+        <Link
+          href="/pricing"
+          className="inline-block px-7 py-3.5 rounded-full bg-[#C8102E] hover:bg-[#E8183A] text-white font-bold text-sm transition"
+        >
+          View pricing →
+        </Link>
       </div>
     </section>
-  );
-}
-
-/* ───────────── FOOTER ───────────── */
-function Footer() {
-  return (
-    <footer className="px-6 sm:px-10 py-10 border-t border-[#1A1A1A] text-sm text-[#C4C4C4]">
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <Image src="/logo.png" alt="" width={20} height={20} className="rounded" />
-          <div className="flex flex-col leading-tight">
-            <span className="text-[12px] text-white">ACE — Agentic Cue Experience</span>
-            <span className="text-[10px] text-[#888]">© 2026 ACE</span>
-          </div>
-        </div>
-        <div className="flex items-center gap-6 flex-wrap justify-center">
-          <Link href="/guide" className="hover:text-white transition">Guide</Link>
-          <Link href="/privacy" className="hover:text-white transition">Privacy</Link>
-          <Link href="/terms" className="hover:text-white transition">Terms</Link>
-          <Link href="/support" className="hover:text-white transition">Support</Link>
-          <a href="mailto:hello@ace-presenter.app" className="hover:text-white transition">
-            hello@ace-presenter.app
-          </a>
-        </div>
-      </div>
-    </footer>
   );
 }
