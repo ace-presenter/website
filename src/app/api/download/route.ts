@@ -39,9 +39,11 @@ const FALLBACK: Record<string, Record<string, string>> = {
     "mac-arm64": "ACE-1.7.4-arm64.dmg",
     "mac-x64": "ACE-1.7.4.dmg",
   },
+  // arm64-only app (Qt/C++ built on Apple Silicon; no Intel build).
+  // Serve the same arm64 DMG for both platforms.
   "editors-notes": {
     "mac-arm64": "editors-notes/ACE-EditorsNotes-1.2.0-arm64.dmg",
-    "mac-x64": "editors-notes/ACE-EditorsNotes-1.2.0.dmg",
+    "mac-x64":   "editors-notes/ACE-EditorsNotes-1.2.0-arm64.dmg",
   },
   // Universal build — same file served for both arm64 and x64 Mac users.
   // Bump version here in lockstep with each desktop release.
