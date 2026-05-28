@@ -87,14 +87,20 @@ function Hero() {
           >
             Start using ACE Schedule
           </a>
+          <a
+            href="/api/download?product=schedule"
+            className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
+          >
+            Download for Mac
+          </a>
           <Link
             href="/pricing"
-            className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
+            className="px-6 py-3.5 rounded-full text-[#888] hover:text-white font-semibold text-sm transition"
           >
             View pricing
           </Link>
         </div>
-        <p className="mt-5 text-xs text-[#888]">Free to start · Web + desktop · Part of the ACE Suite</p>
+        <p className="mt-5 text-xs text-[#888]">Free to start · Web + desktop · macOS universal · Part of the ACE Suite</p>
       </div>
     </section>
   );

@@ -25,7 +25,6 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
 const MANIFEST_PATHS: Record<string, string> = {
   presenter:       "/latest-mac.yml",
   "editors-notes": "/editors-notes/latest-mac.yml",
-  // schedule: web app only — no DMG yet; placeholder for when desktop ships
   schedule:        "/schedule/latest-mac.yml",
   // world: not shipped yet; placeholder for ACE World desktop release
   world:           "/world/latest-mac.yml",
@@ -43,6 +42,12 @@ const FALLBACK: Record<string, Record<string, string>> = {
   "editors-notes": {
     "mac-arm64": "editors-notes/ACE-EditorsNotes-1.2.0-arm64.dmg",
     "mac-x64": "editors-notes/ACE-EditorsNotes-1.2.0.dmg",
+  },
+  // Universal build — same file served for both arm64 and x64 Mac users.
+  // Bump version here in lockstep with each desktop release.
+  schedule: {
+    "mac-arm64": "schedule/ACE-Schedule-1.0.10-universal.dmg",
+    "mac-x64":   "schedule/ACE-Schedule-1.0.10-universal.dmg",
   },
 };
 
@@ -98,10 +103,7 @@ export async function GET(req: NextRequest) {
     // Windows not shipped for any product yet
     return NextResponse.redirect(new URL("/", req.url), 302);
   }
-  // Web-only / not-yet-shipped products — send to their marketing page
-  if (product === "schedule") {
-    return NextResponse.redirect(new URL("/schedule", req.url), 302);
-  }
+  // Not-yet-shipped products — send to their marketing page
   if (product === "world") {
     return NextResponse.redirect(new URL("/", req.url), 302);
   }
@@ -113,9 +115,14 @@ export async function GET(req: NextRequest) {
   // Fallback to hardcoded asset path — verify the file exists before
   // redirecting so we don't send users to a 404 on the R2 bucket.
   const fallback = FALLBACK[product]?.[platform];
+  const productPageMap: Record<string, string> = {
+    "editors-notes": "/editors-notes",
+    "schedule": "/schedule",
+  };
+  const productPage = productPageMap[product] ?? "/";
+
   if (!fallback) {
     // No known asset for this product/platform — send to product page
-    const productPage = product === "editors-notes" ? "/editors-notes" : "/";
     return NextResponse.redirect(new URL(productPage, req.url), 302);
   }
 
@@ -123,11 +130,9 @@ export async function GET(req: NextRequest) {
   try {
     const check = await fetch(`${RELEASE_BASE}/${fallback}`, { method: "HEAD" });
     if (!check.ok) {
-      const productPage = product === "editors-notes" ? "/editors-notes" : "/";
       return NextResponse.redirect(new URL(productPage, req.url), 302);
     }
   } catch {
-    const productPage = product === "editors-notes" ? "/editors-notes" : "/";
     return NextResponse.redirect(new URL(productPage, req.url), 302);
   }
 
