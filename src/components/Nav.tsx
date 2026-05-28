@@ -12,7 +12,7 @@ import Image from "next/image";
  * on the suite home.
  */
 
-type Product = "presenter" | "schedule" | "notes";
+type Product = "presenter" | "schedule" | "notes" | "manager" | "world";
 
 interface NavProps {
   activeProduct?: Product;
