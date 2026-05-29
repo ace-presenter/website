@@ -48,8 +48,8 @@ const FALLBACK: Record<string, Record<string, string>> = {
   // Universal build — same file served for both arm64 and x64 Mac users.
   // Bump version here in lockstep with each desktop release.
   schedule: {
-    "mac-arm64": "schedule/ACE-Schedule-1.0.11-universal.dmg",
-    "mac-x64":   "schedule/ACE-Schedule-1.0.11-universal.dmg",
+    "mac-arm64": "schedule/ACE-Schedule-1.0.13-universal.dmg",
+    "mac-x64":   "schedule/ACE-Schedule-1.0.13-universal.dmg",
   },
 };
 
