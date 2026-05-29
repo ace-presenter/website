@@ -82,21 +82,15 @@ function Hero() {
         <p className="mt-8 max-w-2xl mx-auto text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
           Every timecode is a click. Every clip is a marker. ACE Editors&apos; Notes lives next to your timeline.
         </p>
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div className="mt-10 flex items-center justify-center">
           <a
             href="/api/download?product=editors-notes&platform=mac-arm64"
             className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.12)]"
           >
-            Download for Mac · Apple Silicon
-          </a>
-          <a
-            href="/api/download?product=editors-notes&platform=mac-x64"
-            className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
-          >
-            Mac · Intel
+            Download for Mac
           </a>
         </div>
-        <p className="mt-5 text-xs text-[#888]">Free · macOS · DaVinci Resolve integration · Part of the ACE Suite</p>
+        <p className="mt-5 text-xs text-[#888]">Free · macOS · Apple Silicon · DaVinci Resolve integration · Part of the ACE Suite</p>
       </div>
     </section>
   );

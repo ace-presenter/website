@@ -40,16 +40,16 @@ const FALLBACK: Record<string, Record<string, string>> = {
     "mac-x64": "ACE-1.7.4.dmg",
   },
   // arm64-only app (Qt/C++ built on Apple Silicon; no Intel build).
-  // Serve the same arm64 DMG for both platforms.
+  // Serve the same DMG for both platforms.
   "editors-notes": {
-    "mac-arm64": "editors-notes/ACE-EditorsNotes-1.2.0-arm64.dmg",
-    "mac-x64":   "editors-notes/ACE-EditorsNotes-1.2.0-arm64.dmg",
+    "mac-arm64": "editors-notes/ACE-EditorsNotes-1.2.0.dmg",
+    "mac-x64":   "editors-notes/ACE-EditorsNotes-1.2.0.dmg",
   },
   // Universal build — same file served for both arm64 and x64 Mac users.
   // Bump version here in lockstep with each desktop release.
   schedule: {
-    "mac-arm64": "schedule/ACE-Schedule-1.0.10-universal.dmg",
-    "mac-x64":   "schedule/ACE-Schedule-1.0.10-universal.dmg",
+    "mac-arm64": "schedule/ACE-Schedule-1.0.11-universal.dmg",
+    "mac-x64":   "schedule/ACE-Schedule-1.0.11-universal.dmg",
   },
 };
 
@@ -79,7 +79,10 @@ async function resolveFromManifest(
       if (m) urls.push(m[1].replace(/^['"]|['"]$/g, ""));
     }
     if (platform === "mac-arm64") {
-      const u = urls.find((x) => x.endsWith("arm64.dmg"));
+      // Prefer an arm64-specific DMG; fall back to any DMG (e.g. universal or arm64-only with no suffix)
+      const u =
+        urls.find((x) => x.endsWith("arm64.dmg")) ??
+        urls.find((x) => x.endsWith(".dmg"));
       return u ? `${RELEASE_BASE}/${u}` : null;
     }
     if (platform === "mac-x64") {
