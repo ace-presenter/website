@@ -78,16 +78,22 @@ async function resolveFromManifest(
       const m = line.match(/^\s*-\s*url:\s*(.+?)\s*$/);
       if (m) urls.push(m[1].replace(/^['"]|['"]$/g, ""));
     }
+    // Build the base URL for relative asset paths in the manifest.
+    // e.g. manifest at /editors-notes/latest-mac.yml → base = /editors-notes/
+    const manifestDir = manifestPath.substring(0, manifestPath.lastIndexOf("/") + 1);
+    const toAbsolute = (rel: string) =>
+      rel.startsWith("http") ? rel : `${RELEASE_BASE}${manifestDir}${rel}`;
+
     if (platform === "mac-arm64") {
-      // Prefer an arm64-specific DMG; fall back to any DMG (e.g. universal or arm64-only with no suffix)
+      // Prefer an arm64-specific DMG; fall back to any DMG (universal or arm64-only with no suffix)
       const u =
         urls.find((x) => x.endsWith("arm64.dmg")) ??
         urls.find((x) => x.endsWith(".dmg"));
-      return u ? `${RELEASE_BASE}/${u}` : null;
+      return u ? toAbsolute(u) : null;
     }
     if (platform === "mac-x64") {
       const u = urls.find((x) => x.endsWith(".dmg") && !x.endsWith("arm64.dmg"));
-      return u ? `${RELEASE_BASE}/${u}` : null;
+      return u ? toAbsolute(u) : null;
     }
     return null;
   } catch {
