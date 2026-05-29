@@ -64,17 +64,17 @@ function Hero() {
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(70% 50% at 50% 0%, rgba(200,16,46,0.25) 0%, rgba(200,16,46,0.07) 40%, rgba(200,16,46,0) 70%)" }}
+        style={{ background: "radial-gradient(70% 50% at 50% 0%, rgba(105,65,198,0.25) 0%, rgba(105,65,198,0.07) 40%, rgba(105,65,198,0) 70%)" }}
       />
       <div className="relative max-w-5xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C4C4C4] font-semibold mb-8">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#C8102E]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#6941C6]" />
           ACE · Schedule Manager
         </div>
         <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] text-white">
           Build the schedule.
           <br />
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">Run</span>{" "}
+          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#8B68D6]">Run</span>{" "}
           the day.
         </h1>
         <p className="mt-8 max-w-2xl mx-auto text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
@@ -110,17 +110,17 @@ function Features() {
   return (
     <section id="features" className="px-6 sm:px-10 py-24 border-y border-[#1A1A1A] bg-[#0A0A0A]">
       <div className="max-w-6xl mx-auto">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Capabilities</div>
+        <div className="text-[10px] uppercase tracking-[0.25em] text-[#6941C6] font-bold mb-3">Capabilities</div>
         <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-12 text-white max-w-2xl">
           What Schedule Manager{" "}
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">actually does</span>
+          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#8B68D6]">actually does</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {FEATURES.map((f) => (
-            <div key={f.tag} className="p-6 rounded-2xl bg-[#141414] border border-[#222] hover:border-[#C8102E]/30 transition-colors">
+            <div key={f.tag} className="p-6 rounded-2xl bg-[#141414] border border-[#222] hover:border-[#6941C6]/30 transition-colors">
               <div className="flex items-center gap-2 mb-4">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C8102E]" />
-                <span className="text-[10px] uppercase tracking-[0.2em] text-[#C8102E] font-bold">{f.tag}</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#6941C6]" />
+                <span className="text-[10px] uppercase tracking-[0.2em] text-[#6941C6] font-bold">{f.tag}</span>
               </div>
               <h3 className="text-lg font-bold text-white mb-2 leading-tight">{f.title}</h3>
               <p className="text-[#C4C4C4] text-sm leading-relaxed">{f.body}</p>
@@ -136,19 +136,19 @@ function UseCases() {
   return (
     <section className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A]">
       <div className="max-w-6xl mx-auto">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Use cases</div>
+        <div className="text-[10px] uppercase tracking-[0.25em] text-[#6941C6] font-bold mb-3">Use cases</div>
         <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-12 text-white max-w-2xl">
           For anyone who runs a{" "}
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">schedule</span>
+          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#8B68D6]">schedule</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="p-7 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#111] border border-[#222]">
-            <div className="text-[10px] uppercase tracking-[0.2em] text-[#E8183A] font-bold mb-3">Students</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-[#8B68D6] font-bold mb-3">Students</div>
             <h3 className="text-xl font-bold text-white mb-3">Photograph the syllabus. Done.</h3>
             <p className="text-[#C4C4C4] text-sm leading-relaxed">First week of semester: point your camera at every course outline. ACE extracts deadlines, assignments, and exams. The semester is in the schedule before the first class ends.</p>
           </div>
           <div className="p-7 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#111] border border-[#222]">
-            <div className="text-[10px] uppercase tracking-[0.2em] text-[#E8183A] font-bold mb-3">Event producers</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-[#8B68D6] font-bold mb-3">Event producers</div>
             <h3 className="text-xl font-bold text-white mb-3">The week has a shape. Use it.</h3>
             <p className="text-[#C4C4C4] text-sm leading-relaxed">Plan the service, conference, or show day-by-day. Milestones on the Kanban board map to execution tasks in the schedule. Nothing falls through the gap between planning and execution.</p>
           </div>
@@ -162,18 +162,18 @@ function PricingTeaser() {
   return (
     <section className="px-6 sm:px-10 py-20 border-b border-[#1A1A1A] bg-[#0A0A0A]">
       <div className="max-w-4xl mx-auto">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3 text-center">Pricing</div>
+        <div className="text-[10px] uppercase tracking-[0.25em] text-[#6941C6] font-bold mb-3 text-center">Pricing</div>
         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-8 text-white text-center">
           Free to start. AI included on{" "}
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">Pro</span>.
+          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#8B68D6]">Pro</span>.
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-          <div className="p-7 rounded-2xl bg-gradient-to-b from-[#C8102E]/15 to-[#1A1A1A] border border-[#C8102E]/40">
+          <div className="p-7 rounded-2xl bg-gradient-to-b from-[#6941C6]/15 to-[#1A1A1A] border border-[#6941C6]/40">
             <div className="text-sm font-bold uppercase tracking-wider text-[#C4C4C4] mb-3">Free</div>
             <div className="flex items-baseline gap-1.5 mb-5"><span className="text-4xl font-bold text-white">$0</span><span className="text-[#C4C4C4] text-sm">/ month</span></div>
             <ul className="space-y-2 text-sm text-[#D4D4D4]">
               {["Weekly schedule", "Custom categories (10)", "Cloud sync", "Google Calendar"].map((f) => (
-                <li key={f} className="flex items-start gap-2"><span className="text-[#C8102E] mt-0.5">✓</span><span>{f}</span></li>
+                <li key={f} className="flex items-start gap-2"><span className="text-[#6941C6] mt-0.5">✓</span><span>{f}</span></li>
               ))}
             </ul>
           </div>
@@ -182,12 +182,12 @@ function PricingTeaser() {
             <div className="flex items-baseline gap-1.5 mb-5"><span className="text-4xl font-bold text-white">$7.99</span><span className="text-[#C4C4C4] text-sm">/ month</span></div>
             <ul className="space-y-2 text-sm text-[#D4D4D4]">
               {["Everything in Free", "AI schedule import (included)", "Daily AI guidance (included)", "Unlimited Kanban projects", "Milestones", "Weekly CSV export"].map((f) => (
-                <li key={f} className="flex items-start gap-2"><span className="text-[#C8102E] mt-0.5">✓</span><span>{f}</span></li>
+                <li key={f} className="flex items-start gap-2"><span className="text-[#6941C6] mt-0.5">✓</span><span>{f}</span></li>
               ))}
             </ul>
           </div>
         </div>
-        <p className="text-center text-sm text-[#888]">Annual plan: $79.99/yr · Students and nonprofits: 50% off · <Link href="/pricing" className="text-[#C8102E] hover:text-[#E8183A] transition">Suite pricing →</Link></p>
+        <p className="text-center text-sm text-[#888]">Annual plan: $79.99/yr · Students and nonprofits: 50% off · <Link href="/pricing" className="text-[#6941C6] hover:text-[#8B68D6] transition">Suite pricing →</Link></p>
       </div>
     </section>
   );

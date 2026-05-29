@@ -43,6 +43,49 @@ export const status = {
   error: "#EF4444",
 } as const;
 
+/**
+ * Per-product accent colours — one accent per product, shared neutrals.
+ *
+ *  accent      — base accent: buttons, dots, labels, active states
+ *  accentVivid — hover / italic headline variant (lighter)
+ *  accentTint  — subtle backgrounds, hover borders, pricing card gradient
+ *  rgb         — RGB triplet for radial gradient rgba() strings
+ */
+export const products = {
+  presenter: {
+    accent:      "#C8102E",
+    accentVivid: "#E8183A",
+    accentTint:  "#1F0509",
+    rgb:         "200,16,46",
+  },
+  schedule: {
+    accent:      "#6941C6",
+    accentVivid: "#8B68D6",
+    accentTint:  "#120B24",
+    rgb:         "105,65,198",
+  },
+  editorsNotes: {
+    accent:      "#B07C2A",
+    accentVivid: "#CFA04D",
+    accentTint:  "#1E1408",
+    rgb:         "176,124,42",
+  },
+  manager: {
+    accent:      "#0A7B52",
+    accentVivid: "#3DAA80",
+    accentTint:  "#041510",
+    rgb:         "10,123,82",
+  },
+  world: {
+    accent:      "#0884A8",
+    accentVivid: "#3AAEC8",
+    accentTint:  "#041519",
+    rgb:         "8,132,168",
+  },
+} as const;
+
+export type ProductKey = keyof typeof products;
+
 /** Convenience re-export — import { ACE_BRAND } from "@/lib/brand" */
 export const ACE_BRAND = {
   brand,
@@ -51,6 +94,7 @@ export const ACE_BRAND = {
   border,
   text,
   status,
+  products,
 } as const;
 
 export default ACE_BRAND;
