@@ -2,12 +2,14 @@ import Link from "next/link";
 
 /**
  * Final CTA section — appears at the bottom of every product page.
- * The `variant` prop controls which headline + CTAs are shown.
+ * The `variant` prop controls which headline + CTAs are shown,
+ * and drives the per-product accent colour for the glow + italic span.
  *
- * - "presenter" (default): Download for Mac CTAs
- * - "schedule":  Sign in / try Schedule CTAs
- * - "notes":     Download Editors' Notes CTA
- * - "suite":     Suite-wide CTA on the home page
+ * - "presenter" (default): Crimson  #C8102E / #E8183A
+ * - "schedule":            Violet   #6941C6 / #8B68D6
+ * - "notes":               Amber    #B07C2A / #CFA04D
+ * - "manager":             Emerald  #0A7B52 / #3DAA80
+ * - "suite":               Crimson  (suite home uses Presenter red)
  */
 
 type CTAVariant = "presenter" | "schedule" | "notes" | "suite" | "manager";
@@ -16,34 +18,49 @@ interface FinalCTAProps {
   variant?: CTAVariant;
 }
 
+/** Per-variant accent: [base, vivid, rgb-for-glow] */
+const ACCENT: Record<CTAVariant, [string, string, string]> = {
+  presenter: ["#C8102E", "#E8183A", "200,16,46"],
+  suite:     ["#C8102E", "#E8183A", "200,16,46"],
+  schedule:  ["#6941C6", "#8B68D6", "105,65,198"],
+  notes:     ["#B07C2A", "#CFA04D", "176,124,42"],
+  manager:   ["#0A7B52", "#3DAA80", "10,123,82"],
+};
+
 export default function FinalCTA({ variant = "presenter" }: FinalCTAProps) {
+  const [, , rgb] = ACCENT[variant];
   return (
     <section className="px-6 sm:px-10 py-28 relative overflow-hidden">
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(60% 80% at 50% 100%, rgba(200,16,46,0.20) 0%, rgba(200,16,46,0) 70%)",
+          background: `radial-gradient(60% 80% at 50% 100%, rgba(${rgb},0.20) 0%, rgba(${rgb},0) 70%)`,
         }}
       />
       <div className="max-w-3xl mx-auto text-center relative">
-        {variant === "presenter" && <PresenterCTA />}
-        {variant === "schedule" && <ScheduleCTA />}
-        {variant === "notes" && <NotesCTA />}
-        {variant === "suite" && <SuiteCTA />}
-        {variant === "manager" && <ManagerCTA />}
+        {variant === "presenter" && <PresenterCTA accent={ACCENT.presenter} />}
+        {variant === "schedule"  && <ScheduleCTA  accent={ACCENT.schedule}  />}
+        {variant === "notes"     && <NotesCTA     accent={ACCENT.notes}     />}
+        {variant === "suite"     && <SuiteCTA     accent={ACCENT.suite}     />}
+        {variant === "manager"   && <ManagerCTA   accent={ACCENT.manager}   />}
       </div>
     </section>
   );
 }
 
-function PresenterCTA() {
+type AccentTuple = [string, string, string];
+
+function PresenterCTA({ accent }: { accent: AccentTuple }) {
+  const [, vivid] = accent;
   return (
     <>
       <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-5 text-white">
         Ready to{" "}
-        <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
+        <span
+          className="font-[family-name:var(--font-instrument-serif)] italic font-normal"
+          style={{ color: vivid }}
+        >
           stop clicking
         </span>
         ?
@@ -79,7 +96,8 @@ function PresenterCTA() {
         <span className="text-[#888]">Windows version</span>
         <a
           href="mailto:hello@ace-presenter.app?subject=ACE%20Windows%20waitlist&body=Please%20add%20me%20to%20the%20Windows%20waitlist."
-          className="text-[#E8183A] hover:text-white transition font-semibold"
+          className="hover:text-white transition font-semibold"
+          style={{ color: vivid }}
         >
           join the waitlist →
         </a>
@@ -88,12 +106,16 @@ function PresenterCTA() {
   );
 }
 
-function ScheduleCTA() {
+function ScheduleCTA({ accent }: { accent: AccentTuple }) {
+  const [, vivid] = accent;
   return (
     <>
       <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-5 text-white">
         Build the schedule.{" "}
-        <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
+        <span
+          className="font-[family-name:var(--font-instrument-serif)] italic font-normal"
+          style={{ color: vivid }}
+        >
           Run the day.
         </span>
       </h2>
@@ -118,12 +140,16 @@ function ScheduleCTA() {
   );
 }
 
-function NotesCTA() {
+function NotesCTA({ accent }: { accent: AccentTuple }) {
+  const [, vivid] = accent;
   return (
     <>
       <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-5 text-white">
         Notes that talk to{" "}
-        <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
+        <span
+          className="font-[family-name:var(--font-instrument-serif)] italic font-normal"
+          style={{ color: vivid }}
+        >
           Resolve.
         </span>
       </h2>
@@ -140,12 +166,16 @@ function NotesCTA() {
   );
 }
 
-function SuiteCTA() {
+function SuiteCTA({ accent }: { accent: AccentTuple }) {
+  const [, vivid] = accent;
   return (
     <>
       <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-5 text-white">
         ACE runs the{" "}
-        <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
+        <span
+          className="font-[family-name:var(--font-instrument-serif)] italic font-normal"
+          style={{ color: vivid }}
+        >
           room.
         </span>
       </h2>
@@ -170,12 +200,16 @@ function SuiteCTA() {
   );
 }
 
-function ManagerCTA() {
+function ManagerCTA({ accent }: { accent: AccentTuple }) {
+  const [, vivid] = accent;
   return (
     <>
       <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-5 text-white">
         Ready to run your{" "}
-        <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
+        <span
+          className="font-[family-name:var(--font-instrument-serif)] italic font-normal"
+          style={{ color: vivid }}
+        >
           whole ministry
         </span>
         ?
