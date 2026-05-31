@@ -32,7 +32,11 @@ export default function HeroMockup() {
   const cue = CUES[active];
 
   return (
-    <div className="relative w-full max-w-3xl mx-auto ace-reveal" style={{ animationDelay: "0.2s" }}>
+    <div
+      className="relative w-full max-w-3xl mx-auto ace-reveal"
+      style={{ animationDelay: "0.2s", perspective: "1600px" }}
+    >
+      <div style={{ transform: "rotateX(7deg)", transformStyle: "preserve-3d" }}>
       <motion.div
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
@@ -165,10 +169,12 @@ export default function HeroMockup() {
         </div>
       </motion.div>
 
+      </div>
+
       {/* Floor glow */}
       <div
         aria-hidden
-        className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-3/4 h-20 rounded-full blur-3xl bg-[#C8102E]/20"
+        className="absolute -bottom-14 left-1/2 -translate-x-1/2 w-4/5 h-28 rounded-[50%] blur-3xl bg-[#C8102E]/30"
       />
     </div>
   );

@@ -27,19 +27,39 @@ html {
    Under reduced motion the animation is simply not defined, so `.ace-reveal`
    elements render fully visible with no movement. */
 @media (prefers-reduced-motion: no-preference) {
+  /* Dramatic entrance: content focuses in — lifts, scales up, and sharpens
+     from a blur. Uses `translate` + `scale` (independent properties) so
+     `transform`-based hover effects stay free. */
   @keyframes ace-reveal-up {
     from {
       opacity: 0;
-      translate: 0 24px;
+      translate: 0 40px;
+      scale: 0.94;
+      filter: blur(10px);
     }
     to {
       opacity: 1;
       translate: 0 0;
+      scale: 1;
+      filter: blur(0);
     }
   }
   .ace-reveal {
-    animation: ace-reveal-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: ace-reveal-up 0.95s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
+}
+
+/* Cinematic film-grain overlay — fixed, faint, non-interactive. Adds texture
+   over the flat near-black so large dark areas don't read as dead space. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 body {
