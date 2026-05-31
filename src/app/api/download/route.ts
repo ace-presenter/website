@@ -40,10 +40,13 @@ const FALLBACK: Record<string, Record<string, string>> = {
     "mac-x64": "ACE-1.7.4.dmg",
   },
   // arm64-only app (Qt/C++ built on Apple Silicon; no Intel build).
-  // Serve the same DMG for both platforms.
+  // Serve the same DMG for both platforms. Uses the stable alias that
+  // r2-upload.js repoints to the newest DMG each release, so this never
+  // needs a per-release version bump (the versioned artifact on R2 is
+  // ACE-EditorsNotes-<v>-arm64.dmg; the alias always points at the latest).
   "editors-notes": {
-    "mac-arm64": "editors-notes/ACE-EditorsNotes-1.2.0.dmg",
-    "mac-x64":   "editors-notes/ACE-EditorsNotes-1.2.0.dmg",
+    "mac-arm64": "editors-notes/ACE-EditorsNotes-mac.dmg",
+    "mac-x64":   "editors-notes/ACE-EditorsNotes-mac.dmg",
   },
   // Universal build — same file served for both arm64 and x64 Mac users.
   // Bump version here in lockstep with each desktop release.
