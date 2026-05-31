@@ -26,10 +26,9 @@ export default function HeroMockup() {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
-    if (reduce) return;
     const id = setInterval(() => setActive((a) => (a + 1) % CUES.length), 2600);
     return () => clearInterval(id);
-  }, [reduce]);
+  }, []);
 
   const cue = CUES[active];
 
@@ -41,7 +40,7 @@ export default function HeroMockup() {
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
     >
       <motion.div
-        animate={reduce ? undefined : { y: [0, -10, 0] }}
+        animate={{ y: [0, -10, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         className="rounded-2xl border border-[#2A2A2A] bg-[#0F0F0F] shadow-[0_40px_120px_-20px_rgba(0,0,0,0.8)] overflow-hidden"
       >
@@ -75,7 +74,7 @@ export default function HeroMockup() {
               >
                 {i === active && (
                   <motion.span
-                    layoutId={reduce ? undefined : "cue-active-bar"}
+                    layoutId="cue-active-bar"
                     className="absolute left-0 top-1.5 bottom-1.5 w-0.5 rounded-full bg-[#C8102E]"
                   />
                 )}
@@ -100,8 +99,8 @@ export default function HeroMockup() {
               </div>
               <motion.div
                 key={cue.label}
-                initial={reduce ? false : { opacity: 0, y: 8 }}
-                animate={reduce ? undefined : { opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 className="text-lg sm:text-2xl font-bold text-white leading-tight max-w-[16rem]"
               >
@@ -114,11 +113,7 @@ export default function HeroMockup() {
                 <motion.span
                   key={i}
                   className="flex-1 max-w-[4px] rounded-full bg-[#C8102E]/50"
-                  animate={
-                    reduce
-                      ? { height: "30%" }
-                      : { height: ["20%", `${30 + ((i * 37) % 70)}%`, "20%"] }
-                  }
+                  animate={{ height: ["20%", `${30 + ((i * 37) % 70)}%`, "20%"] }}
                   transition={{
                     duration: 1.1 + (i % 5) * 0.18,
                     repeat: Infinity,
@@ -138,13 +133,11 @@ export default function HeroMockup() {
               </div>
               <div className="flex items-center gap-2.5">
                 <span className="relative flex h-7 w-7 items-center justify-center">
-                  {!reduce && (
-                    <motion.span
-                      className="absolute inset-0 rounded-full bg-[#22C55E]/30"
-                      animate={{ scale: [1, 1.8], opacity: [0.6, 0] }}
-                      transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
-                    />
-                  )}
+                  <motion.span
+                    className="absolute inset-0 rounded-full bg-[#22C55E]/30"
+                    animate={{ scale: [1, 1.8], opacity: [0.6, 0] }}
+                    transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+                  />
                   <span className="relative h-2.5 w-2.5 rounded-full bg-[#22C55E]" />
                 </span>
                 <span className="text-[11px] font-semibold text-[#C4C4C4]">Listening…</span>
@@ -161,12 +154,8 @@ export default function HeroMockup() {
               <div className="h-1.5 rounded-full bg-[#1A1A1A] overflow-hidden">
                 <motion.div
                   className="h-full rounded-full bg-gradient-to-r from-[#C8102E] to-[#E8183A]"
-                  animate={reduce ? { width: "97%" } : { width: ["10%", "97%"] }}
-                  transition={
-                    reduce
-                      ? undefined
-                      : { duration: 1.4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
-                  }
+                  animate={{ width: ["10%", "97%"] }}
+                  transition={{ duration: 1.4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
                 />
               </div>
             </div>

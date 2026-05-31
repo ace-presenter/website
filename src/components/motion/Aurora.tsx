@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 
 /**
  * Animated aurora background — slow-drifting blurred colour blobs. Cinematic,
@@ -8,7 +8,11 @@ import { motion, useReducedMotion } from "motion/react";
  * (up to 5). Defaults to the active product accent (`--accent-rgb`), so inside
  * a <ProductTheme> it recolours automatically.
  *
- * Honours prefers-reduced-motion: renders the same blobs, statically placed.
+ * Ambient/decorative motion — intentionally plays regardless of
+ * prefers-reduced-motion. It's slow, low-contrast, and never tied to scroll or
+ * interaction, so it keeps the page feeling alive without triggering the
+ * large positional movement that reduced-motion is meant to suppress (the
+ * scroll-reveal entrances handle that by honouring the setting).
  */
 const SEEDS = [
   { top: "-12%", left: "8%", size: 600, drift: { x: [0, 50, -30, 0], y: [0, -40, 25, 0] } },
@@ -27,7 +31,6 @@ export default function Aurora({
   intensity?: number;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
   const blobs = colors.slice(0, SEEDS.length);
 
   return (
@@ -49,11 +52,7 @@ export default function Aurora({
               background: `radial-gradient(circle, rgba(${rgb}, ${intensity}) 0%, rgba(${rgb}, 0) 70%)`,
               filter: "blur(40px)",
             }}
-            animate={
-              reduce
-                ? undefined
-                : { x: [...seed.drift.x], y: [...seed.drift.y], scale: [1, 1.12, 0.94, 1] }
-            }
+            animate={{ x: [...seed.drift.x], y: [...seed.drift.y], scale: [1, 1.12, 0.94, 1] }}
             transition={{
               duration: 20 + i * 5,
               repeat: Infinity,
