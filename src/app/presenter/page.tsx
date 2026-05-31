@@ -7,6 +7,9 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ManualBanner from "@/components/ManualBanner";
 import FinalCTA from "@/components/FinalCTA";
+import { Aurora, Reveal, Stagger, Item, SpotlightCard, Counter } from "@/components/motion";
+
+const GLOW = "rgba(200,16,46,0.14)";
 
 export const metadata: Metadata = {
   title: "ACE Presenter",
@@ -120,25 +123,33 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
         }}
       />
 
+      <Aurora colors={["200,16,46"]} intensity={0.18} />
+
       <div className="relative max-w-5xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C4C4C4] font-semibold mb-8">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#C8102E] animate-pulse" />
-          Live presentation, on autopilot
-        </div>
+        <Reveal>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C4C4C4] font-semibold mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#C8102E] animate-pulse" />
+            Live presentation, on autopilot
+          </div>
+        </Reveal>
 
-        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] text-white">
-          ACE listens.
-          <br />
-          You{" "}
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
-            present
-          </span>
-          <span className="text-[#C8102E]">.</span>
-        </h1>
+        <Reveal delay={0.08}>
+          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] text-white">
+            ACE listens.
+            <br />
+            You{" "}
+            <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
+              present
+            </span>
+            <span className="text-[#C8102E]">.</span>
+          </h1>
+        </Reveal>
 
-        <p className="mt-8 max-w-2xl mx-auto text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
-          AI-powered live presentation for worship, conferences, lectures, and theater. ACE listens to the room and pushes the right slide — automatically.
-        </p>
+        <Reveal delay={0.16}>
+          <p className="mt-8 max-w-2xl mx-auto text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
+            AI-powered live presentation for worship, conferences, lectures, and theater. ACE listens to the room and pushes the right slide — automatically.
+          </p>
+        </Reveal>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center sm:items-start justify-center gap-3">
           <a
@@ -315,30 +326,34 @@ function Segments() {
   return (
     <section id="use-cases" className="px-6 sm:px-10 py-24 relative">
       <div className="max-w-6xl mx-auto relative">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Use cases</div>
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 text-white max-w-2xl">
-          One app, every <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">live</span> event
-        </h2>
-        <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">Built for any room where someone speaks and slides need to follow them.</p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Reveal>
+          <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Use cases</div>
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 text-white max-w-2xl">
+            One app, every <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">live</span> event
+          </h2>
+          <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">Built for any room where someone speaks and slides need to follow them.</p>
+        </Reveal>
+        <Stagger className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" stagger={0.08}>
           {SEGMENTS.map((s, i) => (
-            <Link
-              key={s.hook}
-              href={`/presenter/${s.hook.toLowerCase().split(" ")[0]}`}
-              className="group relative p-6 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#121212] border border-[#222] hover:border-[#C8102E]/50 transition-colors overflow-hidden"
-            >
-              <div aria-hidden className="absolute -bottom-20 -right-20 w-40 h-40 rounded-full bg-[#C8102E]/0 group-hover:bg-[#C8102E]/15 blur-3xl transition-all duration-500" />
-              <div className="relative">
-                <div className="flex items-baseline justify-between mb-6">
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-[#E8183A] font-bold">{s.hook}</div>
-                  <div className="text-3xl font-bold text-[#2A2A2A] group-hover:text-[#C8102E]/60 transition tabular-nums">0{i + 1}</div>
-                </div>
-                <h3 className="text-lg font-bold mb-3 text-white leading-tight">{s.title}</h3>
-                <p className="text-[#C4C4C4] text-sm leading-relaxed">{s.body}</p>
-              </div>
-            </Link>
+            <Item key={s.hook}>
+              <SpotlightCard glow={GLOW} className="h-full rounded-2xl">
+                <Link
+                  href={`/presenter/${s.hook.toLowerCase().split(" ")[0]}`}
+                  className="group relative block h-full p-6 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#121212] border border-[#222] hover:border-[#C8102E]/50 transition-colors overflow-hidden"
+                >
+                  <div className="relative">
+                    <div className="flex items-baseline justify-between mb-6">
+                      <div className="text-[10px] uppercase tracking-[0.2em] text-[#E8183A] font-bold">{s.hook}</div>
+                      <div className="text-3xl font-bold text-[#2A2A2A] group-hover:text-[#C8102E]/60 transition tabular-nums">0{i + 1}</div>
+                    </div>
+                    <h3 className="text-lg font-bold mb-3 text-white leading-tight">{s.title}</h3>
+                    <p className="text-[#C4C4C4] text-sm leading-relaxed">{s.body}</p>
+                  </div>
+                </Link>
+              </SpotlightCard>
+            </Item>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   );
@@ -349,11 +364,13 @@ function BentoFeatures() {
   return (
     <section id="features" className="px-6 sm:px-10 py-24 border-y border-[#1A1A1A] bg-[#0A0A0A]">
       <div className="max-w-6xl mx-auto">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Capabilities</div>
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 text-white max-w-2xl">
-          What ACE actually <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">does</span>
-        </h2>
-        <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">Local-first, latency-conscious, built for the kind of pressure where mistakes are visible.</p>
+        <Reveal>
+          <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Capabilities</div>
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 text-white max-w-2xl">
+            What ACE actually <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">does</span>
+          </h2>
+          <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">Local-first, latency-conscious, built for the kind of pressure where mistakes are visible.</p>
+        </Reveal>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="sm:col-span-2 sm:row-span-2 p-8 rounded-2xl bg-gradient-to-br from-[#1A1A1A] to-[#101010] border border-[#222] relative overflow-hidden min-h-[280px]">
             <div aria-hidden className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-[#C8102E]/15 blur-3xl" />
@@ -459,22 +476,25 @@ function WhatsNew() {
 
 /* ───────────── BIG STATS ───────────── */
 function BigStats() {
+  const stats: { node: React.ReactNode; label: string }[] = [
+    { node: <>&lt;1s</>, label: "Detection latency on M-series Macs" },
+    { node: <Counter to={100} suffix="%" />, label: "On-device transcription by default" },
+    { node: <Counter to={12} suffix="+" />, label: "Languages with auto-detect" },
+  ];
   return (
     <section className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A]">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8">
-        {[
-          { number: "< 1s", label: "Detection latency on M-series Macs" },
-          { number: "100%", label: "On-device transcription by default" },
-          { number: "12+", label: "Languages with auto-detect" },
-        ].map(({ number, label }) => (
-          <div key={number} className="text-center sm:text-left">
-            <div className="text-6xl sm:text-7xl font-bold tracking-tight text-white tabular-nums">
-              <span className="bg-gradient-to-b from-white to-[#666] bg-clip-text text-transparent">{number}</span>
+      <Stagger className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8" stagger={0.12}>
+        {stats.map((s, i) => (
+          <Item key={i}>
+            <div className="text-center sm:text-left">
+              <div className="text-6xl sm:text-7xl font-bold tracking-tight text-white tabular-nums">
+                <span className="bg-gradient-to-b from-white to-[#666] bg-clip-text text-transparent">{s.node}</span>
+              </div>
+              <div className="mt-3 text-[#C4C4C4] text-sm leading-relaxed max-w-[280px] mx-auto sm:mx-0">{s.label}</div>
             </div>
-            <div className="mt-3 text-[#C4C4C4] text-sm leading-relaxed max-w-[280px] mx-auto sm:mx-0">{label}</div>
-          </div>
+          </Item>
         ))}
-      </div>
+      </Stagger>
     </section>
   );
 }

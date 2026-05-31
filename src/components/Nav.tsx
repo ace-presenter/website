@@ -1,26 +1,80 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { products } from "@/lib/brand";
 
 /**
  * ACE Suite — global navigation bar.
  *
- * Sticky, backdrop-blurred, dark-only. Links cover all three suite products
- * plus utility pages (Guide, Support).
+ * Sticky, backdrop-blurred, dark-only. Scroll-aware: condenses and deepens its
+ * background once the page scrolls. The active product link carries a small
+ * underline in that product's accent.
  *
- * The `activeProduct` prop optionally highlights the current product chip —
- * pass "presenter" | "schedule" | "notes" from each product page, or omit
- * on the suite home.
+ * Pass `activeProduct` from each product page to highlight its link.
  */
 
 type Product = "presenter" | "schedule" | "notes" | "manager" | "world";
+
+const ACCENT: Record<Product, string> = {
+  presenter: products.presenter.accent,
+  schedule: products.schedule.accent,
+  notes: products.editorsNotes.accent,
+  manager: products.manager.accent,
+  world: products.world.accent,
+};
 
 interface NavProps {
   activeProduct?: Product;
 }
 
-export default function Nav({ activeProduct }: NavProps) {
+function NavLink({
+  href,
+  label,
+  active,
+  accent,
+}: {
+  href: string;
+  label: string;
+  active: boolean;
+  accent?: string;
+}) {
   return (
-    <nav className="sticky top-0 z-40 px-6 sm:px-10 py-4 flex items-center justify-between bg-[#0F0F0F]/80 backdrop-blur-xl border-b border-[#1A1A1A]">
+    <Link
+      href={href}
+      className={`relative hover:text-white transition ${active ? "text-white font-semibold" : ""}`}
+    >
+      {label}
+      {active && (
+        <span
+          aria-hidden
+          className="absolute -bottom-1.5 left-0 right-0 h-0.5 rounded-full"
+          style={{ background: accent }}
+        />
+      )}
+    </Link>
+  );
+}
+
+export default function Nav({ activeProduct }: NavProps) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <nav
+      className={`sticky top-0 z-40 px-6 sm:px-10 flex items-center justify-between backdrop-blur-xl border-b transition-all duration-300 ${
+        scrolled
+          ? "py-3 bg-[#0F0F0F]/95 border-[#222] shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)]"
+          : "py-4 bg-[#0F0F0F]/80 border-[#1A1A1A]"
+      }`}
+    >
       {/* Wordmark */}
       <Link href="/" className="flex items-center gap-3">
         <Image
@@ -41,24 +95,9 @@ export default function Nav({ activeProduct }: NavProps) {
 
       {/* Product + utility links */}
       <div className="hidden sm:flex items-center gap-6 text-sm text-[#C4C4C4]">
-        <Link
-          href="/presenter"
-          className={`hover:text-white transition ${activeProduct === "presenter" ? "text-white font-semibold" : ""}`}
-        >
-          Presenter
-        </Link>
-        <Link
-          href="/schedule"
-          className={`hover:text-white transition ${activeProduct === "schedule" ? "text-white font-semibold" : ""}`}
-        >
-          Schedule
-        </Link>
-        <Link
-          href="/editors-notes"
-          className={`hover:text-white transition ${activeProduct === "notes" ? "text-white font-semibold" : ""}`}
-        >
-          Editors&apos; Notes
-        </Link>
+        <NavLink href="/presenter" label="Presenter" active={activeProduct === "presenter"} accent={ACCENT.presenter} />
+        <NavLink href="/schedule" label="Schedule" active={activeProduct === "schedule"} accent={ACCENT.schedule} />
+        <NavLink href="/editors-notes" label="Editors' Notes" active={activeProduct === "notes"} accent={ACCENT.notes} />
         <span className="w-px h-4 bg-[#2A2A2A]" aria-hidden />
         <Link href="/guide" className="hover:text-white transition">
           Guide
@@ -71,7 +110,7 @@ export default function Nav({ activeProduct }: NavProps) {
       {/* Primary CTA */}
       <Link
         href="/api/download?platform=mac-arm64"
-        className="px-4 sm:px-5 py-2 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-xs uppercase tracking-wider transition"
+        className="px-4 sm:px-5 py-2 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-xs uppercase tracking-wider transition hover:scale-[1.04] active:scale-100"
       >
         Download
       </Link>

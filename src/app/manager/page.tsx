@@ -3,6 +3,13 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
+import { Aurora, Reveal, Stagger, Item, SpotlightCard } from "@/components/motion";
+
+// ACE Manager accent (emerald) — mirrors products.manager in @/lib/brand.
+const ACCENT = "#0A7B52";
+const ACCENT_VIVID = "#3DAA80";
+const ACCENT_RGB = "10,123,82";
+const GLOW = `rgba(${ACCENT_RGB},0.14)`;
 
 export const metadata: Metadata = {
   title: "ACE Manager — Church & Ministry Management",
@@ -100,39 +107,53 @@ export default function ManagerPage() {
 
 function Hero() {
   return (
-    <section className="px-6 sm:px-10 pt-24 sm:pt-32 pb-20 text-center">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-4">
-          ACE · Manager
-        </div>
-        <h1 className="text-4xl sm:text-6xl font-bold tracking-tight mb-6 text-white">
-          The organizational{" "}
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
-            command layer.
-          </span>
-        </h1>
-        <p className="text-[#C4C4C4] text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-          ACE Manager helps churches, ministries, and teams run members,
-          departments, tasks, events, communication, and reporting from one
-          coordinated system.
-        </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a
-            href="/manager/app"
-            className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition"
-          >
-            Open ACE Manager
-          </a>
-          <Link
-            href="/pricing#manager"
-            className="px-7 py-3.5 rounded-full border border-[#2A2A2A] hover:border-[#444] text-[#C4C4C4] hover:text-white text-sm transition"
-          >
-            See pricing
-          </Link>
-        </div>
-        <p className="text-[#555] text-xs mt-5">
-          Part of the ACE suite · One account covers all products
-        </p>
+    <section className="relative overflow-hidden px-6 sm:px-10 pt-24 sm:pt-32 pb-20 text-center">
+      <Aurora colors={[ACCENT_RGB]} intensity={0.26} />
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: `radial-gradient(70% 50% at 50% 0%, rgba(${ACCENT_RGB},0.22) 0%, rgba(${ACCENT_RGB},0.06) 40%, rgba(${ACCENT_RGB},0) 70%)` }}
+      />
+      <div className="relative max-w-4xl mx-auto">
+        <Reveal>
+          <div className="text-[10px] uppercase tracking-[0.25em] font-bold mb-4" style={{ color: ACCENT }}>
+            ACE · Manager
+          </div>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <h1 className="text-4xl sm:text-6xl font-bold tracking-tight mb-6 text-white">
+            The organizational{" "}
+            <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal" style={{ color: ACCENT_VIVID }}>
+              command layer.
+            </span>
+          </h1>
+        </Reveal>
+        <Reveal delay={0.16}>
+          <p className="text-[#C4C4C4] text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+            ACE Manager helps churches, ministries, and teams run members,
+            departments, tasks, events, communication, and reporting from one
+            coordinated system.
+          </p>
+        </Reveal>
+        <Reveal delay={0.24}>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a
+              href="/manager/app"
+              className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition hover:scale-[1.03] active:scale-100"
+            >
+              Open ACE Manager
+            </a>
+            <Link
+              href="/pricing#manager"
+              className="px-7 py-3.5 rounded-full border border-[#2A2A2A] hover:border-[#444] text-[#C4C4C4] hover:text-white text-sm transition"
+            >
+              See pricing
+            </Link>
+          </div>
+          <p className="text-[#555] text-xs mt-5">
+            Part of the ACE suite · One account covers all products
+          </p>
+        </Reveal>
       </div>
     </section>
   );
@@ -142,23 +163,26 @@ function Features() {
   return (
     <section className="px-6 sm:px-10 py-20">
       <div className="max-w-5xl mx-auto">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-[#555] font-semibold mb-10 text-center">
-          What it does
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Reveal>
+          <div className="text-[10px] uppercase tracking-[0.25em] text-[#555] font-semibold mb-10 text-center">
+            What it does
+          </div>
+        </Reveal>
+        <Stagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" stagger={0.09}>
           {FEATURES.map((f) => (
-            <div
-              key={f.tag}
-              className="bg-[#111] border border-[#1E1E1E] rounded-2xl p-6 flex flex-col gap-3"
-            >
-              <div className="text-[10px] uppercase tracking-[0.2em] text-[#C8102E] font-bold">
-                {f.tag}
-              </div>
-              <h3 className="text-white font-semibold text-lg leading-snug">{f.title}</h3>
-              <p className="text-[#888] text-sm leading-relaxed">{f.body}</p>
-            </div>
+            <Item key={f.tag}>
+              <SpotlightCard glow={GLOW} className="h-full rounded-2xl">
+                <div className="h-full bg-[#111] border border-[#1E1E1E] rounded-2xl p-6 flex flex-col gap-3 transition-colors hover:border-[rgba(10,123,82,0.5)]">
+                  <div className="text-[10px] uppercase tracking-[0.2em] font-bold" style={{ color: ACCENT_VIVID }}>
+                    {f.tag}
+                  </div>
+                  <h3 className="text-white font-semibold text-lg leading-snug">{f.title}</h3>
+                  <p className="text-[#888] text-sm leading-relaxed">{f.body}</p>
+                </div>
+              </SpotlightCard>
+            </Item>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   );
@@ -167,7 +191,7 @@ function Features() {
 function VsChurchSuite() {
   return (
     <section className="px-6 sm:px-10 py-20 border-t border-[#1A1A1A]">
-      <div className="max-w-4xl mx-auto">
+      <Reveal className="max-w-4xl mx-auto">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#555] font-semibold mb-3 text-center">
           Why switch
         </div>
@@ -194,7 +218,7 @@ function VsChurchSuite() {
             </tbody>
           </table>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -203,9 +227,11 @@ function UseCases() {
   return (
     <section className="px-6 sm:px-10 py-20 border-t border-[#1A1A1A]">
       <div className="max-w-4xl mx-auto">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-[#555] font-semibold mb-3 text-center">Built for</div>
-        <h2 className="text-2xl sm:text-4xl font-bold text-white text-center mb-12">Who uses ACE Manager</h2>
-        <div className="grid sm:grid-cols-3 gap-6">
+        <Reveal>
+          <div className="text-[10px] uppercase tracking-[0.25em] text-[#555] font-semibold mb-3 text-center">Built for</div>
+          <h2 className="text-2xl sm:text-4xl font-bold text-white text-center mb-12">Who uses ACE Manager</h2>
+        </Reveal>
+        <Stagger className="grid sm:grid-cols-3 gap-6" stagger={0.1}>
           {[
             {
               label: "Primary",
@@ -223,24 +249,26 @@ function UseCases() {
               body: "Any team that coordinates people, events, communication, and tasks at an organizational scale — schools, nonprofits, and production companies included.",
             },
           ].map((uc) => (
-            <div
-              key={uc.title}
-              className={`bg-[#111] border rounded-2xl p-6 ${
-                uc.label === "Primary"
-                  ? "border-[#C8102E]/30 ring-1 ring-[#C8102E]/20"
-                  : "border-[#1E1E1E]"
-              }`}
-            >
-              {uc.label && (
-                <div className="text-[9px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-2">
-                  {uc.label}
-                </div>
-              )}
-              <h3 className="text-white font-semibold mb-3">{uc.title}</h3>
-              <p className="text-[#888] text-sm leading-relaxed">{uc.body}</p>
-            </div>
+            <Item key={uc.title}>
+              <div
+                className="h-full bg-[#111] border rounded-2xl p-6"
+                style={
+                  uc.label === "Primary"
+                    ? { borderColor: `rgba(${ACCENT_RGB},0.35)`, boxShadow: `0 0 0 1px rgba(${ACCENT_RGB},0.2)` }
+                    : { borderColor: "#1E1E1E" }
+                }
+              >
+                {uc.label && (
+                  <div className="text-[9px] uppercase tracking-[0.25em] font-bold mb-2" style={{ color: ACCENT_VIVID }}>
+                    {uc.label}
+                  </div>
+                )}
+                <h3 className="text-white font-semibold mb-3">{uc.title}</h3>
+                <p className="text-[#888] text-sm leading-relaxed">{uc.body}</p>
+              </div>
+            </Item>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   );
@@ -249,7 +277,7 @@ function UseCases() {
 function SuiteConnector() {
   return (
     <section className="px-6 sm:px-10 py-16 border-t border-[#1A1A1A]">
-      <div className="max-w-3xl mx-auto text-center">
+      <Reveal className="max-w-3xl mx-auto text-center">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#555] font-semibold mb-4">
           Part of ACE
         </div>
@@ -270,7 +298,7 @@ function SuiteConnector() {
           <span aria-hidden>·</span>
           <Link href="/editors-notes" className="hover:text-[#C4C4C4] transition">ACE Editors&#39; Notes →</Link>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
