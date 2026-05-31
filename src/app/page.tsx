@@ -4,6 +4,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
 import HeroMockup from "@/components/HeroMockup";
+import HeroRays from "@/components/HeroRays";
 import {
   Aurora,
   Reveal,
@@ -48,14 +49,16 @@ function Hero() {
   return (
     <section className="relative px-6 sm:px-10 pt-20 sm:pt-28 pb-24 text-center overflow-hidden">
       {/* Multi-accent aurora — all five product colours drifting */}
-      <Aurora colors={ALL_ACCENT_RGB} intensity={0.22} className="opacity-90" />
+      <Aurora colors={ALL_ACCENT_RGB} intensity={0.28} className="opacity-95" />
+      {/* Slow-rotating volumetric god rays */}
+      <HeroRays />
       {/* Top crimson key glow keeps the anchor brand colour dominant */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(70% 45% at 50% 0%, rgba(200,16,46,0.22) 0%, rgba(200,16,46,0.05) 40%, rgba(200,16,46,0) 70%)",
+            "radial-gradient(70% 50% at 50% 0%, rgba(200,16,46,0.32) 0%, rgba(200,16,46,0.07) 42%, rgba(200,16,46,0) 70%)",
         }}
       />
 
