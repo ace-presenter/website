@@ -1,12 +1,15 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
 /**
  * Continuous horizontal ticker (RenewedVision-style logo/feature carousel).
- * Children are duplicated so the loop is seamless. Reduced-motion safe — the
- * row renders statically, no scrolling.
+ * Children are duplicated so the loop is seamless.
+ *
+ * Ambient/decorative motion — plays regardless of prefers-reduced-motion. The
+ * scroll never jumps and isn't interaction-triggered, so it keeps the page
+ * alive without the large positional movement reduced-motion targets.
  */
 export default function Marquee({
   children,
@@ -20,16 +23,6 @@ export default function Marquee({
   className?: string;
   gapClassName?: string;
 }) {
-  const reduce = useReducedMotion();
-
-  if (reduce) {
-    return (
-      <div className={`flex flex-wrap items-center justify-center ${gapClassName} ${className}`}>
-        {children}
-      </div>
-    );
-  }
-
   return (
     <div
       className={`relative overflow-hidden ${className}`}

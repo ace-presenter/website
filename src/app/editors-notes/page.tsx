@@ -342,7 +342,7 @@ function UseCase() {
           </div>
         </div>
         <div className="mt-8 p-5 rounded-xl bg-[#0F0F0F] border border-[#1F1F1F] text-sm text-[#888]">
-          <span className="text-white font-semibold">System requirement:</span> macOS 12+ · DaVinci Resolve 17+ for marker import · Resolve does not need to be open for basic note-taking
+          <span className="text-white font-semibold">System requirement:</span> macOS 26+ · DaVinci Resolve 17+ for marker import · Resolve does not need to be open for basic note-taking
           {" · "}
           <Link href="/support" className="text-[#B07C2A] hover:text-[#CFA04D] transition">Get support →</Link>
         </div>
