@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
+import ScreenshotCarousel from "@/components/ScreenshotCarousel";
+import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "ACE Editors' Notes — Click-to-Seek Notes for DaVinci Resolve (Free, Mac)",
@@ -72,6 +73,7 @@ export default function EditorsNotesPage() {
     <main className="flex-1 flex flex-col font-sans">
       <Nav activeProduct="notes" />
       <Hero />
+      <TimecodeDemo />
       <DemoVideo />
       <Screenshots />
       <Features />
@@ -109,6 +111,65 @@ function DemoVideo() {
         <p className="mt-4 text-center text-xs text-[#555]">
           v1.2.0 · macOS · DaVinci Resolve 17+ · Free
         </p>
+      </div>
+    </section>
+  );
+}
+
+// ─── Timecode demo (animated mock) ────────────────────────────────────────────
+
+const DEMO_LINES = [
+  { tc: "01:00:15:10", note: "Opening scene — director wants a wider lens" },
+  { tc: "01:02:33:18", note: "Interview segment — great natural light" },
+  { tc: "01:05:42:05", em: "VFX:", note: "VFX: remove boom-mic shadow (frames 2735–2890)" },
+  { tc: "01:08:10:22", note: "Pacing slow — trim 8–10 frames between cuts" },
+];
+
+function TimecodeDemo() {
+  return (
+    <section className="relative px-6 sm:px-10 py-20 overflow-hidden">
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "radial-gradient(55% 50% at 50% 35%, rgba(176,124,42,0.12) 0%, rgba(176,124,42,0) 70%)" }}
+      />
+      <div className="relative max-w-3xl mx-auto">
+        <Reveal className="text-center">
+          <div className="text-[10px] uppercase tracking-[0.25em] text-[#B07C2A] font-bold mb-3">
+            Live integration
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
+            Click. Jump.{" "}
+            <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#CFA04D]">
+              Edit.
+            </span>
+          </h2>
+          <p className="mt-3 text-[#C4C4C4]">
+            Every timecode is a live link to your Resolve timeline.
+          </p>
+        </Reveal>
+        <Reveal delay={120}>
+          <div className="mt-10 rounded-2xl border border-[#222] bg-[#0C0C0C] p-6 sm:p-8 font-[family-name:var(--font-geist-mono)] shadow-[0_30px_80px_-30px_rgba(176,124,42,0.3)]">
+            {DEMO_LINES.map((l) => (
+              <div key={l.tc} className="flex items-baseline gap-3 py-1.5">
+                <span className="shrink-0 px-2 py-0.5 rounded text-sm font-medium text-[#CFA04D] bg-[#B07C2A]/15 hover:bg-[#B07C2A]/25 hover:shadow-[0_0_20px_rgba(176,124,42,0.25)] transition cursor-pointer">
+                  {l.tc}
+                </span>
+                <span className="text-sm text-[#C4C4C4]">
+                  {l.em ? (
+                    <>
+                      <b className="text-white">{l.em}</b>
+                      {l.note.slice(l.em.length)}
+                    </>
+                  ) : (
+                    l.note
+                  )}
+                </span>
+              </div>
+            ))}
+            <div className="h-5 w-px bg-[#B07C2A] ml-1 mt-1 animate-pulse" />
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -153,49 +214,24 @@ const SCREENSHOTS = [
 
 function Screenshots() {
   return (
-    <section id="screenshots" className="px-6 sm:px-10 py-20 bg-[#060606] border-y border-[#141414]">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-[#B07C2A] font-bold mb-3">
-          Screenshots
-        </div>
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-10">
-          Built for the edit suite
-        </h2>
-        {/* Hero screenshot */}
-        <div className="rounded-2xl overflow-hidden border border-[#222] mb-4 bg-[#111]">
-          <Image
-            src={SCREENSHOTS[0].src}
-            alt={SCREENSHOTS[0].alt}
-            width={SCREENSHOTS[0].width}
-            height={SCREENSHOTS[0].height}
-            className="w-full h-auto"
-            priority
-          />
-        </div>
-        {/* Caption for hero */}
-        <p className="text-sm text-[#888] mb-10">
-          <span className="text-white font-medium">{SCREENSHOTS[0].caption}</span>
-          {" — "}
-          {SCREENSHOTS[0].description}
-        </p>
-        {/* 3-column grid for remaining screenshots */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {SCREENSHOTS.slice(1).map((s) => (
-            <div key={s.src} className="rounded-xl overflow-hidden border border-[#1E1E1E] bg-[#111]">
-              <Image
-                src={s.src}
-                alt={s.alt}
-                width={s.width}
-                height={s.height}
-                className="w-full h-auto"
-              />
-              <div className="p-4">
-                <div className="text-xs font-semibold text-white mb-1">{s.caption}</div>
-                <div className="text-xs text-[#777] leading-relaxed">{s.description}</div>
-              </div>
-            </div>
-          ))}
-        </div>
+    <section id="screenshots" className="relative px-6 sm:px-10 py-20 bg-[#060606] border-y border-[#141414] overflow-hidden">
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "radial-gradient(60% 60% at 50% 0%, rgba(176,124,42,0.10) 0%, rgba(176,124,42,0) 70%)" }}
+      />
+      <div className="relative max-w-6xl mx-auto">
+        <Reveal>
+          <div className="text-[10px] uppercase tracking-[0.25em] text-[#B07C2A] font-bold mb-3">
+            Screenshots
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-10">
+            Built for the edit suite
+          </h2>
+        </Reveal>
+        <Reveal delay={100}>
+          <ScreenshotCarousel slides={SCREENSHOTS} />
+        </Reveal>
       </div>
     </section>
   );
@@ -252,15 +288,17 @@ function Features() {
           <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#CFA04D]">actually does</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {FEATURES.map((f) => (
-            <div key={f.tag} className="p-6 rounded-2xl bg-[#141414] border border-[#222] hover:border-[#B07C2A]/30 transition-colors">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#B07C2A]" />
-                <span className="text-[10px] uppercase tracking-[0.2em] text-[#B07C2A] font-bold">{f.tag}</span>
+          {FEATURES.map((f, i) => (
+            <Reveal key={f.tag} delay={(i % 3) * 80}>
+              <div className="h-full p-6 rounded-2xl bg-[#141414] border border-[#222] hover:border-[#B07C2A]/40 hover:-translate-y-1 hover:shadow-[0_20px_50px_-20px_rgba(176,124,42,0.25)] transition duration-300">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#B07C2A]" />
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-[#B07C2A] font-bold">{f.tag}</span>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2 leading-tight">{f.title}</h3>
+                <p className="text-[#C4C4C4] text-sm leading-relaxed">{f.body}</p>
               </div>
-              <h3 className="text-lg font-bold text-white mb-2 leading-tight">{f.title}</h3>
-              <p className="text-[#C4C4C4] text-sm leading-relaxed">{f.body}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
