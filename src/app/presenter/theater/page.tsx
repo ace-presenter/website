@@ -18,13 +18,13 @@ export const metadata: Metadata = {
     "stage manager tools",
   ],
   alternates: {
-    canonical: "/theater",
+    canonical: "/presenter/theater",
   },
   openGraph: {
     title: "ACE for Theater & Live Shows — AI cue automation",
     description:
       "Voice-triggered cue advance + automatic dialog beat detection. One operator runs the show.",
-    url: "https://www.ace-presenter.app/theater",
+    url: "https://www.ace-presenter.app/presenter/theater",
     siteName: "ACE",
     locale: "en_US",
     type: "website",

@@ -18,13 +18,13 @@ export const metadata: Metadata = {
     "keynote automation",
   ],
   alternates: {
-    canonical: "/conferences",
+    canonical: "/presenter/conferences",
   },
   openGraph: {
     title: "ACE for Conferences — AI slide control for live events",
     description:
       "Speakers improvise. Slides stay aligned anyway. ACE follows the speaker through any deck.",
-    url: "https://www.ace-presenter.app/conferences",
+    url: "https://www.ace-presenter.app/presenter/conferences",
     siteName: "ACE",
     locale: "en_US",
     type: "website",

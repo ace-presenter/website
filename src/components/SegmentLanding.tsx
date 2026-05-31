@@ -35,7 +35,7 @@ export interface SegmentLandingProps {
 }
 
 export default function SegmentLanding(props: SegmentLandingProps) {
-  const url = `https://www.ace-presenter.app/${props.slug}`;
+  const url = `https://www.ace-presenter.app/presenter/${props.slug}`;
   return (
     <main className="flex-1 flex flex-col font-sans">
       <SchemaJsonLd
@@ -182,7 +182,7 @@ function CrossLinks({ current }: { current: SegmentLandingProps["slug"] }) {
           {others.map((s) => (
             <Link
               key={s.slug}
-              href={`/${s.slug}`}
+              href={`/presenter/${s.slug}`}
               className="px-5 py-2.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm border border-[#2A2A2A] hover:border-[#C8102E]/50 transition"
             >
               {s.label} →

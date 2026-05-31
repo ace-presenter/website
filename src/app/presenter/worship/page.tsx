@@ -18,13 +18,13 @@ export const metadata: Metadata = {
     "church av software",
   ],
   alternates: {
-    canonical: "/worship",
+    canonical: "/presenter/worship",
   },
   openGraph: {
     title: "ACE for Worship — AI presenter for Sunday services",
     description:
       "Stop clicking slides. ACE listens to the band, pushes the right lyrics, and follows the preacher through scripture.",
-    url: "https://www.ace-presenter.app/worship",
+    url: "https://www.ace-presenter.app/presenter/worship",
     siteName: "ACE",
     locale: "en_US",
     type: "website",

@@ -18,13 +18,13 @@ export const metadata: Metadata = {
     "automatic slide advance lecture",
   ],
   alternates: {
-    canonical: "/lectures",
+    canonical: "/presenter/lectures",
   },
   openGraph: {
     title: "ACE for Lectures — AI presenter for classrooms and lecture halls",
     description:
       "Your tempo, your order. The deck follows you, not a pre-baked cue list.",
-    url: "https://www.ace-presenter.app/lectures",
+    url: "https://www.ace-presenter.app/presenter/lectures",
     siteName: "ACE",
     locale: "en_US",
     type: "website",

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
@@ -124,12 +123,14 @@ const PRODUCTS = [
 const COMING_SOON = [
   {
     chip: "ACE · Manager",
+    href: "/manager",
     headline: "Run the organization.",
     body: "Church and team management for members, departments, events, tasks, and campaigns. Multi-tenant. Role-based. AI agent actions built in.",
     stat: "Churches & ministries",
   },
   {
     chip: "ACE · World",
+    href: "/world",
     headline: "Live audience. Virtual space.",
     body: "3D audience environment for live events. Babylon.js on desktop and WebXR on the web. Attendees enter a shared space tied to your stage feed.",
     stat: "Electron + WebXR",
@@ -194,9 +195,10 @@ function ProductTriptych() {
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#555] font-bold mb-6">In development</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {COMING_SOON.map((p) => (
-              <div
+              <Link
                 key={p.chip}
-                className="p-6 rounded-2xl border border-[#1A1A1A] bg-[#0D0D0D] flex flex-col gap-3 opacity-70"
+                href={p.href}
+                className="group p-6 rounded-2xl border border-[#1A1A1A] hover:border-[#333] bg-[#0D0D0D] flex flex-col gap-3 opacity-70 hover:opacity-100 transition"
               >
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0F0F0F] border border-[#222] text-[9px] uppercase tracking-[0.2em] text-[#555] font-bold w-fit">
                   <span className="w-1 h-1 rounded-full bg-[#555]" />
@@ -204,8 +206,11 @@ function ProductTriptych() {
                 </div>
                 <h3 className="text-base font-bold text-[#888] leading-tight">{p.headline}</h3>
                 <p className="text-[#555] text-sm leading-relaxed">{p.body}</p>
-                <div className="text-[10px] uppercase tracking-[0.2em] text-[#444] font-semibold">{p.stat}</div>
-              </div>
+                <div className="flex items-center justify-between">
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-[#444] font-semibold">{p.stat}</div>
+                  <span className="text-[11px] text-[#666] group-hover:text-[#888] font-semibold transition">Preview →</span>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

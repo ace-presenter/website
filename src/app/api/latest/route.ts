@@ -35,7 +35,9 @@ function parseManifest(text: string): {
   const result = { version: "", releaseDate: undefined as string | undefined, files: [] as ManifestFile[] };
   let cur: Partial<ManifestFile> | null = null;
   for (const line of lines) {
-    const m = line.match(/^(\s*)([\w-]+):\s*(.*)$/);
+    // Tolerate YAML list-item dashes ("  - url: …") so the files[] array
+    // populates — without this, mac_arm64/mac_x64 always came back null.
+    const m = line.match(/^(\s*)(?:-\s+)?([\w-]+):\s*(.*)$/);
     if (!m) continue;
     const [, indent, key, rawVal] = m;
     const val = rawVal.replace(/^['"]|['"]$/g, "").trim();

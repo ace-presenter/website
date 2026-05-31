@@ -34,7 +34,7 @@ function PricingHero() {
           to grow.
         </h1>
         <p className="text-[#C4C4C4] text-lg max-w-xl mx-auto">
-          Per-product plans or a suite bundle. One account covers all three products.
+          Per-product plans or a suite bundle. One account covers every product.
         </p>
       </div>
     </section>
@@ -127,6 +127,20 @@ function ProductPricing() {
         },
       ],
     },
+    {
+      name: "ACE Virtual World",
+      href: "/world",
+      id: "world",
+      tiers: [
+        {
+          name: "Early access",
+          price: "Soon",
+          period: "in development",
+          badge: "In development",
+          features: ["Shared 3D venue", "Live stage feed", "Spatial voice", "Desktop + WebXR / VR", "Producer-driven cues"],
+        },
+      ],
+    },
   ] as const;
 
   return (
@@ -184,7 +198,7 @@ function SuiteBundle() {
       <div className="max-w-3xl mx-auto text-center">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Suite bundle</div>
         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-white">
-          All three products.{" "}
+          The whole suite.{" "}
           <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
             One subscription.
           </span>
@@ -205,7 +219,7 @@ function SuiteBundle() {
 
 function FAQ() {
   const faqs = [
-    { q: "Does one ACE account cover all three products?", a: "Yes. Sign in once at ace-presenter.app. Your license JWT covers the products you have access to — Presenter, Schedule, and/or Editors' Notes." },
+    { q: "Does one ACE account work across the suite?", a: "Yes. Sign in once at ace-presenter.app. Your license covers the products you have access to — Presenter, Schedule Manager, and Editors' Notes today, with Manager and Virtual World joining as they ship." },
     { q: "What happens to my beta access when Day 90 arrives?", a: "Every beta user of ACE Presenter is grandfathered into the Standard tier for life — no charge, no action required." },
     { q: "Is Editors' Notes really free?", a: "Yes. The app is free to download and use, including the DaVinci Resolve integration. Future Pro features (AI note summarization, team sharing) will be optional paid add-ons." },
     { q: "Do I need an API key to use AI features?", a: "No. On paid tiers, AI calls route through the ACE gateway using pooled API access. You never need to bring your own Anthropic, ACR, or Deepgram key." },
