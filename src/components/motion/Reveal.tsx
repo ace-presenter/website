@@ -1,45 +1,43 @@
-"use client";
-
-import { motion, useReducedMotion } from "motion/react";
-import type { ReactNode } from "react";
-
-/** Shared easing — the slow, confident ease the site already used. */
-const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
-const VIEWPORT = { once: true, margin: "0px 0px -10% 0px" } as const;
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  type CSSProperties,
+  type ReactElement,
+  type ReactNode,
+} from "react";
 
 /**
- * Scroll-reveal: fades + lifts children into view once. Reduced-motion safe
- * (renders immediately, no transform).
+ * Entrance reveal — pure CSS (`.ace-reveal`, see globals.css). Fades + lifts
+ * content in on mount with no JavaScript, no IntersectionObserver, and no
+ * motion runtime, so content is never left stuck hidden if any of those fail.
+ * Reduced motion is handled in the stylesheet (the keyframes live behind a
+ * `prefers-reduced-motion: no-preference` query, so the element just renders
+ * visible). These are plain server components.
  */
 export function Reveal({
   children,
   delay = 0,
-  y = 28,
   className = "",
 }: {
   children: ReactNode;
   delay?: number;
-  y?: number;
+  /** Seconds. */
   className?: string;
 }) {
-  const reduce = useReducedMotion();
-  if (reduce) return <div className={className}>{children}</div>;
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={VIEWPORT}
-      transition={{ duration: 0.8, ease: EASE, delay }}
+    <div
+      className={`ace-reveal ${className}`}
+      style={delay ? { animationDelay: `${delay}s` } : undefined}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
 /**
- * Stagger container — animates its <Item> children in sequence as the group
- * scrolls into view. Pair with <Item>.
+ * Stagger — lays out its children and gives each one an incremental
+ * `animation-delay`, so they cascade in. Children should be <Item>.
  */
 export function Stagger({
   children,
@@ -52,45 +50,35 @@ export function Stagger({
   delayChildren?: number;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
-  if (reduce) return <div className={className}>{children}</div>;
+  let i = 0;
   return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="show"
-      viewport={VIEWPORT}
-      variants={{
-        hidden: {},
-        show: { transition: { staggerChildren: stagger, delayChildren } },
-      }}
-    >
-      {children}
-    </motion.div>
+    <div className={className}>
+      {Children.map(children, (child) => {
+        if (!isValidElement(child)) return child;
+        const delay = delayChildren + i * stagger;
+        i += 1;
+        const el = child as ReactElement<{ style?: CSSProperties }>;
+        return cloneElement(el, {
+          style: { ...el.props.style, animationDelay: `${delay}s` },
+        });
+      })}
+    </div>
   );
 }
 
-/** A single staggered child. Must be rendered inside <Stagger>. */
+/** A single staggered child. Rendered inside <Stagger>, which injects the delay. */
 export function Item({
   children,
-  y = 28,
   className = "",
+  style,
 }: {
   children: ReactNode;
-  y?: number;
   className?: string;
+  style?: CSSProperties;
 }) {
-  const reduce = useReducedMotion();
-  if (reduce) return <div className={className}>{children}</div>;
   return (
-    <motion.div
-      className={className}
-      variants={{
-        hidden: { opacity: 0, y },
-        show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
-      }}
-    >
+    <div className={`ace-reveal ${className}`} style={style}>
       {children}
-    </motion.div>
+    </div>
   );
 }

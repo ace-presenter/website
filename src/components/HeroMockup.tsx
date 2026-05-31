@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 /**
@@ -22,7 +22,6 @@ const CUES = [
 ];
 
 export default function HeroMockup() {
-  const reduce = useReducedMotion();
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -33,12 +32,7 @@ export default function HeroMockup() {
   const cue = CUES[active];
 
   return (
-    <motion.div
-      className="relative w-full max-w-3xl mx-auto"
-      initial={reduce ? false : { opacity: 0, y: 40, scale: 0.96 }}
-      animate={reduce ? undefined : { opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-    >
+    <div className="relative w-full max-w-3xl mx-auto ace-reveal" style={{ animationDelay: "0.2s" }}>
       <motion.div
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
@@ -176,6 +170,6 @@ export default function HeroMockup() {
         aria-hidden
         className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-3/4 h-20 rounded-full blur-3xl bg-[#C8102E]/20"
       />
-    </motion.div>
+    </div>
   );
 }
