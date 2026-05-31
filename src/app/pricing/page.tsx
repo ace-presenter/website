@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { Aurora, Reveal, Stagger, Item, ProductTheme } from "@/components/motion";
+import { products as brandProducts, type ProductKey } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: "Pricing",
@@ -9,6 +11,8 @@ export const metadata: Metadata = {
     "Per-product plans or a suite bundle. ACE Presenter, Schedule Manager, and Editors' Notes — free to start, fair to grow.",
   alternates: { canonical: "/pricing" },
 };
+
+const ALL_ACCENT_RGB = Object.values(brandProducts).map((p) => p.rgb);
 
 export default function PricingPage() {
   return (
@@ -25,8 +29,9 @@ export default function PricingPage() {
 
 function PricingHero() {
   return (
-    <section className="px-6 sm:px-10 pt-20 sm:pt-28 pb-16 text-center">
-      <div className="max-w-3xl mx-auto">
+    <section className="relative overflow-hidden px-6 sm:px-10 pt-20 sm:pt-28 pb-16 text-center">
+      <Aurora colors={ALL_ACCENT_RGB} intensity={0.18} />
+      <Reveal className="relative max-w-3xl mx-auto">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Pricing</div>
         <h1 className="text-4xl sm:text-6xl font-bold tracking-tight mb-5 text-white">
           Free to start.{" "}
@@ -36,7 +41,7 @@ function PricingHero() {
         <p className="text-[#C4C4C4] text-lg max-w-xl mx-auto">
           Per-product plans or a suite bundle. One account covers every product.
         </p>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -46,7 +51,7 @@ function ProductPricing() {
     {
       name: "ACE Manager",
       href: "/manager",
-      id: "manager",
+      key: "manager",
       tiers: [
         {
           name: "Free",
@@ -72,6 +77,7 @@ function ProductPricing() {
     {
       name: "ACE Presenter",
       href: "/presenter",
+      key: "presenter",
       tiers: [
         {
           name: "Beta",
@@ -98,6 +104,7 @@ function ProductPricing() {
     {
       name: "ACE Schedule Manager",
       href: "/schedule",
+      key: "schedule",
       tiers: [
         {
           name: "Free",
@@ -117,6 +124,7 @@ function ProductPricing() {
     {
       name: "ACE Editors' Notes",
       href: "/editors-notes",
+      key: "editorsNotes",
       tiers: [
         {
           name: "Free",
@@ -130,7 +138,7 @@ function ProductPricing() {
     {
       name: "ACE Virtual World",
       href: "/world",
-      id: "world",
+      key: "world",
       tiers: [
         {
           name: "Early access",
@@ -147,45 +155,55 @@ function ProductPricing() {
     <section className="px-6 sm:px-10 py-16 border-y border-[#1A1A1A] bg-[#0A0A0A]">
       <div className="max-w-6xl mx-auto space-y-16">
         {products.map((product) => (
-          <div key={product.name}>
-            <div className="flex items-center gap-3 mb-6">
-              <Link href={product.href} className="text-xl font-bold text-white hover:text-[#C8102E] transition">
-                {product.name}
-              </Link>
-              <span className="h-px flex-1 bg-[#1F1F1F]" />
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {product.tiers.map((tier) => (
-                <div
-                  key={tier.name}
-                  className={`p-7 rounded-2xl relative ${
-                    "primary" in tier && tier.primary
-                      ? "bg-gradient-to-b from-[#C8102E]/15 to-[#1A1A1A] border border-[#C8102E]/40"
-                      : "bg-[#141414] border border-[#222]"
-                  }`}
-                >
-                  {"badge" in tier && tier.badge && (
-                    <div className="absolute -top-2.5 left-7 px-2.5 py-0.5 rounded-full bg-[#C8102E] text-white text-[10px] uppercase tracking-wider font-bold">
-                      {tier.badge}
+          <ProductTheme key={product.name} product={product.key as ProductKey}>
+            <Reveal>
+              <div className="flex items-center gap-3 mb-6">
+                <Link href={product.href} className="text-xl font-bold text-white hover:text-[var(--accent-vivid)] transition">
+                  {product.name}
+                </Link>
+                <span className="h-px flex-1 bg-[#1F1F1F]" />
+              </div>
+            </Reveal>
+            <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-4" stagger={0.08}>
+              {product.tiers.map((tier) => {
+                const primary = "primary" in tier && tier.primary;
+                return (
+                  <Item key={tier.name}>
+                    <div
+                      className={`h-full p-7 rounded-2xl relative ${primary ? "" : "bg-[#141414] border border-[#222]"}`}
+                      style={
+                        primary
+                          ? {
+                              background: "linear-gradient(to bottom, rgba(var(--accent-rgb),0.15), #1A1A1A)",
+                              border: "1px solid rgba(var(--accent-rgb),0.4)",
+                            }
+                          : undefined
+                      }
+                    >
+                      {"badge" in tier && tier.badge && (
+                        <div className="absolute -top-2.5 left-7 px-2.5 py-0.5 rounded-full text-white text-[10px] uppercase tracking-wider font-bold bg-[var(--accent)]">
+                          {tier.badge}
+                        </div>
+                      )}
+                      <div className="text-sm font-bold uppercase tracking-wider text-[#C4C4C4] mb-3">{tier.name}</div>
+                      <div className="flex items-baseline gap-1.5 mb-6">
+                        <span className="text-4xl font-bold text-white tracking-tight">{tier.price}</span>
+                        <span className="text-[#C4C4C4] text-sm">{tier.period}</span>
+                      </div>
+                      <ul className="space-y-2.5 text-sm text-[#D4D4D4]">
+                        {tier.features.map((f) => (
+                          <li key={f} className="flex items-start gap-2">
+                            <span className="text-[var(--accent-vivid)] mt-0.5">✓</span>
+                            <span className="leading-relaxed">{f}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                  )}
-                  <div className="text-sm font-bold uppercase tracking-wider text-[#C4C4C4] mb-3">{tier.name}</div>
-                  <div className="flex items-baseline gap-1.5 mb-6">
-                    <span className="text-4xl font-bold text-white tracking-tight">{tier.price}</span>
-                    <span className="text-[#C4C4C4] text-sm">{tier.period}</span>
-                  </div>
-                  <ul className="space-y-2.5 text-sm text-[#D4D4D4]">
-                    {tier.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2">
-                        <span className="text-[#C8102E] mt-0.5">✓</span>
-                        <span className="leading-relaxed">{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
+                  </Item>
+                );
+              })}
+            </Stagger>
+          </ProductTheme>
         ))}
       </div>
     </section>
@@ -195,7 +213,7 @@ function ProductPricing() {
 function SuiteBundle() {
   return (
     <section className="px-6 sm:px-10 py-20 border-b border-[#1A1A1A]">
-      <div className="max-w-3xl mx-auto text-center">
+      <Reveal className="max-w-3xl mx-auto text-center">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Suite bundle</div>
         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-white">
           The whole suite.{" "}
@@ -208,11 +226,11 @@ function SuiteBundle() {
         </p>
         <a
           href="mailto:hello@ace-presenter.app?subject=ACE%20Suite%20Bundle"
-          className="inline-block px-7 py-3.5 rounded-full bg-[#C8102E] hover:bg-[#E8183A] text-white font-bold text-sm transition"
+          className="inline-block px-7 py-3.5 rounded-full bg-[#C8102E] hover:bg-[#E8183A] text-white font-bold text-sm transition hover:scale-[1.03] active:scale-100"
         >
           Register interest →
         </a>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -228,15 +246,19 @@ function FAQ() {
   return (
     <section className="px-6 sm:px-10 py-20">
       <div className="max-w-3xl mx-auto">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-8 text-center">FAQ</div>
-        <div className="space-y-6">
+        <Reveal>
+          <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-8 text-center">FAQ</div>
+        </Reveal>
+        <Stagger className="space-y-6" stagger={0.07}>
           {faqs.map((faq) => (
-            <div key={faq.q} className="border-b border-[#1F1F1F] pb-6 last:border-0">
-              <div className="font-semibold text-white mb-2">{faq.q}</div>
-              <div className="text-[#C4C4C4] text-sm leading-relaxed">{faq.a}</div>
-            </div>
+            <Item key={faq.q}>
+              <div className="border-b border-[#1F1F1F] pb-6 last:border-0">
+                <div className="font-semibold text-white mb-2">{faq.q}</div>
+                <div className="text-[#C4C4C4] text-sm leading-relaxed">{faq.a}</div>
+              </div>
+            </Item>
           ))}
-        </div>
+        </Stagger>
         <p className="mt-10 text-center text-sm text-[#888]">
           More questions? <Link href="/support" className="text-[#C8102E] hover:text-[#E8183A] transition">Get in touch →</Link>
         </p>

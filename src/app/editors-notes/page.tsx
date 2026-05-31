@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
 import ScreenshotCarousel from "@/components/ScreenshotCarousel";
 import Reveal from "@/components/Reveal";
+import { Aurora } from "@/components/motion";
 
 export const metadata: Metadata = {
   title: "ACE Editors' Notes — Click-to-Seek Notes for DaVinci Resolve (Free, Mac)",
@@ -247,32 +248,41 @@ function Hero() {
         className="absolute inset-0 pointer-events-none"
         style={{ background: "radial-gradient(70% 50% at 50% 0%, rgba(176,124,42,0.25) 0%, rgba(176,124,42,0.07) 40%, rgba(176,124,42,0) 70%)" }}
       />
+      <Aurora colors={["176,124,42"]} intensity={0.24} />
       <div className="relative max-w-5xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C4C4C4] font-semibold mb-8">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#B07C2A]" />
-          ACE · Editors&apos; Notes
-        </div>
-        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] text-white">
-          Notes that talk
-          <br />
-          to{" "}
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#CFA04D]">
-            Resolve
-          </span>
-          <span className="text-[#B07C2A]">.</span>
-        </h1>
-        <p className="mt-8 max-w-2xl mx-auto text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
-          Every timecode is a click. Every clip is a marker. ACE Editors&apos; Notes lives next to your timeline.
-        </p>
-        <div className="mt-10 flex items-center justify-center">
-          <a
-            href="/api/download?product=editors-notes&platform=mac-arm64"
-            className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.12)]"
-          >
-            Download for Mac
-          </a>
-        </div>
-        <p className="mt-5 text-xs text-[#888]">Free · macOS · Apple Silicon · DaVinci Resolve integration · Part of the ACE Suite</p>
+        <Reveal>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C4C4C4] font-semibold mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#B07C2A]" />
+            ACE · Editors&apos; Notes
+          </div>
+        </Reveal>
+        <Reveal delay={80}>
+          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] text-white">
+            Notes that talk
+            <br />
+            to{" "}
+            <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#CFA04D]">
+              Resolve
+            </span>
+            <span className="text-[#B07C2A]">.</span>
+          </h1>
+        </Reveal>
+        <Reveal delay={160}>
+          <p className="mt-8 max-w-2xl mx-auto text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
+            Every timecode is a click. Every clip is a marker. ACE Editors&apos; Notes lives next to your timeline.
+          </p>
+        </Reveal>
+        <Reveal delay={240}>
+          <div className="mt-10 flex items-center justify-center">
+            <a
+              href="/api/download?product=editors-notes&platform=mac-arm64"
+              className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.12)] hover:scale-[1.03] active:scale-100"
+            >
+              Download for Mac
+            </a>
+          </div>
+          <p className="mt-5 text-xs text-[#888]">Free · macOS · Apple Silicon · DaVinci Resolve integration · Part of the ACE Suite</p>
+        </Reveal>
       </div>
     </section>
   );
