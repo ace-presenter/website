@@ -116,10 +116,10 @@ export default function Nav({ activeProduct }: NavProps) {
           Sign in
         </Link>
         <Link
-          href="/api/download?platform=mac-arm64"
+          href="/pricing"
           className="px-4 sm:px-5 py-2 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-xs uppercase tracking-wider transition hover:scale-[1.04] active:scale-100"
         >
-          Download
+          Get started
         </Link>
       </div>
     </nav>
