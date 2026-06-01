@@ -12,10 +12,9 @@ import {
   Item,
   Marquee,
   Counter,
-  SpotlightCard,
-  ProductTheme,
 } from "@/components/motion";
-import { products, type ProductKey } from "@/lib/brand";
+import { products } from "@/lib/brand";
+import ProductShowcase from "@/components/ProductShowcase";
 
 export const metadata: Metadata = {
   title: {
@@ -32,7 +31,7 @@ export default function SuiteHome() {
       <Nav />
       <Hero />
       <UseCaseMarquee />
-      <ProductTriptych />
+      <ProductShowcase />
       <StatBand />
       <SuiteWhy />
       <PricingTeaser />
@@ -149,167 +148,6 @@ function UseCaseMarquee() {
           </span>
         ))}
       </Marquee>
-    </section>
-  );
-}
-
-/* ───────────── PRODUCT TRIPTYCH ───────────── */
-const PRODUCTS: {
-  key: ProductKey;
-  chip: string;
-  href: string;
-  headline: string;
-  body: string;
-  cta: string;
-  ctaHref: string;
-  stat: string;
-}[] = [
-  {
-    key: "presenter",
-    chip: "ACE · Presenter",
-    href: "/presenter",
-    headline: "The room listens. The slides follow.",
-    body: "Native macOS app. Audio in, slide out. Sub-second detection for worship, conferences, lectures, and theater. Zero cloud dependency by default.",
-    cta: "Download for Mac",
-    ctaHref: "/api/download?platform=mac-arm64",
-    stat: "< 1s latency",
-  },
-  {
-    key: "schedule",
-    chip: "ACE · Schedule",
-    href: "/schedule",
-    headline: "Build the schedule. Run the day.",
-    body: "AI-powered routine and task manager. Photograph a syllabus, extract tasks in one step. Daily AI guidance. Cloud-synced via Supabase.",
-    cta: "Open Schedule Manager",
-    ctaHref: "https://app.ace-presenter.app/auth",
-    stat: "Web + desktop",
-  },
-  {
-    key: "editorsNotes",
-    chip: "ACE · Editors' Notes",
-    href: "/editors-notes",
-    headline: "Notes that talk to Resolve.",
-    body: "Qt6 macOS app, DaVinci Resolve integration. Every timecode in your notes is a click that jumps Resolve to that frame.",
-    cta: "Download for Mac",
-    ctaHref: "/api/download?product=editors-notes&platform=mac-arm64",
-    stat: "DaVinci Resolve",
-  },
-];
-
-const COMING_SOON: {
-  key: ProductKey;
-  chip: string;
-  href: string;
-  headline: string;
-  body: string;
-  stat: string;
-}[] = [
-  {
-    key: "manager",
-    chip: "ACE · Manager",
-    href: "/manager",
-    headline: "Run the organization.",
-    body: "Church and team management for members, departments, events, tasks, and campaigns. Multi-tenant. Role-based. AI agent actions built in.",
-    stat: "Churches & ministries",
-  },
-  {
-    key: "world",
-    chip: "ACE · World",
-    href: "/world",
-    headline: "Live audience. Virtual space.",
-    body: "3D audience environment for live events. Babylon.js on desktop and WebXR on the web. Attendees enter a shared space tied to your stage feed.",
-    stat: "Electron + WebXR",
-  },
-];
-
-function ProductTriptych() {
-  return (
-    <section className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A] bg-[#0A0A0A]">
-      <div className="max-w-6xl mx-auto">
-        <Reveal>
-          <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">
-            Available now
-          </div>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-12 text-white max-w-2xl">
-            Three tools,{" "}
-            <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
-              one account
-            </span>
-          </h2>
-        </Reveal>
-
-        <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-16" stagger={0.12}>
-          {PRODUCTS.map((p) => (
-            <Item key={p.chip}>
-              <ProductTheme product={p.key} className="h-full">
-                <SpotlightCard className="h-full rounded-2xl">
-                  <div className="group h-full p-7 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#111] border border-[#222] hover:border-[var(--accent)] transition-colors duration-300 flex flex-col gap-5">
-                    {/* Chip */}
-                    <div
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0F0F0F] border border-[#2A2A2A] text-[9px] uppercase tracking-[0.2em] font-bold w-fit text-[var(--accent-vivid)]"
-                    >
-                      <span className="w-1 h-1 rounded-full bg-[var(--accent)]" />
-                      {p.chip}
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl font-bold text-white mb-3 leading-tight">{p.headline}</h3>
-                      <p className="text-[#C4C4C4] text-sm leading-relaxed mb-4">{p.body}</p>
-                      <div className="text-[10px] uppercase tracking-[0.2em] text-[#888] font-semibold">{p.stat}</div>
-                    </div>
-
-                    {/* CTAs */}
-                    <div className="mt-auto flex flex-col gap-2">
-                      <a
-                        href={p.ctaHref}
-                        className="px-5 py-2.5 rounded-full bg-[var(--accent)] hover:bg-[var(--accent-vivid)] text-white font-bold text-xs transition text-center"
-                      >
-                        {p.cta}
-                      </a>
-                      <Link
-                        href={p.href}
-                        className="px-5 py-2.5 rounded-full bg-[#141414] hover:bg-[#1F1F1F] text-[#C4C4C4] font-semibold text-xs transition border border-[#2A2A2A] text-center"
-                      >
-                        Learn more →
-                      </Link>
-                    </div>
-                  </div>
-                </SpotlightCard>
-              </ProductTheme>
-            </Item>
-          ))}
-        </Stagger>
-
-        {/* Coming soon strip */}
-        <Reveal>
-          <div className="border-t border-[#1A1A1A] pt-10">
-            <div className="text-[10px] uppercase tracking-[0.25em] text-[#555] font-bold mb-6">
-              In development
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {COMING_SOON.map((p) => (
-                <ProductTheme product={p.key} key={p.chip}>
-                  <Link
-                    href={p.href}
-                    className="group flex flex-col gap-3 p-6 rounded-2xl border border-[#1A1A1A] hover:border-[var(--accent)] bg-[#0D0D0D] opacity-75 hover:opacity-100 transition"
-                  >
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0F0F0F] border border-[#222] text-[9px] uppercase tracking-[0.2em] font-bold w-fit text-[var(--accent-vivid)]">
-                      <span className="w-1 h-1 rounded-full bg-[var(--accent)]" />
-                      {p.chip}
-                    </div>
-                    <h3 className="text-base font-bold text-white leading-tight">{p.headline}</h3>
-                    <p className="text-[#888] text-sm leading-relaxed">{p.body}</p>
-                    <div className="flex items-center justify-between">
-                      <div className="text-[10px] uppercase tracking-[0.2em] text-[#555] font-semibold">{p.stat}</div>
-                      <span className="text-[11px] text-[var(--accent-vivid)] font-semibold transition">Preview →</span>
-                    </div>
-                  </Link>
-                </ProductTheme>
-              ))}
-            </div>
-          </div>
-        </Reveal>
-      </div>
     </section>
   );
 }
