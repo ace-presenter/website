@@ -198,6 +198,33 @@ function ProductPricing() {
                           </li>
                         ))}
                       </ul>
+                      {(() => {
+                        // editorsNotes → "notes" to match the gateway/entitlement product id.
+                        const cp = product.key === "editorsNotes" ? "notes" : product.key;
+                        const paid = tier.price.startsWith("$") && tier.price !== "$0";
+                        const free = tier.price === "$0" || tier.price === "Free";
+                        if (paid) {
+                          return (
+                            <a
+                              href={`/api/stripe/checkout?product=${cp}&plan=${tier.name.toLowerCase()}`}
+                              className="mt-6 block text-center px-5 py-2.5 rounded-full text-white font-bold text-xs transition bg-[var(--accent)] hover:opacity-90"
+                            >
+                              Subscribe
+                            </a>
+                          );
+                        }
+                        if (free) {
+                          return (
+                            <a
+                              href="/login"
+                              className="mt-6 block text-center px-5 py-2.5 rounded-full text-[#C4C4C4] font-semibold text-xs transition bg-[#1A1A1A] border border-[#2A2A2A] hover:bg-[#222]"
+                            >
+                              Get started
+                            </a>
+                          );
+                        }
+                        return null; // "Soon" / coming-soon → no CTA
+                      })()}
                     </div>
                   </Item>
                 );
