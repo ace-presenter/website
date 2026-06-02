@@ -15,7 +15,7 @@ import {
   Counter,
 } from "@/components/motion";
 import { products } from "@/lib/brand";
-import ProductShowcase from "@/components/ProductShowcase";
+import SuiteIndex from "@/components/SuiteIndex";
 
 export const metadata: Metadata = {
   title: {
@@ -32,7 +32,7 @@ export default function SuiteHome() {
       <Nav />
       <Hero />
       <UseCaseMarquee />
-      <ProductShowcase />
+      <SuiteIndex />
       <StatBand />
       <SuiteWhy />
       <PricingTeaser />
