@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
 import HeroMockup from "@/components/HeroMockup";
 import HeroRays from "@/components/HeroRays";
+import HeroBackdrop3D from "@/components/hero/HeroBackdrop3D";
 import {
   Aurora,
   Reveal,
@@ -60,6 +61,9 @@ function Hero() {
             "radial-gradient(70% 50% at 50% 0%, rgba(200,16,46,0.32) 0%, rgba(200,16,46,0.07) 42%, rgba(200,16,46,0) 70%)",
         }}
       />
+
+      {/* Mouse-reactive 3D depth layer — desktop + motion only, null fallback */}
+      <HeroBackdrop3D />
 
       <div className="relative max-w-5xl mx-auto">
         <Reveal>
