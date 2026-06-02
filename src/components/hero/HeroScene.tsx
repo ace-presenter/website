@@ -45,7 +45,7 @@ function Field() {
       size: 0.038,
       sizeAttenuation: true,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.42,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
     });
@@ -68,7 +68,7 @@ function Field() {
       size: 0.05,
       sizeAttenuation: true,
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.25,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
     });
@@ -81,7 +81,7 @@ function Field() {
     const mat = new THREE.LineBasicMaterial({
       color: new THREE.Color(ACCENT),
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.28,
     });
     const ls = new THREE.LineSegments(edges, mat);
     ls.position.set(3, 1.35, -1.5);
