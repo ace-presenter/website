@@ -287,8 +287,39 @@ function PinnedShowcase() {
               ))}
             </div>
 
-            {/* Right: accent-tinted device frame, re-fades when active changes */}
-            <div className="hidden lg:flex justify-center">
+            {/* Right: floating screenshot (if any) or accent-tinted device frame */}
+            <div className="hidden lg:flex justify-center" style={{ perspective: "1600px" }}>
+              {SLIDES[active].shot ? (
+                <div
+                  key={active}
+                  className="ace-reveal group/shot w-full max-w-lg"
+                  style={{ aspectRatio: "16 / 10" }}
+                >
+                  <div
+                    className="relative w-full h-full rounded-2xl overflow-hidden border border-white/10 transition-transform duration-500 ease-out will-change-transform group-hover/shot:scale-[1.02]"
+                    style={{
+                      transform: "rotateX(7deg) rotateY(-13deg)",
+                      boxShadow: `0 50px 130px -30px rgba(${acc.rgb},0.6), 0 12px 40px -20px rgba(0,0,0,0.85)`,
+                    }}
+                  >
+                    <Image
+                      src={SLIDES[active].shot!.src}
+                      alt={`${SLIDES[active].short} screenshot`}
+                      width={SLIDES[active].shot!.w}
+                      height={SLIDES[active].shot!.h}
+                      className="absolute inset-0 w-full h-full object-cover object-top"
+                    />
+                    {/* accent sheen */}
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background: `linear-gradient(135deg, rgba(${acc.rgb},0.18) 0%, rgba(${acc.rgb},0) 45%)`,
+                      }}
+                    />
+                  </div>
+                </div>
+              ) : (
               <div
                 key={active}
                 className="ace-reveal w-full max-w-md aspect-[4/3] rounded-2xl border border-[#222] overflow-hidden"
@@ -305,17 +336,6 @@ function PinnedShowcase() {
                     {SLIDES[active].chip}
                   </span>
                 </div>
-                {SLIDES[active].shot ? (
-                  <div className="relative w-full" style={{ aspectRatio: "16 / 10" }}>
-                    <Image
-                      src={SLIDES[active].shot!.src}
-                      alt={`${SLIDES[active].short} screenshot`}
-                      width={SLIDES[active].shot!.w}
-                      height={SLIDES[active].shot!.h}
-                      className="absolute inset-0 w-full h-full object-cover object-top"
-                    />
-                  </div>
-                ) : (
                 <div className="p-6 flex flex-col gap-3">
                   <div
                     className="text-3xl font-bold tracking-tight"
@@ -338,8 +358,8 @@ function PinnedShowcase() {
                     ))}
                   </div>
                 </div>
-                )}
               </div>
+              )}
             </div>
           </div>
 
