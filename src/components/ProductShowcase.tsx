@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import {
   useEffect,
   useLayoutEffect,
@@ -26,6 +27,7 @@ type Slide = {
   title: ReactNode;
   body: string;
   stat: string;
+  shot?: { src: string; w: number; h: number };
   cta?: { label: string; href: string };
 };
 
@@ -72,6 +74,7 @@ const SLIDES: Slide[] = [
     ),
     body: "AI-powered routine and task manager. Photograph a syllabus, extract tasks in one step. Daily AI guidance. Cloud-synced via Supabase.",
     stat: "Web + desktop",
+    shot: { src: "/schedule/projects.webp", w: 1600, h: 1028 },
     cta: { label: "Open Schedule Manager", href: "https://app.ace-presenter.app/auth" },
   },
   {
@@ -302,6 +305,17 @@ function PinnedShowcase() {
                     {SLIDES[active].chip}
                   </span>
                 </div>
+                {SLIDES[active].shot ? (
+                  <div className="relative w-full" style={{ aspectRatio: "16 / 10" }}>
+                    <Image
+                      src={SLIDES[active].shot!.src}
+                      alt={`${SLIDES[active].short} screenshot`}
+                      width={SLIDES[active].shot!.w}
+                      height={SLIDES[active].shot!.h}
+                      className="absolute inset-0 w-full h-full object-cover object-top"
+                    />
+                  </div>
+                ) : (
                 <div className="p-6 flex flex-col gap-3">
                   <div
                     className="text-3xl font-bold tracking-tight"
@@ -324,6 +338,7 @@ function PinnedShowcase() {
                     ))}
                   </div>
                 </div>
+                )}
               </div>
             </div>
           </div>

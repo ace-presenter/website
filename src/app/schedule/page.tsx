@@ -4,6 +4,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
 import { Aurora, Reveal, Stagger, Item, SpotlightCard } from "@/components/motion";
+import ScreenshotCarousel from "@/components/ScreenshotCarousel";
 
 const GLOW = "rgba(105,65,198,0.14)";
 
@@ -52,12 +53,102 @@ export default function SchedulePage() {
     <main className="flex-1 flex flex-col font-sans">
       <Nav activeProduct="schedule" />
       <Hero />
+      <Screenshots />
       <Features />
       <UseCases />
       <PricingTeaser />
       <FinalCTA variant="schedule" />
       <Footer />
     </main>
+  );
+}
+
+function Screenshots() {
+  const shots = [
+    {
+      src: "/schedule/welcome.webp",
+      alt: "ACE Schedule Manager welcome and daily guidance screen",
+      caption: "Daily guidance",
+      description: "The day opens with a plan — prompts, reflections, and focus for what's ahead.",
+      width: 1600,
+      height: 1002,
+    },
+    {
+      src: "/schedule/my-tasks.webp",
+      alt: "My Tasks view in ACE Schedule Manager",
+      caption: "My Tasks",
+      description: "Everything due, in one prioritized list that stays in sync across web and desktop.",
+      width: 1600,
+      height: 1055,
+    },
+    {
+      src: "/schedule/projects.webp",
+      alt: "Kanban projects board in ACE Schedule Manager",
+      caption: "Projects",
+      description: "Full Kanban boards with milestones and custom categories, wired into your week view.",
+      width: 1600,
+      height: 1028,
+    },
+    {
+      src: "/schedule/tracker.webp",
+      alt: "Tracker view in ACE Schedule Manager",
+      caption: "Tracker",
+      description: "See momentum over time — what's moving, what's stalled, what needs attention.",
+      width: 1600,
+      height: 1073,
+    },
+    {
+      src: "/schedule/reports.webp",
+      alt: "Reports and analytics in ACE Schedule Manager",
+      caption: "Reports",
+      description: "Weekly summaries and exportable analytics that close the loop on what got done.",
+      width: 1600,
+      height: 1033,
+    },
+    {
+      src: "/schedule/settings.webp",
+      alt: "Settings in ACE Schedule Manager",
+      caption: "Settings",
+      description: "Tune guidance, categories, and integrations — including two-way Google Calendar sync.",
+      width: 1600,
+      height: 1079,
+    },
+    {
+      src: "/schedule/support.webp",
+      alt: "Support screen in ACE Schedule Manager",
+      caption: "Support",
+      description: "Help and resources built in, so you're never stuck mid-plan.",
+      width: 1600,
+      height: 1087,
+    },
+  ];
+
+  return (
+    <section className="px-6 sm:px-10 py-20 sm:py-24 border-b border-[#1A1A1A]">
+      <div className="max-w-5xl mx-auto">
+        <Reveal>
+          <div className="text-[10px] uppercase tracking-[0.25em] text-[#6941C6] font-bold mb-3 text-center">
+            A look inside
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-12 text-white text-center">
+            Built to keep the day{" "}
+            <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#8B68D6]">
+              on track
+            </span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <ScreenshotCarousel
+            slides={shots}
+            accent="#6941C6"
+            accentVivid="#8B68D6"
+            accentRgb="105,65,198"
+            aspect="1600/1055"
+            ariaLabel="ACE Schedule Manager screenshots"
+          />
+        </Reveal>
+      </div>
+    </section>
   );
 }
 
