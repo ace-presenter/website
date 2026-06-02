@@ -1,0 +1,8 @@
+# Drop raw Schedule screenshots here (welcome.png, my-tasks.png, projects.png,
+# tracker.png, reports.png, settings.png, support.png), then run:
+#   node scripts/build-schedule-shots.mjs
+*.png
+*.jpg
+*.jpeg
+*.webp
+!.gitignore
