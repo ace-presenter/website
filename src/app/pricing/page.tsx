@@ -2,24 +2,27 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import { Aurora, Reveal, Stagger, Item, ProductTheme } from "@/components/motion";
-import { products as brandProducts, type ProductKey } from "@/lib/brand";
+import PricingTable from "@/components/PricingTable";
+import { Aurora, ScrollReveal, ScrollStagger, ScrollItem } from "@/components/motion";
+import { products as brandProducts } from "@/lib/brand";
+import { SUITE_BUNDLE, checkoutHref } from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Per-product plans or a suite bundle. ACE Presenter, Schedule Manager, and Editors' Notes — free to start, fair to grow.",
+    "Per-product plans or one suite subscription. ACE Presenter, Schedule Manager, Editors' Notes, Manager, and World — free to start, fair to grow. One-time and subscription options.",
   alternates: { canonical: "/pricing" },
 };
 
 const ALL_ACCENT_RGB = Object.values(brandProducts).map((p) => p.rgb);
+const SERIF = "font-[family-name:var(--font-instrument-serif)] italic font-normal";
 
 export default function PricingPage() {
   return (
     <main className="flex-1 flex flex-col font-sans">
       <Nav />
       <PricingHero />
-      <ProductPricing />
+      <PricingTable />
       <SuiteBundle />
       <FAQ />
       <Footer />
@@ -29,265 +32,132 @@ export default function PricingPage() {
 
 function PricingHero() {
   return (
-    <section className="relative overflow-hidden px-6 sm:px-10 pt-20 sm:pt-28 pb-16 text-center">
+    <section className="relative overflow-hidden px-6 sm:px-10 pt-24 sm:pt-32 pb-16 text-center">
       <Aurora colors={ALL_ACCENT_RGB} intensity={0.18} />
-      <Reveal className="relative max-w-3xl mx-auto">
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(70% 50% at 50% 0%, rgba(200,16,46,0.22) 0%, rgba(200,16,46,0.05) 45%, rgba(200,16,46,0) 72%)",
+        }}
+      />
+      <ScrollReveal className="relative max-w-3xl mx-auto">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Pricing</div>
-        <h1 className="text-4xl sm:text-6xl font-bold tracking-tight mb-5 text-white">
+        <h1 className="text-5xl sm:text-7xl font-bold tracking-tight mb-6 text-white leading-[0.97]">
           Free to start.{" "}
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">Fair</span>{" "}
+          <span className={`${SERIF} text-[#E8183A]`}>Fair</span>{" "}
           to grow.
         </h1>
         <p className="text-[#C4C4C4] text-lg max-w-xl mx-auto">
-          Per-product plans or a suite bundle. One account covers every product.
+          Pay once or subscribe — your call. One account covers every product, and
+          beta testers are grandfathered in for life.
         </p>
-      </Reveal>
-    </section>
-  );
-}
-
-function ProductPricing() {
-  const products = [
-    {
-      name: "ACE Manager",
-      href: "/manager",
-      key: "manager",
-      tiers: [
-        {
-          name: "Free",
-          price: "$0",
-          period: "/ month",
-          primary: true,
-          features: ["Up to 50 members", "1 department", "Service planning", "Email communication", "Basic attendance tracking"],
-        },
-        {
-          name: "Church",
-          price: "$29",
-          period: "/ month",
-          features: ["Unlimited members", "Unlimited departments", "AI agent — tasks, follow-ups, reports", "Email + SMS + WhatsApp", "Weekly AI digest", "Volunteer engagement scoring"],
-        },
-        {
-          name: "Network",
-          price: "$79",
-          period: "/ month",
-          features: ["Everything in Church", "Multi-campus / multi-site", "Admin console with role hierarchy", "Priority support + onboarding call", "Custom domain for member portal"],
-        },
-      ],
-    },
-    {
-      name: "ACE Presenter",
-      href: "/presenter",
-      key: "presenter",
-      tiers: [
-        {
-          name: "Beta",
-          price: "Free",
-          period: "until Day 90",
-          badge: "Available now",
-          primary: true,
-          features: ["Full feature access", "All output formats", "Auto-updates", "Grandfathered to Standard for life"],
-        },
-        {
-          name: "Standard",
-          price: "$19",
-          period: "/ month",
-          features: ["Bundled API access (ACR · Whisper · Claude)", "Priority detection updates", "Email support", "Single-seat license"],
-        },
-        {
-          name: "Pro",
-          price: "$39",
-          period: "/ month",
-          features: ["Everything in Standard", "Multi-seat (up to 5)", "Priority support + onboarding call", "Sponsor early-access features"],
-        },
-      ],
-    },
-    {
-      name: "ACE Schedule Manager",
-      href: "/schedule",
-      key: "schedule",
-      tiers: [
-        {
-          name: "Free",
-          price: "$0",
-          period: "/ month",
-          primary: true,
-          features: ["Weekly schedule", "Custom categories (10)", "Cloud sync", "Google Calendar"],
-        },
-        {
-          name: "Pro",
-          price: "$7.99",
-          period: "/ month",
-          features: ["Everything in Free", "AI schedule import", "Daily AI guidance", "Unlimited Kanban projects", "Milestones", "Weekly CSV export"],
-        },
-      ],
-    },
-    {
-      name: "ACE Editors' Notes",
-      href: "/editors-notes",
-      key: "editorsNotes",
-      tiers: [
-        {
-          name: "Free",
-          price: "$0",
-          period: "forever",
-          primary: true,
-          features: ["Full note-taking", "DaVinci Resolve integration", "Clickable timecodes", "PDF/print export", "Sparkle auto-update"],
-        },
-      ],
-    },
-    {
-      name: "ACE Virtual World",
-      href: "/world",
-      key: "world",
-      tiers: [
-        {
-          name: "Early access",
-          price: "Soon",
-          period: "in development",
-          badge: "In development",
-          features: ["Shared 3D venue", "Live stage feed", "Spatial voice", "Desktop + WebXR / VR", "Producer-driven cues"],
-        },
-      ],
-    },
-  ] as const;
-
-  return (
-    <section className="px-6 sm:px-10 py-16 border-y border-[#1A1A1A] bg-[#0A0A0A]">
-      <div className="max-w-6xl mx-auto space-y-16">
-        {products.map((product) => (
-          <ProductTheme key={product.name} product={product.key as ProductKey}>
-            <Reveal>
-              <div className="flex items-center gap-3 mb-6">
-                <Link href={product.href} className="text-xl font-bold text-white hover:text-[var(--accent-vivid)] transition">
-                  {product.name}
-                </Link>
-                <span className="h-px flex-1 bg-[#1F1F1F]" />
-              </div>
-            </Reveal>
-            <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-4" stagger={0.08}>
-              {product.tiers.map((tier) => {
-                const primary = "primary" in tier && tier.primary;
-                return (
-                  <Item key={tier.name}>
-                    <div
-                      className={`h-full p-7 rounded-2xl relative ${primary ? "" : "bg-[#141414] border border-[#222]"}`}
-                      style={
-                        primary
-                          ? {
-                              background: "linear-gradient(to bottom, rgba(var(--accent-rgb),0.15), #1A1A1A)",
-                              border: "1px solid rgba(var(--accent-rgb),0.4)",
-                            }
-                          : undefined
-                      }
-                    >
-                      {"badge" in tier && tier.badge && (
-                        <div className="absolute -top-2.5 left-7 px-2.5 py-0.5 rounded-full text-white text-[10px] uppercase tracking-wider font-bold bg-[var(--accent)]">
-                          {tier.badge}
-                        </div>
-                      )}
-                      <div className="text-sm font-bold uppercase tracking-wider text-[#C4C4C4] mb-3">{tier.name}</div>
-                      <div className="flex items-baseline gap-1.5 mb-6">
-                        <span className="text-4xl font-bold text-white tracking-tight">{tier.price}</span>
-                        <span className="text-[#C4C4C4] text-sm">{tier.period}</span>
-                      </div>
-                      <ul className="space-y-2.5 text-sm text-[#D4D4D4]">
-                        {tier.features.map((f) => (
-                          <li key={f} className="flex items-start gap-2">
-                            <span className="text-[var(--accent-vivid)] mt-0.5">✓</span>
-                            <span className="leading-relaxed">{f}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      {(() => {
-                        // editorsNotes → "notes" to match the gateway/entitlement product id.
-                        const cp = product.key === "editorsNotes" ? "notes" : product.key;
-                        const paid = tier.price.startsWith("$") && tier.price !== "$0";
-                        const free = tier.price === "$0" || tier.price === "Free";
-                        if (paid) {
-                          return (
-                            <a
-                              href={`/api/stripe/checkout?product=${cp}&plan=${tier.name.toLowerCase()}`}
-                              className="mt-6 block text-center px-5 py-2.5 rounded-full text-white font-bold text-xs transition bg-[var(--accent)] hover:opacity-90"
-                            >
-                              Subscribe
-                            </a>
-                          );
-                        }
-                        if (free) {
-                          return (
-                            <a
-                              href="/login"
-                              className="mt-6 block text-center px-5 py-2.5 rounded-full text-[#C4C4C4] font-semibold text-xs transition bg-[#1A1A1A] border border-[#2A2A2A] hover:bg-[#222]"
-                            >
-                              Get started
-                            </a>
-                          );
-                        }
-                        return null; // "Soon" / coming-soon → no CTA
-                      })()}
-                    </div>
-                  </Item>
-                );
-              })}
-            </Stagger>
-          </ProductTheme>
-        ))}
-      </div>
+      </ScrollReveal>
     </section>
   );
 }
 
 function SuiteBundle() {
   return (
-    <section className="px-6 sm:px-10 py-20 border-b border-[#1A1A1A]">
-      <Reveal className="max-w-3xl mx-auto text-center">
+    <section className="relative overflow-hidden px-6 sm:px-10 py-28 border-b border-[#1A1A1A]">
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(60% 60% at 50% 40%, rgba(200,16,46,0.14) 0%, rgba(200,16,46,0) 70%)",
+        }}
+      />
+      <ScrollReveal className="relative max-w-3xl mx-auto text-center">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Suite bundle</div>
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-white">
+        <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-5 text-white">
           The whole suite.{" "}
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
-            One subscription.
-          </span>
+          <span className={`${SERIF} text-[#E8183A]`}>One subscription.</span>
         </h2>
-        <p className="text-[#C4C4C4] text-lg mb-8 max-w-xl mx-auto">
-          The suite bundle is coming soon. Get access to ACE Presenter Pro, Schedule Pro, Editors&apos; Notes, and ACE Manager Church — one account, one bill, one license key.
-        </p>
-        <a
-          href="mailto:hello@ace-presenter.app?subject=ACE%20Suite%20Bundle"
-          className="inline-block px-7 py-3.5 rounded-full bg-[#C8102E] hover:bg-[#E8183A] text-white font-bold text-sm transition hover:scale-[1.03] active:scale-100"
-        >
-          Register interest →
-        </a>
-      </Reveal>
+        <div className="flex items-baseline justify-center gap-2 mb-2">
+          <span className="text-5xl font-bold text-white tracking-tight">${SUITE_BUNDLE.monthlyUSD}</span>
+          <span className="text-[#C4C4C4]">/ mo</span>
+          <span className="text-[#666] mx-2">·</span>
+          <span className="text-2xl font-bold text-white tracking-tight">${SUITE_BUNDLE.annualUSD}</span>
+          <span className="text-[#C4C4C4]">/ yr</span>
+        </div>
+        <p className="text-[#888] text-sm mb-8">Everything, always the latest — cheaper than buying the pieces.</p>
+
+        <ScrollStagger className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl mx-auto mb-10 text-left" stagger={0.06}>
+          {SUITE_BUNDLE.features.map((f) => (
+            <ScrollItem key={f}>
+              <div className="flex items-start gap-2 text-sm text-[#D4D4D4]">
+                <span className="text-[#E8183A] mt-0.5">✓</span>
+                <span className="leading-relaxed">{f}</span>
+              </div>
+            </ScrollItem>
+          ))}
+        </ScrollStagger>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a
+            href={checkoutHref("suite", "bundle", "year")}
+            className="px-7 py-3.5 rounded-full bg-[#C8102E] hover:bg-[#E8183A] text-white font-bold text-sm transition hover:scale-[1.03] active:scale-100"
+          >
+            Get the suite — ${SUITE_BUNDLE.annualUSD}/yr
+          </a>
+          <a
+            href={checkoutHref("suite", "bundle", "month")}
+            className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
+          >
+            Monthly — ${SUITE_BUNDLE.monthlyUSD}/mo
+          </a>
+        </div>
+      </ScrollReveal>
     </section>
   );
 }
 
 function FAQ() {
   const faqs = [
-    { q: "Does one ACE account work across the suite?", a: "Yes. Sign in once at ace-presenter.app. Your license covers the products you have access to — Presenter, Schedule Manager, and Editors' Notes today, with Manager and Virtual World joining as they ship." },
-    { q: "What happens to my beta access when Day 90 arrives?", a: "Every beta user of ACE Presenter is grandfathered into the Standard tier for life — no charge, no action required." },
-    { q: "Is Editors' Notes really free?", a: "Yes. The app is free to download and use, including the DaVinci Resolve integration. Future Pro features (AI note summarization, team sharing) will be optional paid add-ons." },
-    { q: "Do I need an API key to use AI features?", a: "No. On paid tiers, AI calls route through the ACE gateway using pooled API access. You never need to bring your own Anthropic, ACR, or Deepgram key." },
-    { q: "Students and nonprofits?", a: "Schedule Manager Pro is 50% off for students and registered nonprofits. Email hello@ace-presenter.app with proof and we'll apply the discount." },
+    {
+      q: "Does one ACE account work across the suite?",
+      a: "Yes. Sign in once at ace-presenter.app. Your license covers the products you own — buy them individually or get everything with the suite bundle.",
+    },
+    {
+      q: "One-time or subscription — what's the difference?",
+      a: "Presenter and Editors' Notes can be bought once as a perpetual license (you own that major version, with a year of updates), or subscribed to for the always-latest version. Schedule Manager and the suite bundle are subscriptions.",
+    },
+    {
+      q: "What happens to my beta access?",
+      a: "Every beta tester is grandfathered into the paid Standard tier for life — no charge, no action required.",
+    },
+    {
+      q: "Do I need an API key for AI features?",
+      a: "No. On paid tiers, AI calls route through the ACE gateway using pooled access — you never bring your own Anthropic, ACR, or Deepgram key.",
+    },
+    {
+      q: "Discounts for students, ministries, and nonprofits?",
+      a: "Yes — ministry and education discounts are available. Email hello@ace-presenter.app with proof and we'll apply it.",
+    },
   ];
   return (
-    <section className="px-6 sm:px-10 py-20">
+    <section className="px-6 sm:px-10 py-24">
       <div className="max-w-3xl mx-auto">
-        <Reveal>
-          <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-8 text-center">FAQ</div>
-        </Reveal>
-        <Stagger className="space-y-6" stagger={0.07}>
+        <ScrollReveal>
+          <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-10 text-center">FAQ</div>
+        </ScrollReveal>
+        <ScrollStagger className="space-y-6" stagger={0.07}>
           {faqs.map((faq) => (
-            <Item key={faq.q}>
-              <div className="border-b border-[#1F1F1F] pb-6 last:border-0">
+            <ScrollItem key={faq.q}>
+              <div className="border-b border-[#1F1F1F] pb-6">
                 <div className="font-semibold text-white mb-2">{faq.q}</div>
                 <div className="text-[#C4C4C4] text-sm leading-relaxed">{faq.a}</div>
               </div>
-            </Item>
+            </ScrollItem>
           ))}
-        </Stagger>
+        </ScrollStagger>
         <p className="mt-10 text-center text-sm text-[#888]">
-          More questions? <Link href="/support" className="text-[#C8102E] hover:text-[#E8183A] transition">Get in touch →</Link>
+          More questions?{" "}
+          <Link href="/support" className="text-[#C8102E] hover:text-[#E8183A] transition">
+            Get in touch →
+          </Link>
         </p>
       </div>
     </section>

@@ -502,18 +502,18 @@ function BigStats() {
 /* ───────────── PRICING TEASER ───────────── */
 function PricingTeaser() {
   const tiers = [
-    { name: "Beta", price: "Free", period: "until Day 90", note: "Available now", primary: true, features: ["Full feature access", "All output formats", "Auto-updates", "Grandfathered to Standard for life"] },
-    { name: "Standard", price: "$19", period: "/ month", features: ["Bundled API access (ACR · Whisper · Claude)", "Priority detection updates", "Email support", "Single-seat license"] },
-    { name: "Pro", price: "$39", period: "/ month", features: ["Everything in Standard", "Multi-seat (up to 5)", "Priority support + onboarding call", "Sponsor early-access features"] },
+    { name: "Starter", price: "Free", period: "", note: "Available now", primary: true, features: ["Up to 25 cues per set", "Single HDMI output", "On-device detection", "12+ languages"] },
+    { name: "Presenter", price: "$29", period: "/ month", features: ["All outputs — HDMI, NDI, ATEM, OBS, OSC", "Unlimited cues", "Bible passage detection", "Or $279 / year"] },
+    { name: "One-time", price: "$399", period: "once", features: ["Perpetual license", "Current major version", "One seat", "1 year of updates"] },
   ] as const;
   return (
     <section id="pricing" className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A] bg-[#0A0A0A]">
       <div className="max-w-6xl mx-auto">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3 text-center">Pricing</div>
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 text-white text-center">
+        <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-3 text-white text-center">
           Free now. <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">Fair</span> later.
         </h2>
-        <p className="text-[#C4C4C4] text-lg mb-6 max-w-2xl mx-auto text-center">Public beta is completely free. Paid tiers begin Day 90 — every beta user is grandfathered into Standard for life.</p>
+        <p className="text-[#C4C4C4] text-lg mb-6 max-w-2xl mx-auto text-center">Pay once or subscribe — your call. Every beta tester is grandfathered into the paid tier for life.</p>
         <p className="text-center mb-12">
           <Link href="/pricing" className="text-sm text-[#C8102E] hover:text-[#E8183A] transition font-semibold">View suite pricing →</Link>
         </p>

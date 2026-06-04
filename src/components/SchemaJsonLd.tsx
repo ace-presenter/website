@@ -42,7 +42,7 @@ export default function SchemaJsonLd({
       price: "0",
       priceCurrency: "USD",
       description:
-        "Free during public beta. Paid tiers (Standard $19/mo, Pro $39/mo, Church $99/mo) launch with v2.0.",
+        "Free to start. Presenter $29/mo, $279/yr, or $399 one-time; full ACE suite $49/mo.",
     },
     description,
     url,

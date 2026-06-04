@@ -1,35 +1,41 @@
 /**
- * GET /api/stripe/checkout?product=<id>&plan=<tier>
+ * GET /api/stripe/checkout?product=<id>&plan=<slug>&cadence=<month|year>
  *
- * Starts a Stripe subscription checkout for the signed-in user and redirects to
- * Stripe's hosted page. Matches the portal route's conventions: Stripe REST via
- * fetch (no SDK), the customer carries metadata.userId.
+ * Starts a Stripe checkout for the signed-in user and redirects to Stripe's
+ * hosted page. Stripe REST via fetch (no SDK); the customer carries
+ * metadata.userId.
  *
- * The subscription metadata carries:
- *   - license_id = the user's id (so the cancel webhook can revoke — see
- *     /api/stripe/webhook and the gateway's /v1/license/revoke)
- *   - product + tier (so the grant-on-payment step knows what to provision)
+ * What gets purchased + granted is resolved from the shared pricing catalog
+ * (src/lib/pricing.ts) via resolveCheckout(), so the displayed plan, the
+ * charged price, and the granted entitlement tier stay in lockstep:
+ *   - mode   = "subscription" | "payment" (one-time perpetual licenses)
+ *   - tier   = the entitlement tier to grant (standard / business / …),
+ *              NOT the plan slug — this is what the webhook provisions.
+ *   - price  = process.env[<the plan's price env key>]
  *
- * Price ids come from env: STRIPE_PRICE_<PRODUCT>_<PLAN> (e.g.
- * STRIPE_PRICE_PRESENTER_STANDARD, STRIPE_PRICE_MANAGER_CHURCH).
+ * Metadata (license_id, product, tier) rides on the subscription for subs and
+ * on the session + payment intent for one-time buys, so the grant-on-payment
+ * webhook has what it needs in both cases.
  */
 
 import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { resolveCheckout, type Cadence } from "@/lib/pricing";
 
 const STRIPE_API = "https://api.stripe.com/v1";
-
-function priceId(product: string, plan: string): string | undefined {
-  const key = `STRIPE_PRICE_${product.toUpperCase()}_${plan.toUpperCase()}`;
-  return process.env[key];
-}
 
 export async function GET(req: NextRequest) {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.ace-presenter.app";
   const product = (req.nextUrl.searchParams.get("product") ?? "").toLowerCase();
   const plan = (req.nextUrl.searchParams.get("plan") ?? "").toLowerCase();
+  const cadence = ((req.nextUrl.searchParams.get("cadence") ?? "month").toLowerCase() === "year"
+    ? "year"
+    : "month") as Cadence;
 
-  const price = priceId(product, plan);
+  const resolved = resolveCheckout(product, plan, cadence);
+  if (!resolved) return NextResponse.redirect(`${appUrl}/pricing?checkout=unavailable`);
+
+  const price = process.env[resolved.envKey];
   if (!price) return NextResponse.redirect(`${appUrl}/pricing?checkout=unavailable`);
 
   const secretKey = process.env.STRIPE_SECRET_KEY;
@@ -43,8 +49,7 @@ export async function GET(req: NextRequest) {
     const auth = { Authorization: `Bearer ${secretKey}` };
     const form = { ...auth, "Content-Type": "application/x-www-form-urlencoded" };
 
-    // Find or create the Stripe customer carrying metadata.userId (so /portal
-    // can find it later).
+    // Find or create the Stripe customer carrying metadata.userId.
     const search = (await fetch(
       `${STRIPE_API}/customers/search?query=metadata["userId"]:"${user.id}"&limit=1`,
       { headers: auth },
@@ -60,23 +65,38 @@ export async function GET(req: NextRequest) {
     }
     if (!customerId) return NextResponse.redirect(`${appUrl}/pricing?checkout=error`);
 
+    const fields: Record<string, string> = {
+      mode: resolved.mode,
+      customer: customerId,
+      "line_items[0][price]": price,
+      "line_items[0][quantity]": "1",
+      success_url: `${appUrl}/account?checkout=success`,
+      cancel_url: `${appUrl}/pricing?checkout=cancelled`,
+      // Session-level metadata is present for both subscription and one-time.
+      "metadata[userId]": user.id,
+      "metadata[license_id]": user.id,
+      "metadata[product]": product,
+      "metadata[tier]": resolved.tier,
+    };
+
+    if (resolved.mode === "subscription") {
+      // Rides on the subscription so the cancel→revoke webhook + the
+      // grant-on-payment step have everything they need.
+      fields["subscription_data[metadata][license_id]"] = user.id;
+      fields["subscription_data[metadata][product]"] = product;
+      fields["subscription_data[metadata][tier]"] = resolved.tier;
+    } else {
+      // One-time: carry the same on the payment intent for the
+      // checkout.session.completed grant path.
+      fields["payment_intent_data[metadata][license_id]"] = user.id;
+      fields["payment_intent_data[metadata][product]"] = product;
+      fields["payment_intent_data[metadata][tier]"] = resolved.tier;
+    }
+
     const session = (await fetch(`${STRIPE_API}/checkout/sessions`, {
       method: "POST",
       headers: form,
-      body: new URLSearchParams({
-        mode: "subscription",
-        customer: customerId,
-        "line_items[0][price]": price,
-        "line_items[0][quantity]": "1",
-        success_url: `${appUrl}/account?checkout=success`,
-        cancel_url: `${appUrl}/pricing?checkout=cancelled`,
-        // Rides on the subscription so the cancel→revoke webhook + the
-        // grant-on-payment step have everything they need.
-        "subscription_data[metadata][license_id]": user.id,
-        "subscription_data[metadata][product]": product,
-        "subscription_data[metadata][tier]": plan,
-        "metadata[userId]": user.id,
-      }).toString(),
+      body: new URLSearchParams(fields).toString(),
     }).then((r) => r.json())) as { url?: string };
 
     if (!session.url) return NextResponse.redirect(`${appUrl}/pricing?checkout=error`);

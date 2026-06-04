@@ -205,7 +205,7 @@ function PricingTeaser() {
           </div>
           <div className="p-7 rounded-2xl bg-[#141414] border border-[#222]">
             <div className="text-sm font-bold uppercase tracking-wider text-[#C4C4C4] mb-3">Pro</div>
-            <div className="flex items-baseline gap-1.5 mb-5"><span className="text-4xl font-bold text-white">$7.99</span><span className="text-[#C4C4C4] text-sm">/ month</span></div>
+            <div className="flex items-baseline gap-1.5 mb-5"><span className="text-4xl font-bold text-white">$12</span><span className="text-[#C4C4C4] text-sm">/ month</span></div>
             <ul className="space-y-2 text-sm text-[#D4D4D4]">
               {["Everything in Free", "AI schedule import (included)", "Daily AI guidance (included)", "Unlimited Kanban projects", "Milestones", "Weekly CSV export"].map((f) => (
                 <li key={f} className="flex items-start gap-2"><span className="text-[#6941C6] mt-0.5">✓</span><span>{f}</span></li>
@@ -213,7 +213,7 @@ function PricingTeaser() {
             </ul>
           </div>
         </div>
-        <p className="text-center text-sm text-[#888]">Annual plan: $79.99/yr · Students and nonprofits: 50% off · <Link href="/pricing" className="text-[#6941C6] hover:text-[#8B68D6] transition">Suite pricing →</Link></p>
+        <p className="text-center text-sm text-[#888]">Annual plan: $96/yr (2 months free) · Ministry &amp; education discounts available · <Link href="/pricing" className="text-[#6941C6] hover:text-[#8B68D6] transition">Suite pricing →</Link></p>
       </Reveal>
     </section>
   );
