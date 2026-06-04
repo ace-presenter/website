@@ -99,6 +99,12 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#0F0F0F] text-white selection:bg-[#C8102E]/40">
+        {/* Safety net: scroll-reveal elements carry a SSR'd hidden state from
+            motion's `initial`. If JS never runs, force them visible so content
+            is never stuck at opacity:0. */}
+        <noscript>
+          <style>{`.sr-item{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
         <SmoothScroll>{children}</SmoothScroll>
         <SiteAnalytics />
       </body>

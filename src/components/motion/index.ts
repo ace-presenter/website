@@ -4,6 +4,11 @@
  */
 export { default as Aurora } from "./Aurora";
 export { Reveal, Stagger, Item } from "./Reveal";
+export {
+  default as ScrollReveal,
+  ScrollStagger,
+  ScrollItem,
+} from "./ScrollReveal";
 export { default as Parallax } from "./Parallax";
 export { default as SpotlightCard } from "./SpotlightCard";
 export { default as Marquee } from "./Marquee";

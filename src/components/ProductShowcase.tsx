@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import {
   useEffect,
   useLayoutEffect,
@@ -11,6 +10,8 @@ import {
 } from "react";
 import { useScroll, useMotionValueEvent, useTransform, motion } from "motion/react";
 import { products, type ProductKey } from "@/lib/brand";
+import DemoTile from "@/components/DemoTile";
+import { ScrollReveal, ScrollStagger, ScrollItem } from "@/components/motion";
 
 /* Run layout effects on the client, plain effects on the server (no SSR warning). */
 const useIso = typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -97,6 +98,7 @@ const SLIDES: Slide[] = [
     ),
     body: "Qt6 macOS app with DaVinci Resolve integration. Every timecode in your notes is a click that jumps Resolve to that exact frame.",
     stat: "DaVinci Resolve",
+    shot: { src: "/editors-notes/screenshot-insert-timecode.png", w: 1600, h: 1000 },
     cta: {
       label: "Download for Mac",
       href: "/api/download?product=editors-notes&platform=mac-arm64",
@@ -189,6 +191,18 @@ function PinnedShowcase() {
   const acc = products[SLIDES[active].key];
 
   return (
+    <>
+    <section className="px-6 sm:px-10 pt-28 pb-12 bg-[#080808] border-t border-[#1A1A1A]">
+      <ScrollReveal className="max-w-6xl mx-auto">
+        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">
+          The ACE Suite
+        </div>
+        <h2 className="text-4xl sm:text-6xl font-bold tracking-tight text-white max-w-2xl">
+          Five tools,{" "}
+          <span className={`${SERIF} text-[#E8183A]`}>one account</span>
+        </h2>
+      </ScrollReveal>
+    </section>
     <section
       ref={wrapRef}
       aria-label="The ACE suite"
@@ -245,6 +259,14 @@ function PinnedShowcase() {
                       />
                       {s.status}
                     </span>
+                    {s.key === "presenter" && (
+                      <span
+                        className="inline-flex items-center px-2.5 py-1 rounded-full text-[9px] uppercase tracking-[0.2em] font-bold text-white"
+                        style={{ backgroundColor: products.presenter.accent }}
+                      >
+                        Flagship
+                      </span>
+                    )}
                   </div>
 
                   <div
@@ -254,7 +276,13 @@ function PinnedShowcase() {
                     {s.chip}
                   </div>
 
-                  <h3 className="text-4xl sm:text-5xl xl:text-6xl font-bold tracking-tight leading-[1.02] text-white">
+                  <h3
+                    className={`font-bold tracking-tight leading-[1.02] text-white ${
+                      s.key === "presenter"
+                        ? "text-5xl sm:text-6xl xl:text-7xl"
+                        : "text-4xl sm:text-5xl xl:text-6xl"
+                    }`}
+                  >
                     {s.title}
                   </h3>
 
@@ -287,79 +315,15 @@ function PinnedShowcase() {
               ))}
             </div>
 
-            {/* Right: floating screenshot (if any) or accent-tinted device frame */}
+            {/* Right: best available visual per product (video > screenshot > animated) */}
             <div className="hidden lg:flex justify-center" style={{ perspective: "1600px" }}>
-              {SLIDES[active].shot ? (
-                <div
-                  key={active}
-                  className="ace-reveal group/shot w-full max-w-lg"
-                  style={{ aspectRatio: "16 / 10" }}
-                >
-                  <div
-                    className="relative w-full h-full rounded-2xl overflow-hidden border border-white/10 transition-transform duration-500 ease-out will-change-transform group-hover/shot:scale-[1.02]"
-                    style={{
-                      transform: "rotateX(7deg) rotateY(-13deg)",
-                      boxShadow: `0 50px 130px -30px rgba(${acc.rgb},0.6), 0 12px 40px -20px rgba(0,0,0,0.85)`,
-                    }}
-                  >
-                    <Image
-                      src={SLIDES[active].shot!.src}
-                      alt={`${SLIDES[active].short} screenshot`}
-                      width={SLIDES[active].shot!.w}
-                      height={SLIDES[active].shot!.h}
-                      className="absolute inset-0 w-full h-full object-cover object-top"
-                    />
-                    {/* accent sheen */}
-                    <div
-                      aria-hidden
-                      className="absolute inset-0 pointer-events-none"
-                      style={{
-                        background: `linear-gradient(135deg, rgba(${acc.rgb},0.18) 0%, rgba(${acc.rgb},0) 45%)`,
-                      }}
-                    />
-                  </div>
-                </div>
-              ) : (
-              <div
-                key={active}
-                className="ace-reveal w-full max-w-md aspect-[4/3] rounded-2xl border border-[#222] overflow-hidden"
-                style={{
-                  background: `linear-gradient(160deg, rgba(${acc.rgb},0.16), rgba(20,20,20,0.6))`,
-                  boxShadow: `0 30px 80px -30px rgba(${acc.rgb},0.45)`,
-                }}
-              >
-                <div className="flex items-center gap-1.5 px-4 py-3 border-b border-white/5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-white/15" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-white/15" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-white/15" />
-                  <span className="ml-3 text-[10px] uppercase tracking-[0.2em] text-white/40 font-semibold">
-                    {SLIDES[active].chip}
-                  </span>
-                </div>
-                <div className="p-6 flex flex-col gap-3">
-                  <div
-                    className="text-3xl font-bold tracking-tight"
-                    style={{ color: acc.accentVivid }}
-                  >
-                    {SLIDES[active].short}
-                  </div>
-                  <div className="h-2 rounded-full bg-white/10 w-3/4" />
-                  <div className="h-2 rounded-full bg-white/10 w-1/2" />
-                  <div className="mt-3 flex gap-1.5 items-end h-16">
-                    {Array.from({ length: 11 }).map((_, b) => (
-                      <span
-                        key={b}
-                        className="flex-1 rounded-sm"
-                        style={{
-                          height: `${30 + Math.abs(Math.sin(b * 1.3 + active)) * 60}%`,
-                          backgroundColor: `rgba(${acc.rgb},${0.35 + (b % 3) * 0.2})`,
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              )}
+              <DemoTile
+                reKey={active}
+                pkey={SLIDES[active].key}
+                chip={SLIDES[active].chip}
+                label={SLIDES[active].short}
+                shot={SLIDES[active].shot ? { src: SLIDES[active].shot!.src } : undefined}
+              />
             </div>
           </div>
 
@@ -401,6 +365,7 @@ function PinnedShowcase() {
         </div>
       </div>
     </section>
+    </>
   );
 }
 
@@ -410,21 +375,25 @@ function StackedShowcase() {
   return (
     <section className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A] bg-[#0A0A0A]">
       <div className="max-w-6xl mx-auto">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">
-          The ACE Suite
-        </div>
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-12 text-white max-w-2xl">
-          Five tools,{" "}
-          <span className={`${SERIF} text-[#E8183A]`}>one account</span>
-        </h2>
+        <ScrollReveal>
+          <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">
+            The ACE Suite
+          </div>
+          <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-12 text-white max-w-2xl">
+            Five tools,{" "}
+            <span className={`${SERIF} text-[#E8183A]`}>one account</span>
+          </h2>
+        </ScrollReveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <ScrollStagger className="grid grid-cols-1 sm:grid-cols-2 gap-4" stagger={0.08}>
           {SLIDES.map((s) => {
             const p = products[s.key];
+            const lead = s.key === "presenter";
             return (
+              <ScrollItem key={s.key} className={lead ? "sm:col-span-2" : ""}>
               <div
-                key={s.key}
-                className="group h-full p-7 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#111] border border-[#222] transition-colors duration-300 flex flex-col gap-5"
+                className={`group h-full p-7 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#111] border transition-colors duration-300 flex flex-col gap-5 ${lead ? "border-[#3a2a2d]" : "border-[#222]"}`}
+                style={lead ? { boxShadow: `0 30px 80px -40px rgba(${p.rgb},0.5)` } : undefined}
               >
                 <div className="flex items-center justify-between">
                   <span
@@ -443,7 +412,7 @@ function StackedShowcase() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-3 leading-tight">
+                  <h3 className={`font-bold text-white mb-3 leading-tight ${lead ? "text-3xl sm:text-4xl" : "text-xl"}`}>
                     {s.title}
                   </h3>
                   <p className="text-[#C4C4C4] text-sm leading-relaxed mb-4">
@@ -472,9 +441,10 @@ function StackedShowcase() {
                   </Link>
                 </div>
               </div>
+              </ScrollItem>
             );
           })}
-        </div>
+        </ScrollStagger>
       </div>
     </section>
   );

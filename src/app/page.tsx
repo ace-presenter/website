@@ -9,10 +9,11 @@ import HeroBackdrop3D from "@/components/hero/HeroBackdrop3D";
 import {
   Aurora,
   Reveal,
-  Stagger,
-  Item,
   Marquee,
   Counter,
+  ScrollReveal,
+  ScrollStagger,
+  ScrollItem,
 } from "@/components/motion";
 import { products } from "@/lib/brand";
 import ProductShowcase from "@/components/ProductShowcase";
@@ -49,7 +50,7 @@ function Hero() {
   return (
     <section className="relative px-6 sm:px-10 pt-20 sm:pt-28 pb-24 text-center overflow-hidden">
       {/* Multi-accent aurora — all five product colours drifting */}
-      <Aurora colors={ALL_ACCENT_RGB} intensity={0.28} className="opacity-95" />
+      <Aurora colors={ALL_ACCENT_RGB} intensity={0.22} className="opacity-90" />
       {/* Slow-rotating volumetric god rays */}
       <HeroRays />
       {/* Top crimson key glow keeps the anchor brand colour dominant */}
@@ -159,13 +160,13 @@ function UseCaseMarquee() {
 /* ───────────── STAT BAND ───────────── */
 function StatBand() {
   return (
-    <section className="px-6 sm:px-10 py-16 border-b border-[#1A1A1A]">
-      <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
+    <section className="px-6 sm:px-10 py-20 border-b border-[#1A1A1A]">
+      <ScrollReveal className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
         <Stat value={<Counter to={5} />} label="Products in the suite" />
         <Stat value={<Counter to={30} suffix="+" />} label="Languages detected" />
         <Stat value={<>&lt;1s</>} label="Cue latency" />
         <Stat value={<Counter to={100} suffix="%" />} label="On-device option" />
-      </div>
+      </ScrollReveal>
     </section>
   );
 }
@@ -197,27 +198,27 @@ function SuiteWhy() {
   ];
 
   return (
-    <section className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A]">
+    <section className="px-6 sm:px-10 py-32 border-b border-[#1A1A1A]">
       <div className="max-w-6xl mx-auto">
-        <Reveal>
+        <ScrollReveal>
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Why ACE</div>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-12 text-white max-w-2xl">
+          <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-12 text-white max-w-2xl">
             Built to work{" "}
             <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
               together
             </span>
           </h2>
-        </Reveal>
+        </ScrollReveal>
 
-        <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-8" stagger={0.12}>
+        <ScrollStagger className="grid grid-cols-1 sm:grid-cols-3 gap-8" stagger={0.12}>
           {points.map((p) => (
-            <Item key={p.label}>
+            <ScrollItem key={p.label}>
               <div className="w-8 h-0.5 bg-[#C8102E] mb-4" />
               <h3 className="text-lg font-bold text-white mb-2">{p.label}</h3>
               <p className="text-[#C4C4C4] text-sm leading-relaxed">{p.body}</p>
-            </Item>
+            </ScrollItem>
           ))}
-        </Stagger>
+        </ScrollStagger>
       </div>
     </section>
   );
@@ -226,10 +227,10 @@ function SuiteWhy() {
 /* ───────────── PRICING TEASER ───────────── */
 function PricingTeaser() {
   return (
-    <section className="px-6 sm:px-10 py-20 border-b border-[#1A1A1A] bg-[#0A0A0A]">
-      <Reveal className="max-w-6xl mx-auto text-center">
+    <section className="px-6 sm:px-10 py-28 border-b border-[#1A1A1A] bg-[#0A0A0A]">
+      <ScrollReveal className="max-w-6xl mx-auto text-center">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Pricing</div>
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-4 text-white">
+        <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-4 text-white">
           Free to start.{" "}
           <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
             Fair
@@ -245,7 +246,7 @@ function PricingTeaser() {
         >
           View pricing →
         </Link>
-      </Reveal>
+      </ScrollReveal>
     </section>
   );
 }
