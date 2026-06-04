@@ -184,7 +184,7 @@ function Requirements() {
   return (
     <section className="px-6 sm:px-10 py-16 border-y border-[#1A1A1A] bg-[#0A0A0A]">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-8">
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-8">
           System requirements
         </h2>
         <dl className="space-y-5">
@@ -207,7 +207,7 @@ function OtherPlatforms() {
   return (
     <section className="px-6 sm:px-10 py-20">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3">
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-3">
           Windows? Linux?
         </h2>
         <p className="text-[#C4C4C4] mb-8">

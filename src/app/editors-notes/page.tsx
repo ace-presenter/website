@@ -139,7 +139,7 @@ function TimecodeDemo() {
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#B07C2A] font-bold mb-3">
             Live integration
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
+          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-white">
             Click. Jump.{" "}
             <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#CFA04D]">
               Edit.
@@ -226,7 +226,7 @@ function Screenshots() {
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#B07C2A] font-bold mb-3">
             Screenshots
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-10">
+          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-10">
             Built for the edit suite
           </h2>
         </Reveal>
@@ -293,7 +293,7 @@ function Features() {
     <section id="features" className="px-6 sm:px-10 py-24 border-y border-[#1A1A1A] bg-[#0A0A0A]">
       <div className="max-w-6xl mx-auto">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#B07C2A] font-bold mb-3">Capabilities</div>
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-12 text-white max-w-2xl">
+        <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-12 text-white max-w-2xl">
           What Editors&apos; Notes{" "}
           <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#CFA04D]">actually does</span>
         </h2>
@@ -321,7 +321,7 @@ function UseCase() {
     <section className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A]">
       <div className="max-w-6xl mx-auto">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#B07C2A] font-bold mb-3">Use case</div>
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-12 text-white max-w-2xl">
+        <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-12 text-white max-w-2xl">
           The assistant editor, in the{" "}
           <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#CFA04D]">review</span>
         </h2>

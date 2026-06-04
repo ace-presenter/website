@@ -21,7 +21,7 @@ import Footer from "@/components/Footer";
 import LicenseKeyPanel from "@/components/LicenseKeyPanel";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { resolveEntitlements } from "@/lib/entitlements";
-import type { Product, Tier } from "@/lib/license";
+import type { Product } from "@/lib/license";
 
 export const metadata: Metadata = {
   title: "Account — ACE Suite",
@@ -84,16 +84,20 @@ const PRODUCTS: {
 
 // ── Tier display ──────────────────────────────────────────────────────────────
 
-const TIER_LABELS: Record<Tier, string> = {
+const TIER_LABELS: Record<string, string> = {
   free: "Free",
   standard: "Standard",
   pro: "Pro",
+  business: "Business",
+  enterprise: "Enterprise",
 };
 
-const TIER_COLORS: Record<Tier, string> = {
+const TIER_COLORS: Record<string, string> = {
   free: "bg-[#1A1A1A] text-[#888] border-[#2A2A2A]",
   standard: "bg-[#0D1A2E] text-[#60A5FA] border-[#1D3C6E]",
   pro: "bg-[#1A0D1A] text-[#C084FC] border-[#3D1D6E]",
+  business: "bg-[#1A140A] text-[#E8A33D] border-[#5A3E12]",
+  enterprise: "bg-[#0A1A14] text-[#34D399] border-[#12503A]",
 };
 
 // ── Page ──────────────────────────────────────────────────────────────────────
@@ -106,7 +110,7 @@ export default async function AccountPage() {
 
   // Resolve entitlements
   const claim = await resolveEntitlements(new Request("http://localhost/account"));
-  const tier: Tier = claim?.tier ?? "free";
+  const tier: string = claim?.tier ?? "free";
   const products: Product[] = claim?.products ?? [];
 
   return (
@@ -130,8 +134,8 @@ export default async function AccountPage() {
               </h1>
               <p className="text-[#888] text-sm mt-2">{user.email}</p>
             </div>
-            <span className={`mt-1 text-xs font-bold px-3 py-1 rounded-full border ${TIER_COLORS[tier]}`}>
-              {TIER_LABELS[tier]}
+            <span className={`mt-1 text-xs font-bold px-3 py-1 rounded-full border ${TIER_COLORS[tier] ?? TIER_COLORS.standard}`}>
+              {TIER_LABELS[tier] ?? "Member"}
             </span>
           </div>
 
@@ -155,7 +159,6 @@ export default async function AccountPage() {
                           width={28}
                           height={28}
                           className="rounded"
-                          onError={() => {}}
                         />
                       </div>
                       <div>

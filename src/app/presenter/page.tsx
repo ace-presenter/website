@@ -7,7 +7,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ManualBanner from "@/components/ManualBanner";
 import FinalCTA from "@/components/FinalCTA";
-import { Aurora, Reveal, Stagger, Item, SpotlightCard, Counter } from "@/components/motion";
+import { Aurora, ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard, Counter } from "@/components/motion";
 
 const GLOW = "rgba(200,16,46,0.14)";
 
@@ -256,7 +256,7 @@ function PropresenterMigration() {
           </div>
         </div>
 
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-4 max-w-2xl mx-auto leading-[1.1]">
+        <h2 className="text-4xl sm:text-6xl font-bold tracking-tight text-white mb-4 max-w-2xl mx-auto leading-[1.1]">
           Migrating from{" "}
           <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
             ProPresenter
@@ -328,7 +328,7 @@ function Segments() {
       <div className="max-w-6xl mx-auto relative">
         <Reveal>
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Use cases</div>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 text-white max-w-2xl">
+          <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-3 text-white max-w-2xl">
             One app, every <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">live</span> event
           </h2>
           <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">Built for any room where someone speaks and slides need to follow them.</p>
@@ -366,7 +366,7 @@ function BentoFeatures() {
       <div className="max-w-6xl mx-auto">
         <Reveal>
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Capabilities</div>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 text-white max-w-2xl">
+          <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-3 text-white max-w-2xl">
             What ACE actually <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">does</span>
           </h2>
           <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">Local-first, latency-conscious, built for the kind of pressure where mistakes are visible.</p>
@@ -438,7 +438,7 @@ function WhatsNew() {
           <span className="text-[10px] uppercase tracking-[0.25em] text-[#E8183A] font-bold">What&apos;s new</span>
           <span className="h-px flex-1 bg-[#1F1F1F]" />
         </div>
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-12 leading-tight">
+        <h2 className="text-4xl sm:text-6xl font-bold tracking-tight text-white mb-12 leading-tight">
           v1.5 — Service Plan,<br />
           <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">bilingual songs</span>
         </h2>

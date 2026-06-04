@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import { Aurora, Reveal, Stagger, Item, SpotlightCard } from "@/components/motion";
+import { Aurora, ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard } from "@/components/motion";
 
 // ACE World accent (teal) — mirrors products.world in @/lib/brand.
 const ACCENT = "#0884A8";
@@ -143,7 +143,7 @@ function WhatsComing() {
           >
             What&apos;s coming
           </div>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-12 text-white max-w-2xl">
+          <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-12 text-white max-w-2xl">
             The room,{" "}
             <span
               className="font-[family-name:var(--font-instrument-serif)] italic font-normal"

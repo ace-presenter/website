@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, type Variants } from "motion/react";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 /**
  * ScrollReveal — fades + lifts content in when it scrolls into view.
@@ -18,6 +18,9 @@ import type { ReactNode } from "react";
  *    in the document head force-shows `.sr-item`, so if JS never runs the
  *    content is visible rather than stuck at opacity:0.
  *  - `viewport once` so it animates a single time and never re-hides on scroll.
+ *
+ * These accept an optional `style` so they are drop-in replacements for the
+ * on-mount `Reveal`/`Stagger`/`Item` primitives (some callers alias them).
  */
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -25,6 +28,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 export default function ScrollReveal({
   children,
   className = "",
+  style,
   y = 24,
   delay = 0,
   duration = 0.7,
@@ -33,6 +37,7 @@ export default function ScrollReveal({
 }: {
   children: ReactNode;
   className?: string;
+  style?: CSSProperties;
   /** Vertical lift distance in px. */
   y?: number;
   /** Seconds. */
@@ -46,7 +51,7 @@ export default function ScrollReveal({
   const reduce = useReducedMotion();
 
   // Reduced motion → no animation, no hidden state. Just render.
-  if (reduce) return <div className={className}>{children}</div>;
+  if (reduce) return <div className={className} style={style}>{children}</div>;
 
   const variants: Variants = {
     hidden: { opacity: 0, y },
@@ -56,6 +61,7 @@ export default function ScrollReveal({
   return (
     <motion.div
       className={`sr-item ${className}`}
+      style={style}
       initial="hidden"
       whileInView="show"
       viewport={{ once, amount, margin: "0px 0px -8% 0px" }}
@@ -73,6 +79,7 @@ export default function ScrollReveal({
 export function ScrollStagger({
   children,
   className = "",
+  style,
   stagger = 0.1,
   delayChildren = 0,
   once = true,
@@ -80,17 +87,19 @@ export function ScrollStagger({
 }: {
   children: ReactNode;
   className?: string;
+  style?: CSSProperties;
   stagger?: number;
   delayChildren?: number;
   once?: boolean;
   amount?: number;
 }) {
   const reduce = useReducedMotion();
-  if (reduce) return <div className={className}>{children}</div>;
+  if (reduce) return <div className={className} style={style}>{children}</div>;
 
   return (
     <motion.div
       className={className}
+      style={style}
       initial="hidden"
       whileInView="show"
       viewport={{ once, amount }}
@@ -109,20 +118,23 @@ export function ScrollStagger({
 export function ScrollItem({
   children,
   className = "",
+  style,
   y = 24,
   duration = 0.7,
 }: {
   children: ReactNode;
   className?: string;
+  style?: CSSProperties;
   y?: number;
   duration?: number;
 }) {
   const reduce = useReducedMotion();
-  if (reduce) return <div className={className}>{children}</div>;
+  if (reduce) return <div className={className} style={style}>{children}</div>;
 
   return (
     <motion.div
       className={`sr-item ${className}`}
+      style={style}
       variants={{
         hidden: { opacity: 0, y },
         show: { opacity: 1, y: 0, transition: { duration, ease: EASE } },

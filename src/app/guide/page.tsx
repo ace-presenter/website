@@ -64,7 +64,7 @@ function Section({
       <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">
         {eyebrow}
       </div>
-      <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6 text-white">
+      <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6 text-white">
         {title}
       </h2>
       <div className="text-[#C4C4C4] text-base leading-relaxed space-y-4">

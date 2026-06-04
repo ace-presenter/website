@@ -3,7 +3,7 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
-import { Aurora, Reveal, Stagger, Item, SpotlightCard } from "@/components/motion";
+import { Aurora, ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard } from "@/components/motion";
 import ScheduleFeatureWalk from "@/components/ScheduleFeatureWalk";
 
 const GLOW = "rgba(105,65,198,0.14)";
@@ -126,7 +126,7 @@ function Features() {
       <div className="max-w-6xl mx-auto">
         <Reveal>
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#6941C6] font-bold mb-3">Capabilities</div>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-12 text-white max-w-2xl">
+          <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-12 text-white max-w-2xl">
             What Schedule Manager{" "}
             <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#8B68D6]">actually does</span>
           </h2>
@@ -158,7 +158,7 @@ function UseCases() {
       <div className="max-w-6xl mx-auto">
         <Reveal>
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#6941C6] font-bold mb-3">Use cases</div>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-12 text-white max-w-2xl">
+          <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-12 text-white max-w-2xl">
             For anyone who runs a{" "}
             <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#8B68D6]">schedule</span>
           </h2>

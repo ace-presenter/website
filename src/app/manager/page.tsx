@@ -3,7 +3,7 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
-import { Aurora, Reveal, Stagger, Item, SpotlightCard } from "@/components/motion";
+import { Aurora, ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard } from "@/components/motion";
 
 // ACE Manager accent (emerald) — mirrors products.manager in @/lib/brand.
 const ACCENT = "#0A7B52";
@@ -195,7 +195,7 @@ function VsChurchSuite() {
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#555] font-semibold mb-3 text-center">
           Why switch
         </div>
-        <h2 className="text-2xl sm:text-4xl font-bold text-white text-center mb-10">
+        <h2 className="text-3xl sm:text-5xl font-bold text-white text-center mb-10">
           ACE Manager vs ChurchSuite
         </h2>
         <div className="overflow-x-auto">
@@ -229,7 +229,7 @@ function UseCases() {
       <div className="max-w-4xl mx-auto">
         <Reveal>
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#555] font-semibold mb-3 text-center">Built for</div>
-          <h2 className="text-2xl sm:text-4xl font-bold text-white text-center mb-12">Who uses ACE Manager</h2>
+          <h2 className="text-3xl sm:text-5xl font-bold text-white text-center mb-12">Who uses ACE Manager</h2>
         </Reveal>
         <Stagger className="grid sm:grid-cols-3 gap-6" stagger={0.1}>
           {[
