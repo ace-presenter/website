@@ -34,9 +34,14 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     setLoading(true);
-    const supabase = getSupabase();
 
     try {
+      if (!SUPABASE_URL || !SUPABASE_ANON) {
+        // Misconfigured deploy (missing NEXT_PUBLIC_SUPABASE_* at build time).
+        // Surface a clear message instead of hanging on a thrown client init.
+        throw new Error("Sign-in is temporarily unavailable. Please try again shortly.");
+      }
+      const supabase = getSupabase();
       if (mode === "magic") {
         const { error: err } = await supabase.auth.signInWithOtp({
           email,

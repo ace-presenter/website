@@ -103,9 +103,17 @@ const TIER_COLORS: Record<string, string> = {
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default async function AccountPage() {
-  // Resolve session
-  const supabase = await createSupabaseServerClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  // Resolve session. If the Supabase client can't be constructed (e.g. a
+  // misconfigured deploy missing NEXT_PUBLIC_SUPABASE_* env) or auth errors,
+  // treat the visitor as logged out and bounce to /login instead of 500-ing.
+  let user: { id: string; email?: string } | null = null;
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data } = await supabase.auth.getUser();
+    user = data.user;
+  } catch {
+    user = null;
+  }
   if (!user) redirect("/login");
 
   // Resolve entitlements
