@@ -40,9 +40,19 @@ export async function POST(req: Request): Promise<Response> {
     return NextResponse.json({ error: "account_not_configured" }, { status: 503 });
   }
 
-  const supabase = await createSupabaseServerClient();
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
+  // Accept a Bearer access token (NATIVE apps — they have no cookies) OR a
+  // cookie session (web SSR). The desktop client signs in to Supabase directly
+  // and sends the resulting access token as `Authorization: Bearer <token>`;
+  // previously this route only read the cookie session, so every native sign-in
+  // 401'd here and the app could never obtain a licence.
+  const authHeader = req.headers.get("authorization") ?? req.headers.get("Authorization");
+  let accessToken: string | undefined = authHeader?.match(/^Bearer\s+(.+)$/i)?.[1];
+  if (!accessToken) {
+    const supabase = await createSupabaseServerClient();
+    const { data: { session } } = await supabase.auth.getSession();
+    accessToken = session?.access_token;
+  }
+  if (!accessToken) {
     return NextResponse.json(
       { error: "unauthenticated", detail: "Sign in to get your ACE licence key." },
       { status: 401 },
@@ -53,7 +63,7 @@ export async function POST(req: Request): Promise<Response> {
     const res = await fetch(`${supabaseUrl}/functions/v1/mint-license`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${session.access_token}`,
+        Authorization: `Bearer ${accessToken}`,
         apikey: anon,
         "Content-Type": "application/json",
       },
