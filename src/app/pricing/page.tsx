@@ -30,16 +30,8 @@ export default function PricingPage() {
 
 function PricingHero() {
   return (
-    <section className="relative overflow-hidden px-6 sm:px-10 pt-24 sm:pt-32 pb-16 text-center">
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(70% 50% at 50% 0%, rgba(200,16,46,0.22) 0%, rgba(200,16,46,0.05) 45%, rgba(200,16,46,0) 72%)",
-        }}
-      />
-      <ScrollReveal className="relative max-w-3xl mx-auto">
+    <section className="px-6 sm:px-10 pt-24 sm:pt-32 pb-16 text-center">
+      <ScrollReveal className="max-w-3xl mx-auto">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Pricing</div>
         <h1 className="text-5xl sm:text-7xl font-bold tracking-tight mb-6 text-white leading-[0.97]">
           Free to start.{" "}
@@ -57,16 +49,8 @@ function PricingHero() {
 
 function SuiteBundle() {
   return (
-    <section className="relative overflow-hidden px-6 sm:px-10 py-28 border-b border-[#1A1A1A]">
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(60% 60% at 50% 40%, rgba(200,16,46,0.14) 0%, rgba(200,16,46,0) 70%)",
-        }}
-      />
-      <ScrollReveal className="relative max-w-3xl mx-auto text-center">
+    <section className="px-6 sm:px-10 py-28 border-b border-[#1A1A1A]">
+      <ScrollReveal className="max-w-3xl mx-auto text-center">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Suite bundle</div>
         <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-5 text-white">
           The whole suite.{" "}
@@ -95,7 +79,7 @@ function SuiteBundle() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
             href={checkoutHref("suite", "bundle", "year")}
-            className="px-7 py-3.5 rounded-full bg-[#C8102E] hover:bg-[#E8183A] text-white font-bold text-sm transition hover:scale-[1.03] active:scale-100"
+            className="px-7 py-3.5 rounded-full bg-[#C8102E] hover:bg-[#E8183A] text-white font-bold text-sm transition-colors"
           >
             Get the suite — ${SUITE_BUNDLE.annualUSD}/yr
           </a>

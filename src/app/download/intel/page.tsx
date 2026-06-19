@@ -63,16 +63,8 @@ function Nav() {
 /* ───────────── HERO ───────────── */
 function Hero() {
   return (
-    <section className="relative px-6 sm:px-10 pt-20 sm:pt-28 pb-12 text-center overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(70% 50% at 50% 0%, rgba(245,158,11,0.16) 0%, rgba(245,158,11,0.04) 35%, rgba(245,158,11,0) 70%)",
-        }}
-      />
-      <div className="relative max-w-2xl mx-auto">
+    <section className="px-6 sm:px-10 pt-20 sm:pt-28 pb-12 text-center">
+      <div className="max-w-2xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#F59E0B] font-semibold mb-8">
           <span aria-hidden>⚠</span>
           For Intel Mac users
