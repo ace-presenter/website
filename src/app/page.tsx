@@ -37,8 +37,10 @@ export default function SuiteHome() {
 function Hero() {
   return (
     <section className="px-6 sm:px-10 pt-24 sm:pt-32 pb-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="max-w-3xl">
+      {/* Left-text / right-screenshot split. Stacks on mobile; the mockup sits
+          beside the copy on lg+, vertically centred like a real product shot. */}
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-14 items-center">
+        <div>
           <div className="flex items-center gap-3 mb-8">
             <span className="h-px w-8 bg-[#C8102E]" />
             <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#888]">
@@ -46,7 +48,7 @@ function Hero() {
             </span>
           </div>
 
-          <h1 className="text-5xl sm:text-7xl font-bold tracking-tight leading-[0.98] text-white">
+          <h1 className="text-4xl sm:text-6xl font-bold tracking-tight leading-[0.98] text-white">
             The room speaks.
             <br />
             The slides{" "}
@@ -85,8 +87,8 @@ function Hero() {
           </p>
         </div>
 
-        {/* Honest product frame */}
-        <div className="mt-16 sm:mt-20 max-w-4xl">
+        {/* Honest product frame — flat, like a real screenshot */}
+        <div className="w-full">
           <HeroMockup />
         </div>
       </div>
