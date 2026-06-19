@@ -90,20 +90,13 @@ function Hero({
   heroBody,
 }: SegmentLandingProps) {
   return (
-    <section className="relative px-6 sm:px-10 pt-20 sm:pt-32 pb-20 text-center overflow-hidden">
-      {/* Aurora glow — same brand-red wash as the home hero */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(70% 50% at 50% 0%, rgba(200,16,46,0.30) 0%, rgba(200,16,46,0.08) 35%, rgba(200,16,46,0) 70%)",
-        }}
-      />
-      <div className="relative max-w-4xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C4C4C4] font-semibold mb-8">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#C8102E] animate-pulse" />
-          {eyebrow}
+    <section className="px-6 sm:px-10 pt-20 sm:pt-32 pb-20">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex items-center gap-3 mb-8">
+          <span className="h-px w-8 bg-[#C8102E]" />
+          <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#888]">
+            {eyebrow}
+          </span>
         </div>
 
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95] text-white">
@@ -115,14 +108,14 @@ function Hero({
           <span className="text-[#C8102E]">.</span>
         </h1>
 
-        <p className="mt-8 max-w-2xl mx-auto text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
+        <p className="mt-8 max-w-2xl text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
           {heroBody}
         </p>
 
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div className="mt-10 flex flex-col sm:flex-row items-start gap-3">
           <a
             href="/api/download?platform=mac-arm64"
-            className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.15)]"
+            className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition-colors"
           >
             Download for Mac · Apple Silicon
           </a>
@@ -208,7 +201,7 @@ function FinalCTA({ title }: { title: string }) {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
             href="/api/download?platform=mac-arm64"
-            className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.15)]"
+            className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition-colors"
           >
             Download for Mac · Apple Silicon
           </a>
