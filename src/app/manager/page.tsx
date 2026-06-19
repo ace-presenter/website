@@ -3,7 +3,7 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
-import { Aurora, ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard } from "@/components/motion";
+import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard } from "@/components/motion";
 
 // ACE Manager accent (emerald) — mirrors products.manager in @/lib/brand.
 const ACCENT = "#0A7B52";
@@ -108,7 +108,6 @@ export default function ManagerPage() {
 function Hero() {
   return (
     <section className="relative overflow-hidden px-6 sm:px-10 pt-24 sm:pt-32 pb-20 text-center">
-      <Aurora colors={[ACCENT_RGB]} intensity={0.26} />
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"

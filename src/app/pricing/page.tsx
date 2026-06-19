@@ -3,8 +3,7 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PricingTable from "@/components/PricingTable";
-import { Aurora, ScrollReveal, ScrollStagger, ScrollItem } from "@/components/motion";
-import { products as brandProducts } from "@/lib/brand";
+import { ScrollReveal, ScrollStagger, ScrollItem } from "@/components/motion";
 import { SUITE_BUNDLE, checkoutHref } from "@/lib/pricing";
 
 export const metadata: Metadata = {
@@ -14,7 +13,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/pricing" },
 };
 
-const ALL_ACCENT_RGB = Object.values(brandProducts).map((p) => p.rgb);
 const SERIF = "font-[family-name:var(--font-instrument-serif)] italic font-normal";
 
 export default function PricingPage() {
@@ -33,7 +31,6 @@ export default function PricingPage() {
 function PricingHero() {
   return (
     <section className="relative overflow-hidden px-6 sm:px-10 pt-24 sm:pt-32 pb-16 text-center">
-      <Aurora colors={ALL_ACCENT_RGB} intensity={0.18} />
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
@@ -73,7 +70,7 @@ function SuiteBundle() {
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Suite bundle</div>
         <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-5 text-white">
           The whole suite.{" "}
-          <span className={`${SERIF} text-[#E8183A]`}>One subscription.</span>
+          <span>One subscription.</span>
         </h2>
         <div className="flex items-baseline justify-center gap-2 mb-2">
           <span className="text-5xl font-bold text-white tracking-tight">${SUITE_BUNDLE.monthlyUSD}</span>

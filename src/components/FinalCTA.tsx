@@ -94,13 +94,13 @@ function PresenterCTA({ accent }: { accent: AccentTuple }) {
       </div>
       <div className="mt-3 flex items-center justify-center gap-2 text-xs">
         <span className="text-[#888]">Windows version</span>
-        <a
-          href="mailto:hello@ace-presenter.app?subject=ACE%20Windows%20waitlist&body=Please%20add%20me%20to%20the%20Windows%20waitlist."
+        <Link
+          href="/waitlist"
           className="hover:text-white transition font-semibold"
           style={{ color: vivid }}
         >
           join the waitlist →
-        </a>
+        </Link>
       </div>
     </>
   );

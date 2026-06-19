@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import { Aurora, ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard } from "@/components/motion";
+import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard } from "@/components/motion";
 
 // ACE World accent (teal) — mirrors products.world in @/lib/brand.
 const ACCENT = "#0884A8";
@@ -42,7 +42,6 @@ export default function WorldPage() {
 function Hero() {
   return (
     <section className="relative px-6 sm:px-10 pt-20 sm:pt-32 pb-24 text-center overflow-hidden">
-      <Aurora colors={[ACCENT_RGB]} intensity={0.28} />
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
@@ -145,12 +144,7 @@ function WhatsComing() {
           </div>
           <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-12 text-white max-w-2xl">
             The room,{" "}
-            <span
-              className="font-[family-name:var(--font-instrument-serif)] italic font-normal"
-              style={{ color: ACCENT_VIVID }}
-            >
-              rebuilt
-            </span>
+            rebuilt
           </h2>
         </Reveal>
 
@@ -179,12 +173,7 @@ function SuiteFit() {
       <Reveal className="max-w-2xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-white">
           We&apos;re building this{" "}
-          <span
-            className="font-[family-name:var(--font-instrument-serif)] italic font-normal"
-            style={{ color: ACCENT_VIVID }}
-          >
-            now
-          </span>
+          now
         </h2>
         <p className="text-[#C4C4C4] text-lg mb-10 leading-relaxed">
           ACE Virtual World is in active development. Live media, spatial voice, and the

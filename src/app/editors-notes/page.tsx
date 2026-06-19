@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
 import ScreenshotCarousel from "@/components/ScreenshotCarousel";
 import Reveal from "@/components/Reveal";
-import { Aurora } from "@/components/motion";
 
 export const metadata: Metadata = {
   title: "ACE Editors' Notes — Click-to-Seek Notes for DaVinci Resolve (Free, Mac)",
@@ -95,10 +94,7 @@ function DemoVideo() {
           See it in action
         </div>
         <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white text-center mb-8">
-          Click a timecode.{" "}
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#CFA04D]">
-            Resolve jumps.
-          </span>
+          Click a timecode. Resolve jumps.
         </h2>
         <div className="rounded-2xl overflow-hidden border border-[#222] bg-[#111] aspect-video">
           <iframe
@@ -140,10 +136,7 @@ function TimecodeDemo() {
             Live integration
           </div>
           <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-white">
-            Click. Jump.{" "}
-            <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#CFA04D]">
-              Edit.
-            </span>
+            Click. Jump. Edit.
           </h2>
           <p className="mt-3 text-[#C4C4C4]">
             Every timecode is a live link to your Resolve timeline.
@@ -168,7 +161,7 @@ function TimecodeDemo() {
                 </span>
               </div>
             ))}
-            <div className="h-5 w-px bg-[#B07C2A] ml-1 mt-1 animate-pulse" />
+            <div className="h-5 w-px bg-[#B07C2A] ml-1 mt-1" />
           </div>
         </Reveal>
       </div>
@@ -248,7 +241,6 @@ function Hero() {
         className="absolute inset-0 pointer-events-none"
         style={{ background: "radial-gradient(70% 50% at 50% 0%, rgba(176,124,42,0.25) 0%, rgba(176,124,42,0.07) 40%, rgba(176,124,42,0) 70%)" }}
       />
-      <Aurora colors={["176,124,42"]} intensity={0.24} />
       <div className="relative max-w-5xl mx-auto">
         <Reveal>
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C4C4C4] font-semibold mb-8">
@@ -294,8 +286,7 @@ function Features() {
       <div className="max-w-6xl mx-auto">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#B07C2A] font-bold mb-3">Capabilities</div>
         <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-12 text-white max-w-2xl">
-          What Editors&apos; Notes{" "}
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#CFA04D]">actually does</span>
+          What Editors&apos; Notes actually does
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {FEATURES.map((f, i) => (
@@ -322,8 +313,7 @@ function UseCase() {
       <div className="max-w-6xl mx-auto">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#B07C2A] font-bold mb-3">Use case</div>
         <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-12 text-white max-w-2xl">
-          The assistant editor, in the{" "}
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#CFA04D]">review</span>
+          The assistant editor, in the review
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="p-7 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#111] border border-[#222]">

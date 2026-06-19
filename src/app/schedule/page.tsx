@@ -3,7 +3,7 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
-import { Aurora, ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard } from "@/components/motion";
+import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard } from "@/components/motion";
 import ScheduleFeatureWalk from "@/components/ScheduleFeatureWalk";
 
 const GLOW = "rgba(105,65,198,0.14)";
@@ -66,7 +66,6 @@ export default function SchedulePage() {
 function Hero() {
   return (
     <section className="relative px-6 sm:px-10 pt-20 sm:pt-32 pb-24 text-center overflow-hidden">
-      <Aurora colors={["105,65,198"]} intensity={0.26} />
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
@@ -128,7 +127,7 @@ function Features() {
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#6941C6] font-bold mb-3">Capabilities</div>
           <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-12 text-white max-w-2xl">
             What Schedule Manager{" "}
-            <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#8B68D6]">actually does</span>
+            actually does
           </h2>
         </Reveal>
         <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-4" stagger={0.09}>
@@ -160,7 +159,7 @@ function UseCases() {
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#6941C6] font-bold mb-3">Use cases</div>
           <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-12 text-white max-w-2xl">
             For anyone who runs a{" "}
-            <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#8B68D6]">schedule</span>
+            schedule
           </h2>
         </Reveal>
         <Stagger className="grid grid-cols-1 sm:grid-cols-2 gap-6" stagger={0.12}>
@@ -191,7 +190,7 @@ function PricingTeaser() {
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#6941C6] font-bold mb-3 text-center">Pricing</div>
         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-8 text-white text-center">
           Free to start. AI included on{" "}
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#8B68D6]">Pro</span>.
+          Pro.
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
           <div className="p-7 rounded-2xl bg-gradient-to-b from-[#6941C6]/15 to-[#1A1A1A] border border-[#6941C6]/40">

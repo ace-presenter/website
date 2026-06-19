@@ -7,7 +7,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ManualBanner from "@/components/ManualBanner";
 import FinalCTA from "@/components/FinalCTA";
-import { Aurora, ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard, Counter } from "@/components/motion";
+import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard, Counter } from "@/components/motion";
 
 const GLOW = "rgba(200,16,46,0.14)";
 
@@ -123,12 +123,10 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
         }}
       />
 
-      <Aurora colors={["200,16,46"]} intensity={0.18} />
-
       <div className="relative max-w-5xl mx-auto">
         <Reveal>
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C4C4C4] font-semibold mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C8102E] animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#C8102E]" />
             Live presentation, on autopilot
           </div>
         </Reveal>
@@ -178,12 +176,12 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
 
         <div className="mt-3 flex items-center justify-center gap-2 text-xs">
           <span className="text-[#888]">Windows version</span>
-          <a
-            href="mailto:hello@ace-presenter.app?subject=ACE%20Windows%20waitlist&body=Please%20add%20me%20to%20the%20Windows%20waitlist."
+          <Link
+            href="/waitlist"
             className="text-[#E8183A] hover:text-white transition font-semibold"
           >
             join the waitlist →
-          </a>
+          </Link>
         </div>
 
         <p className="mt-5 text-xs text-[#C4C4C4]">
@@ -258,9 +256,7 @@ function PropresenterMigration() {
 
         <h2 className="text-4xl sm:text-6xl font-bold tracking-tight text-white mb-4 max-w-2xl mx-auto leading-[1.1]">
           Migrating from{" "}
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
-            ProPresenter
-          </span>
+          ProPresenter
           , made easy<span className="text-[#C8102E]">.</span>
         </h2>
 
@@ -329,7 +325,7 @@ function Segments() {
         <Reveal>
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Use cases</div>
           <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-3 text-white max-w-2xl">
-            One app, every <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">live</span> event
+            One app, every live event
           </h2>
           <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">Built for any room where someone speaks and slides need to follow them.</p>
         </Reveal>
@@ -367,7 +363,7 @@ function BentoFeatures() {
         <Reveal>
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Capabilities</div>
           <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-3 text-white max-w-2xl">
-            What ACE actually <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">does</span>
+            What ACE actually does
           </h2>
           <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">Local-first, latency-conscious, built for the kind of pressure where mistakes are visible.</p>
         </Reveal>
@@ -440,7 +436,7 @@ function WhatsNew() {
         </div>
         <h2 className="text-4xl sm:text-6xl font-bold tracking-tight text-white mb-12 leading-tight">
           v1.5 — Service Plan,<br />
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">bilingual songs</span>
+          bilingual songs
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
           {HIGHLIGHTS.map((h) => (
@@ -511,7 +507,7 @@ function PricingTeaser() {
       <div className="max-w-6xl mx-auto">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3 text-center">Pricing</div>
         <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-3 text-white text-center">
-          Free now. <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">Fair</span> later.
+          Free now. Fair later.
         </h2>
         <p className="text-[#C4C4C4] text-lg mb-6 max-w-2xl mx-auto text-center">Pay once or subscribe — your call. Every beta tester is grandfathered into the paid tier for life.</p>
         <p className="text-center mb-12">
