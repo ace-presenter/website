@@ -3,13 +3,12 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
-import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard } from "@/components/motion";
+import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item } from "@/components/motion";
 
 // ACE Manager accent (emerald) — mirrors products.manager in @/lib/brand.
 const ACCENT = "#0A7B52";
 const ACCENT_VIVID = "#3DAA80";
 const ACCENT_RGB = "10,123,82";
-const GLOW = `rgba(${ACCENT_RGB},0.14)`;
 
 export const metadata: Metadata = {
   title: "ACE Manager — Church & Ministry Management",
@@ -107,16 +106,14 @@ export default function ManagerPage() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden px-6 sm:px-10 pt-24 sm:pt-32 pb-20 text-center">
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: `radial-gradient(70% 50% at 50% 0%, rgba(${ACCENT_RGB},0.22) 0%, rgba(${ACCENT_RGB},0.06) 40%, rgba(${ACCENT_RGB},0) 70%)` }}
-      />
-      <div className="relative max-w-4xl mx-auto">
+    <section className="px-6 sm:px-10 pt-24 sm:pt-32 pb-20">
+      <div className="max-w-4xl mx-auto">
         <Reveal>
-          <div className="text-[10px] uppercase tracking-[0.25em] font-bold mb-4" style={{ color: ACCENT }}>
-            ACE · Manager
+          <div className="flex items-center gap-3 mb-8">
+            <span className="h-px w-8" style={{ background: ACCENT }} />
+            <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#888]">
+              ACE · Manager
+            </span>
           </div>
         </Reveal>
         <Reveal delay={0.08}>
@@ -128,17 +125,17 @@ function Hero() {
           </h1>
         </Reveal>
         <Reveal delay={0.16}>
-          <p className="text-[#C4C4C4] text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="text-[#C4C4C4] text-lg sm:text-xl max-w-2xl mb-10 leading-relaxed">
             ACE Manager helps churches, ministries, and teams run members,
             departments, tasks, events, communication, and reporting from one
             coordinated system.
           </p>
         </Reveal>
         <Reveal delay={0.24}>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="flex flex-col sm:flex-row items-start gap-3">
             <a
               href="/manager/app"
-              className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition hover:scale-[1.03] active:scale-100"
+              className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition-colors"
             >
               Open ACE Manager
             </a>
@@ -170,15 +167,13 @@ function Features() {
         <Stagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" stagger={0.09}>
           {FEATURES.map((f) => (
             <Item key={f.tag}>
-              <SpotlightCard glow={GLOW} className="h-full rounded-2xl">
-                <div className="h-full bg-[#111] border border-[#1E1E1E] rounded-2xl p-6 flex flex-col gap-3 transition-colors hover:border-[rgba(10,123,82,0.5)]">
-                  <div className="text-[10px] uppercase tracking-[0.2em] font-bold" style={{ color: ACCENT_VIVID }}>
-                    {f.tag}
-                  </div>
-                  <h3 className="text-white font-semibold text-lg leading-snug">{f.title}</h3>
-                  <p className="text-[#888] text-sm leading-relaxed">{f.body}</p>
+              <div className="h-full bg-[#111] border border-[#1E1E1E] rounded-2xl p-6 flex flex-col gap-3 transition-colors hover:border-[rgba(10,123,82,0.5)]">
+                <div className="text-[10px] uppercase tracking-[0.2em] font-bold" style={{ color: ACCENT_VIVID }}>
+                  {f.tag}
                 </div>
-              </SpotlightCard>
+                <h3 className="text-white font-semibold text-lg leading-snug">{f.title}</h3>
+                <p className="text-[#888] text-sm leading-relaxed">{f.body}</p>
+              </div>
             </Item>
           ))}
         </Stagger>
