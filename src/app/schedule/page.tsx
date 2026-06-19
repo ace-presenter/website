@@ -3,10 +3,8 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
-import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard } from "@/components/motion";
+import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item } from "@/components/motion";
 import ScheduleFeatureWalk from "@/components/ScheduleFeatureWalk";
-
-const GLOW = "rgba(105,65,198,0.14)";
 
 export const metadata: Metadata = {
   title: "ACE Schedule Manager",
@@ -65,17 +63,14 @@ export default function SchedulePage() {
 
 function Hero() {
   return (
-    <section className="relative px-6 sm:px-10 pt-20 sm:pt-32 pb-24 text-center overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(70% 50% at 50% 0%, rgba(105,65,198,0.22) 0%, rgba(105,65,198,0.06) 40%, rgba(105,65,198,0) 70%)" }}
-      />
-      <div className="relative max-w-5xl mx-auto">
+    <section className="px-6 sm:px-10 pt-20 sm:pt-32 pb-24">
+      <div className="max-w-5xl mx-auto">
         <Reveal>
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C4C4C4] font-semibold mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#6941C6]" />
-            ACE · Schedule Manager
+          <div className="flex items-center gap-3 mb-8">
+            <span className="h-px w-8 bg-[#6941C6]" />
+            <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#888]">
+              ACE · Schedule Manager
+            </span>
           </div>
         </Reveal>
         <Reveal delay={0.08}>
@@ -87,21 +82,21 @@ function Hero() {
           </h1>
         </Reveal>
         <Reveal delay={0.16}>
-          <p className="mt-8 max-w-2xl mx-auto text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
+          <p className="mt-8 max-w-2xl text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
             AI-powered routine and task management. Photograph your plan, schedule your week, close the day with intention.
           </p>
         </Reveal>
         <Reveal delay={0.24}>
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="mt-10 flex flex-col sm:flex-row items-start gap-3">
             <a
               href="https://app.ace-presenter.app/auth"
-              className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.12)] hover:scale-[1.03] active:scale-100"
+              className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition-colors"
             >
               Start using ACE Schedule
             </a>
             <a
               href="/api/download?product=schedule"
-              className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A] hover:scale-[1.03] active:scale-100"
+              className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
             >
               Download for Mac
             </a>
@@ -133,16 +128,14 @@ function Features() {
         <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-4" stagger={0.09}>
           {FEATURES.map((f) => (
             <Item key={f.tag}>
-              <SpotlightCard glow={GLOW} className="h-full rounded-2xl">
-                <div className="h-full p-6 rounded-2xl bg-[#141414] border border-[#222] hover:border-[#6941C6]/50 transition-colors">
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#6941C6]" />
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-[#6941C6] font-bold">{f.tag}</span>
-                  </div>
-                  <h3 className="text-lg font-bold text-white mb-2 leading-tight">{f.title}</h3>
-                  <p className="text-[#C4C4C4] text-sm leading-relaxed">{f.body}</p>
+              <div className="h-full p-6 rounded-2xl bg-[#141414] border border-[#222] hover:border-[#6941C6]/50 transition-colors">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#6941C6]" />
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-[#6941C6] font-bold">{f.tag}</span>
                 </div>
-              </SpotlightCard>
+                <h3 className="text-lg font-bold text-white mb-2 leading-tight">{f.title}</h3>
+                <p className="text-[#C4C4C4] text-sm leading-relaxed">{f.body}</p>
+              </div>
             </Item>
           ))}
         </Stagger>
@@ -164,14 +157,14 @@ function UseCases() {
         </Reveal>
         <Stagger className="grid grid-cols-1 sm:grid-cols-2 gap-6" stagger={0.12}>
           <Item>
-            <div className="h-full p-7 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#111] border border-[#222]">
+            <div className="h-full p-7 rounded-2xl bg-[#141414] border border-[#222]">
               <div className="text-[10px] uppercase tracking-[0.2em] text-[#8B68D6] font-bold mb-3">Students</div>
               <h3 className="text-xl font-bold text-white mb-3">Photograph the syllabus. Done.</h3>
               <p className="text-[#C4C4C4] text-sm leading-relaxed">First week of semester: point your camera at every course outline. ACE extracts deadlines, assignments, and exams. The semester is in the schedule before the first class ends.</p>
             </div>
           </Item>
           <Item>
-            <div className="h-full p-7 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#111] border border-[#222]">
+            <div className="h-full p-7 rounded-2xl bg-[#141414] border border-[#222]">
               <div className="text-[10px] uppercase tracking-[0.2em] text-[#8B68D6] font-bold mb-3">Event producers</div>
               <h3 className="text-xl font-bold text-white mb-3">The week has a shape. Use it.</h3>
               <p className="text-[#C4C4C4] text-sm leading-relaxed">Plan the service, conference, or show day-by-day. Milestones on the Kanban board map to execution tasks in the schedule. Nothing falls through the gap between planning and execution.</p>
