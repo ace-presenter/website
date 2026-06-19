@@ -131,8 +131,11 @@ export default async function AccountPage() {
           {/* Header */}
           <div className="flex items-start justify-between">
             <div>
-              <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-2">
-                Account
+              <div className="flex items-center gap-3 mb-3">
+                <span className="h-px w-8 bg-[#C8102E]" />
+                <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#888]">
+                  Account
+                </span>
               </div>
               <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white">
                 Your ACE{" "}
