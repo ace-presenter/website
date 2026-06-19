@@ -24,8 +24,8 @@ export default function SuiteHome() {
       <Nav />
       <Hero />
       <UseCases />
-      <Products />
       <Proof />
+      <Products />
       <SuiteWhy />
       <PricingTeaser />
       <FinalCTA variant="suite" />

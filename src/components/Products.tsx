@@ -56,7 +56,7 @@ const ROWS: Row[] = [
 
 export default function Products() {
   return (
-    <section className="px-6 sm:px-10 py-28 sm:py-36">
+    <section className="px-6 sm:px-10 py-28 sm:py-36 border-t border-[#1A1A1A]">
       <div className="max-w-5xl mx-auto">
         <ScrollReveal>
           <p className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#888] mb-5">
