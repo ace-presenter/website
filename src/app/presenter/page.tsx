@@ -7,9 +7,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ManualBanner from "@/components/ManualBanner";
 import FinalCTA from "@/components/FinalCTA";
-import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard, Counter } from "@/components/motion";
-
-const GLOW = "rgba(200,16,46,0.14)";
+import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item } from "@/components/motion";
 
 export const metadata: Metadata = {
   title: "ACE Presenter",
@@ -104,30 +102,14 @@ export default async function PresenterPage() {
 /* ───────────── HERO ───────────── */
 function Hero({ latestVersion }: { latestVersion: string | null }) {
   return (
-    <section className="relative px-6 sm:px-10 pt-20 sm:pt-32 pb-24 text-center overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(70% 50% at 50% 0%, rgba(200,16,46,0.35) 0%, rgba(200,16,46,0.10) 35%, rgba(200,16,46,0) 70%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute inset-x-0 top-0 h-[60vh] pointer-events-none opacity-60 mix-blend-screen"
-        style={{
-          background:
-            "conic-gradient(from 200deg at 50% 0%, rgba(232,24,58,0.0) 0deg, rgba(232,24,58,0.18) 90deg, rgba(60,0,10,0.20) 180deg, rgba(232,24,58,0.18) 270deg, rgba(232,24,58,0.0) 360deg)",
-          filter: "blur(60px)",
-        }}
-      />
-
-      <div className="relative max-w-5xl mx-auto">
+    <section className="px-6 sm:px-10 pt-20 sm:pt-32 pb-24">
+      <div className="max-w-5xl mx-auto">
         <Reveal>
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C4C4C4] font-semibold mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C8102E]" />
-            Live presentation, on autopilot
+          <div className="flex items-center gap-3 mb-8">
+            <span className="h-px w-8 bg-[#C8102E]" />
+            <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#888]">
+              Live presentation, on autopilot
+            </span>
           </div>
         </Reveal>
 
@@ -144,19 +126,19 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
         </Reveal>
 
         <Reveal delay={0.16}>
-          <p className="mt-8 max-w-2xl mx-auto text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
+          <p className="mt-8 max-w-2xl text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
             AI-powered live presentation for worship, conferences, lectures, and theater. ACE listens to the room and pushes the right slide — automatically.
           </p>
         </Reveal>
 
-        <div className="mt-10 flex flex-col sm:flex-row items-center sm:items-start justify-center gap-3">
+        <div className="mt-10 flex flex-col sm:flex-row items-start gap-3">
           <a
             href="/api/download?platform=mac-arm64"
-            className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.15)]"
+            className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition-colors"
           >
             Download for Mac · Apple Silicon
           </a>
-          <div className="flex flex-col items-center gap-2.5">
+          <div className="flex flex-col items-start gap-2.5">
             <a
               href="/api/download?platform=mac-x64"
               className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
@@ -174,7 +156,7 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
           </div>
         </div>
 
-        <div className="mt-3 flex items-center justify-center gap-2 text-xs">
+        <div className="mt-3 flex items-center gap-2 text-xs">
           <span className="text-[#888]">Windows version</span>
           <Link
             href="/waitlist"
@@ -204,16 +186,8 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
 function PropresenterMigration() {
   const chips = ["Songs", "Sections", "Media", "Playlists"];
   return (
-    <section className="px-6 sm:px-10 py-20 border-b border-[#1A1A1A] relative overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(50% 60% at 50% 40%, rgba(200,16,46,0.10) 0%, rgba(200,16,46,0.03) 40%, rgba(200,16,46,0) 70%)",
-        }}
-      />
-      <div className="relative max-w-5xl mx-auto text-center">
+    <section className="px-6 sm:px-10 py-20 border-b border-[#1A1A1A]">
+      <div className="max-w-5xl mx-auto text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-8">
           <span aria-hidden>★</span>
           New in v1.6
@@ -246,7 +220,7 @@ function PropresenterMigration() {
           </div>
 
           <div className="flex flex-col items-center gap-2">
-            <div className="px-5 py-3 rounded-xl bg-[#0F0F0F] border border-[#C8102E]/40 shadow-[0_0_24px_rgba(200,16,46,0.15)] flex items-center gap-2.5">
+            <div className="px-5 py-3 rounded-xl bg-[#0F0F0F] border border-[#C8102E]/40 flex items-center gap-2.5">
               <Image src="/logo.png" alt="ACE" width={28} height={28} className="rounded" />
               <span className="text-xl sm:text-2xl font-bold tracking-tight text-white">ACE</span>
             </div>
@@ -332,21 +306,17 @@ function Segments() {
         <Stagger className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" stagger={0.08}>
           {SEGMENTS.map((s, i) => (
             <Item key={s.hook}>
-              <SpotlightCard glow={GLOW} className="h-full rounded-2xl">
-                <Link
-                  href={`/presenter/${s.hook.toLowerCase().split(" ")[0]}`}
-                  className="group relative block h-full p-6 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#121212] border border-[#222] hover:border-[#C8102E]/50 transition-colors overflow-hidden"
-                >
-                  <div className="relative">
-                    <div className="flex items-baseline justify-between mb-6">
-                      <div className="text-[10px] uppercase tracking-[0.2em] text-[#E8183A] font-bold">{s.hook}</div>
-                      <div className="text-3xl font-bold text-[#2A2A2A] group-hover:text-[#C8102E]/60 transition tabular-nums">0{i + 1}</div>
-                    </div>
-                    <h3 className="text-lg font-bold mb-3 text-white leading-tight">{s.title}</h3>
-                    <p className="text-[#C4C4C4] text-sm leading-relaxed">{s.body}</p>
-                  </div>
-                </Link>
-              </SpotlightCard>
+              <Link
+                href={`/presenter/${s.hook.toLowerCase().split(" ")[0]}`}
+                className="group block h-full p-6 rounded-2xl bg-[#121212] border border-[#222] hover:border-[#C8102E]/50 transition-colors"
+              >
+                <div className="flex items-baseline justify-between mb-6">
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-[#E8183A] font-bold">{s.hook}</div>
+                  <div className="text-3xl font-bold text-[#2A2A2A] group-hover:text-[#C8102E]/60 transition tabular-nums">0{i + 1}</div>
+                </div>
+                <h3 className="text-lg font-bold mb-3 text-white leading-tight">{s.title}</h3>
+                <p className="text-[#C4C4C4] text-sm leading-relaxed">{s.body}</p>
+              </Link>
             </Item>
           ))}
         </Stagger>
@@ -367,40 +337,21 @@ function BentoFeatures() {
           </h2>
           <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">Local-first, latency-conscious, built for the kind of pressure where mistakes are visible.</p>
         </Reveal>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="sm:col-span-2 sm:row-span-2 p-8 rounded-2xl bg-gradient-to-br from-[#1A1A1A] to-[#101010] border border-[#222] relative overflow-hidden min-h-[280px]">
-            <div aria-hidden className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-[#C8102E]/15 blur-3xl" />
-            <div className="relative">
-              <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-6" />
-              <h3 className="text-2xl sm:text-3xl font-bold mb-3 text-white">Listens to live audio</h3>
-              <p className="text-[#C4C4C4] leading-relaxed max-w-md">Microphone or NDI in. Whisper transcribes locally on your device — your audio never leaves the room by default. Sub-second latency on M-series Macs.</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[
+            { title: "Listens to live audio", body: "Microphone or NDI in. Whisper transcribes locally on your device — your audio never leaves the room by default. Sub-second latency on M-series Macs." },
+            { title: "Detects what's being said", body: "Songs, scripture, conference talks. Vector search matches transcripts against your library in real time." },
+            { title: "Outputs anywhere", body: "Fullscreen HDMI, NDI to ATEM, ProPresenter passthrough, browser-based stage monitor." },
+            { title: "Built for live", body: "Survives Wi-Fi drops, audio device swaps, and the occasional shouted prayer." },
+            { title: "Voice control", body: "“Next slide”, “clear”, “Bible mode on”. Operator hands stay free." },
+            { title: "Update prompts", body: "When a new version ships, ACE shows a download prompt on launch and hands off to your browser — no surprise installs mid-service." },
+          ].map((f) => (
+            <div key={f.title} className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
+              <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
+              <h3 className="text-lg font-bold mb-2 text-white">{f.title}</h3>
+              <p className="text-[#C4C4C4] text-sm leading-relaxed">{f.body}</p>
             </div>
-          </div>
-          <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
-            <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
-            <h3 className="text-lg font-bold mb-2 text-white">Detects what&apos;s being said</h3>
-            <p className="text-[#C4C4C4] text-sm leading-relaxed">Songs, scripture, conference talks. Vector search matches transcripts against your library in real time.</p>
-          </div>
-          <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
-            <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
-            <h3 className="text-lg font-bold mb-2 text-white">Outputs anywhere</h3>
-            <p className="text-[#C4C4C4] text-sm leading-relaxed">Fullscreen HDMI, NDI to ATEM, ProPresenter passthrough, browser-based stage monitor.</p>
-          </div>
-          <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
-            <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
-            <h3 className="text-lg font-bold mb-2 text-white">Built for live</h3>
-            <p className="text-[#C4C4C4] text-sm leading-relaxed">Survives Wi-Fi drops, audio device swaps, and the occasional shouted prayer.</p>
-          </div>
-          <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
-            <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
-            <h3 className="text-lg font-bold mb-2 text-white">Voice control</h3>
-            <p className="text-[#C4C4C4] text-sm leading-relaxed">&quot;Next slide&quot;, &quot;clear&quot;, &quot;Bible mode on&quot;. Operator hands stay free.</p>
-          </div>
-          <div className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
-            <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
-            <h3 className="text-lg font-bold mb-2 text-white">Update prompts</h3>
-            <p className="text-[#C4C4C4] text-sm leading-relaxed">When a new version ships, ACE shows a download prompt on launch and hands off to your browser — no surprise installs mid-service.</p>
-          </div>
+          ))}
         </div>
       </div>
     </section>
@@ -472,21 +423,21 @@ function WhatsNew() {
 
 /* ───────────── BIG STATS ───────────── */
 function BigStats() {
-  const stats: { node: React.ReactNode; label: string }[] = [
-    { node: <>&lt;1s</>, label: "Detection latency on M-series Macs" },
-    { node: <Counter to={100} suffix="%" />, label: "On-device transcription by default" },
-    { node: <Counter to={12} suffix="+" />, label: "Languages with auto-detect" },
+  const stats: { value: string; label: string }[] = [
+    { value: "<1s", label: "Detection latency on M-series Macs" },
+    { value: "100%", label: "On-device transcription by default" },
+    { value: "12+", label: "Languages with auto-detect" },
   ];
   return (
     <section className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A]">
       <Stagger className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8" stagger={0.12}>
-        {stats.map((s, i) => (
-          <Item key={i}>
-            <div className="text-center sm:text-left">
+        {stats.map((s) => (
+          <Item key={s.label}>
+            <div>
               <div className="text-6xl sm:text-7xl font-bold tracking-tight text-white tabular-nums">
-                <span className="bg-gradient-to-b from-white to-[#666] bg-clip-text text-transparent">{s.node}</span>
+                {s.value}
               </div>
-              <div className="mt-3 text-[#C4C4C4] text-sm leading-relaxed max-w-[280px] mx-auto sm:mx-0">{s.label}</div>
+              <div className="mt-3 text-[#C4C4C4] text-sm leading-relaxed max-w-[280px]">{s.label}</div>
             </div>
           </Item>
         ))}
