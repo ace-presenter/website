@@ -124,13 +124,8 @@ const DEMO_LINES = [
 
 function TimecodeDemo() {
   return (
-    <section className="relative px-6 sm:px-10 py-20 overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(55% 50% at 50% 35%, rgba(176,124,42,0.12) 0%, rgba(176,124,42,0) 70%)" }}
-      />
-      <div className="relative max-w-3xl mx-auto">
+    <section className="px-6 sm:px-10 py-20">
+      <div className="max-w-3xl mx-auto">
         <Reveal className="text-center">
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#B07C2A] font-bold mb-3">
             Live integration
@@ -143,10 +138,10 @@ function TimecodeDemo() {
           </p>
         </Reveal>
         <Reveal delay={120}>
-          <div className="mt-10 rounded-2xl border border-[#222] bg-[#0C0C0C] p-6 sm:p-8 font-[family-name:var(--font-geist-mono)] shadow-[0_30px_80px_-30px_rgba(176,124,42,0.3)]">
+          <div className="mt-10 rounded-2xl border border-[#222] bg-[#0C0C0C] p-6 sm:p-8 font-[family-name:var(--font-geist-mono)]">
             {DEMO_LINES.map((l) => (
               <div key={l.tc} className="flex items-baseline gap-3 py-1.5">
-                <span className="shrink-0 px-2 py-0.5 rounded text-sm font-medium text-[#CFA04D] bg-[#B07C2A]/15 hover:bg-[#B07C2A]/25 hover:shadow-[0_0_20px_rgba(176,124,42,0.25)] transition cursor-pointer">
+                <span className="shrink-0 px-2 py-0.5 rounded text-sm font-medium text-[#CFA04D] bg-[#B07C2A]/15 hover:bg-[#B07C2A]/25 transition-colors cursor-pointer">
                   {l.tc}
                 </span>
                 <span className="text-sm text-[#C4C4C4]">
@@ -208,13 +203,8 @@ const SCREENSHOTS = [
 
 function Screenshots() {
   return (
-    <section id="screenshots" className="relative px-6 sm:px-10 py-20 bg-[#060606] border-y border-[#141414] overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(60% 60% at 50% 0%, rgba(176,124,42,0.10) 0%, rgba(176,124,42,0) 70%)" }}
-      />
-      <div className="relative max-w-6xl mx-auto">
+    <section id="screenshots" className="px-6 sm:px-10 py-20 bg-[#060606] border-y border-[#141414]">
+      <div className="max-w-6xl mx-auto">
         <Reveal>
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#B07C2A] font-bold mb-3">
             Screenshots
@@ -235,17 +225,14 @@ function Screenshots() {
 
 function Hero() {
   return (
-    <section className="relative px-6 sm:px-10 pt-20 sm:pt-32 pb-24 text-center overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(70% 50% at 50% 0%, rgba(176,124,42,0.25) 0%, rgba(176,124,42,0.07) 40%, rgba(176,124,42,0) 70%)" }}
-      />
-      <div className="relative max-w-5xl mx-auto">
+    <section className="px-6 sm:px-10 pt-20 sm:pt-32 pb-24">
+      <div className="max-w-5xl mx-auto">
         <Reveal>
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C4C4C4] font-semibold mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#B07C2A]" />
-            ACE · Editors&apos; Notes
+          <div className="flex items-center gap-3 mb-8">
+            <span className="h-px w-8 bg-[#B07C2A]" />
+            <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#888]">
+              ACE · Editors&apos; Notes
+            </span>
           </div>
         </Reveal>
         <Reveal delay={80}>
@@ -260,15 +247,15 @@ function Hero() {
           </h1>
         </Reveal>
         <Reveal delay={160}>
-          <p className="mt-8 max-w-2xl mx-auto text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
+          <p className="mt-8 max-w-2xl text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
             Every timecode is a click. Every clip is a marker. ACE Editors&apos; Notes lives next to your timeline.
           </p>
         </Reveal>
         <Reveal delay={240}>
-          <div className="mt-10 flex items-center justify-center">
+          <div className="mt-10 flex items-center">
             <a
               href="/api/download?product=editors-notes&platform=mac-arm64"
-              className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.12)] hover:scale-[1.03] active:scale-100"
+              className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition-colors"
             >
               Download for Mac
             </a>
@@ -291,7 +278,7 @@ function Features() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {FEATURES.map((f, i) => (
             <Reveal key={f.tag} delay={(i % 3) * 80}>
-              <div className="h-full p-6 rounded-2xl bg-[#141414] border border-[#222] hover:border-[#B07C2A]/40 hover:-translate-y-1 hover:shadow-[0_20px_50px_-20px_rgba(176,124,42,0.25)] transition duration-300">
+              <div className="h-full p-6 rounded-2xl bg-[#141414] border border-[#222] hover:border-[#B07C2A]/40 transition-colors">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#B07C2A]" />
                   <span className="text-[10px] uppercase tracking-[0.2em] text-[#B07C2A] font-bold">{f.tag}</span>
@@ -316,14 +303,14 @@ function UseCase() {
           The assistant editor, in the review
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div className="p-7 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#111] border border-[#222]">
+          <div className="p-7 rounded-2xl bg-[#141414] border border-[#222]">
             <div className="text-[10px] uppercase tracking-[0.2em] text-[#CFA04D] font-bold mb-3">Director review</div>
             <h3 className="text-xl font-bold text-white mb-3">Notes that travel with the cut.</h3>
             <p className="text-[#C4C4C4] text-sm leading-relaxed">
               The director calls out timecodes. The assistant editor types them into ACE Editors&apos; Notes. Every note is stamped, categorized, and clickable. At the end of the session, the lead editor has a full brief — no transcription lag, no lost sticky notes.
             </p>
           </div>
-          <div className="p-7 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#111] border border-[#222]">
+          <div className="p-7 rounded-2xl bg-[#141414] border border-[#222]">
             <div className="text-[10px] uppercase tracking-[0.2em] text-[#CFA04D] font-bold mb-3">Air-gapped facilities</div>
             <h3 className="text-xl font-bold text-white mb-3">Local-first by design.</h3>
             <p className="text-[#C4C4C4] text-sm leading-relaxed">
