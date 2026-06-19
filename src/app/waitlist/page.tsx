@@ -23,16 +23,8 @@ export default function WaitlistPage() {
   return (
     <main className="flex-1 flex flex-col font-sans">
       <Nav />
-      <section className="relative overflow-hidden px-6 py-28 sm:px-10 sm:py-36">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(55% 70% at 50% 0%, rgba(200,16,46,0.16) 0%, rgba(200,16,46,0) 70%)",
-          }}
-        />
-        <div className="relative mx-auto max-w-xl text-center">
+      <section className="px-6 py-28 sm:px-10 sm:py-36">
+        <div className="mx-auto max-w-xl text-center">
           <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.2em] text-[#888]">
             ACE · Coming soon
           </p>
