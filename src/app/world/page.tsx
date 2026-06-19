@@ -2,13 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard } from "@/components/motion";
+import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item } from "@/components/motion";
 
 // ACE World accent (teal) — mirrors products.world in @/lib/brand.
 const ACCENT = "#0884A8";
 const ACCENT_VIVID = "#3AAEC8";
 const ACCENT_RGB = "8,132,168";
-const GLOW = `rgba(${ACCENT_RGB},0.14)`;
 
 export const metadata: Metadata = {
   title: "ACE Virtual World — live events in a shared 3D space",
@@ -41,15 +40,8 @@ export default function WorldPage() {
 /* ───────────── HERO ───────────── */
 function Hero() {
   return (
-    <section className="relative px-6 sm:px-10 pt-20 sm:pt-32 pb-24 text-center overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `radial-gradient(70% 50% at 50% 0%, rgba(${ACCENT_RGB},0.24) 0%, rgba(${ACCENT_RGB},0.07) 40%, rgba(${ACCENT_RGB},0) 70%)`,
-        }}
-      />
-      <div className="relative max-w-3xl mx-auto">
+    <section className="px-6 sm:px-10 pt-20 sm:pt-32 pb-24">
+      <div className="max-w-3xl mx-auto">
         <Reveal>
           {/* In-development badge */}
           <div
@@ -74,7 +66,7 @@ function Hero() {
         </Reveal>
 
         <Reveal delay={0.16}>
-          <p className="text-[#C4C4C4] text-lg leading-relaxed mb-10 max-w-xl mx-auto">
+          <p className="text-[#C4C4C4] text-lg leading-relaxed mb-10 max-w-xl">
             ACE Virtual World is a 3D venue that replicates a live event — not a video on a
             screen, but a shared space your audience enters. They watch your live stage feed
             together, hear each other in spatial voice, and a producer drives the room in real time.
@@ -82,10 +74,10 @@ function Hero() {
         </Reveal>
 
         <Reveal delay={0.24}>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="flex flex-col sm:flex-row items-start gap-3">
             <a
               href="mailto:hello@ace-presenter.app?subject=ACE%20Virtual%20World%20early%20access&body=Please%20add%20me%20to%20the%20ACE%20Virtual%20World%20early-access%20list."
-              className="px-7 py-3.5 rounded-full text-white font-bold text-sm transition hover:scale-[1.03] active:scale-100"
+              className="px-7 py-3.5 rounded-full text-white font-bold text-sm transition-opacity hover:opacity-90"
               style={{ background: ACCENT }}
             >
               Register interest →
@@ -151,13 +143,11 @@ function WhatsComing() {
         <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" stagger={0.09}>
           {features.map((f) => (
             <Item key={f.title}>
-              <SpotlightCard glow={GLOW} className="h-full rounded-2xl">
-                <div className="h-full p-7 rounded-2xl bg-gradient-to-b from-[#1A1A1A] to-[#111] border border-[#222] flex flex-col gap-3">
-                  <div className="w-8 h-0.5 mb-1" style={{ background: ACCENT }} />
-                  <h3 className="text-base font-bold text-white leading-tight">{f.title}</h3>
-                  <p className="text-[#C4C4C4] text-sm leading-relaxed">{f.body}</p>
-                </div>
-              </SpotlightCard>
+              <div className="h-full p-7 rounded-2xl bg-[#141414] border border-[#222] flex flex-col gap-3">
+                <div className="w-8 h-0.5 mb-1" style={{ background: ACCENT }} />
+                <h3 className="text-base font-bold text-white leading-tight">{f.title}</h3>
+                <p className="text-[#C4C4C4] text-sm leading-relaxed">{f.body}</p>
+              </div>
             </Item>
           ))}
         </Stagger>
@@ -182,7 +172,7 @@ function SuiteFit() {
         </p>
         <a
           href="mailto:hello@ace-presenter.app?subject=ACE%20Virtual%20World%20early%20access&body=Please%20add%20me%20to%20the%20ACE%20Virtual%20World%20early-access%20list."
-          className="inline-block px-7 py-3.5 rounded-full text-white font-bold text-sm transition hover:scale-[1.03] active:scale-100"
+          className="inline-block px-7 py-3.5 rounded-full text-white font-bold text-sm transition-opacity hover:opacity-90"
           style={{ background: ACCENT }}
         >
           Register interest →
