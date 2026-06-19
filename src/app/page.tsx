@@ -6,6 +6,7 @@ import FinalCTA from "@/components/FinalCTA";
 import HeroMockup from "@/components/HeroMockup";
 import { ScrollReveal, ScrollStagger, ScrollItem } from "@/components/motion";
 import Products from "@/components/Products";
+import Proof from "@/components/Proof";
 import MagneticButton from "@/components/MagneticButton";
 
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function SuiteHome() {
       <Nav />
       <Hero />
       <Products />
+      <Proof />
       <SuiteWhy />
       <PricingTeaser />
       <FinalCTA variant="suite" />
