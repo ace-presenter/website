@@ -23,6 +23,7 @@ export default function SuiteHome() {
     <main className="flex-1 flex flex-col font-sans">
       <Nav />
       <Hero />
+      <UseCases />
       <Products />
       <Proof />
       <SuiteWhy />
@@ -91,6 +92,64 @@ function Hero() {
         <div className="w-full">
           <HeroMockup />
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* ───────────── USE CASES ───────────── */
+function UseCases() {
+  const rooms = [
+    {
+      name: "Conferences",
+      body: "The deck advances the instant a speaker reaches a new section — nobody riding the arrow keys from the back.",
+      href: "/presenter/conferences",
+    },
+    {
+      name: "Lectures",
+      body: "Scripture, citations, and slides push in line as you teach, so the board never trails the lecture.",
+      href: "/presenter/lectures",
+    },
+    {
+      name: "Theater & live shows",
+      body: "Cue-list driven, with ⌘J quick-screens for whatever the run throws at you mid-show.",
+      href: "/presenter/theater",
+    },
+    {
+      name: "Worship",
+      body: "Lyrics, scripture, and sermon notes follow the moment — across languages, mid-song.",
+      href: "/presenter/worship",
+    },
+  ];
+
+  return (
+    <section className="px-6 sm:px-10 py-28 sm:py-36 border-t border-[#1A1A1A]">
+      <div className="max-w-5xl mx-auto">
+        <ScrollReveal>
+          <p className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#888] mb-5">
+            Where it runs
+          </p>
+          <h2 className="text-4xl sm:text-6xl font-bold tracking-tight text-white max-w-2xl">
+            The same engine. Four rooms.
+          </h2>
+        </ScrollReveal>
+
+        <ScrollStagger
+          className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12"
+          stagger={0.1}
+        >
+          {rooms.map((r) => (
+            <ScrollItem key={r.name}>
+              <Link href={r.href} className="group block">
+                <div className="w-8 h-px bg-[#C8102E] mb-5" />
+                <h3 className="text-lg font-bold text-white mb-2.5 transition-colors group-hover:text-[#E8183A]">
+                  {r.name}
+                </h3>
+                <p className="text-[#A8A8A8] text-[15px] leading-relaxed">{r.body}</p>
+              </Link>
+            </ScrollItem>
+          ))}
+        </ScrollStagger>
       </div>
     </section>
   );
