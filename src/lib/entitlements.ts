@@ -34,14 +34,14 @@ function toGatewayTier(label: string): Tier {
   switch ((label ?? "free").toLowerCase()) {
     case "free":       return "free";
     case "standard":   return "standard";
-    case "pro":        return "standard"; // ACE Manager "Pro/Church" → standard
-    case "business":
-    case "enterprise": return "pro";      // ACE Manager "Network" → pro
+    case "pro":        return "standard";  // ACE Manager "Pro/Church" → standard
+    case "business":   return "business";  // Schedule Pro, Suite bundle → business
+    case "enterprise": return "pro";       // ACE Manager "Network" → pro
     default:           return "free";
   }
 }
 
-const TIER_RANK: Record<Tier, number> = { free: 0, standard: 1, pro: 2 };
+const TIER_RANK: Record<Tier, number> = { free: 0, standard: 1, business: 2, pro: 3 };
 
 const KNOWN_PRODUCTS: Product[] = [
   "presenter", "world", "schedule", "notes", "manager",

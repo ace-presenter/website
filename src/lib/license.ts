@@ -15,7 +15,7 @@ import { SignJWT, importPKCS8 } from "jose";
  *   openssl rsa -in license-private.pem -pubout -out license-public.pem
  */
 
-export type Tier = "free" | "standard" | "pro";
+export type Tier = "free" | "standard" | "business" | "pro";
 export type Product = "presenter" | "world" | "schedule" | "notes" | "manager";
 
 export interface LicenseClaim {
