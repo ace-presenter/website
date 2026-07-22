@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { createBrowserClient } from "@supabase/ssr";
 import LicenseKeyPanel from "@/components/LicenseKeyPanel";
+import CityAutocomplete from "@/components/CityAutocomplete";
 import { COUNTRIES } from "@/lib/countries";
 
 /**
@@ -369,7 +370,15 @@ function ProfileEditor({ email, initial }: { email: string; initial: Profile }) 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <Field label="Full name" value={form.fullName} onChange={set("fullName")} placeholder="Your name" autoComplete="name" />
           <Field label="Company / Organization" value={form.organization} onChange={set("organization")} placeholder="Optional" autoComplete="organization" />
-          <Field label="City" value={form.city} onChange={set("city")} placeholder="Optional" autoComplete="address-level2" />
+          <div>
+            <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-[#888]">City</label>
+            <CityAutocomplete
+              value={form.city}
+              onChange={(v) => { setForm((f) => ({ ...f, city: v })); setStatus("idle"); }}
+              placeholder="Optional"
+              inputClassName="w-full rounded-xl border border-[#2A2A2A] bg-[#161616] px-4 py-3 text-sm text-white placeholder-[#555] outline-none transition focus:border-[#C8102E]"
+            />
+          </div>
           <div>
             <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-[#888]">Country</label>
             <select

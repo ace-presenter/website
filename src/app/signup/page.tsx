@@ -15,6 +15,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
 import HorizonGlow from "@/components/hero/HorizonGlow";
+import CityAutocomplete from "@/components/CityAutocomplete";
 import { COUNTRIES } from "@/lib/countries";
 
 const SUPABASE_URL  = process.env.NEXT_PUBLIC_SUPABASE_URL  ?? "";
@@ -209,14 +210,12 @@ function SignupForm() {
                     className="w-full px-4 py-3 rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#C8102E] transition"
                   />
                   <div className="grid grid-cols-2 gap-3">
-                    <input
-                      type="text"
-                      required
-                      autoComplete="address-level2"
+                    <CityAutocomplete
                       value={city}
-                      onChange={(e) => setCity(e.target.value)}
+                      onChange={setCity}
+                      required
                       placeholder="City / Town"
-                      className="w-full px-4 py-3 rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#C8102E] transition"
+                      inputClassName="w-full px-4 py-3 rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#C8102E] transition"
                     />
                     <select
                       required
