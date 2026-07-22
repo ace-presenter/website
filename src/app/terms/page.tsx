@@ -1,17 +1,12 @@
-import Link from "next/link";
-import Image from "next/image";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 
 export const metadata = { title: "Terms — ACE" };
 
 export default function Terms() {
   return (
     <>
-      <nav className="px-6 sm:px-10 py-5 flex items-center justify-between border-b border-[#1A1A1A]">
-        <Link href="/" className="flex items-center gap-3">
-          <Image src="/logo.png" alt="ACE" width={32} height={32} className="rounded-md" />
-          <span className="font-bold tracking-tight text-lg">ACE</span>
-        </Link>
-      </nav>
+      <Nav />
 
       <article className="max-w-3xl mx-auto px-6 py-16 text-white">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">
@@ -51,6 +46,7 @@ export default function Terms() {
           </a>.
         </Section>
       </article>
+      <Footer />
     </>
   );
 }

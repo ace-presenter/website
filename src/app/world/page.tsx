@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item } from "@/components/motion";
+import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard } from "@/components/motion";
+import { HeroShell, AccentItalic, CTABand } from "@/components/sections";
 
 // ACE World accent (teal) — mirrors products.world in @/lib/brand.
 const ACCENT = "#0884A8";
@@ -40,58 +41,42 @@ export default function WorldPage() {
 /* ───────────── HERO ───────────── */
 function Hero() {
   return (
-    <section className="px-6 sm:px-10 pt-20 sm:pt-32 pb-24">
-      <div className="max-w-3xl mx-auto">
-        <Reveal>
-          {/* In-development badge */}
-          <div
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-[10px] uppercase tracking-[0.2em] font-bold mb-6"
-            style={{ borderColor: `rgba(${ACCENT_RGB},0.4)`, color: ACCENT_VIVID }}
-          >
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background: ACCENT_VIVID }} />
-            In development · not yet released
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.08}>
-          <h1 className="text-4xl sm:text-6xl font-bold tracking-tight mb-5 text-white">
-            Live audience.{" "}
-            <span
-              className="font-[family-name:var(--font-instrument-serif)] italic font-normal"
-              style={{ color: ACCENT_VIVID }}
-            >
-              Virtual space.
-            </span>
-          </h1>
-        </Reveal>
-
-        <Reveal delay={0.16}>
-          <p className="text-[#C4C4C4] text-lg leading-relaxed mb-10 max-w-xl">
-            ACE Virtual World is a 3D venue that replicates a live event — not a video on a
-            screen, but a shared space your audience enters. They watch your live stage feed
-            together, hear each other in spatial voice, and a producer drives the room in real time.
-          </p>
-        </Reveal>
-
-        <Reveal delay={0.24}>
-          <div className="flex flex-col sm:flex-row items-start gap-3">
-            <a
-              href="mailto:hello@ace-presenter.app?subject=ACE%20Virtual%20World%20early%20access&body=Please%20add%20me%20to%20the%20ACE%20Virtual%20World%20early-access%20list."
-              className="px-7 py-3.5 rounded-full text-white font-bold text-sm transition-opacity hover:opacity-90"
-              style={{ background: ACCENT }}
-            >
-              Register interest →
-            </a>
-            <Link
-              href="/"
-              className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
-            >
-              Explore the suite
-            </Link>
-          </div>
-        </Reveal>
+    <HeroShell product="world" ripple={false} className="min-h-[70svh]">
+      <div
+        className="mb-6 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em]"
+        style={{ borderColor: `rgba(${ACCENT_RGB},0.4)`, color: ACCENT_VIVID }}
+      >
+        <span className="h-1.5 w-1.5 rounded-full" style={{ background: ACCENT_VIVID }} />
+        In development · not yet released
       </div>
-    </section>
+
+      <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
+        Live audience. <AccentItalic>Virtual space</AccentItalic>.
+      </h1>
+
+      <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-[#C4C4C4]">
+        ACE Virtual World is a 3D venue that replicates a live event — not a
+        video on a screen, but a shared space your audience enters. They watch
+        your live stage feed together, hear each other in spatial voice, and a
+        producer drives the room in real time.
+      </p>
+
+      <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
+        <a
+          href="mailto:hello@ace-presenter.app?subject=ACE%20Virtual%20World%20early%20access&body=Please%20add%20me%20to%20the%20ACE%20Virtual%20World%20early-access%20list."
+          className="rounded-full px-7 py-3.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
+          style={{ background: ACCENT }}
+        >
+          Register interest →
+        </a>
+        <Link
+          href="/"
+          className="rounded-full border border-[#2A2A2A] bg-[#1A1A1A]/70 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#222]"
+        >
+          Explore the suite
+        </Link>
+      </div>
+    </HeroShell>
   );
 }
 
@@ -143,11 +128,13 @@ function WhatsComing() {
         <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" stagger={0.09}>
           {features.map((f) => (
             <Item key={f.title}>
-              <div className="h-full p-7 rounded-2xl bg-[#141414] border border-[#222] flex flex-col gap-3">
-                <div className="w-8 h-0.5 mb-1" style={{ background: ACCENT }} />
-                <h3 className="text-base font-bold text-white leading-tight">{f.title}</h3>
-                <p className="text-[#C4C4C4] text-sm leading-relaxed">{f.body}</p>
-              </div>
+              <SpotlightCard glow={`rgba(${ACCENT_RGB}, 0.12)`} className="glass-card h-full rounded-2xl">
+                <div className="flex h-full flex-col gap-3 p-7">
+                  <div className="mb-1 h-0.5 w-8" style={{ background: ACCENT }} />
+                  <h3 className="text-base font-bold leading-tight text-white">{f.title}</h3>
+                  <p className="text-sm leading-relaxed text-[#C4C4C4]">{f.body}</p>
+                </div>
+              </SpotlightCard>
             </Item>
           ))}
         </Stagger>
@@ -159,25 +146,20 @@ function WhatsComing() {
 /* ───────────── SUITE FIT ───────────── */
 function SuiteFit() {
   return (
-    <section className="px-6 sm:px-10 py-24 text-center">
-      <Reveal className="max-w-2xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-white">
-          We&apos;re building this{" "}
-          now
-        </h2>
-        <p className="text-[#C4C4C4] text-lg mb-10 leading-relaxed">
-          ACE Virtual World is in active development. Live media, spatial voice, and the
-          producer controls already work in early builds. Register your interest and we&apos;ll
-          bring you in as it opens up.
-        </p>
-        <a
-          href="mailto:hello@ace-presenter.app?subject=ACE%20Virtual%20World%20early%20access&body=Please%20add%20me%20to%20the%20ACE%20Virtual%20World%20early-access%20list."
-          className="inline-block px-7 py-3.5 rounded-full text-white font-bold text-sm transition-opacity hover:opacity-90"
-          style={{ background: ACCENT }}
-        >
-          Register interest →
-        </a>
-      </Reveal>
-    </section>
+    <CTABand
+      product="world"
+      eyebrow="In active development"
+      title={
+        <>
+          We&apos;re building this <AccentItalic>now</AccentItalic>.
+        </>
+      }
+      sub="Live media, spatial voice, and the producer controls already work in early builds. Register your interest and we'll bring you in as it opens up."
+      primary={{
+        href: "mailto:hello@ace-presenter.app?subject=ACE%20Virtual%20World%20early%20access&body=Please%20add%20me%20to%20the%20ACE%20Virtual%20World%20early-access%20list.",
+        label: "Register interest →",
+      }}
+      secondary={{ href: "/", label: "Explore the suite" }}
+    />
   );
 }

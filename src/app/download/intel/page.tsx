@@ -10,6 +10,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "A note for Intel Mac users — ACE",
@@ -35,28 +37,6 @@ export default function IntelNoticePage() {
       <CTA />
       <Footer />
     </main>
-  );
-}
-
-/* ───────────── NAV ───────────── */
-function Nav() {
-  return (
-    <nav className="sticky top-0 z-40 px-6 sm:px-10 py-5 flex items-center justify-between bg-[#0F0F0F]/80 backdrop-blur-xl border-b border-[#1A1A1A]">
-      <Link href="/" className="flex items-center gap-3">
-        <Image src="/logo.png" alt="ACE — Agentic Cue Experience" width={32} height={32} priority className="rounded-md" />
-        <div className="flex flex-col leading-none">
-          <span className="font-bold tracking-tight text-lg">ACE</span>
-          <span className="text-[9px] uppercase tracking-[0.2em] text-[#888] mt-0.5">
-            Agentic Cue Experience
-          </span>
-        </div>
-      </Link>
-      <div className="hidden sm:flex items-center gap-8 text-sm text-[#C4C4C4]">
-        <Link href="/download" className="hover:text-white transition">Download</Link>
-        <Link href="/guide" className="hover:text-white transition">Guide</Link>
-        <Link href="/support" className="hover:text-white transition">Support</Link>
-      </div>
-    </nav>
   );
 }
 
@@ -253,21 +233,3 @@ function CTA() {
   );
 }
 
-/* ───────────── FOOTER ───────────── */
-function Footer() {
-  return (
-    <footer className="px-6 sm:px-10 py-12 border-t border-[#1A1A1A] bg-[#0A0A0A]">
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-sm text-[#888]">
-        <div className="flex items-center gap-3">
-          <Image src="/logo.png" alt="ACE" width={24} height={24} className="rounded" />
-          <span>© ACE · ace-presenter.app</span>
-        </div>
-        <div className="flex items-center gap-6">
-          <Link href="/privacy" className="hover:text-white transition">Privacy</Link>
-          <Link href="/terms" className="hover:text-white transition">Terms</Link>
-          <Link href="/support" className="hover:text-white transition">Support</Link>
-        </div>
-      </div>
-    </footer>
-  );
-}

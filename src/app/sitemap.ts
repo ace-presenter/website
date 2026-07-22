@@ -39,7 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/download/intel`, lastModified, changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE}/pricing`, lastModified, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE}/waitlist`, lastModified, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${SITE}/guide`, lastModified, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE}/learn`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE}/support`, lastModified, changeFrequency: "monthly", priority: 0.5 },
     { url: `${SITE}/privacy`, lastModified, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE}/terms`, lastModified, changeFrequency: "yearly", priority: 0.3 },

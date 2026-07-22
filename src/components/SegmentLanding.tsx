@@ -1,20 +1,21 @@
 /**
- * SegmentLanding — shared scaffold for /worship, /conferences,
- * /lectures, /theater. Each segment instantiates the component with
- * its own copy and Schema.org audience override; the layout, nav,
- * and CTAs stay consistent across all four so an operator who
- * accidentally lands on the wrong segment can still get to download
- * in one click.
+ * SegmentLanding — shared scaffold for /presenter/{worship, conferences,
+ * lectures, theater}. Each segment instantiates the component with its own
+ * copy and Schema.org audience override.
  *
- * Structure mirrors the home page (Nav → Hero → Stats → Segments
- * cross-link → Final CTA → Footer) at roughly 1/3 the line count
- * because segment pages are SEO landing surfaces, not the marketing
- * centerpiece.
+ * Featherweight by design: these are SEO landing surfaces, so the hero is
+ * HorizonGlow-only (no WebGL ripple) and every section reuses the shared
+ * section system. Nav/Footer are the global components.
  */
 
 import Link from "next/link";
-import Image from "next/image";
 import SchemaJsonLd from "./SchemaJsonLd";
+import Nav from "./Nav";
+import Footer from "./Footer";
+import MagneticButton from "./MagneticButton";
+import HorizonGlow from "./hero/HorizonGlow";
+import { SpotlightCard } from "./motion";
+import { AccentItalic, CTABand } from "./sections";
 
 export interface SegmentLandingProps {
   /** URL slug, e.g. "worship". Used for the canonical URL + JSON-LD. */
@@ -43,46 +44,23 @@ export default function SegmentLanding(props: SegmentLandingProps) {
         url={url}
         description={`${props.heroBody} Free during public beta. macOS 12+.`}
       />
-      <Nav />
+      <Nav activeProduct="presenter" />
       <Hero {...props} />
       <Beats beats={props.beats} />
       <CrossLinks current={props.slug} />
-      <FinalCTA title={props.ctaTitle} />
+      <CTABand
+        product="presenter"
+        title={props.ctaTitle}
+        sub="Free during public beta. macOS 12+. Apple-signed and notarized."
+        primary={{ href: "/api/download?platform=mac-arm64", label: "Download for Mac" }}
+        secondary={{ href: "/api/download?platform=mac-x64", label: "Mac · Intel" }}
+      />
       <Footer />
     </main>
   );
 }
 
-/* ───────────── NAV (mirror of home nav, simplified) ───────────── */
-function Nav() {
-  return (
-    <nav className="sticky top-0 z-40 px-6 sm:px-10 py-5 flex items-center justify-between bg-[#0F0F0F]/80 backdrop-blur-xl border-b border-[#1A1A1A]">
-      <Link href="/" className="flex items-center gap-3">
-        <Image src="/logo.png" alt="ACE — Agentic Cue Experience" width={32} height={32} priority className="rounded-md" />
-        <div className="flex flex-col leading-none">
-          <span className="font-bold tracking-tight text-lg">ACE</span>
-          <span className="text-[9px] uppercase tracking-[0.2em] text-[#888] mt-0.5">
-            Agentic Cue Experience
-          </span>
-        </div>
-      </Link>
-      <div className="hidden sm:flex items-center gap-8 text-sm text-[#C4C4C4]">
-        <Link href="/#use-cases" className="hover:text-white transition">Use cases</Link>
-        <Link href="/#features" className="hover:text-white transition">Features</Link>
-        <Link href="/#pricing" className="hover:text-white transition">Pricing</Link>
-        <Link href="/support" className="hover:text-white transition">Support</Link>
-      </div>
-      <Link
-        href="/api/download?platform=mac-arm64"
-        className="px-4 sm:px-5 py-2 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-xs uppercase tracking-wider transition"
-      >
-        Download
-      </Link>
-    </nav>
-  );
-}
-
-/* ───────────── HERO ───────────── */
+/* ───────────── HERO (HorizonGlow only — no WebGL on segment pages) ───────── */
 function Hero({
   eyebrow,
   headlineLeft,
@@ -90,66 +68,66 @@ function Hero({
   heroBody,
 }: SegmentLandingProps) {
   return (
-    <section className="px-6 sm:px-10 pt-20 sm:pt-32 pb-20">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-center gap-3 mb-8">
-          <span className="h-px w-8 bg-[#C8102E]" />
-          <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#888]">
+    <section className="relative overflow-hidden px-6 pb-20 pt-20 sm:px-10 sm:pt-28">
+      <HorizonGlow strength={0.8} />
+      <div className="relative z-10 mx-auto max-w-4xl">
+        <div className="mb-8 flex items-center gap-3">
+          <span className="h-px w-8 bg-[#C8102E]" aria-hidden />
+          <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#888]">
             {eyebrow}
           </span>
         </div>
 
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95] text-white">
+        <h1 className="text-4xl font-bold leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl">
           {headlineLeft}
           <br />
-          <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
-            {headlineAccent}
-          </span>
+          <AccentItalic>{headlineAccent}</AccentItalic>
           <span className="text-[#C8102E]">.</span>
         </h1>
 
-        <p className="mt-8 max-w-2xl text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
+        <p className="mt-8 max-w-2xl text-lg leading-relaxed text-[#C4C4C4] sm:text-xl">
           {heroBody}
         </p>
 
-        <div className="mt-10 flex flex-col sm:flex-row items-start gap-3">
-          <a
+        <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row">
+          <MagneticButton
             href="/api/download?platform=mac-arm64"
-            className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition-colors"
+            glowRgb="200,16,46"
+            className="rounded-full bg-white px-7 py-3.5 text-sm font-bold text-black transition-colors hover:bg-[#E8E8E8]"
           >
             Download for Mac · Apple Silicon
-          </a>
+          </MagneticButton>
           <a
             href="/api/download?platform=mac-x64"
-            className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
+            className="rounded-full border border-[#2A2A2A] bg-[#1A1A1A]/70 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#222]"
           >
             Mac · Intel
           </a>
         </div>
 
-        <p className="mt-5 text-xs text-[#C4C4C4]">
-          Free during public beta · macOS 12+
-        </p>
+        <p className="mt-5 text-xs text-[#C4C4C4]">Free during public beta · macOS 12+</p>
       </div>
     </section>
   );
 }
 
-/* ───────────── BEATS (3 pain → solution rows) ───────────── */
+/* ───────────── BEATS (3 pain → solution cards) ───────────── */
 function Beats({ beats }: { beats: SegmentLandingProps["beats"] }) {
   return (
-    <section className="px-6 sm:px-10 py-20 border-y border-[#1A1A1A] bg-[#0A0A0A]">
-      <div className="max-w-5xl mx-auto grid gap-8 sm:gap-12 sm:grid-cols-3">
+    <section className="border-y border-[#1A1A1A] px-6 py-20 sm:px-10">
+      <div className="mx-auto grid max-w-5xl gap-4 sm:grid-cols-3">
         {beats.map((b, i) => (
-          <div key={i} className="flex flex-col gap-3">
-            <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold">
-              {String(i + 1).padStart(2, "0")}
+          <SpotlightCard key={i} className="glass-card h-full rounded-2xl">
+            <div className="flex h-full flex-col gap-3 p-6">
+              <div className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#C8102E]">
+                {String(i + 1).padStart(2, "0")}
+              </div>
+              <div className="text-sm leading-relaxed text-[#C4C4C4]">{b.pain}</div>
+              <div className="text-base font-semibold leading-snug text-white sm:text-lg">
+                {b.solution}
+              </div>
             </div>
-            <div className="text-[#C4C4C4] text-sm leading-relaxed">{b.pain}</div>
-            <div className="text-white text-base sm:text-lg font-semibold leading-snug">
-              {b.solution}
-            </div>
-          </div>
+          </SpotlightCard>
         ))}
       </div>
     </section>
@@ -166,9 +144,9 @@ function CrossLinks({ current }: { current: SegmentLandingProps["slug"] }) {
   ];
   const others = ALL.filter((s) => s.slug !== current);
   return (
-    <section className="px-6 sm:px-10 py-16">
-      <div className="max-w-5xl mx-auto">
-        <p className="text-center text-[11px] uppercase tracking-[0.25em] text-[#C4C4C4] font-bold mb-6">
+    <section className="px-6 py-16 sm:px-10">
+      <div className="mx-auto max-w-5xl">
+        <p className="mb-6 text-center font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-[#C4C4C4]">
           ACE also runs
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">
@@ -176,7 +154,7 @@ function CrossLinks({ current }: { current: SegmentLandingProps["slug"] }) {
             <Link
               key={s.slug}
               href={`/presenter/${s.slug}`}
-              className="px-5 py-2.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm border border-[#2A2A2A] hover:border-[#C8102E]/50 transition"
+              className="glass-card rounded-full px-5 py-2.5 text-sm font-semibold text-white transition hover:border-[#C8102E]/50"
             >
               {s.label} →
             </Link>
@@ -184,54 +162,5 @@ function CrossLinks({ current }: { current: SegmentLandingProps["slug"] }) {
         </div>
       </div>
     </section>
-  );
-}
-
-/* ───────────── FINAL CTA ───────────── */
-function FinalCTA({ title }: { title: string }) {
-  return (
-    <section className="px-6 sm:px-10 py-24 text-center border-t border-[#1A1A1A]">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-6 text-white">
-          {title}
-        </h2>
-        <p className="text-[#C4C4C4] text-lg mb-10">
-          Free during public beta. macOS 12+. Apple-signed and notarized.
-        </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a
-            href="/api/download?platform=mac-arm64"
-            className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition-colors"
-          >
-            Download for Mac · Apple Silicon
-          </a>
-          <a
-            href="/api/download?platform=mac-x64"
-            className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
-          >
-            Mac · Intel
-          </a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────────── FOOTER (mirror of home, simplified) ───────────── */
-function Footer() {
-  return (
-    <footer className="px-6 sm:px-10 py-12 border-t border-[#1A1A1A] bg-[#0A0A0A]">
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-sm text-[#888]">
-        <div className="flex items-center gap-3">
-          <Image src="/logo.png" alt="ACE" width={24} height={24} className="rounded" />
-          <span>© ACE · ace-presenter.app</span>
-        </div>
-        <div className="flex items-center gap-6">
-          <Link href="/privacy" className="hover:text-white transition">Privacy</Link>
-          <Link href="/terms" className="hover:text-white transition">Terms</Link>
-          <Link href="/support" className="hover:text-white transition">Support</Link>
-        </div>
-      </div>
-    </footer>
   );
 }

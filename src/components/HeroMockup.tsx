@@ -32,7 +32,7 @@ export default function HeroMockup() {
   const cue = CUES[active];
 
   return (
-    <div className="w-full rounded-xl border border-[#222] bg-[#0F0F0F] overflow-hidden">
+    <div className="w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0D0D0D]/90 backdrop-blur-sm shadow-[0_32px_90px_-28px_rgba(200,16,46,0.35)]">
       {/* Title bar */}
       <div className="flex items-center gap-2 px-4 py-3 border-b border-[#1A1A1A] bg-[#121212]">
         <span className="w-3 h-3 rounded-full bg-[#3A3A3A]" />

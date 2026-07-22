@@ -78,6 +78,74 @@ html {
   .ace-caret {
     animation: ace-caret 1s steps(1) infinite;
   }
+
+  /* Floating glass chips in heroes — gentle vertical drift with a hint of
+     rotation. Uses `translate`/`rotate` (independent properties) so
+     `transform` stays free for Motion/parallax. Desync instances by setting
+     `animation-delay`/`animation-duration` inline. */
+  @keyframes ace-float {
+    0%,
+    100% {
+      translate: 0 0;
+      rotate: 0deg;
+    }
+    50% {
+      translate: 0 -9px;
+      rotate: 0.5deg;
+    }
+  }
+  .ace-float {
+    animation: ace-float 7s ease-in-out infinite;
+  }
+
+  /* Starfield drift — barely perceptible; keeps the CSS fallback sky alive. */
+  @keyframes ace-stars-drift {
+    to {
+      background-position:
+        -420px 0,
+        380px 0,
+        -260px 0,
+        300px 0,
+        -460px 0;
+    }
+  }
+  .ace-stars {
+    animation: ace-stars-drift 240s linear infinite;
+  }
+}
+
+/* Procedural CSS starfield — five repeating dot layers at co-prime tile sizes
+   so the pattern never visibly repeats. Rendered by HorizonGlow under every
+   hero; the WebGL ripple field fades in over it on capable desktops. */
+.ace-stars {
+  background-image:
+    radial-gradient(1px 1px at 25% 15%, rgba(255, 255, 255, 0.5) 50%, transparent 51%),
+    radial-gradient(1px 1px at 70% 40%, rgba(255, 255, 255, 0.32) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 45% 72%, rgba(255, 255, 255, 0.38) 50%, transparent 51%),
+    radial-gradient(1px 1px at 85% 22%, rgba(255, 255, 255, 0.28) 50%, transparent 51%),
+    radial-gradient(1px 1px at 12% 58%, rgba(255, 255, 255, 0.22) 50%, transparent 51%);
+  background-size:
+    420px 420px,
+    380px 380px,
+    520px 520px,
+    300px 300px,
+    460px 460px;
+  background-repeat: repeat;
+}
+
+/* Frosted glass surface for floating cards, dropdown panels, feature tiles. */
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+/* Global keyboard focus ring — visible on the near-black canvas. */
+:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.65);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 /* Cinematic film-grain overlay — fixed, faint, non-interactive. Adds texture

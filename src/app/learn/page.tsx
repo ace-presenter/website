@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
+import HorizonGlow from "@/components/hero/HorizonGlow";
+import { TocSpy } from "@/components/sections";
 
 export const metadata: Metadata = {
-  title: "User Guide",
+  title: "Learn",
   description:
     "Set up ACE, run a service, master keyboard shortcuts. The complete operator manual for the AI-powered presenter that listens to the room.",
-  alternates: { canonical: "/guide" },
+  alternates: { canonical: "/learn" },
   openGraph: {
-    title: "ACE — User Guide",
+    title: "ACE — Learn",
     description:
       "From install to running your first service. The complete operator manual.",
-    url: "https://www.ace-presenter.app/guide",
+    url: "https://www.ace-presenter.app/learn",
     type: "article",
   },
 };
@@ -74,50 +78,16 @@ function Section({
   );
 }
 
-/* ───────────── NAV ─────────────
-   Mirrors the home page Nav so the /guide page has a way back. Kept
-   inline (rather than extracted to a shared component) because Nav on
-   the home is also inline; the duplication is intentional until either
-   page outgrows it. */
-function GuideNav() {
-  return (
-    <nav className="sticky top-0 z-40 px-6 sm:px-10 py-4 flex items-center justify-between bg-[#0F0F0F]/85 backdrop-blur-xl border-b border-[#1A1A1A]">
-      <Link href="/" className="flex items-center gap-3">
-        <span aria-hidden className="inline-block w-7 h-7 rounded-md bg-[#C8102E]" />
-        <div className="flex flex-col leading-none">
-          <span className="font-bold tracking-tight text-base">ACE</span>
-          <span className="text-[9px] uppercase tracking-[0.2em] text-[#888] mt-0.5">
-            Agentic Cue Experience
-          </span>
-        </div>
-      </Link>
-      <div className="hidden sm:flex items-center gap-6 text-sm text-[#C4C4C4]">
-        <Link href="/" className="hover:text-white transition">Home</Link>
-        <Link href="/guide" className="text-white">Guide</Link>
-        <Link href="/manual/ACE_User_Manual.pdf" className="hover:text-white transition" prefetch={false}>
-          PDF Manual
-        </Link>
-        <Link href="/support" className="hover:text-white transition">Support</Link>
-      </div>
-      <Link
-        href="/api/download?platform=mac-arm64"
-        className="px-4 sm:px-5 py-2 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-xs uppercase tracking-wider transition"
-      >
-        Download
-      </Link>
-    </nav>
-  );
-}
-
-export default function GuidePage() {
+export default function LearnPage() {
   return (
     <article className="min-h-screen">
-      <GuideNav />
-      {/* HERO */}
-      <header className="px-6 sm:px-10 pt-20 pb-12 border-b border-[#1A1A1A]">
-        <div className="max-w-6xl mx-auto">
+      <Nav />
+      {/* HERO — slim horizon band */}
+      <header className="relative overflow-hidden px-6 sm:px-10 pt-20 pb-12 border-b border-[#1A1A1A]">
+        <HorizonGlow strength={0.55} />
+        <div className="relative z-10 max-w-6xl mx-auto">
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">
-            Manual
+            Learn ACE · the operator manual
           </div>
           <h1 className="text-5xl sm:text-6xl font-bold tracking-tight text-white mb-5">
             User Guide
@@ -159,25 +129,9 @@ export default function GuidePage() {
 
       {/* BODY: TOC + content */}
       <div className="max-w-6xl mx-auto px-6 sm:px-10 py-16 lg:grid lg:grid-cols-[220px_1fr] lg:gap-16">
-        {/* TOC */}
+        {/* TOC — scroll-spy highlights the section in view */}
         <aside className="hidden lg:block">
-          <nav className="sticky top-24 text-sm">
-            <div className="text-[10px] uppercase tracking-[0.25em] text-[#888] font-bold mb-4">
-              On this page
-            </div>
-            <ul className="space-y-2">
-              {TOC.map((s) => (
-                <li key={s.id}>
-                  <a
-                    href={`#${s.id}`}
-                    className="text-[#C4C4C4] hover:text-white transition block"
-                  >
-                    {s.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <TocSpy items={TOC} />
         </aside>
 
         {/* Content */}
@@ -731,6 +685,7 @@ export default function GuidePage() {
           </div>
         </div>
       </div>
+      <Footer />
     </article>
   );
 }

@@ -6,8 +6,24 @@ import SchemaJsonLd from "@/components/SchemaJsonLd";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ManualBanner from "@/components/ManualBanner";
-import FinalCTA from "@/components/FinalCTA";
-import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item } from "@/components/motion";
+import MagneticButton from "@/components/MagneticButton";
+import {
+  ScrollReveal as Reveal,
+  ScrollStagger as Stagger,
+  ScrollItem as Item,
+  SpotlightCard,
+  ProductTheme,
+} from "@/components/motion";
+import {
+  HeroShell,
+  FloatingCard,
+  SectionHeading,
+  AccentItalic,
+  StatsBand,
+  LogoMarquee,
+  FeatureBento,
+  CTABand,
+} from "@/components/sections";
 
 export const metadata: Metadata = {
   title: "ACE Presenter",
@@ -58,13 +74,6 @@ const SEGMENTS: { hook: string; title: string; body: string }[] = [
   },
 ];
 
-const STATS = [
-  { label: "Latency", value: "< 1s" },
-  { label: "Languages", value: "12+" },
-  { label: "Output formats", value: "HDMI · NDI · OSC" },
-  { label: "Cloud dependency", value: "Zero" },
-];
-
 const COMPAT = [
   "ProPresenter",
   "ATEM",
@@ -84,15 +93,39 @@ export default async function PresenterPage() {
       <Nav activeProduct="presenter" />
       <ManualBanner latestVersion={latestVersion} />
       <Hero latestVersion={latestVersion} />
+      <LogoMarquee
+        label="Plays nicely with the rest of your rig"
+        items={COMPAT}
+        className="border-b border-[#1A1A1A]"
+      />
+      <ProductTheme product="presenter">
+        <StatsBand
+          stats={[
+            { text: "<1s", label: "Detection latency" },
+            { num: { to: 12, suffix: "+" }, label: "Languages" },
+            { text: "HDMI·NDI·OSC", label: "Outputs" },
+            { text: "0", label: "Cloud dependency" },
+          ]}
+        />
+      </ProductTheme>
       <PropresenterMigration />
-      <StatsStrip />
-      <Compatibility />
+      <Capabilities />
+      <SeeItRun />
       <Segments />
-      <BentoFeatures />
       <WhatsNew />
-      <BigStats />
       <PricingTeaser />
-      <FinalCTA variant="presenter" />
+      <CTABand
+        product="presenter"
+        eyebrow="Get started"
+        title={
+          <>
+            ACE listens. You <AccentItalic>present</AccentItalic>.
+          </>
+        }
+        sub="Free during the public beta · macOS 12+"
+        primary={{ href: "/api/download?platform=mac-arm64", label: "Download for Mac" }}
+        secondary={{ href: "/pricing", label: "View pricing" }}
+      />
       <Footer />
       <WhatsNewModal version={latestVersion} />
     </main>
@@ -102,83 +135,246 @@ export default async function PresenterPage() {
 /* ───────────── HERO ───────────── */
 function Hero({ latestVersion }: { latestVersion: string | null }) {
   return (
-    <section className="px-6 sm:px-10 pt-20 sm:pt-32 pb-24">
-      <div className="max-w-5xl mx-auto">
-        <Reveal>
-          <div className="flex items-center gap-3 mb-8">
-            <span className="h-px w-8 bg-[#C8102E]" />
-            <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#888]">
-              Live presentation, on autopilot
-            </span>
-          </div>
-        </Reveal>
+    <HeroShell product="presenter" fill={false} floating={<HeroChips />}>
+      <div className="mb-7 flex items-center gap-3">
+        <span className="h-px w-8 bg-[#C8102E]" aria-hidden />
+        <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#888]">
+          Live presentation, on autopilot
+        </span>
+        <span className="h-px w-8 bg-[#C8102E]" aria-hidden />
+      </div>
 
-        <Reveal delay={0.08}>
-          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] text-white">
-            ACE listens.
-            <br />
-            You{" "}
-            <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
-              present
-            </span>
-            <span className="text-[#C8102E]">.</span>
-          </h1>
-        </Reveal>
+      <h1 className="text-5xl font-bold leading-[0.95] tracking-tight text-white sm:text-7xl lg:text-8xl">
+        ACE listens.
+        <br />
+        You <AccentItalic>present</AccentItalic>
+        <span className="text-[#C8102E]">.</span>
+      </h1>
 
-        <Reveal delay={0.16}>
-          <p className="mt-8 max-w-2xl text-lg sm:text-xl text-[#C4C4C4] leading-relaxed">
-            AI-powered live presentation for worship, conferences, lectures, and theater. ACE listens to the room and pushes the right slide — automatically.
-          </p>
-        </Reveal>
+      <p className="mt-8 max-w-2xl text-lg leading-relaxed text-[#C4C4C4] sm:text-xl">
+        AI-powered live presentation for worship, conferences, lectures, and
+        theater. ACE listens to the room and pushes the right slide —
+        automatically.
+      </p>
 
-        <div className="mt-10 flex flex-col sm:flex-row items-start gap-3">
-          <a
-            href="/api/download?platform=mac-arm64"
-            className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition-colors"
-          >
-            Download for Mac · Apple Silicon
-          </a>
-          <div className="flex flex-col items-start gap-2.5">
-            <a
-              href="/api/download?platform=mac-x64"
-              className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
-            >
-              Mac · Intel
-            </a>
-            <Link
-              href="/download/intel"
-              className="text-[11px] text-[#F59E0B] hover:text-[#FBBF24] transition flex items-center gap-1.5 font-medium"
-            >
-              <span aria-hidden>⚠</span>
-              Important note for Intel Macs
-              <span aria-hidden>→</span>
-            </Link>
-          </div>
-        </div>
+      <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
+        <MagneticButton
+          href="/api/download?platform=mac-arm64"
+          glowRgb="200,16,46"
+          className="rounded-full bg-white px-7 py-3.5 text-sm font-bold text-black transition-colors hover:bg-[#E8E8E8]"
+        >
+          Download for Mac · Apple Silicon
+        </MagneticButton>
+        <a
+          href="/api/download?platform=mac-x64"
+          className="rounded-full border border-[#2A2A2A] bg-[#1A1A1A]/70 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#222]"
+        >
+          Mac · Intel
+        </a>
+      </div>
 
-        <div className="mt-3 flex items-center gap-2 text-xs">
-          <span className="text-[#888]">Windows version</span>
-          <Link
-            href="/waitlist"
-            className="text-[#E8183A] hover:text-white transition font-semibold"
-          >
+      <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs">
+        <Link
+          href="/download/intel"
+          className="flex items-center gap-1.5 font-medium text-[#F59E0B] transition hover:text-[#FBBF24]"
+        >
+          <span aria-hidden>⚠</span>
+          Important note for Intel Macs
+          <span aria-hidden>→</span>
+        </Link>
+        <span className="text-[#555]" aria-hidden>
+          ·
+        </span>
+        <span className="text-[#888]">
+          Windows version{" "}
+          <Link href="/waitlist" className="font-semibold text-[#E8183A] transition hover:text-white">
             join the waitlist →
           </Link>
-        </div>
+        </span>
+      </div>
 
-        <p className="mt-5 text-xs text-[#C4C4C4]">
-          Free during public beta · macOS 12+
-          {latestVersion && (
-            <>
-              {" · "}
-              <span className="text-[#888]">
-                Latest: <span className="text-white font-semibold tabular-nums">v{latestVersion}</span>
-              </span>
-            </>
-          )}
+      <p className="mt-5 text-xs text-[#C4C4C4]">
+        Free during public beta · macOS 12+
+        {latestVersion && (
+          <>
+            {" · "}
+            <span className="text-[#888]">
+              Latest:{" "}
+              <span className="font-semibold tabular-nums text-white">v{latestVersion}</span>
+            </span>
+          </>
+        )}
+      </p>
+
+      {/* Real flagship UI — framed and glowing under the hero copy. */}
+      <div className="relative mt-16 w-full max-w-5xl">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -inset-x-10 -top-8 bottom-0 -z-10 rounded-[3rem] blur-3xl"
+          style={{
+            background:
+              "radial-gradient(55% 60% at 50% 40%, rgba(200,16,46,0.30), rgba(255,107,0,0.10) 55%, transparent 78%)",
+          }}
+        />
+        <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0D0D0D] shadow-[0_40px_120px_-32px_rgba(0,0,0,0.85)]">
+          <Image
+            src="/presenter/stage.png"
+            alt="ACE Presenter running a live service — library, stage preview, and program output"
+            width={2200}
+            height={1384}
+            priority
+            className="w-full"
+          />
+        </div>
+      </div>
+    </HeroShell>
+  );
+}
+
+/* ───────────── SEE IT RUN (real UI, alternating) ───────────── */
+function Shot({
+  eyebrow,
+  headline,
+  body,
+  src,
+  alt,
+  flip = false,
+}: {
+  eyebrow: string;
+  headline: React.ReactNode;
+  body: string;
+  src: string;
+  alt: string;
+  flip?: boolean;
+}) {
+  return (
+    <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
+      <Reveal className={flip ? "lg:order-2" : ""}>
+        <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#E8183A]">
+          {eyebrow}
+        </span>
+        <h3 className="mt-4 text-3xl font-bold leading-[1.05] tracking-tight text-white sm:text-4xl">
+          {headline}
+        </h3>
+        <p className="mt-5 max-w-lg text-base leading-relaxed text-[#B4B4B4] sm:text-lg">
+          {body}
         </p>
+      </Reveal>
+      <div className={flip ? "lg:order-1" : ""}>
+        <div className="relative">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -inset-6 -z-10 rounded-[2rem] blur-2xl"
+            style={{
+              background: "radial-gradient(60% 60% at 50% 45%, rgba(200,16,46,0.24), transparent 75%)",
+            }}
+          />
+          <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0D0D0D] shadow-[0_32px_90px_-28px_rgba(0,0,0,0.8)]">
+            <Image src={src} alt={alt} width={2200} height={1384} className="w-full" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SeeItRun() {
+  return (
+    <section className="px-6 py-24 sm:px-10 sm:py-32">
+      <div className="mx-auto max-w-6xl">
+        <Reveal>
+          <SectionHeading
+            eyebrow="See it run"
+            title={
+              <>
+                The whole service, <AccentItalic>in one window</AccentItalic>.
+              </>
+            }
+            lede="Library, stage output, themes, and program — everything an operator touches during a live service, built native for macOS."
+          />
+        </Reveal>
+        <div className="mt-20 flex flex-col gap-24 sm:gap-28">
+          <Shot
+            eyebrow="Stage output"
+            headline={
+              <>
+                Follows the song, <AccentItalic>line by line</AccentItalic>.
+              </>
+            }
+            body="ACE hears the band and pushes the current lyric to the audience screen the moment it lands — with the next line staged and a live confidence read, so you always know what it's about to do."
+            src="/presenter/stage-display.png"
+            alt="ACE Presenter stage display showing live lyrics and the next line"
+          />
+          <Shot
+            flip
+            eyebrow="Looks & themes"
+            headline={
+              <>
+                Every look, <AccentItalic>one click</AccentItalic>.
+              </>
+            }
+            body="Build a Worship look and a Sermon look, then switch the whole presentation style — background, fonts, which layers are on — with a single click, per screen."
+            src="/presenter/looks.png"
+            alt="ACE Presenter Looks and Themes grid"
+          />
+          <Shot
+            eyebrow="Theme editor"
+            headline={
+              <>
+                Design it exactly <AccentItalic>your way</AccentItalic>.
+              </>
+            }
+            body="Full control over type, color, and background media per slide object — edit lyrics, scripture, and announcements live while the service runs."
+            src="/presenter/theme-editor.png"
+            alt="ACE Presenter theme editor with lyrics on a red background"
+          />
+        </div>
       </div>
     </section>
+  );
+}
+
+/* Floating chips — live artifacts of the listening engine. */
+function HeroChips() {
+  return (
+    <>
+      <FloatingCard className="left-[5%] top-[24%] w-52 p-4" delay={-2} duration={7.5}>
+        <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.2em] text-[#888]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
+          Listening
+        </div>
+        <div className="mt-3 flex h-6 items-end gap-[3px]">
+          {[0.8, 0.45, 1, 0.6, 0.85, 0.35, 0.7, 0.5, 0.9, 0.4].map((h, i) => (
+            <span
+              key={i}
+              className="ace-wave-bar w-[3px] rounded-full bg-[#E8183A]/70"
+              style={{ height: `${h * 100}%`, animationDelay: `${i * 0.08}s` }}
+            />
+          ))}
+        </div>
+      </FloatingCard>
+
+      <FloatingCard className="right-[5%] top-[22%] w-56 p-4" delay={-5} duration={8.5}>
+        <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#888]">
+          Detected
+        </div>
+        <div className="mt-2 text-sm font-semibold text-white">
+          &ldquo;…turn with me to John 3:16&rdquo;
+        </div>
+        <div className="mt-1.5 font-mono text-[10px] text-[#E8183A]">
+          → John 3:16 · on screen
+        </div>
+      </FloatingCard>
+
+      <FloatingCard className="bottom-[18%] right-[9%] w-44 p-4" delay={-3.5} duration={6.5}>
+        <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#888]">
+          Cue latency
+        </div>
+        <div className="mt-1.5 text-2xl font-bold tabular-nums text-white">
+          0.4<span className="text-sm text-[#888]">s</span>
+        </div>
+      </FloatingCard>
+    </>
   );
 }
 
@@ -186,175 +382,180 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
 function PropresenterMigration() {
   const chips = ["Songs", "Sections", "Media", "Playlists"];
   return (
-    <section className="px-6 sm:px-10 py-20 border-b border-[#1A1A1A]">
-      <div className="max-w-5xl mx-auto text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A1A1A] border border-[#2A2A2A] text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-8">
+    <section className="border-b border-[#1A1A1A] px-6 py-20 sm:px-10">
+      <div className="mx-auto max-w-5xl text-center">
+        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-[#2A2A2A] bg-[#1A1A1A] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.25em] text-[#C8102E]">
           <span aria-hidden>★</span>
           New in v1.6
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 mb-10">
+        <div className="mb-10 flex flex-col items-center justify-center gap-6 sm:flex-row sm:gap-8">
           <div className="flex flex-col items-center gap-2">
-            <div className="px-5 py-3 rounded-xl bg-[#0F0F0F] border border-[#2A2A2A]">
-              <span className="text-xl sm:text-2xl font-bold tracking-tight text-[#C4C4C4]">
+            <div className="glass-card rounded-xl px-5 py-3">
+              <span className="text-xl font-bold tracking-tight text-[#C4C4C4] sm:text-2xl">
                 Pro<span className="text-white">Presenter</span>
               </span>
             </div>
-            <span className="text-[9px] uppercase tracking-[0.2em] text-[#666] font-semibold">From</span>
+            <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#666]">From</span>
           </div>
 
           <div className="flex flex-col items-center gap-2.5">
-            <div className="flex items-center gap-1.5 flex-wrap justify-center max-w-[280px]">
+            <div className="flex max-w-[280px] flex-wrap items-center justify-center gap-1.5">
               {chips.map((c) => (
                 <span
                   key={c}
-                  className="px-2.5 py-1 rounded-full bg-[#1A1A1A] border border-[#C8102E]/30 text-[10px] font-semibold text-white tracking-wide"
+                  className="rounded-full border border-[#C8102E]/30 bg-[#1A1A1A] px-2.5 py-1 text-[10px] font-semibold tracking-wide text-white"
                 >
                   {c}
                 </span>
               ))}
             </div>
-            <svg className="w-20 h-4 rotate-90 sm:rotate-0" viewBox="0 0 80 16" fill="none" aria-hidden>
+            <svg className="h-4 w-20 rotate-90 sm:rotate-0" viewBox="0 0 80 16" fill="none" aria-hidden>
               <path d="M0 8 L72 8 M64 2 L72 8 L64 14" stroke="#C8102E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
 
           <div className="flex flex-col items-center gap-2">
-            <div className="px-5 py-3 rounded-xl bg-[#0F0F0F] border border-[#C8102E]/40 flex items-center gap-2.5">
+            <div className="flex items-center gap-2.5 rounded-xl border border-[#C8102E]/40 bg-[#0F0F0F] px-5 py-3">
               <Image src="/logo.png" alt="ACE" width={28} height={28} className="rounded" />
-              <span className="text-xl sm:text-2xl font-bold tracking-tight text-white">ACE</span>
+              <span className="text-xl font-bold tracking-tight text-white sm:text-2xl">ACE</span>
             </div>
-            <span className="text-[9px] uppercase tracking-[0.2em] text-[#C8102E] font-semibold">To</span>
+            <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#C8102E]">To</span>
           </div>
         </div>
 
-        <h2 className="text-4xl sm:text-6xl font-bold tracking-tight text-white mb-4 max-w-2xl mx-auto leading-[1.1]">
-          Migrating from{" "}
-          ProPresenter
-          , made easy<span className="text-[#C8102E]">.</span>
+        <h2 className="mx-auto mb-4 max-w-2xl text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-6xl">
+          Migrating from ProPresenter, made easy<span className="text-[#C8102E]">.</span>
         </h2>
 
-        <p className="text-[#C4C4C4] text-base sm:text-lg max-w-xl mx-auto mb-8 leading-relaxed">
-          Five-stage wizard finds your local ProPresenter library, previews exactly
-          what&apos;s coming across, then imports songs, sections, media, and playlists in one click.
+        <p className="mx-auto mb-8 max-w-xl text-base leading-relaxed text-[#C4C4C4] sm:text-lg">
+          Five-stage wizard finds your local ProPresenter library, previews
+          exactly what&apos;s coming across, then imports songs, sections, media, and
+          playlists in one click.
         </p>
 
-        <a
+        <MagneticButton
           href="/api/download?platform=mac-arm64"
-          className="inline-block px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition shadow-[0_10px_40px_rgba(255,255,255,0.10)]"
+          glowRgb="200,16,46"
+          className="inline-block rounded-full bg-white px-7 py-3.5 text-sm font-bold text-black transition hover:bg-[#E8E8E8]"
         >
           Try the migrator →
-        </a>
+        </MagneticButton>
 
-        <p className="mt-6 text-[11px] text-[#666] max-w-md mx-auto">
-          ProPresenter is a trademark of Renewed Vision. ACE is independent software
-          and is not affiliated with or endorsed by Renewed Vision.
+        <p className="mx-auto mt-6 max-w-md text-[11px] text-[#666]">
+          ProPresenter is a trademark of Renewed Vision. ACE is independent
+          software and is not affiliated with or endorsed by Renewed Vision.
         </p>
       </div>
     </section>
   );
 }
 
-/* ───────────── STATS STRIP ───────────── */
-function StatsStrip() {
+/* ───────────── CAPABILITIES (bento) ───────────── */
+function Capabilities() {
   return (
-    <section className="border-y border-[#1A1A1A] bg-[#0A0A0A]">
-      <div className="max-w-6xl mx-auto px-6 sm:px-10 py-6 grid grid-cols-2 sm:grid-cols-4 gap-y-6 gap-x-6">
-        {STATS.map((s, i) => (
-          <div key={s.label} className={`flex flex-col gap-1 ${i > 0 ? "sm:border-l sm:border-[#1F1F1F] sm:pl-6" : ""}`}>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-[#C4C4C4] font-semibold">{s.label}</span>
-            <span className="text-base sm:text-lg font-semibold text-white">{s.value}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* ───────────── COMPATIBILITY LOGO WALL ───────────── */
-function Compatibility() {
-  return (
-    <section className="px-6 sm:px-10 py-16 border-b border-[#1A1A1A]">
-      <div className="max-w-6xl mx-auto">
-        <p className="text-center text-[11px] uppercase tracking-[0.25em] text-[#C4C4C4] font-bold mb-8">
-          Plays nicely with the rest of your rig
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-          {COMPAT.map((name) => (
-            <span key={name} className="text-[#888] hover:text-white transition text-base sm:text-lg font-semibold tracking-tight">
-              {name}
-            </span>
-          ))}
+    <ProductTheme product="presenter">
+      <section id="features" className="px-6 py-24 sm:px-10">
+        <div className="mx-auto max-w-6xl">
+          <Reveal>
+            <SectionHeading
+              eyebrow="Capabilities"
+              title="What ACE actually does"
+              lede="Local-first, latency-conscious, built for the kind of pressure where mistakes are visible."
+            />
+          </Reveal>
+          <FeatureBento
+            className="mt-14"
+            items={[
+              {
+                title: "Listens to live audio",
+                desc: "Microphone or NDI in. Whisper transcribes locally on your device — your audio never leaves the room by default. Sub-second latency on M-series Macs.",
+                span: "wide",
+                visual: (
+                  <div className="flex h-8 items-end gap-[3px]">
+                    {[0.7, 0.4, 0.95, 0.55, 0.8, 0.3, 0.65, 0.5, 0.9, 0.45, 0.75, 0.35].map((h, i) => (
+                      <span
+                        key={i}
+                        className="ace-wave-bar w-1 rounded-full bg-[var(--accent-vivid)]/60"
+                        style={{ height: `${h * 100}%`, animationDelay: `${i * 0.08}s` }}
+                      />
+                    ))}
+                  </div>
+                ),
+              },
+              {
+                title: "Detects what's being said",
+                desc: "Songs, scripture, conference talks. Vector search matches transcripts against your library in real time.",
+              },
+              {
+                title: "Outputs anywhere",
+                desc: "Fullscreen HDMI, NDI to ATEM, ProPresenter passthrough, browser-based stage monitor.",
+              },
+              {
+                title: "Built for live",
+                desc: "Survives Wi-Fi drops, audio device swaps, and the occasional shouted prayer.",
+              },
+              {
+                title: "Voice control",
+                desc: (
+                  <>
+                    &ldquo;Next slide&rdquo;, &ldquo;clear&rdquo;, &ldquo;Bible mode on&rdquo;.
+                    Operator hands stay free.
+                    <span className="ace-caret ml-1 inline-block h-3.5 w-[7px] translate-y-0.5 bg-[var(--accent-vivid)]/80" aria-hidden />
+                  </>
+                ),
+              },
+              {
+                title: "Update prompts",
+                desc: "When a new version ships, ACE shows a download prompt on launch and hands off to your browser — no surprise installs mid-service.",
+              },
+            ]}
+          />
         </div>
-      </div>
-    </section>
+      </section>
+    </ProductTheme>
   );
 }
 
 /* ───────────── SEGMENTS ───────────── */
 function Segments() {
   return (
-    <section id="use-cases" className="px-6 sm:px-10 py-24 relative">
-      <div className="max-w-6xl mx-auto relative">
-        <Reveal>
-          <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Use cases</div>
-          <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-3 text-white max-w-2xl">
-            One app, every live event
-          </h2>
-          <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">Built for any room where someone speaks and slides need to follow them.</p>
-        </Reveal>
-        <Stagger className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" stagger={0.08}>
-          {SEGMENTS.map((s, i) => (
-            <Item key={s.hook}>
-              <Link
-                href={`/presenter/${s.hook.toLowerCase().split(" ")[0]}`}
-                className="group block h-full p-6 rounded-2xl bg-[#121212] border border-[#222] hover:border-[#C8102E]/50 transition-colors"
-              >
-                <div className="flex items-baseline justify-between mb-6">
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-[#E8183A] font-bold">{s.hook}</div>
-                  <div className="text-3xl font-bold text-[#2A2A2A] group-hover:text-[#C8102E]/60 transition tabular-nums">0{i + 1}</div>
-                </div>
-                <h3 className="text-lg font-bold mb-3 text-white leading-tight">{s.title}</h3>
-                <p className="text-[#C4C4C4] text-sm leading-relaxed">{s.body}</p>
-              </Link>
-            </Item>
-          ))}
-        </Stagger>
-      </div>
-    </section>
-  );
-}
-
-/* ───────────── BENTO FEATURE GRID ───────────── */
-function BentoFeatures() {
-  return (
-    <section id="features" className="px-6 sm:px-10 py-24 border-y border-[#1A1A1A] bg-[#0A0A0A]">
-      <div className="max-w-6xl mx-auto">
-        <Reveal>
-          <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Capabilities</div>
-          <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-3 text-white max-w-2xl">
-            What ACE actually does
-          </h2>
-          <p className="text-[#C4C4C4] text-lg mb-12 max-w-2xl">Local-first, latency-conscious, built for the kind of pressure where mistakes are visible.</p>
-        </Reveal>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[
-            { title: "Listens to live audio", body: "Microphone or NDI in. Whisper transcribes locally on your device — your audio never leaves the room by default. Sub-second latency on M-series Macs." },
-            { title: "Detects what's being said", body: "Songs, scripture, conference talks. Vector search matches transcripts against your library in real time." },
-            { title: "Outputs anywhere", body: "Fullscreen HDMI, NDI to ATEM, ProPresenter passthrough, browser-based stage monitor." },
-            { title: "Built for live", body: "Survives Wi-Fi drops, audio device swaps, and the occasional shouted prayer." },
-            { title: "Voice control", body: "“Next slide”, “clear”, “Bible mode on”. Operator hands stay free." },
-            { title: "Update prompts", body: "When a new version ships, ACE shows a download prompt on launch and hands off to your browser — no surprise installs mid-service." },
-          ].map((f) => (
-            <div key={f.title} className="p-6 rounded-2xl bg-[#141414] border border-[#222]">
-              <div className="w-12 h-1 bg-[#C8102E] rounded-full mb-4" />
-              <h3 className="text-lg font-bold mb-2 text-white">{f.title}</h3>
-              <p className="text-[#C4C4C4] text-sm leading-relaxed">{f.body}</p>
-            </div>
-          ))}
+    <ProductTheme product="presenter">
+      <section id="use-cases" className="relative border-t border-[#1A1A1A] px-6 py-24 sm:px-10">
+        <div className="relative mx-auto max-w-6xl">
+          <Reveal>
+            <SectionHeading
+              eyebrow="Use cases"
+              title="One app, every live event"
+              lede="Built for any room where someone speaks and slides need to follow them."
+            />
+          </Reveal>
+          <Stagger className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" stagger={0.08}>
+            {SEGMENTS.map((s, i) => (
+              <Item key={s.hook}>
+                <SpotlightCard className="glass-card h-full rounded-2xl">
+                  <Link
+                    href={`/presenter/${s.hook.toLowerCase().split(" ")[0]}`}
+                    className="group block h-full p-6"
+                  >
+                    <div className="mb-6 flex items-baseline justify-between">
+                      <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E8183A]">
+                        {s.hook}
+                      </div>
+                      <div className="text-3xl font-bold tabular-nums text-[#2A2A2A] transition group-hover:text-[#C8102E]/60">
+                        0{i + 1}
+                      </div>
+                    </div>
+                    <h3 className="mb-3 text-lg font-bold leading-tight text-white">{s.title}</h3>
+                    <p className="text-sm leading-relaxed text-[#C4C4C4]">{s.body}</p>
+                  </Link>
+                </SpotlightCard>
+              </Item>
+            ))}
+          </Stagger>
         </div>
-      </div>
-    </section>
+      </section>
+    </ProductTheme>
   );
 }
 
@@ -379,69 +580,53 @@ function WhatsNew() {
     "Library sidebar tidied: redundant 'Import' text removed, + button stays for Genius search",
   ];
   return (
-    <section id="whats-new" className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A] scroll-mt-24">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex items-center gap-3 mb-3">
-          <span className="text-[10px] uppercase tracking-[0.25em] text-[#E8183A] font-bold">What&apos;s new</span>
+    <section id="whats-new" className="scroll-mt-24 border-t border-[#1A1A1A] px-6 py-24 sm:px-10">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-3 flex items-center gap-3">
+          <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#E8183A]">
+            What&apos;s new
+          </span>
           <span className="h-px flex-1 bg-[#1F1F1F]" />
         </div>
-        <h2 className="text-4xl sm:text-6xl font-bold tracking-tight text-white mb-12 leading-tight">
-          v1.5 — Service Plan,<br />
+        <h2 className="mb-12 text-4xl font-bold leading-tight tracking-tight text-white sm:text-6xl">
+          v1.5 — Service Plan,
+          <br />
           bilingual songs
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+        <div className="mb-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
           {HIGHLIGHTS.map((h) => (
-            <div key={h.tag} className="p-6 rounded-2xl bg-[#141414] border border-[#222] hover:border-[#2F2F2F] transition-colors">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#E8183A]" />
-                <span className="text-[10px] uppercase tracking-[0.18em] text-[#E8183A] font-bold">{h.tag}</span>
+            <div key={h.tag} className="glass-card rounded-2xl p-6 transition-colors hover:border-white/20">
+              <div className="mb-3 flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#E8183A]" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#E8183A]">
+                  {h.tag}
+                </span>
               </div>
-              <h3 className="text-lg font-bold text-white mb-2 leading-tight">{h.title}</h3>
-              <p className="text-[#C4C4C4] text-sm leading-relaxed">{h.body}</p>
+              <h3 className="mb-2 text-lg font-bold leading-tight text-white">{h.title}</h3>
+              <p className="text-sm leading-relaxed text-[#C4C4C4]">{h.body}</p>
             </div>
           ))}
         </div>
-        <div className="rounded-2xl bg-[#101010] border border-[#1F1F1F] p-6">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-[10px] uppercase tracking-[0.18em] text-[#888] font-bold">Also fixed</span>
+        <div className="rounded-2xl border border-[#1F1F1F] bg-[#101010] p-6">
+          <div className="mb-3 flex items-center gap-2">
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#888]">
+              Also fixed
+            </span>
             <span className="h-px flex-1 bg-[#1F1F1F]" />
           </div>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
+          <ul className="grid grid-cols-1 gap-x-6 gap-y-2 md:grid-cols-2">
             {FIXES.map((f, i) => (
-              <li key={i} className="flex items-start gap-2 text-[#A3A3A3] text-sm leading-relaxed">
-                <span className="mt-2 w-1 h-1 rounded-full bg-[#444] shrink-0" />
+              <li key={i} className="flex items-start gap-2 text-sm leading-relaxed text-[#A3A3A3]">
+                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[#444]" />
                 {f}
               </li>
             ))}
           </ul>
         </div>
-        <p className="text-[12px] text-[#666] mt-6">Full release notes live in-app under Settings → Updates.</p>
+        <p className="mt-6 text-[12px] text-[#666]">
+          Full release notes live in-app under Settings → Updates.
+        </p>
       </div>
-    </section>
-  );
-}
-
-/* ───────────── BIG STATS ───────────── */
-function BigStats() {
-  const stats: { value: string; label: string }[] = [
-    { value: "<1s", label: "Detection latency on M-series Macs" },
-    { value: "100%", label: "On-device transcription by default" },
-    { value: "12+", label: "Languages with auto-detect" },
-  ];
-  return (
-    <section className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A]">
-      <Stagger className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8" stagger={0.12}>
-        {stats.map((s) => (
-          <Item key={s.label}>
-            <div>
-              <div className="text-6xl sm:text-7xl font-bold tracking-tight text-white tabular-nums">
-                {s.value}
-              </div>
-              <div className="mt-3 text-[#C4C4C4] text-sm leading-relaxed max-w-[280px]">{s.label}</div>
-            </div>
-          </Item>
-        ))}
-      </Stagger>
     </section>
   );
 }
@@ -454,31 +639,44 @@ function PricingTeaser() {
     { name: "One-time", price: "$399", period: "once", features: ["Perpetual license", "Current major version", "One seat", "1 year of updates"] },
   ] as const;
   return (
-    <section id="pricing" className="px-6 sm:px-10 py-24 border-b border-[#1A1A1A] bg-[#0A0A0A]">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3 text-center">Pricing</div>
-        <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-3 text-white text-center">
-          Free now. Fair later.
-        </h2>
-        <p className="text-[#C4C4C4] text-lg mb-6 max-w-2xl mx-auto text-center">Pay once or subscribe — your call. Every beta tester is grandfathered into the paid tier for life.</p>
-        <p className="text-center mb-12">
-          <Link href="/pricing" className="text-sm text-[#C8102E] hover:text-[#E8183A] transition font-semibold">View suite pricing →</Link>
+    <section id="pricing" className="border-t border-[#1A1A1A] px-6 py-24 sm:px-10">
+      <div className="mx-auto max-w-6xl">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Pricing"
+            title="Free now. Fair later."
+            lede="Pay once or subscribe — your call. Every beta tester is grandfathered into the paid tier for life."
+          />
+        </Reveal>
+        <p className="mb-12 mt-4 text-center">
+          <Link href="/pricing" className="text-sm font-semibold text-[#C8102E] transition hover:text-[#E8183A]">
+            View suite pricing →
+          </Link>
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {tiers.map((t) => (
-            <div key={t.name} className={`p-7 rounded-2xl relative ${"primary" in t && t.primary ? "bg-gradient-to-b from-[#C8102E]/15 to-[#1A1A1A] border border-[#C8102E]/40" : "bg-[#141414] border border-[#222]"}`}>
+            <div
+              key={t.name}
+              className={`relative rounded-2xl p-7 ${
+                "primary" in t && t.primary
+                  ? "border border-[#C8102E]/40 bg-gradient-to-b from-[#C8102E]/15 to-[#1A1A1A]"
+                  : "glass-card"
+              }`}
+            >
               {"note" in t && t.note && (
-                <div className="absolute -top-2.5 left-7 px-2.5 py-0.5 rounded-full bg-[#C8102E] text-white text-[10px] uppercase tracking-wider font-bold">{t.note}</div>
+                <div className="absolute -top-2.5 left-7 rounded-full bg-[#C8102E] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                  {t.note}
+                </div>
               )}
-              <div className="text-sm font-bold uppercase tracking-wider text-[#C4C4C4] mb-3">{t.name}</div>
-              <div className="flex items-baseline gap-1.5 mb-6">
-                <span className="text-4xl font-bold text-white tracking-tight">{t.price}</span>
-                <span className="text-[#C4C4C4] text-sm">{t.period}</span>
+              <div className="mb-3 text-sm font-bold uppercase tracking-wider text-[#C4C4C4]">{t.name}</div>
+              <div className="mb-6 flex items-baseline gap-1.5">
+                <span className="text-4xl font-bold tracking-tight text-white">{t.price}</span>
+                <span className="text-sm text-[#C4C4C4]">{t.period}</span>
               </div>
               <ul className="space-y-2.5 text-sm text-[#D4D4D4]">
                 {t.features.map((f) => (
                   <li key={f} className="flex items-start gap-2">
-                    <span className="text-[#C8102E] mt-0.5">✓</span>
+                    <span className="mt-0.5 text-[#C8102E]">✓</span>
                     <span className="leading-relaxed">{f}</span>
                   </li>
                 ))}

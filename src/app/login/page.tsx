@@ -11,7 +11,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
+import HorizonGlow from "@/components/hero/HorizonGlow";
 
 const SUPABASE_URL  = process.env.NEXT_PUBLIC_SUPABASE_URL  ?? "";
 const SUPABASE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
@@ -23,6 +25,11 @@ function getSupabase() {
 type Mode = "password" | "magic";
 
 export default function LoginPage() {
+  const searchParams = useSearchParams();
+  const rawNext = searchParams.get("next") ?? "";
+  const safeNext = rawNext.startsWith("/") ? rawNext : "/account";
+  const isCheckout = safeNext.includes("/api/stripe/checkout");
+
   const [mode, setMode]       = useState<Mode>("password");
   const [email, setEmail]     = useState("");
   const [password, setPassword] = useState("");
@@ -43,16 +50,17 @@ export default function LoginPage() {
       }
       const supabase = getSupabase();
       if (mode === "magic") {
+        const callbackNext = safeNext !== "/account" ? `?next=${encodeURIComponent(safeNext)}` : "";
         const { error: err } = await supabase.auth.signInWithOtp({
           email,
-          options: { emailRedirectTo: `${location.origin}/api/auth/callback` },
+          options: { emailRedirectTo: `${location.origin}/api/auth/callback${callbackNext}` },
         });
         if (err) throw err;
         setSent(true);
       } else {
         const { error: err } = await supabase.auth.signInWithPassword({ email, password });
         if (err) throw err;
-        location.href = "/account";
+        location.href = safeNext;
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Sign-in failed. Try again.");
@@ -74,18 +82,28 @@ export default function LoginPage() {
         </Link>
       </nav>
 
-      <section className="flex-1 flex items-center justify-center px-6 py-20">
-        <div className="w-full max-w-sm">
+      <section className="relative flex-1 flex items-center justify-center overflow-hidden px-6 py-20">
+        <HorizonGlow strength={0.55} />
+        <div className="glass-card relative z-10 w-full max-w-sm rounded-3xl p-8">
           <div className="text-center mb-8">
             <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-2">
               Sign in
             </div>
-            <h1 className="text-3xl font-bold tracking-tight text-white">
-              One account,{" "}
-              <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
-                the whole suite.
-              </span>
-            </h1>
+            {isCheckout ? (
+              <h1 className="text-3xl font-bold tracking-tight text-white">
+                Sign in to complete{" "}
+                <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
+                  your purchase.
+                </span>
+              </h1>
+            ) : (
+              <h1 className="text-3xl font-bold tracking-tight text-white">
+                One account,{" "}
+                <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal text-[#E8183A]">
+                  the whole suite.
+                </span>
+              </h1>
+            )}
           </div>
 
           {sent ? (
@@ -166,7 +184,10 @@ export default function LoginPage() {
 
           <p className="mt-8 text-center text-xs text-[#555]">
             New to ACE?{" "}
-            <Link href="/signup" className="text-[#C8102E] hover:text-[#E8183A] transition">
+            <Link
+              href={safeNext !== "/account" ? `/signup?next=${encodeURIComponent(safeNext)}` : "/signup"}
+              className="text-[#C8102E] hover:text-[#E8183A] transition"
+            >
               Create an account →
             </Link>
           </p>

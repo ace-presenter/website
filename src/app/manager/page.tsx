@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import FinalCTA from "@/components/FinalCTA";
 import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item } from "@/components/motion";
+import { HeroShell, AccentItalic, CTABand } from "@/components/sections";
 
 // ACE Manager accent (emerald) — mirrors products.manager in @/lib/brand.
 const ACCENT = "#0A7B52";
@@ -98,7 +98,18 @@ export default function ManagerPage() {
       <VsChurchSuite />
       <UseCases />
       <SuiteConnector />
-      <FinalCTA variant="manager" />
+      <CTABand
+        product="manager"
+        eyebrow="Part of the ACE suite"
+        title={
+          <>
+            One system. The whole <AccentItalic>organization</AccentItalic>.
+          </>
+        }
+        sub="One account covers all ACE products — same login, no separate billing."
+        primary={{ href: "/manager/app", label: "Open ACE Manager" }}
+        secondary={{ href: "/pricing#manager", label: "See pricing" }}
+      />
       <Footer />
     </main>
   );
@@ -106,52 +117,40 @@ export default function ManagerPage() {
 
 function Hero() {
   return (
-    <section className="px-6 sm:px-10 pt-24 sm:pt-32 pb-20">
-      <div className="max-w-4xl mx-auto">
-        <Reveal>
-          <div className="flex items-center gap-3 mb-8">
-            <span className="h-px w-8" style={{ background: ACCENT }} />
-            <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#888]">
-              ACE · Manager
-            </span>
-          </div>
-        </Reveal>
-        <Reveal delay={0.08}>
-          <h1 className="text-4xl sm:text-6xl font-bold tracking-tight mb-6 text-white">
-            The organizational{" "}
-            <span className="font-[family-name:var(--font-instrument-serif)] italic font-normal" style={{ color: ACCENT_VIVID }}>
-              command layer.
-            </span>
-          </h1>
-        </Reveal>
-        <Reveal delay={0.16}>
-          <p className="text-[#C4C4C4] text-lg sm:text-xl max-w-2xl mb-10 leading-relaxed">
-            ACE Manager helps churches, ministries, and teams run members,
-            departments, tasks, events, communication, and reporting from one
-            coordinated system.
-          </p>
-        </Reveal>
-        <Reveal delay={0.24}>
-          <div className="flex flex-col sm:flex-row items-start gap-3">
-            <a
-              href="/manager/app"
-              className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition-colors"
-            >
-              Open ACE Manager
-            </a>
-            <Link
-              href="/pricing#manager"
-              className="px-7 py-3.5 rounded-full border border-[#2A2A2A] hover:border-[#444] text-[#C4C4C4] hover:text-white text-sm transition"
-            >
-              See pricing
-            </Link>
-          </div>
-          <p className="text-[#555] text-xs mt-5">
-            Part of the ACE suite · One account covers all products
-          </p>
-        </Reveal>
+    <HeroShell product="manager" ripple={false} className="min-h-[70svh]">
+      <div
+        className="mb-6 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em]"
+        style={{ borderColor: `rgba(${ACCENT_RGB},0.4)`, color: ACCENT_VIVID }}
+      >
+        <span className="h-1.5 w-1.5 rounded-full" style={{ background: ACCENT_VIVID }} />
+        Coming soon · early access open
       </div>
-    </section>
+      <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
+        The organizational <AccentItalic>command layer</AccentItalic>.
+      </h1>
+      <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[#C4C4C4] sm:text-xl">
+        ACE Manager helps churches, ministries, and teams run members,
+        departments, tasks, events, communication, and reporting from one
+        coordinated system.
+      </p>
+      <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
+        <a
+          href="/manager/app"
+          className="rounded-full bg-white px-7 py-3.5 text-sm font-bold text-black transition-colors hover:bg-[#E8E8E8]"
+        >
+          Open ACE Manager
+        </a>
+        <Link
+          href="/pricing#manager"
+          className="rounded-full border border-[#2A2A2A] px-7 py-3.5 text-sm text-[#C4C4C4] transition hover:border-[#444] hover:text-white"
+        >
+          See pricing
+        </Link>
+      </div>
+      <p className="mt-5 text-xs text-[#555]">
+        Part of the ACE suite · One account covers all products
+      </p>
+    </HeroShell>
   );
 }
 
@@ -167,7 +166,7 @@ function Features() {
         <Stagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" stagger={0.09}>
           {FEATURES.map((f) => (
             <Item key={f.tag}>
-              <div className="h-full bg-[#111] border border-[#1E1E1E] rounded-2xl p-6 flex flex-col gap-3 transition-colors hover:border-[rgba(10,123,82,0.5)]">
+              <div className="glass-card h-full rounded-2xl p-6 flex flex-col gap-3 transition-colors hover:border-[rgba(10,123,82,0.5)]">
                 <div className="text-[10px] uppercase tracking-[0.2em] font-bold" style={{ color: ACCENT_VIVID }}>
                   {f.tag}
                 </div>

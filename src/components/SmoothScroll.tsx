@@ -15,7 +15,22 @@ import "lenis/dist/lenis.css";
  *    the browser's normal scrolling is used untouched.
  *  - Touch scrolling is left native (smoothTouch off) — feels better on phones
  *    and avoids hijacking momentum scroll.
+ *
+ * `lenisStop()` / `lenisStart()` let overlays (the mobile nav sheet) freeze
+ * inertia scroll while open. Both are no-ops when Lenis never initialised
+ * (reduced motion), so callers pair them with a body overflow lock.
  */
+
+let activeLenis: Lenis | null = null;
+
+export function lenisStop() {
+  activeLenis?.stop();
+}
+
+export function lenisStart() {
+  activeLenis?.start();
+}
+
 export default function SmoothScroll({
   children,
 }: {
@@ -34,6 +49,7 @@ export default function SmoothScroll({
       wheelMultiplier: 1,
       touchMultiplier: 1.5,
     });
+    activeLenis = lenis;
 
     let raf = 0;
     const loop = (time: number) => {
@@ -44,6 +60,7 @@ export default function SmoothScroll({
 
     return () => {
       cancelAnimationFrame(raf);
+      if (activeLenis === lenis) activeLenis = null;
       lenis.destroy();
     };
   }, []);

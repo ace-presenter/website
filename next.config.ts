@@ -53,6 +53,13 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      // ── 2b. Guide → Learn (site redesign, July 2026) ───────────────────
+      {
+        source: "/guide",
+        destination: "/learn",
+        permanent: true,
+      },
+
       // ── 3. Old Taskify domain → /schedule ──────────────────────────────
       // The DNS-level redirect at Vercel handles the domain hop;
       // this catches any path-level links that might arrive via a 307

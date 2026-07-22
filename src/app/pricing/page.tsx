@@ -3,6 +3,7 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PricingTable from "@/components/PricingTable";
+import HorizonGlow from "@/components/hero/HorizonGlow";
 import { ScrollReveal, ScrollStagger, ScrollItem } from "@/components/motion";
 import { SUITE_BUNDLE, checkoutHref } from "@/lib/pricing";
 
@@ -30,8 +31,9 @@ export default function PricingPage() {
 
 function PricingHero() {
   return (
-    <section className="px-6 sm:px-10 pt-24 sm:pt-32 pb-16 text-center">
-      <ScrollReveal className="max-w-3xl mx-auto">
+    <section className="relative overflow-hidden px-6 sm:px-10 pt-24 sm:pt-32 pb-16 text-center">
+      <HorizonGlow strength={0.5} />
+      <ScrollReveal className="relative z-10 max-w-3xl mx-auto">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Pricing</div>
         <h1 className="text-5xl sm:text-7xl font-bold tracking-tight mb-6 text-white leading-[0.97]">
           Free to start.{" "}

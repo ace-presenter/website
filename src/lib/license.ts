@@ -40,8 +40,10 @@ const TTL_SECONDS = 30 * 24 * 60 * 60;
 
 /** Mint an RS256 ACE licence JWT for the gateway. Throws if the key isn't set. */
 export async function issueLicense(claim: LicenseClaim): Promise<IssuedLicense> {
-  const pem = process.env.LICENSE_PRIVATE_KEY;
-  if (!pem) throw new Error("LICENSE_PRIVATE_KEY not set");
+  const raw = process.env.LICENSE_PRIVATE_KEY;
+  if (!raw) throw new Error("LICENSE_PRIVATE_KEY not set");
+  // Support both real newlines (Vercel UI paste) and \n literals (local .env)
+  const pem = raw.replace(/\\n/g, "\n");
 
   const key = await importPKCS8(pem, "RS256");
   const now = Math.floor(Date.now() / 1000);

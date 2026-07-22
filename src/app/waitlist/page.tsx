@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import WaitlistForm from "@/components/WaitlistForm";
+import HorizonGlow from "@/components/hero/HorizonGlow";
 
 export const metadata: Metadata = {
   title: "Join the waitlist",
@@ -23,8 +24,9 @@ export default function WaitlistPage() {
   return (
     <main className="flex-1 flex flex-col font-sans">
       <Nav />
-      <section className="px-6 py-28 sm:px-10 sm:py-36">
-        <div className="mx-auto max-w-xl text-center">
+      <section className="relative overflow-hidden px-6 py-28 sm:px-10 sm:py-36">
+        <HorizonGlow strength={0.6} />
+        <div className="relative z-10 mx-auto max-w-xl text-center">
           <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.2em] text-[#888]">
             ACE · Coming soon
           </p>

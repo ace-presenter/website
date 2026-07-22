@@ -44,7 +44,11 @@ export async function GET(req: NextRequest) {
   try {
     const supabase = await createSupabaseServerClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return NextResponse.redirect(new URL("/login", req.url));
+    if (!user) {
+      const loginUrl = new URL("/login", req.url);
+      loginUrl.searchParams.set("next", req.nextUrl.pathname + req.nextUrl.search);
+      return NextResponse.redirect(loginUrl);
+    }
 
     const auth = { Authorization: `Bearer ${secretKey}` };
     const form = { ...auth, "Content-Type": "application/x-www-form-urlencoded" };
