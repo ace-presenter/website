@@ -36,16 +36,17 @@ export const revalidate = 300;
 
 async function fetchLatestVersion(): Promise<string | null> {
   try {
-    const r = await fetch("https://dl.ace-presenter.app/latest-mac.yml", {
+    // Presenter ships a Sparkle appcast (native app), not electron's yml.
+    const r = await fetch("https://dl.ace-presenter.app/presenter/appcast.xml", {
       next: { revalidate: 300 },
     });
     if (!r.ok) return null;
     const text = await r.text();
-    for (const line of text.split(/\r?\n/)) {
-      const m = line.match(/^version:\s*['"]?([\d.]+)['"]?/);
-      if (m) return m[1];
-    }
-    return null;
+    // Newest <item> is first; read its Sparkle version string.
+    const m =
+      text.match(/<sparkle:shortVersionString>([^<]+)<\/sparkle:shortVersionString>/) ??
+      text.match(/<sparkle:version>([^<]+)<\/sparkle:version>/);
+    return m ? m[1].trim() : null;
   } catch {
     return null;
   }

@@ -12,7 +12,7 @@ interface ManualBannerProps {
 }
 
 export default function ManualBanner({ latestVersion }: ManualBannerProps) {
-  const v = latestVersion || "1.7.4";
+  const v = latestVersion || "0.2.9";
   return (
     <div className="bg-[#C8102E] text-white px-4 sm:px-6 py-3 border-b border-[#A00D26]">
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 text-center sm:text-left">

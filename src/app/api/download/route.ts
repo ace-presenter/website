@@ -21,9 +21,17 @@ export const revalidate = 60;
 
 const RELEASE_BASE = "https://dl.ace-presenter.app";
 
-/** Per-product manifest paths on dl.ace-presenter.app */
+/**
+ * Per-product update manifests on dl.ace-presenter.app.
+ *
+ * Two formats are supported (see resolveFromManifest):
+ *   - electron-builder `latest-mac.yml`  → schedule, editors-notes
+ *   - Sparkle `appcast.xml` (.xml)       → presenter (native Qt/C++, arm64-only)
+ *
+ * All releases live under a per-product subfolder in the ace-releases bucket.
+ */
 const MANIFEST_PATHS: Record<string, string> = {
-  presenter:       "/latest-mac.yml",
+  presenter:       "/presenter/appcast.xml",
   "editors-notes": "/editors-notes/latest-mac.yml",
   schedule:        "/schedule/latest-mac.yml",
   // world: not shipped yet; placeholder for ACE World desktop release
@@ -35,9 +43,11 @@ const MANIFEST_PATHS: Record<string, string> = {
  * Structure: product → platform → filename
  */
 const FALLBACK: Record<string, Record<string, string>> = {
+  // arm64-only (native app built for Apple Silicon; no Intel build). Only an
+  // arm64 key — mac-x64 requests fall through to the /download/intel notice.
+  // Bump this in lockstep with the appcast if the appcast ever can't be read.
   presenter: {
-    "mac-arm64": "ACE-1.7.4-arm64.dmg",
-    "mac-x64": "ACE-1.7.4.dmg",
+    "mac-arm64": "presenter/ACE-0.2.9-arm64.dmg",
   },
   // arm64-only app (Qt/C++ built on Apple Silicon; no Intel build).
   // Serve the same DMG for both platforms. Uses the stable alias that
@@ -48,11 +58,12 @@ const FALLBACK: Record<string, Record<string, string>> = {
     "mac-arm64": "editors-notes/ACE-EditorsNotes-mac.dmg",
     "mac-x64":   "editors-notes/ACE-EditorsNotes-mac.dmg",
   },
-  // Universal build — same file served for both arm64 and x64 Mac users.
-  // Bump version here in lockstep with each desktop release.
+  // Universal build. Uses the stable `ACE-Schedule-mac.dmg` alias that the
+  // release script repoints to the newest DMG each release, so this never
+  // needs a per-release version bump (primary path is the manifest anyway).
   schedule: {
-    "mac-arm64": "schedule/ACE-Schedule-1.0.13-universal.dmg",
-    "mac-x64":   "schedule/ACE-Schedule-1.0.13-universal.dmg",
+    "mac-arm64": "schedule/ACE-Schedule-mac.dmg",
+    "mac-x64":   "schedule/ACE-Schedule-mac.dmg",
   },
 };
 
@@ -76,16 +87,32 @@ async function resolveFromManifest(
     });
     if (!r.ok) return null;
     const text = await r.text();
-    const urls: string[] = [];
-    for (const line of text.split(/\r?\n/)) {
-      const m = line.match(/^\s*-\s*url:\s*(.+?)\s*$/);
-      if (m) urls.push(m[1].replace(/^['"]|['"]$/g, ""));
-    }
+
     // Build the base URL for relative asset paths in the manifest.
     // e.g. manifest at /editors-notes/latest-mac.yml → base = /editors-notes/
     const manifestDir = manifestPath.substring(0, manifestPath.lastIndexOf("/") + 1);
     const toAbsolute = (rel: string) =>
       rel.startsWith("http") ? rel : `${RELEASE_BASE}${manifestDir}${rel}`;
+
+    // Sparkle appcast (.xml): <item>s are newest-first, each with a DMG
+    // <enclosure url="…">. These feeds are arm64-only native apps, so Intel
+    // requests get no build (they fall through to the /download/intel notice).
+    if (manifestPath.endsWith(".xml")) {
+      if (platform !== "mac-arm64") return null;
+      const dmgs: string[] = [];
+      const re = /<enclosure\b[^>]*\burl="([^"]+\.dmg)"/g;
+      let mm: RegExpExecArray | null;
+      while ((mm = re.exec(text)) !== null) dmgs.push(mm[1]);
+      const u = dmgs.find((x) => x.endsWith("arm64.dmg")) ?? dmgs[0];
+      return u ? toAbsolute(u) : null;
+    }
+
+    // electron-builder latest-mac.yml (.yml): `- url:` lines.
+    const urls: string[] = [];
+    for (const line of text.split(/\r?\n/)) {
+      const m = line.match(/^\s*-\s*url:\s*(.+?)\s*$/);
+      if (m) urls.push(m[1].replace(/^['"]|['"]$/g, ""));
+    }
 
     if (platform === "mac-arm64") {
       // Prefer an arm64-specific DMG; fall back to any DMG (universal or arm64-only with no suffix)
@@ -132,6 +159,8 @@ export async function GET(req: NextRequest) {
   const productPageMap: Record<string, string> = {
     "editors-notes": "/editors-notes",
     "schedule": "/schedule",
+    // Presenter is arm64-only: an unresolved (Intel) request lands on the notice.
+    "presenter": "/download/intel",
   };
   const productPage = productPageMap[product] ?? "/";
 
