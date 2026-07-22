@@ -165,4 +165,8 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-instrument-sans), system-ui, -apple-system, sans-serif;
+  /* Guard against stray horizontal scroll from oversized hero type / glows.
+     `clip` (not `hidden`) avoids creating a scroll container, so the sticky
+     nav keeps working. */
+  overflow-x: clip;
 }

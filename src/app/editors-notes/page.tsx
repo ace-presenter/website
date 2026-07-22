@@ -125,9 +125,9 @@ function Hero() {
         <span className="h-px w-8 bg-[#B07C2A]" aria-hidden />
       </div>
 
-      <h1 className="text-5xl font-bold leading-[0.95] tracking-tight text-white sm:text-7xl lg:text-8xl">
-        Notes that talk
-        <br />
+      <h1 className="text-[2.6rem] font-bold leading-[1.0] tracking-tight text-white sm:text-7xl sm:leading-[0.95] lg:text-8xl">
+        Notes that talk{" "}
+        <br className="hidden sm:block" />
         to <AccentItalic>Resolve</AccentItalic>
         <span className="text-[#B07C2A]">.</span>
       </h1>

@@ -144,9 +144,9 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
         <span className="h-px w-8 bg-[#C8102E]" aria-hidden />
       </div>
 
-      <h1 className="text-5xl font-bold leading-[0.95] tracking-tight text-white sm:text-7xl lg:text-8xl">
-        ACE listens.
-        <br />
+      <h1 className="text-[2.6rem] font-bold leading-[1.0] tracking-tight text-white sm:text-7xl sm:leading-[0.95] lg:text-8xl">
+        ACE listens.{" "}
+        <br className="hidden sm:block" />
         You <AccentItalic>present</AccentItalic>
         <span className="text-[#C8102E]">.</span>
       </h1>
