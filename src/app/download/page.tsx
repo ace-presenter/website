@@ -104,17 +104,32 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
           Apple-signed and notarized. Auto-updates from here. Pick the build that matches your Mac.
         </p>
 
-        <div className="mt-10 flex items-start">
-          <a
-            href="/api/download?platform=mac-arm64"
-            className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition-colors"
-          >
-            Download for Mac · Apple Silicon (M1+)
-          </a>
+        <div className="mt-10 flex flex-col gap-4">
+          {/* Primary — DMG (individual users) */}
+          <div className="flex items-center gap-4">
+            <a
+              href="/api/download?platform=mac-arm64"
+              className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition-colors"
+            >
+              Download for Mac · Apple Silicon (M1+)
+            </a>
+            <span className="text-xs text-[#666]">.dmg · drag to install</span>
+          </div>
+
+          {/* Secondary — PKG (IT / managed) */}
+          <div className="flex items-center gap-4">
+            <a
+              href="/api/download?platform=mac-arm64&format=pkg"
+              className="px-7 py-3.5 rounded-full bg-transparent hover:bg-[#1A1A1A] text-white font-semibold text-sm border border-[#333] transition-colors"
+            >
+              Installer Package · Apple Silicon
+            </a>
+            <span className="text-xs text-[#666]">.pkg · MDM / Jamf / silent install</span>
+          </div>
         </div>
 
         <p className="mt-5 text-xs text-[#C4C4C4]">
-          Free during public beta · macOS 12+
+          Free during public beta · macOS 14 (Sonoma) or later
           {latestVersion && (
             <>
               {" · "}
@@ -132,7 +147,7 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
 /* ───────────── REQUIREMENTS ───────────── */
 function Requirements() {
   const ROWS = [
-    { label: "Operating system", value: "macOS 12 (Monterey) or later" },
+    { label: "Operating system", value: "macOS 14 (Sonoma) or later" },
     { label: "Architecture", value: "Apple Silicon (M1 or later)" },
     { label: "Disk space", value: "~600 MB initial · ~1 GB after first launch (AI models download on first run)" },
     { label: "Microphone", value: "Built-in, USB, or any Core Audio input" },

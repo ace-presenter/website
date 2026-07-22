@@ -30,8 +30,9 @@ export default async function AccountPage() {
   // Resolve session. If the Supabase client can't be constructed (e.g. a
   // misconfigured deploy) or auth errors, treat the visitor as logged out.
   let user: { id: string; email?: string; user_metadata?: Record<string, unknown> } | null = null;
+  let supabase: Awaited<ReturnType<typeof createSupabaseServerClient>> | null = null;
   try {
-    const supabase = await createSupabaseServerClient();
+    supabase = await createSupabaseServerClient();
     const { data } = await supabase.auth.getUser();
     user = data.user;
   } catch {
@@ -44,7 +45,8 @@ export default async function AccountPage() {
   const tier: string = claim?.tier ?? "free";
   const products: Product[] = claim?.products ?? [];
 
-  // Profile from auth user_metadata (collected at signup, editable here)
+  // Profile — prefer the queryable profiles table; fall back to auth metadata
+  // (e.g. before the table is applied, or for users without a row yet).
   const md = user.user_metadata ?? {};
   const str = (v: unknown) => (typeof v === "string" ? v : "");
   const profile: Profile = {
@@ -54,6 +56,22 @@ export default async function AccountPage() {
     country: str(md.country),
     phone: str(md.phone),
   };
+  try {
+    const { data: row } = await supabase!
+      .from("profiles")
+      .select("full_name, organization, city, country, phone")
+      .eq("id", user.id)
+      .maybeSingle();
+    if (row) {
+      profile.fullName = str(row.full_name) || profile.fullName;
+      profile.organization = str(row.organization) || profile.organization;
+      profile.city = str(row.city) || profile.city;
+      profile.country = str(row.country) || profile.country;
+      profile.phone = str(row.phone) || profile.phone;
+    }
+  } catch {
+    /* table not applied yet — metadata fallback already set */
+  }
 
   return (
     <main className="flex-1 flex flex-col font-sans">

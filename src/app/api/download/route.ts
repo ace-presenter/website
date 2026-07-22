@@ -47,7 +47,8 @@ const FALLBACK: Record<string, Record<string, string>> = {
   // arm64 key — mac-x64 requests fall through to the /presenter page.
   // Bump this in lockstep with the appcast if the appcast ever can't be read.
   presenter: {
-    "mac-arm64": "presenter/ACE-0.2.9-arm64.dmg",
+    "mac-arm64":     "presenter/ACE-0.3.0-arm64.dmg",
+    "mac-arm64-pkg": "presenter/ACE-0.3.0-installer.pkg",
   },
   // arm64-only app (Qt/C++ built on Apple Silicon; no Intel build).
   // Serve the same DMG for both platforms. Uses the stable alias that
@@ -133,7 +134,8 @@ async function resolveFromManifest(
 
 export async function GET(req: NextRequest) {
   const sp = req.nextUrl.searchParams;
-  const product = sp.get("product") ?? "presenter";
+  const product  = sp.get("product")  ?? "presenter";
+  const format   = sp.get("format")   ?? "dmg";   // "dmg" | "pkg"
   const platform =
     sp.get("platform") || sniffPlatform(req.headers.get("user-agent") || "");
 
@@ -141,12 +143,25 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(new URL("/", req.url), 302);
   }
   if (platform === "win") {
-    // Windows not shipped for any product yet
     return NextResponse.redirect(new URL("/", req.url), 302);
   }
-  // Not-yet-shipped products — send to their marketing page
   if (product === "world") {
     return NextResponse.redirect(new URL("/", req.url), 302);
+  }
+
+  // PKG installer — derive path from the appcast DMG URL (same version, different suffix)
+  if (format === "pkg" && product === "presenter" && platform === "mac-arm64") {
+    const dmgUrl = await resolveFromManifest("presenter", "mac-arm64");
+    const pkgUrl = dmgUrl?.replace(/-arm64\.dmg$/, "-installer.pkg") ?? null;
+    if (pkgUrl) {
+      const check = await fetch(pkgUrl, { method: "HEAD" }).catch(() => null);
+      if (check?.ok) return NextResponse.redirect(pkgUrl, 302);
+    }
+    // Fallback to hardcoded PKG path
+    return NextResponse.redirect(
+      `${RELEASE_BASE}/${FALLBACK["presenter"]["mac-arm64-pkg"]}`,
+      302,
+    );
   }
 
   // Try dynamic manifest first (live R2 path)

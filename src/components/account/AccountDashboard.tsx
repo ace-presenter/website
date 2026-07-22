@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { createBrowserClient } from "@supabase/ssr";
 import LicenseKeyPanel from "@/components/LicenseKeyPanel";
 import CityAutocomplete from "@/components/CityAutocomplete";
 import { COUNTRIES } from "@/lib/countries";
@@ -15,11 +14,9 @@ import { COUNTRIES } from "@/lib/countries";
  * resolved data (email, entitlement tier, licensed products, profile metadata)
  * is passed in as props so there's no "free-tier flash"; only the profile
  * editor and license copy are interactive. Editing writes to Supabase auth
- * user_metadata via updateUser — it never touches billing or entitlements.
+ * public.profiles (via /api/account/profile) — it never touches billing or
+ * entitlements.
  */
-
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-const SUPABASE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
 export interface Profile {
   fullName: string;
@@ -342,18 +339,13 @@ function ProfileEditor({ email, initial }: { email: string; initial: Profile }) 
     setError("");
     setStatus("saving");
     try {
-      if (!SUPABASE_URL || !SUPABASE_ANON) throw new Error("Saving is temporarily unavailable.");
-      const supabase = createBrowserClient(SUPABASE_URL, SUPABASE_ANON);
-      const { error: err } = await supabase.auth.updateUser({
-        data: {
-          full_name: form.fullName || undefined,
-          organization: form.organization || undefined,
-          city: form.city || undefined,
-          country: form.country || undefined,
-          phone: form.phone || undefined,
-        },
+      const res = await fetch("/api/account/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
       });
-      if (err) throw err;
+      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok) throw new Error(data.error || "Couldn't save. Try again.");
       setStatus("saved");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Couldn't save. Try again.");

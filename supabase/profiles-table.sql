@@ -12,9 +12,13 @@ create table if not exists public.profiles (
   organization text,            -- church, ministry, school, nonprofit, etc.
   city         text,
   country      text,
+  phone        text,
   created_at   timestamptz not null default now(),
   updated_at   timestamptz not null default now()
 );
+
+-- Re-runnable: add phone to installs created before it existed.
+alter table public.profiles add column if not exists phone text;
 
 -- ── Row-level security ────────────────────────────────────────────────────────
 
@@ -44,13 +48,14 @@ returns trigger
 language plpgsql security definer set search_path = public
 as $$
 begin
-  insert into public.profiles (id, full_name, organization, city, country)
+  insert into public.profiles (id, full_name, organization, city, country, phone)
   values (
     new.id,
     new.raw_user_meta_data ->> 'full_name',
     new.raw_user_meta_data ->> 'organization',
     new.raw_user_meta_data ->> 'city',
-    new.raw_user_meta_data ->> 'country'
+    new.raw_user_meta_data ->> 'country',
+    new.raw_user_meta_data ->> 'phone'
   )
   on conflict (id) do nothing;
   return new;
