@@ -24,17 +24,23 @@ alter table public.profiles add column if not exists phone text;
 
 alter table public.profiles enable row level security;
 
+-- Policies are dropped first so this file is safe to re-run (CREATE POLICY
+-- has no IF NOT EXISTS).
+
 -- Users can read and update their own profile.
+drop policy if exists "profiles: own read" on public.profiles;
 create policy "profiles: own read"
   on public.profiles for select
   using (auth.uid() = id);
 
+drop policy if exists "profiles: own update" on public.profiles;
 create policy "profiles: own update"
   on public.profiles for update
   using (auth.uid() = id)
   with check (auth.uid() = id);
 
 -- Service role (webhooks, edge functions) can do anything.
+drop policy if exists "profiles: service role full access" on public.profiles;
 create policy "profiles: service role full access"
   on public.profiles
   using (auth.role() = 'service_role');
