@@ -3,8 +3,22 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { createBrowserClient } from "@supabase/ssr";
 import { products } from "@/lib/brand";
 import { lenisStart, lenisStop } from "@/components/SmoothScroll";
+
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+const SUPABASE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+
+type NavUser = { email?: string; user_metadata?: Record<string, unknown> };
+
+function navInitials(u: NavUser): string {
+  const md = u.user_metadata ?? {};
+  const name = typeof md.full_name === "string" ? md.full_name : typeof md.name === "string" ? md.name : "";
+  const src = (name || u.email || "").trim();
+  const parts = src.split(/[\s@._-]+/).filter(Boolean);
+  return ((parts[0]?.[0] ?? "") + (parts[1]?.[0] ?? "")).toUpperCase() || "A";
+}
 
 /**
  * ACE Suite — global navigation bar.
@@ -116,6 +130,8 @@ export default function Nav({ activeProduct }: NavProps) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false); // products dropdown
   const [mobileOpen, setMobileOpen] = useState(false);
+  // undefined = still resolving (avoid flashing the wrong auth state)
+  const [user, setUser] = useState<NavUser | null | undefined>(undefined);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -125,6 +141,27 @@ export default function Nav({ activeProduct }: NavProps) {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Auth state → the nav reflects sign-in without a page reload.
+  useEffect(() => {
+    if (!SUPABASE_URL || !SUPABASE_ANON) {
+      setUser(null);
+      return;
+    }
+    let mounted = true;
+    const supabase = createBrowserClient(SUPABASE_URL, SUPABASE_ANON);
+    supabase.auth
+      .getUser()
+      .then(({ data }) => mounted && setUser(data.user ?? null))
+      .catch(() => mounted && setUser(null));
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+      if (mounted) setUser(session?.user ?? null);
+    });
+    return () => {
+      mounted = false;
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   // Freeze page scroll under the mobile sheet.
@@ -282,18 +319,39 @@ export default function Nav({ activeProduct }: NavProps) {
 
       {/* Auth + primary CTA + hamburger */}
       <div className="flex items-center gap-3 sm:gap-4">
-        <Link
-          href="/login"
-          className="hidden sm:block text-sm text-[#C4C4C4] hover:text-white transition whitespace-nowrap"
-        >
-          Sign in
-        </Link>
-        <Link
-          href="/pricing"
-          className="px-4 sm:px-5 py-2 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-xs uppercase tracking-wider transition hover:scale-[1.04] active:scale-100"
-        >
-          Get started
-        </Link>
+        {user === undefined ? (
+          // resolving — reserve space to avoid a layout shift / wrong-state flash
+          <span aria-hidden className="h-9 w-9 rounded-full bg-white/[0.04]" />
+        ) : user ? (
+          <Link
+            href="/account"
+            aria-label="Account"
+            className="flex items-center gap-2 rounded-full border border-[#2A2A2A] bg-[#151515] py-1 pl-1 pr-1 sm:pr-3.5 transition hover:border-[#3A3A3A]"
+          >
+            <span
+              className="flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-bold text-white"
+              style={{ background: "linear-gradient(135deg, #C8102E, #FF6B00)" }}
+            >
+              {navInitials(user)}
+            </span>
+            <span className="hidden text-sm font-semibold text-white sm:block">Account</span>
+          </Link>
+        ) : (
+          <>
+            <Link
+              href="/login"
+              className="hidden sm:block text-sm text-[#C4C4C4] hover:text-white transition whitespace-nowrap"
+            >
+              Sign in
+            </Link>
+            <Link
+              href="/pricing"
+              className="px-4 sm:px-5 py-2 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-xs uppercase tracking-wider transition hover:scale-[1.04] active:scale-100"
+            >
+              Get started
+            </Link>
+          </>
+        )}
         <button
           type="button"
           aria-expanded={mobileOpen}
@@ -336,9 +394,15 @@ export default function Nav({ activeProduct }: NavProps) {
             <Link href="/pricing" onClick={() => setMobileOpen(false)} className="hover:text-white transition">
               Pricing
             </Link>
-            <Link href="/login" onClick={() => setMobileOpen(false)} className="hover:text-white transition">
-              Sign in
-            </Link>
+            {user ? (
+              <Link href="/account" onClick={() => setMobileOpen(false)} className="font-semibold text-white transition hover:text-[#E8183A]">
+                Account
+              </Link>
+            ) : (
+              <Link href="/login" onClick={() => setMobileOpen(false)} className="hover:text-white transition">
+                Sign in
+              </Link>
+            )}
           </div>
         </div>
       )}
