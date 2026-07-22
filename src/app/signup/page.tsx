@@ -9,7 +9,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -23,7 +23,16 @@ function getSupabase() {
   return createBrowserClient(SUPABASE_URL, SUPABASE_ANON);
 }
 
+// useSearchParams() requires a Suspense boundary for static prerender.
 export default function SignupPage() {
+  return (
+    <Suspense fallback={null}>
+      <SignupForm />
+    </Suspense>
+  );
+}
+
+function SignupForm() {
   const searchParams = useSearchParams();
   const rawNext = searchParams.get("next") ?? "";
   const safeNext = rawNext.startsWith("/") ? rawNext : "/account";

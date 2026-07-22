@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import Image from "next/image";
 import MagneticButton from "@/components/MagneticButton";
 import ScreenshotCarousel from "@/components/ScreenshotCarousel";
 import Reveal from "@/components/Reveal";
@@ -115,7 +116,7 @@ export default function EditorsNotesPage() {
 
 function Hero() {
   return (
-    <HeroShell product="editorsNotes" floating={<HeroChips />}>
+    <HeroShell product="editorsNotes" fill={false} floating={<HeroChips />}>
       <div className="mb-7 flex items-center gap-3">
         <span className="h-px w-8 bg-[#B07C2A]" aria-hidden />
         <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#888]">
@@ -149,6 +150,28 @@ function Hero() {
         Free · macOS · Apple Silicon · DaVinci Resolve integration · Part of the
         ACE Suite
       </p>
+
+      {/* Real UI — timecoded notes, framed with the amber accent glow. */}
+      <div className="relative mt-16 w-full max-w-5xl">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -inset-x-10 -top-8 bottom-0 -z-10 rounded-[3rem] blur-3xl"
+          style={{
+            background:
+              "radial-gradient(55% 60% at 50% 40%, rgba(176,124,42,0.30), transparent 78%)",
+          }}
+        />
+        <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0D0D0D] shadow-[0_40px_120px_-32px_rgba(0,0,0,0.85)]">
+          <Image
+            src="/editors-notes/screenshot-category.png"
+            alt="ACE Editors' Notes showing timecoded notes color-coded by category"
+            width={1823}
+            height={1080}
+            priority
+            className="w-full"
+          />
+        </div>
+      </div>
     </HeroShell>
   );
 }

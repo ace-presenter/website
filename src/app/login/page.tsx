@@ -8,7 +8,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -24,7 +24,16 @@ function getSupabase() {
 
 type Mode = "password" | "magic";
 
+// useSearchParams() requires a Suspense boundary for static prerender.
 export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
   const searchParams = useSearchParams();
   const rawNext = searchParams.get("next") ?? "";
   const safeNext = rawNext.startsWith("/") ? rawNext : "/account";
