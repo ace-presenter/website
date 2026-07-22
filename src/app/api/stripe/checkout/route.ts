@@ -45,9 +45,13 @@ export async function GET(req: NextRequest) {
     const supabase = await createSupabaseServerClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
-      const loginUrl = new URL("/login", req.url);
-      loginUrl.searchParams.set("next", req.nextUrl.pathname + req.nextUrl.search);
-      return NextResponse.redirect(loginUrl);
+      // Send purchase intent to signup first (new customers create an account
+      // recalling what they want to buy); the `next` param returns them here
+      // afterwards to continue to Stripe. Existing users can "Sign in" from
+      // signup, which preserves `next` too.
+      const signupUrl = new URL("/signup", req.url);
+      signupUrl.searchParams.set("next", req.nextUrl.pathname + req.nextUrl.search);
+      return NextResponse.redirect(signupUrl);
     }
 
     const auth = { Authorization: `Bearer ${secretKey}` };

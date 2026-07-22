@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { createBrowserClient } from "@supabase/ssr";
 import LicenseKeyPanel from "@/components/LicenseKeyPanel";
+import { COUNTRIES } from "@/lib/countries";
 
 /**
  * AccountDashboard — the signed-in account suite (Blackmagic-style).
@@ -369,7 +370,20 @@ function ProfileEditor({ email, initial }: { email: string; initial: Profile }) 
           <Field label="Full name" value={form.fullName} onChange={set("fullName")} placeholder="Your name" autoComplete="name" />
           <Field label="Company / Organization" value={form.organization} onChange={set("organization")} placeholder="Optional" autoComplete="organization" />
           <Field label="City" value={form.city} onChange={set("city")} placeholder="Optional" autoComplete="address-level2" />
-          <Field label="Country" value={form.country} onChange={set("country")} placeholder="Optional" autoComplete="country-name" />
+          <div>
+            <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-[#888]">Country</label>
+            <select
+              value={form.country}
+              onChange={(e) => { setForm((f) => ({ ...f, country: e.target.value })); setStatus("idle"); }}
+              autoComplete="country-name"
+              className={`w-full rounded-xl border border-[#2A2A2A] bg-[#161616] px-4 py-3 text-sm outline-none transition focus:border-[#C8102E] ${form.country ? "text-white" : "text-[#555]"}`}
+            >
+              <option value="">Select a country</option>
+              {COUNTRIES.map((c) => (
+                <option key={c} value={c} className="text-white">{c}</option>
+              ))}
+            </select>
+          </div>
           <Field label="Phone" value={form.phone} onChange={set("phone")} placeholder="Optional" type="tel" autoComplete="tel" />
           <div>
             <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-[#888]">Email</label>

@@ -15,6 +15,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
 import HorizonGlow from "@/components/hero/HorizonGlow";
+import { COUNTRIES } from "@/lib/countries";
 
 const SUPABASE_URL  = process.env.NEXT_PUBLIC_SUPABASE_URL  ?? "";
 const SUPABASE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
@@ -152,13 +153,12 @@ function SignupForm() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-[10px] uppercase tracking-[0.2em] text-[#888] font-semibold mb-1.5">
-                  Name{" "}
-                  <span className="text-[#555] normal-case tracking-normal">
-                    (optional)
-                  </span>
+                  Full name
                 </label>
                 <input
                   type="text"
+                  required
+                  autoComplete="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
@@ -212,19 +212,24 @@ function SignupForm() {
                     <input
                       type="text"
                       required
+                      autoComplete="address-level2"
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
                       placeholder="City / Town"
                       className="w-full px-4 py-3 rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#C8102E] transition"
                     />
-                    <input
-                      type="text"
+                    <select
                       required
+                      autoComplete="country-name"
                       value={country}
                       onChange={(e) => setCountry(e.target.value)}
-                      placeholder="Country"
-                      className="w-full px-4 py-3 rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#C8102E] transition"
-                    />
+                      className={`w-full px-4 py-3 rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] text-sm focus:outline-none focus:border-[#C8102E] transition ${country ? "text-white" : "text-[#555]"}`}
+                    >
+                      <option value="" disabled>Country</option>
+                      {COUNTRIES.map((c) => (
+                        <option key={c} value={c} className="text-white">{c}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               </div>
