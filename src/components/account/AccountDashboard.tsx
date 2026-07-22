@@ -73,11 +73,13 @@ export default function AccountDashboard({
   tier,
   products,
   profile: initialProfile,
+  isAdmin = false,
 }: {
   email: string;
   tier: string;
   products: string[];
   profile: Profile;
+  isAdmin?: boolean;
 }) {
   const [section, setSection] = useState<SectionId>("overview");
   const initials = initialsOf(initialProfile.fullName, email);
@@ -134,6 +136,15 @@ export default function AccountDashboard({
           </nav>
 
           <div className="mt-3 border-t border-[#1A1A1A] pt-3">
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm text-[#A8A8A8] transition hover:bg-white/[0.03] hover:text-white"
+              >
+                <span className="text-[#666]"><IconGrid /></span>
+                Admin
+              </Link>
+            )}
             <form action="/api/auth/signout" method="POST">
               <button
                 type="submit"

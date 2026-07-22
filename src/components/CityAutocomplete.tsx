@@ -121,7 +121,10 @@ export default function CityAutocomplete({
       {open && items.length > 0 && (
         <ul
           role="listbox"
-          className="glass-card absolute left-0 right-0 top-full z-30 mt-2 max-h-64 overflow-auto rounded-xl bg-[#141414] py-1 shadow-2xl"
+          // Solid (not glass): a translucent panel can't blur when nested
+          // inside another backdrop-blur card, so it would show the form
+          // through it.
+          className="absolute left-0 right-0 top-full z-30 mt-2 max-h-64 overflow-auto rounded-xl border border-white/10 bg-[#161616] py-1 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.9)]"
         >
           {items.map((s, i) => (
             <li key={s.label} role="option" aria-selected={i === active}>

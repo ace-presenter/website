@@ -15,6 +15,7 @@ import HorizonGlow from "@/components/hero/HorizonGlow";
 import AccountDashboard, { type Profile } from "@/components/account/AccountDashboard";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { resolveEntitlements } from "@/lib/entitlements";
+import { adminEmails } from "@/lib/admin";
 import type { Product } from "@/lib/license";
 
 export const metadata: Metadata = {
@@ -84,6 +85,7 @@ export default async function AccountPage() {
             tier={tier}
             products={products}
             profile={profile}
+            isAdmin={!!user.email && adminEmails().includes(user.email.toLowerCase())}
           />
         </div>
       </div>
