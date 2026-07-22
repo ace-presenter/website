@@ -125,7 +125,7 @@ function Hero() {
       </div>
 
       <p className="mt-5 text-xs text-[#777]">
-        Free during the public beta · macOS 12+ · Apple Silicon &amp; Intel
+        Free during the public beta · macOS 12+ · Apple Silicon
       </p>
 
       {/* Real flagship UI — framed, glowing, the product front and centre. */}

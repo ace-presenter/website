@@ -44,7 +44,7 @@ const MANIFEST_PATHS: Record<string, string> = {
  */
 const FALLBACK: Record<string, Record<string, string>> = {
   // arm64-only (native app built for Apple Silicon; no Intel build). Only an
-  // arm64 key — mac-x64 requests fall through to the /download/intel notice.
+  // arm64 key — mac-x64 requests fall through to the /presenter page.
   // Bump this in lockstep with the appcast if the appcast ever can't be read.
   presenter: {
     "mac-arm64": "presenter/ACE-0.2.9-arm64.dmg",
@@ -96,7 +96,7 @@ async function resolveFromManifest(
 
     // Sparkle appcast (.xml): <item>s are newest-first, each with a DMG
     // <enclosure url="…">. These feeds are arm64-only native apps, so Intel
-    // requests get no build (they fall through to the /download/intel notice).
+    // requests get no build (they fall through to the product page).
     if (manifestPath.endsWith(".xml")) {
       if (platform !== "mac-arm64") return null;
       const dmgs: string[] = [];
@@ -159,8 +159,7 @@ export async function GET(req: NextRequest) {
   const productPageMap: Record<string, string> = {
     "editors-notes": "/editors-notes",
     "schedule": "/schedule",
-    // Presenter is arm64-only: an unresolved (Intel) request lands on the notice.
-    "presenter": "/download/intel",
+    "presenter": "/presenter",
   };
   const productPage = productPageMap[product] ?? "/";
 

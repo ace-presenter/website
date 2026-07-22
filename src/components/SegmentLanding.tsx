@@ -53,7 +53,7 @@ export default function SegmentLanding(props: SegmentLandingProps) {
         title={props.ctaTitle}
         sub="Free during public beta. macOS 12+. Apple-signed and notarized."
         primary={{ href: "/api/download?platform=mac-arm64", label: "Download for Mac" }}
-        secondary={{ href: "/api/download?platform=mac-x64", label: "Mac · Intel" }}
+        secondary={{ href: "/pricing", label: "View pricing" }}
       />
       <Footer />
     </main>
@@ -89,20 +89,14 @@ function Hero({
           {heroBody}
         </p>
 
-        <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row">
+        <div className="mt-10 flex items-start">
           <MagneticButton
             href="/api/download?platform=mac-arm64"
             glowRgb="200,16,46"
-            className="rounded-full bg-white px-7 py-3.5 text-sm font-bold text-black transition-colors hover:bg-[#E8E8E8]"
+            className="rounded-full bg-white px-8 py-4 text-sm font-bold text-black transition-colors hover:bg-[#E8E8E8]"
           >
             Download for Mac · Apple Silicon
           </MagneticButton>
-          <a
-            href="/api/download?platform=mac-x64"
-            className="rounded-full border border-[#2A2A2A] bg-[#1A1A1A]/70 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#222]"
-          >
-            Mac · Intel
-          </a>
         </div>
 
         <p className="mt-5 text-xs text-[#C4C4C4]">Free during public beta · macOS 12+</p>

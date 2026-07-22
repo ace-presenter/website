@@ -158,34 +158,17 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
         automatically.
       </p>
 
-      <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
+      <div className="mt-10 flex justify-center">
         <MagneticButton
           href="/api/download?platform=mac-arm64"
           glowRgb="200,16,46"
-          className="rounded-full bg-white px-7 py-3.5 text-sm font-bold text-black transition-colors hover:bg-[#E8E8E8]"
+          className="rounded-full bg-white px-8 py-4 text-sm font-bold text-black transition-colors hover:bg-[#E8E8E8]"
         >
           Download for Mac · Apple Silicon
         </MagneticButton>
-        <a
-          href="/api/download?platform=mac-x64"
-          className="rounded-full border border-[#2A2A2A] bg-[#1A1A1A]/70 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#222]"
-        >
-          Mac · Intel
-        </a>
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs">
-        <Link
-          href="/download/intel"
-          className="flex items-center gap-1.5 font-medium text-[#F59E0B] transition hover:text-[#FBBF24]"
-        >
-          <span aria-hidden>⚠</span>
-          Important note for Intel Macs
-          <span aria-hidden>→</span>
-        </Link>
-        <span className="text-[#555]" aria-hidden>
-          ·
-        </span>
+      <div className="mt-4 flex justify-center text-xs">
         <span className="text-[#888]">
           Windows version{" "}
           <Link href="/waitlist" className="font-semibold text-[#E8183A] transition hover:text-white">

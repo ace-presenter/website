@@ -22,7 +22,7 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "Download ACE — Free during public beta · macOS",
   description:
-    "Download ACE for macOS. Apple Silicon and Intel builds available. Apple-signed and notarized. Auto-updating. Free during public beta.",
+    "Download ACE for macOS on Apple Silicon. Apple-signed and notarized. Auto-updating. Free during public beta.",
   keywords: [
     "ace download",
     "ace presenter download",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Download ACE — Free during public beta · macOS",
-    description: "Apple Silicon + Intel builds. Apple-signed and notarized. Auto-updating.",
+    description: "Apple Silicon build. Apple-signed and notarized. Auto-updating.",
     url: "https://www.ace-presenter.app/download",
     siteName: "ACE",
     locale: "en_US",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Download ACE — Free during public beta · macOS",
-    description: "Apple Silicon + Intel builds. Apple-signed and notarized.",
+    description: "Apple Silicon build. Apple-signed and notarized.",
   },
 };
 
@@ -104,29 +104,13 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
           Apple-signed and notarized. Auto-updates from here. Pick the build that matches your Mac.
         </p>
 
-        <div className="mt-10 flex flex-col sm:flex-row items-start gap-3">
+        <div className="mt-10 flex items-start">
           <a
             href="/api/download?platform=mac-arm64"
             className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition-colors"
           >
-            Mac · Apple Silicon (M1+)
+            Download for Mac · Apple Silicon (M1+)
           </a>
-          <div className="flex flex-col items-start gap-2.5">
-            <a
-              href="/api/download?platform=mac-x64"
-              className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
-            >
-              Mac · Intel
-            </a>
-            <Link
-              href="/download/intel"
-              className="text-[11px] text-[#F59E0B] hover:text-[#FBBF24] transition flex items-center gap-1.5 font-medium"
-            >
-              <span aria-hidden>⚠</span>
-              Important note for Intel Macs
-              <span aria-hidden>→</span>
-            </Link>
-          </div>
         </div>
 
         <p className="mt-5 text-xs text-[#C4C4C4]">
@@ -149,7 +133,7 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
 function Requirements() {
   const ROWS = [
     { label: "Operating system", value: "macOS 12 (Monterey) or later" },
-    { label: "Architecture", value: "Apple Silicon or Intel" },
+    { label: "Architecture", value: "Apple Silicon (M1 or later)" },
     { label: "Disk space", value: "~600 MB initial · ~1 GB after first launch (AI models download on first run)" },
     { label: "Microphone", value: "Built-in, USB, or any Core Audio input" },
     { label: "Network", value: "Required only for first-launch model download · core detection runs offline" },

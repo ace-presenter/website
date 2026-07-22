@@ -60,6 +60,13 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      // ── 2c. Retired Intel notice → download (Presenter is arm64-only) ──
+      {
+        source: "/download/intel",
+        destination: "/download",
+        permanent: true,
+      },
+
       // ── 3. Old Taskify domain → /schedule ──────────────────────────────
       // The DNS-level redirect at Vercel handles the domain hop;
       // this catches any path-level links that might arrive via a 307
