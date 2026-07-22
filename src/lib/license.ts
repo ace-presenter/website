@@ -23,6 +23,12 @@ export interface LicenseClaim {
   tier: Tier;
   products: Product[];
   user_email: string;
+  /**
+   * Unix seconds when the subscription period ends.
+   * null  = lifetime purchase (no recurring billing).
+   * unset = unknown / free tier.
+   */
+  period_end?: number | null;
 }
 
 export interface IssuedLicense {
@@ -34,9 +40,31 @@ export interface IssuedLicense {
 }
 
 const ISSUER = "ace-suite";
-// Must stay ≤ the gateway's maxTokenAge (30 days) — shorter exp bounds the
-// worst-case window before a revoked/changed licence stops working.
-const TTL_SECONDS = 30 * 24 * 60 * 60;
+
+/**
+ * JWT TTL based on purchase type:
+ *   lifetime  → 10 years  (period_end === null)
+ *   annual    → period end + 5 day buffer, capped at 366 days
+ *   monthly   → period end + 5 day buffer
+ *   free/unknown → 35 days
+ *
+ * The gateway no longer enforces maxTokenAge — it relies on this exp claim
+ * plus explicit KV revocation (fires within 60 s of subscription.deleted).
+ */
+function ttlSeconds(claim: LicenseClaim): number {
+  if (claim.period_end === null) {
+    return 10 * 365 * 24 * 3600; // lifetime — 10 years
+  }
+  if (claim.period_end != null) {
+    const now = Math.floor(Date.now() / 1000);
+    const remaining = claim.period_end - now;
+    if (remaining > 0) {
+      return Math.min(remaining + 5 * 86400, 366 * 86400);
+    }
+    return 7 * 86400; // period ended — 7-day grace window for webhook catch-up
+  }
+  return 35 * 86400; // free tier or unknown
+}
 
 /** Mint an RS256 ACE licence JWT for the gateway. Throws if the key isn't set. */
 export async function issueLicense(claim: LicenseClaim): Promise<IssuedLicense> {
@@ -47,7 +75,7 @@ export async function issueLicense(claim: LicenseClaim): Promise<IssuedLicense> 
 
   const key = await importPKCS8(pem, "RS256");
   const now = Math.floor(Date.now() / 1000);
-  const exp = now + TTL_SECONDS;
+  const exp = now + ttlSeconds(claim);
 
   const token = await new SignJWT({
     license_id: claim.license_id,

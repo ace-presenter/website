@@ -41,6 +41,9 @@ function SignupForm() {
   const [name, setName]         = useState("");
   const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
+  const [org, setOrg]           = useState("");
+  const [city, setCity]         = useState("");
+  const [country, setCountry]   = useState("");
   const [loading, setLoading]   = useState(false);
   const [error, setError]       = useState("");
   const [sent, setSent]         = useState(false);
@@ -58,7 +61,12 @@ function SignupForm() {
         password,
         options: {
           emailRedirectTo: `${location.origin}/api/auth/callback${callbackNext}`,
-          data: name ? { full_name: name } : undefined,
+          data: {
+            full_name: name || undefined,
+            organization: org || undefined,
+            city: city || undefined,
+            country: country || undefined,
+          },
         },
       });
       if (err) throw err;
@@ -103,7 +111,7 @@ function SignupForm() {
 
       <section className="relative flex-1 flex items-center justify-center overflow-hidden px-6 py-20">
         <HorizonGlow strength={0.55} />
-        <div className="glass-card relative z-10 w-full max-w-sm rounded-3xl p-8">
+        <div className="glass-card relative z-10 w-full max-w-md rounded-3xl p-8">
           <div className="text-center mb-8">
             <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-2">
               Create account
@@ -185,6 +193,40 @@ function SignupForm() {
                   placeholder="At least 8 characters"
                   className="w-full px-4 py-3 rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#C8102E] transition"
                 />
+              </div>
+
+              <div className="pt-1 border-t border-[#1A1A1A]">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-[#555] font-semibold mb-3">
+                  Where are you based?
+                </p>
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    required
+                    value={org}
+                    onChange={(e) => setOrg(e.target.value)}
+                    placeholder="Church, ministry, school, or organization"
+                    className="w-full px-4 py-3 rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#C8102E] transition"
+                  />
+                  <div className="grid grid-cols-2 gap-3">
+                    <input
+                      type="text"
+                      required
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      placeholder="City / Town"
+                      className="w-full px-4 py-3 rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#C8102E] transition"
+                    />
+                    <input
+                      type="text"
+                      required
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
+                      placeholder="Country"
+                      className="w-full px-4 py-3 rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#C8102E] transition"
+                    />
+                  </div>
+                </div>
               </div>
 
               {error && (

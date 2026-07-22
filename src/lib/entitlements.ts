@@ -123,13 +123,22 @@ export async function resolveEntitlements(req: Request): Promise<LicenseClaim | 
   // ── Map rows to license claim ─────────────────────────────────────────────
   const products: Product[] = [];
   let tier: Tier = "free";
+  // Track the period_end of the highest-tier entitlement.
+  // null = lifetime (no expires_at in the row), undefined = not yet resolved.
+  let period_end: number | null | undefined = undefined;
 
   for (const row of rows) {
     if (isProduct(row.product) && !products.includes(row.product)) {
       products.push(row.product);
     }
     const t = toGatewayTier(row.tier);
-    if (TIER_RANK[t] > TIER_RANK[tier]) tier = t;
+    if (TIER_RANK[t] > TIER_RANK[tier]) {
+      tier = t;
+      // null expires_at = lifetime; ISO string = subscription end
+      period_end = row.expires_at
+        ? Math.floor(new Date(row.expires_at).getTime() / 1000)
+        : null;
+    }
   }
 
   return {
@@ -137,5 +146,6 @@ export async function resolveEntitlements(req: Request): Promise<LicenseClaim | 
     tier,
     products,
     user_email: user.email ?? "",
+    period_end,
   };
 }
