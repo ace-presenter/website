@@ -55,10 +55,10 @@ export default function SuiteHome() {
       <Showcase />
       <StatsBand
         stats={[
-          { text: "<1s", label: "Cue latency" },
           { text: "0", label: "Clicks to advance" },
           { num: { to: 12, suffix: "+" }, label: "Languages" },
-          { text: "100%", label: "On-device" },
+          { text: "Free", label: "To get started" },
+          { text: "macOS 14+", label: "Apple Silicon" },
         ]}
       />
       <ComingSoon />
@@ -125,7 +125,7 @@ function Hero() {
       </div>
 
       <p className="mt-5 text-xs text-[#777]">
-        Free during the public beta · macOS 12+ · Apple Silicon
+        Free during the public beta · macOS 14+ · Apple Silicon
       </p>
 
       {/* Real flagship UI — framed, glowing, the product front and centre. */}
@@ -449,7 +449,7 @@ function SuiteWhy() {
             &ldquo;You run the room. The cue runs itself.&rdquo;
           </blockquote>
           <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.22em] text-[#666]">
-            ~200 ms on-device transcription · whisper.cpp on your Mac · audio never leaves the room
+            Under 1 second cue latency · no clicker needed · audio never leaves the room
           </p>
         </ScrollReveal>
       </div>

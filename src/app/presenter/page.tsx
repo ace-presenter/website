@@ -28,7 +28,7 @@ import {
 export const metadata: Metadata = {
   title: "ACE Presenter",
   description:
-    "AI-powered live presentation for worship, conferences, lectures, and theater. ACE listens to the room and pushes the right slide — automatically.",
+    "Live presentation software for worship, conferences, lectures, and theater. ACE follows the room and pushes the right slide — no clicking required.",
   alternates: { canonical: "/presenter" },
 };
 
@@ -76,14 +76,15 @@ const SEGMENTS: { hook: string; title: string; body: string }[] = [
 ];
 
 const COMPAT = [
-  "ProPresenter",
+  "ProPresenter import",
   "ATEM",
-  "OBS",
+  "OBS Studio",
+  "HDMI out",
   "NDI",
   "MIDI",
   "OSC",
-  "Whisper",
-  "Genius",
+  "PowerPoint",
+  "Keynote",
 ];
 
 export default async function PresenterPage() {
@@ -102,10 +103,10 @@ export default async function PresenterPage() {
       <ProductTheme product="presenter">
         <StatsBand
           stats={[
-            { text: "<1s", label: "Detection latency" },
+            { text: "0", label: "Clicks to advance" },
             { num: { to: 12, suffix: "+" }, label: "Languages" },
-            { text: "HDMI·NDI·OSC", label: "Outputs" },
-            { text: "0", label: "Cloud dependency" },
+            { text: "Free", label: "To get started" },
+            { text: "macOS 14+", label: "Apple Silicon" },
           ]}
         />
       </ProductTheme>
@@ -113,7 +114,7 @@ export default async function PresenterPage() {
       <Capabilities />
       <SeeItRun />
       <Segments />
-      <WhatsNew />
+      <WhatYouGet />
       <PricingTeaser />
       <CTABand
         product="presenter"
@@ -123,7 +124,7 @@ export default async function PresenterPage() {
             ACE listens. You <AccentItalic>present</AccentItalic>.
           </>
         }
-        sub="Free during the public beta · macOS 12+"
+        sub="Free during the public beta · macOS 14+"
         primary={{ href: "/api/download?platform=mac-arm64", label: "Download for Mac" }}
         secondary={{ href: "/pricing", label: "View pricing" }}
       />
@@ -178,7 +179,7 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
       </div>
 
       <p className="mt-5 text-xs text-[#C4C4C4]">
-        Free during public beta · macOS 12+
+        Free during public beta · macOS 14+
         {latestVersion && (
           <>
             {" · "}
@@ -370,7 +371,7 @@ function PropresenterMigration() {
       <div className="mx-auto max-w-5xl text-center">
         <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-[#2A2A2A] bg-[#1A1A1A] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.25em] text-[#C8102E]">
           <span aria-hidden>★</span>
-          New in v1.6
+          Already using ProPresenter?
         </div>
 
         <div className="mb-10 flex flex-col items-center justify-center gap-6 sm:flex-row sm:gap-8">
@@ -452,8 +453,8 @@ function Capabilities() {
             className="mt-14"
             items={[
               {
-                title: "Listens to live audio",
-                desc: "Microphone or NDI in. Whisper transcribes locally on your device — your audio never leaves the room by default. Sub-second latency on M-series Macs.",
+                title: "Hears the room",
+                desc: "Point a microphone at the stage and ACE starts listening. No configuration — it picks up what's being sung or spoken and keeps the right content on screen.",
                 span: "wide",
                 visual: (
                   <div className="flex h-8 items-end gap-[3px]">
@@ -468,30 +469,30 @@ function Capabilities() {
                 ),
               },
               {
-                title: "Detects what's being said",
-                desc: "Songs, scripture, conference talks. Vector search matches transcripts against your library in real time.",
+                title: "Finds the right slide",
+                desc: "Songs, scripture, conference talks — matched against your library the moment they happen. No clicking to advance.",
               },
               {
-                title: "Outputs anywhere",
-                desc: "Fullscreen HDMI, NDI to ATEM, ProPresenter passthrough, browser-based stage monitor.",
+                title: "Drives your screens",
+                desc: "Audience projector, stage monitor for the team, and a live operator preview — all controlled from one window on your Mac.",
               },
               {
-                title: "Built for live",
-                desc: "Survives Wi-Fi drops, audio device swaps, and the occasional shouted prayer.",
+                title: "Stays live all service",
+                desc: "Designed to run for hours without a restart. Handles the unpredictable moments — speaker goes off-script, song order changes last minute, a slide gets skipped.",
               },
               {
-                title: "Voice control",
+                title: "Voice commands",
                 desc: (
                   <>
-                    &ldquo;Next slide&rdquo;, &ldquo;clear&rdquo;, &ldquo;Bible mode on&rdquo;.
-                    Operator hands stay free.
+                    &ldquo;Next slide&rdquo;, &ldquo;clear screen&rdquo;, &ldquo;Bible mode&rdquo;.
+                    Speak the command, keep your hands on other things.
                     <span className="ace-caret ml-1 inline-block h-3.5 w-[7px] translate-y-0.5 bg-[var(--accent-vivid)]/80" aria-hidden />
                   </>
                 ),
               },
               {
-                title: "Update prompts",
-                desc: "When a new version ships, ACE shows a download prompt on launch and hands off to your browser — no surprise installs mid-service.",
+                title: "Always up to date",
+                desc: "New versions install in the background and are ready next time you launch — nothing interrupts a live service.",
               },
             ]}
           />
@@ -543,42 +544,42 @@ function Segments() {
   );
 }
 
-/* ───────────── WHAT'S NEW ───────────── */
-function WhatsNew() {
-  const HIGHLIGHTS = [
-    { tag: "Service Plan", title: "Build the order of service, run it live", body: "Songs, scripture, prayer, announcements — drag them into a plan, activate, and tap Go. The whole tab was missing its backend until now; v1.5 fills it in with proper persistence, single-active-plan invariant, and a Go handler that pushes through the same display engine your manual cues use." },
-    { tag: "Bilingual detection", title: "Songs that switch languages, followed correctly", body: "Settings → Audio → Language → Auto-detect. Whisper runs in multilingual mode (no longer locks to the first language it hears) and Deepgram nova-2 handles code-switching natively. English+Spanish, English+Portuguese, English+French — your team can switch verses mid-song and the lyrics keep up." },
-    { tag: "One import surface", title: "Audio joins songs, slides, and bibles in ⌘I", body: "MP3, WAV, M4A, AAC, OGG, FLAC, AIFF — all flow through the same import wizard now. The Audio Bin becomes a player + manager, no separate uploader. One discoverable path for everything." },
-    { tag: "Slide → HDMI", title: "Imported slides reach the audience even with media on", body: "Was: double-click an imported PPTX slide, it shows in Program but the HDMI screen keeps the worship loop. Now: slide-image is its own render layer above background media, just like the operator's preview pane already worked." },
-  ];
-  const FIXES = [
-    "F2 / Clear Slide now clears lyrics + slide background as one cue",
-    "Foreground video plays its audio — background loops stay muted to preserve the live PA",
-    "Audio Bin per-row delete with confirm + path-traversal-guarded backend",
-    "Sermon Recording — live transcript visible by default + transcripts counter",
-    "Genius song import is snappy — modal closes immediately, toast tracks the round-trip",
-    "Song-edit lyric changes reflect immediately across the dashboard, no click-away",
-    "LIVE badge no longer sticks on the previous song after detection moves on",
-    "Settings → Cancel, Permissions wizard → Open Settings, Sermon → Export buttons all work",
-    "LibreOffice deferred-install no longer false-positive-reports as installed after a partial download",
-    "Library sidebar tidied: redundant 'Import' text removed, + button stays for Genius search",
+/* ───────────── WHAT YOU GET ───────────── */
+function WhatYouGet() {
+  const MOMENTS = [
+    {
+      tag: "Songs",
+      title: "The lyrics advance on their own",
+      body: "ACE listens to the music and follows along verse by verse. The right lyrics reach the audience screen the moment the team sings them — no operator needed to click forward.",
+    },
+    {
+      tag: "Scripture",
+      title: "Bible references appear as they're spoken",
+      body: "When a preacher says \"turn to John 3:16\", ACE recognises the reference and brings up the passage. The operator never has to type anything.",
+    },
+    {
+      tag: "Service plan",
+      title: "Build the order of service. Run it live.",
+      body: "Drag songs, scripture, announcements, and media into a plan. Activate it, hit Go, and ACE follows your sequence — ready to jump ahead or hold back whenever the service changes.",
+    },
+    {
+      tag: "Stage monitor",
+      title: "The team sees what's coming next",
+      body: "A dedicated stage output shows the current slide, the next cue, and a live read on what ACE is listening to. The team knows what's on the audience screen without needing to look.",
+    },
   ];
   return (
-    <section id="whats-new" className="scroll-mt-24 border-t border-[#1A1A1A] px-6 py-24 sm:px-10">
+    <section className="scroll-mt-24 border-t border-[#1A1A1A] px-6 py-24 sm:px-10">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-3 flex items-center gap-3">
-          <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#E8183A]">
-            What&apos;s new
-          </span>
-          <span className="h-px flex-1 bg-[#1F1F1F]" />
-        </div>
-        <h2 className="mb-12 text-4xl font-bold leading-tight tracking-tight text-white sm:text-6xl">
-          v1.5 — Service Plan,
-          <br />
-          bilingual songs
-        </h2>
-        <div className="mb-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {HIGHLIGHTS.map((h) => (
+        <Reveal>
+          <SectionHeading
+            eyebrow="What you get"
+            title={<>The whole service, <AccentItalic>covered</AccentItalic>.</>}
+            lede="From the first song to the closing word — ACE keeps the right content on screen without the team having to manage slides."
+          />
+        </Reveal>
+        <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {MOMENTS.map((h) => (
             <div key={h.tag} className="glass-card rounded-2xl p-6 transition-colors hover:border-white/20">
               <div className="mb-3 flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#E8183A]" />
@@ -591,25 +592,6 @@ function WhatsNew() {
             </div>
           ))}
         </div>
-        <div className="rounded-2xl border border-[#1F1F1F] bg-[#101010] p-6">
-          <div className="mb-3 flex items-center gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#888]">
-              Also fixed
-            </span>
-            <span className="h-px flex-1 bg-[#1F1F1F]" />
-          </div>
-          <ul className="grid grid-cols-1 gap-x-6 gap-y-2 md:grid-cols-2">
-            {FIXES.map((f, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm leading-relaxed text-[#A3A3A3]">
-                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[#444]" />
-                {f}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <p className="mt-6 text-[12px] text-[#666]">
-          Full release notes live in-app under Settings → Updates.
-        </p>
       </div>
     </section>
   );
@@ -618,9 +600,47 @@ function WhatsNew() {
 /* ───────────── PRICING TEASER ───────────── */
 function PricingTeaser() {
   const tiers = [
-    { name: "Starter", price: "Free", period: "", note: "Available now", primary: true, features: ["Up to 25 cues per set", "Single HDMI output", "On-device detection", "12+ languages"] },
-    { name: "Presenter", price: "$29", period: "/ month", features: ["All outputs — HDMI, NDI, ATEM, OBS, OSC", "Unlimited cues", "Bible passage detection", "Or $279 / year"] },
-    { name: "One-time", price: "$399", period: "once", features: ["Perpetual license", "Current major version", "One seat", "1 year of updates"] },
+    {
+      name: "Free",
+      price: "$0",
+      period: "forever",
+      features: [
+        "Unlimited songs, slides, and cues",
+        "Automatic song and Bible detection",
+        "Import from ProPresenter",
+        "1 audience output",
+        "12+ languages",
+      ],
+    },
+    {
+      name: "Pro",
+      price: "$29",
+      period: "/ month",
+      note: "Most popular",
+      highlight: true,
+      features: [
+        "Everything in Free",
+        "No watermark on any output",
+        "Audience screen + stage monitor",
+        "Looks and themes editor",
+        "Licensed Bible translations",
+        "Background video and media layers",
+        "Priority support",
+        "Or $279 / year",
+      ],
+    },
+    {
+      name: "Venue",
+      price: "Custom",
+      period: "per seat",
+      features: [
+        "Everything in Pro",
+        "Multiple seats — use across your team",
+        "Shared song and media library",
+        "Central billing",
+        "Onboarding call included",
+      ],
+    },
   ] as const;
   return (
     <section id="pricing" className="border-t border-[#1A1A1A] px-6 py-24 sm:px-10">
@@ -628,23 +648,22 @@ function PricingTeaser() {
         <Reveal>
           <SectionHeading
             eyebrow="Pricing"
-            title="Free now. Fair later."
-            lede="Pay once or subscribe — your call. Every beta tester is grandfathered into the paid tier for life."
+            title={<>Free to start. <AccentItalic>Built to grow.</AccentItalic></>}
+            lede="Start free with no limits on your content. Upgrade when you need more outputs, no watermark, or seats for your whole team."
           />
         </Reveal>
         <p className="mb-12 mt-4 text-center">
           <Link href="/pricing" className="text-sm font-semibold text-[#C8102E] transition hover:text-[#E8183A]">
-            View suite pricing →
+            Full pricing details →
           </Link>
         </p>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {tiers.map((t) => (
             <div
               key={t.name}
-              className={`relative rounded-2xl p-7 ${
-                "primary" in t && t.primary
-                  ? "border border-[#C8102E]/40 bg-gradient-to-b from-[#C8102E]/15 to-[#1A1A1A]"
-                  : "glass-card"
+              className={`relative rounded-2xl p-7 ${"highlight" in t && t.highlight
+                ? "border border-[#C8102E]/40 bg-gradient-to-b from-[#C8102E]/15 to-[#1A1A1A]"
+                : "glass-card"
               }`}
             >
               {"note" in t && t.note && (
