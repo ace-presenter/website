@@ -117,6 +117,7 @@ export default async function PresenterPage() {
       <SeeItRun />
       <Segments />
       <WhatYouGet />
+      <RemoteApp />
       <PricingTeaser />
       <CTABand
         product="presenter"
@@ -597,6 +598,92 @@ function WhatYouGet() {
               <p className="text-sm leading-relaxed text-[#C4C4C4]">{h.body}</p>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ───────────── ACE REMOTE APP ───────────── */
+function RemoteApp() {
+  const features = [
+    "Next, previous, and blank from your pocket",
+    "See the current cue and what's coming next",
+    "Search your song and Bible library on-the-fly",
+    "Toggle audience and stage screens remotely",
+  ];
+  return (
+    <section className="border-t border-[#1A1A1A] px-6 py-24 sm:px-10">
+      <div className="mx-auto max-w-6xl">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
+
+          {/* Copy */}
+          <Reveal>
+            <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#E8183A]">
+              ACE Remote
+            </span>
+            <h2 className="mt-4 text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl">
+              Control from anywhere<br className="hidden sm:block" /> in the room.
+            </h2>
+            <p className="mt-5 max-w-lg text-base leading-relaxed text-[#B4B4B4] sm:text-lg">
+              The ACE Remote app connects to your Mac over Wi-Fi. No setup beyond your local network — open the app, connect, and you have full control from your phone.
+            </p>
+            <ul className="mt-8 space-y-3">
+              {features.map((f) => (
+                <li key={f} className="flex items-start gap-3 text-sm text-[#C4C4C4]">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#E8183A]" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-8 text-xs text-[#666]">
+              Available for iPhone and Android · connects over local Wi-Fi
+            </p>
+          </Reveal>
+
+          {/* Phone screenshots — fanned arrangement */}
+          <div className="relative mx-auto flex h-[500px] w-full max-w-[460px] items-center justify-center lg:h-[560px]">
+            {/* Glow behind phones */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -z-10 rounded-[3rem] blur-3xl"
+              style={{
+                background:
+                  "radial-gradient(55% 55% at 50% 55%, rgba(200,16,46,0.18), transparent 80%)",
+              }}
+            />
+            {/* Left: library */}
+            <div className="absolute left-0 top-8 w-[185px] -rotate-6 overflow-hidden rounded-[2.2rem] border border-white/10 shadow-[0_24px_56px_-12px_rgba(0,0,0,0.75)]">
+              <Image
+                src="/remote/appstore_library.png"
+                alt="ACE Remote — library search"
+                width={310}
+                height={672}
+                className="w-full"
+              />
+            </div>
+            {/* Right: sign-in */}
+            <div className="absolute right-0 top-12 w-[185px] rotate-6 overflow-hidden rounded-[2.2rem] border border-white/10 shadow-[0_24px_56px_-12px_rgba(0,0,0,0.75)]">
+              <Image
+                src="/remote/appstore_signin.png"
+                alt="ACE Remote — sign in"
+                width={310}
+                height={672}
+                className="w-full"
+              />
+            </div>
+            {/* Centre: remote control (hero phone) */}
+            <div className="relative z-10 w-[210px] overflow-hidden rounded-[2.4rem] border border-white/20 shadow-[0_40px_80px_-16px_rgba(200,16,46,0.28),0_40px_80px_-16px_rgba(0,0,0,0.85)]">
+              <Image
+                src="/remote/appstore_remote.png"
+                alt="ACE Remote — slide control"
+                width={310}
+                height={672}
+                className="w-full"
+              />
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
