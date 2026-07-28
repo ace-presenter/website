@@ -85,6 +85,8 @@ const COMPAT = [
   "OSC",
   "PowerPoint",
   "Keynote",
+  "iPhone remote",
+  "Android remote",
 ];
 
 export default async function PresenterPage() {
@@ -489,6 +491,10 @@ function Capabilities() {
                     <span className="ace-caret ml-1 inline-block h-3.5 w-[7px] translate-y-0.5 bg-[var(--accent-vivid)]/80" aria-hidden />
                   </>
                 ),
+              },
+              {
+                title: "Control from your phone",
+                desc: "The ACE Remote app connects to your Mac over Wi-Fi. Advance slides, blank the screen, or jump to any slide from anywhere in the room — no clicker required.",
               },
               {
                 title: "Always up to date",
