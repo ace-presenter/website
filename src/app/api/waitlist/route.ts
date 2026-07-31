@@ -2,15 +2,14 @@
  * POST /api/waitlist — join the ACE launch waitlist.
  *
  * Body: { email, name?, product?, interests?: string[], source? }
- * Writes through the service-role client (RLS-bypassing) into public.waitlist;
- * emails are never exposed to the browser. Re-submitting the same email for the
- * same product updates the interests + timestamp (upsert on the unique key).
+ * Sends a notification email to hello@ace-presenter.app via Resend.
+ * Also sends a confirmation email to the subscriber.
  *
- * Requires the table from supabase/waitlist-table.sql.
+ * Requires RESEND_API_KEY in env (resend.com — free up to 100/day).
  */
 
 import { NextResponse } from "next/server";
-import { createSupabaseAdminClient } from "@/lib/supabase-server";
+import { Resend } from "resend";
 
 export const runtime = "nodejs";
 
@@ -24,6 +23,9 @@ const PRODUCTS = new Set([
   "notes",
   "suite",
 ]);
+
+const FROM_ADDRESS = "ACE <waitlist@ace-presenter.app>";
+const NOTIFY_ADDRESS = "hello@ace-presenter.app";
 
 export async function POST(req: Request) {
   let body: Record<string, unknown>;
@@ -48,25 +50,63 @@ export async function POST(req: Request) {
     : [];
   const source = body.source ? String(body.source).slice(0, 200) : null;
 
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error("[waitlist] RESEND_API_KEY not set");
+    return NextResponse.json({ error: "Email service not configured." }, { status: 500 });
+  }
+
+  const resend = new Resend(apiKey);
+
+  const displayName = name ? `${name} (${email})` : email;
+  const interestList = interests.length ? interests.join(", ") : "none selected";
+  const fromPage = source ?? "unknown";
+
   try {
-    const admin = createSupabaseAdminClient();
-    const { error } = await admin.from("waitlist").upsert(
-      {
-        email,
-        name,
-        product,
-        interests,
-        source,
-        user_agent: req.headers.get("user-agent")?.slice(0, 300) ?? null,
-      },
-      { onConflict: "email,product" }
-    );
-    if (error) throw error;
+    // Notification to hello@ace-presenter.app
+    await resend.emails.send({
+      from: FROM_ADDRESS,
+      to: NOTIFY_ADDRESS,
+      subject: `New waitlist signup — ${email}`,
+      html: `
+        <p style="font-family:sans-serif;color:#111">
+          <strong>New waitlist signup</strong>
+        </p>
+        <table style="font-family:sans-serif;font-size:14px;color:#333;border-collapse:collapse">
+          <tr><td style="padding:4px 12px 4px 0;color:#888">Name</td><td>${displayName}</td></tr>
+          <tr><td style="padding:4px 12px 4px 0;color:#888">Product</td><td>${product}</td></tr>
+          <tr><td style="padding:4px 12px 4px 0;color:#888">Interests</td><td>${interestList}</td></tr>
+          <tr><td style="padding:4px 12px 4px 0;color:#888">Source</td><td>${fromPage}</td></tr>
+        </table>
+      `,
+    });
+
+    // Confirmation to the subscriber
+    await resend.emails.send({
+      from: FROM_ADDRESS,
+      to: email,
+      subject: "You're on the ACE waitlist",
+      html: `
+        <div style="font-family:sans-serif;max-width:480px;margin:0 auto;color:#111">
+          <p style="font-size:22px;font-weight:700;margin-bottom:4px">You're on the list${name ? `, ${name.split(" ")[0]}` : ""}.</p>
+          <p style="color:#555;margin-top:0">
+            We'll reach out when there's news worth your time — launch updates,
+            beta invitations, and the Windows version when it's ready.
+            No noise, no spam.
+          </p>
+          <p style="color:#555">— The ACE team</p>
+          <hr style="border:none;border-top:1px solid #eee;margin:24px 0"/>
+          <p style="font-size:11px;color:#aaa">
+            You're receiving this because you signed up at ace-presenter.app.
+            Reply to unsubscribe at any time.
+          </p>
+        </div>
+      `,
+    });
+
     return NextResponse.json({ ok: true });
   } catch (e) {
-    // Most likely cause in a fresh env: the table hasn't been created yet
-    // (run supabase/waitlist-table.sql). Log the detail, return a generic msg.
-    console.error("[waitlist] insert failed:", e instanceof Error ? e.message : e);
+    console.error("[waitlist] send failed:", e instanceof Error ? e.message : e);
     return NextResponse.json(
       { error: "Couldn't add you right now — please try again in a moment." },
       { status: 500 }
