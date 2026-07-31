@@ -641,8 +641,8 @@ function RemoteApp() {
             </p>
           </Reveal>
 
-          {/* Phone screenshots — 4-phone fanned arrangement */}
-          <div className="relative mx-auto flex h-[520px] w-full max-w-[500px] items-center justify-center lg:h-[580px]">
+          {/* Phone screenshots — 6-phone fanned arrangement */}
+          <div className="relative mx-auto flex h-[540px] w-full max-w-[620px] items-center justify-center lg:h-[600px]">
             {/* Glow behind phones */}
             <div
               aria-hidden
@@ -652,20 +652,30 @@ function RemoteApp() {
                   "radial-gradient(55% 55% at 50% 55%, rgba(200,16,46,0.18), transparent 80%)",
               }}
             />
-            {/* Far left: library */}
-            <div className="absolute left-0 top-10 w-[158px] -rotate-[10deg] overflow-hidden rounded-[2rem] border border-white/8 shadow-[0_20px_48px_-12px_rgba(0,0,0,0.75)]">
+            {/* Far left: sign in */}
+            <div className="absolute left-0 top-14 w-[114px] -rotate-[14deg] overflow-hidden rounded-[1.8rem] border border-white/7 shadow-[0_16px_36px_-12px_rgba(0,0,0,0.75)]">
               <Image
-                src="/remote/appstore_library.png"
+                src="/remote/remote_login.png"
+                alt="ACE Remote — sign in"
+                width={310}
+                height={672}
+                className="w-full"
+              />
+            </div>
+            {/* Left: library search */}
+            <div className="absolute left-[9%] top-7 w-[130px] -rotate-[7deg] overflow-hidden rounded-[2rem] border border-white/8 shadow-[0_20px_44px_-12px_rgba(0,0,0,0.75)]">
+              <Image
+                src="/remote/remote_library.png"
                 alt="ACE Remote — library search"
                 width={310}
                 height={672}
                 className="w-full"
               />
             </div>
-            {/* Left-centre: account / plan */}
-            <div className="absolute left-[14%] top-4 z-[1] w-[168px] -rotate-[3deg] overflow-hidden rounded-[2.1rem] border border-white/10 shadow-[0_24px_56px_-12px_rgba(0,0,0,0.75)]">
+            {/* Centre-left: account / plan */}
+            <div className="absolute left-[21%] top-2 z-[1] w-[148px] -rotate-[2deg] overflow-hidden rounded-[2.1rem] border border-white/12 shadow-[0_24px_52px_-12px_rgba(0,0,0,0.75)]">
               <Image
-                src="/remote/appstore_account.png"
+                src="/remote/remote_account.png"
                 alt="ACE Remote — account and plan"
                 width={310}
                 height={672}
@@ -673,20 +683,30 @@ function RemoteApp() {
               />
             </div>
             {/* Centre: remote control (hero phone) */}
-            <div className="relative z-10 w-[200px] overflow-hidden rounded-[2.4rem] border border-white/20 shadow-[0_40px_80px_-16px_rgba(200,16,46,0.28),0_40px_80px_-16px_rgba(0,0,0,0.85)]">
+            <div className="relative z-10 w-[172px] overflow-hidden rounded-[2.4rem] border border-white/20 shadow-[0_40px_80px_-16px_rgba(200,16,46,0.28),0_40px_80px_-16px_rgba(0,0,0,0.85)]">
               <Image
-                src="/remote/appstore_remote.png"
+                src="/remote/remote_control.png"
                 alt="ACE Remote — slide control"
                 width={310}
                 height={672}
                 className="w-full"
               />
             </div>
-            {/* Right: sign-in */}
-            <div className="absolute right-0 top-12 w-[158px] rotate-[9deg] overflow-hidden rounded-[2rem] border border-white/8 shadow-[0_20px_48px_-12px_rgba(0,0,0,0.75)]">
+            {/* Centre-right: screens */}
+            <div className="absolute right-[21%] top-2 z-[1] w-[148px] rotate-[2deg] overflow-hidden rounded-[2.1rem] border border-white/12 shadow-[0_24px_52px_-12px_rgba(0,0,0,0.75)]">
               <Image
-                src="/remote/appstore_signin.png"
-                alt="ACE Remote — sign in"
+                src="/remote/remote_screens.png"
+                alt="ACE Remote — screens overview"
+                width={310}
+                height={672}
+                className="w-full"
+              />
+            </div>
+            {/* Right: language */}
+            <div className="absolute right-[9%] top-7 w-[130px] rotate-[7deg] overflow-hidden rounded-[2rem] border border-white/8 shadow-[0_20px_44px_-12px_rgba(0,0,0,0.75)]">
+              <Image
+                src="/remote/remote_language.png"
+                alt="ACE Remote — language settings"
                 width={310}
                 height={672}
                 className="w-full"
