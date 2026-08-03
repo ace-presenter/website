@@ -149,15 +149,24 @@ export default function Eula() {
 
       <Section title="5. Privacy and Data Minimization Alignment">
         <P>
-          The application binaries are intentionally designed to maximize user
-          privacy by prioritizing local-first computation:
+          The application binaries are designed to prioritize local-first
+          computation:
         </P>
         <Bullets>
           <li>
-            <strong className="text-white">Local Audio Execution:</strong> ACE
-            Presenter processes microphone stream parameters directly in volatile
-            device memory (RAM) using an embedded on-device Whisper model. No
-            audio logs or speech captures are transmitted to our cloud layers.
+            <strong className="text-white">Local Audio Execution (default):</strong>{" "}
+            By default, ACE Presenter processes microphone audio on-device using
+            an embedded on-device Whisper model &mdash; the audio is processed in
+            volatile device memory (RAM) and no audio logs or speech captures
+            leave your Mac.
+          </li>
+          <li>
+            <strong className="text-white">Optional Cloud Transcription:</strong>{" "}
+            If you opt into the optional Deepgram cloud detection backend, live
+            microphone audio is streamed to our transcription sub-processor
+            (Deepgram) for the duration of that session in order to produce the
+            transcript. On-device detection remains available and is the default;
+            the cloud backend is used only when you explicitly select it.
           </li>
           <li>
             <strong className="text-white">Lookup Architecture:</strong> Cloud
