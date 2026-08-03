@@ -234,6 +234,45 @@ export default function Terms() {
           </P>
         </SubSection>
       </Section>
+
+      <Section title="9. Intellectual Property Rights and Brand Protection">
+        <SubSection title="A. Ownership of the ACE Ecosystem">
+          <P>
+            All rights, titles, and interests in and to the ACE software
+            ecosystem — including but not limited to the source code, object
+            code, UI/UX interface designs, visual layouts, branding assets,
+            custom Whisper execution layers, computer vision pipelines, logos,
+            and the trademark &ldquo;ACE — Agentic Cue Experience&rdquo; — are and
+            shall remain the exclusive intellectual property of Rainbow Kreativ.
+          </P>
+        </SubSection>
+        <SubSection title="B. Protection of Local Software Logic">
+          <P>
+            Because ACE operates primarily as a local-first application on your
+            macOS device, you are strictly prohibited from parsing, monitoring,
+            or reading the software&rsquo;s active memory footprints to extract
+            our proprietary cue-matching logic or algorithmic weighting models.
+            The installation of this software does not grant you any implied
+            intellectual property rights or ownership stakes over our development
+            work.
+          </P>
+        </SubSection>
+        <SubSection title="C. Trademarks and Public Presentation">
+          <P>
+            You may not use the Company&rsquo;s trademarks, commercial logos, or
+            product names (such as ACE Presenter, ACE Schedule, or ACE
+            Editors&rsquo; Notes) in any promotional marketing materials, public
+            press releases, or commercial software projects without our explicit,
+            prior written authorization.
+          </P>
+          <P>
+            You are, however, fully encouraged to showcase the software running
+            live in video clips or production case studies, provided you do not
+            falsely imply that your organization or event is officially sponsored,
+            endorsed, or operated directly by Rainbow Kreativ.
+          </P>
+        </SubSection>
+      </Section>
     </LegalPage>
   );
 }
