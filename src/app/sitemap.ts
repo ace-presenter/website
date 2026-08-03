@@ -42,6 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/support`, lastModified, changeFrequency: "monthly", priority: 0.5 },
     { url: `${SITE}/privacy`, lastModified, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE}/terms`, lastModified, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${SITE}/eula`, lastModified, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE}/dpa`, lastModified, changeFrequency: "yearly", priority: 0.3 },
   ];
 }

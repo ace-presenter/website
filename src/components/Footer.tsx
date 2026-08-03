@@ -50,6 +50,7 @@ const COLUMNS: {
       { href: "/waitlist", label: "Waitlist" },
       { href: "/privacy", label: "Privacy" },
       { href: "/terms", label: "Terms" },
+      { href: "/eula", label: "EULA" },
       { href: "/dpa", label: "DPA" },
       { href: "mailto:hello@ace-presenter.app", label: "hello@ace-presenter.app", external: true },
     ],
