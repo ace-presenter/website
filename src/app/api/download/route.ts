@@ -47,8 +47,8 @@ const FALLBACK: Record<string, Record<string, string>> = {
   // arm64 key — mac-x64 requests fall through to the /presenter page.
   // Bump this in lockstep with the appcast if the appcast ever can't be read.
   presenter: {
-    "mac-arm64":     "presenter/ACE-0.3.0-arm64.dmg",
-    "mac-arm64-pkg": "presenter/ACE-0.3.0-installer.pkg",
+    "mac-arm64":     "presenter/ACE-0.3.9-arm64.dmg",
+    "mac-arm64-pkg": "presenter/ACE-0.3.9-installer.pkg",
   },
   // arm64-only app (Qt/C++ built on Apple Silicon; no Intel build).
   // Serve the same DMG for both platforms. Uses the stable alias that
