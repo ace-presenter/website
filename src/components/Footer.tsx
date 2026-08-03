@@ -48,11 +48,16 @@ const COLUMNS: {
     title: "Company",
     links: [
       { href: "/waitlist", label: "Waitlist" },
+      { href: "mailto:hello@ace-presenter.app", label: "hello@ace-presenter.app", external: true },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
       { href: "/privacy", label: "Privacy" },
       { href: "/terms", label: "Terms" },
       { href: "/eula", label: "EULA" },
       { href: "/dpa", label: "DPA" },
-      { href: "mailto:hello@ace-presenter.app", label: "hello@ace-presenter.app", external: true },
     ],
   },
 ];
@@ -71,7 +76,7 @@ export default function Footer() {
       />
 
       <div className="relative mx-auto max-w-6xl">
-        <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:grid-cols-7">
           {/* Brand block */}
           <div className="col-span-2 flex flex-col gap-3">
             <div className="flex items-center gap-2.5">
