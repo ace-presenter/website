@@ -49,6 +49,10 @@ const FALLBACK: Record<string, Record<string, string>> = {
   presenter: {
     "mac-arm64":     "presenter/ACE-0.3.9-arm64.dmg",
     "mac-arm64-pkg": "presenter/ACE-0.3.9-installer.pkg",
+    // Windows MSIX auto-updater descriptor (see ACE-Presenter-Windows
+    // packaging/windows/HOSTING.md). HEAD-checked below, so until it's
+    // uploaded, Windows users fall through to the /presenter page.
+    "win":           "presenter-win/ACEPresenter.appinstaller",
   },
   // arm64-only app (Qt/C++ built on Apple Silicon; no Intel build).
   // Serve the same DMG for both platforms. Uses the stable alias that
@@ -140,9 +144,6 @@ export async function GET(req: NextRequest) {
     sp.get("platform") || sniffPlatform(req.headers.get("user-agent") || "");
 
   if (!platform) {
-    return NextResponse.redirect(new URL("/", req.url), 302);
-  }
-  if (platform === "win") {
     return NextResponse.redirect(new URL("/", req.url), 302);
   }
   if (product === "world") {
