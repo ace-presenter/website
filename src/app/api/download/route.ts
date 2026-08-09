@@ -47,8 +47,8 @@ const FALLBACK: Record<string, Record<string, string>> = {
   // arm64 key — mac-x64 requests fall through to the /presenter page.
   // Bump this in lockstep with the appcast if the appcast ever can't be read.
   presenter: {
-    "mac-arm64":     "presenter/ACE-0.3.9-arm64.dmg",
-    "mac-arm64-pkg": "presenter/ACE-0.3.9-installer.pkg",
+    "mac-arm64":     "presenter/ACE-0.3.10-arm64.dmg",
+    "mac-arm64-pkg": "presenter/ACE-0.3.10-installer.pkg",
     // Windows MSIX auto-updater descriptor (see ACE-Presenter-Windows
     // packaging/windows/HOSTING.md). HEAD-checked below, so until it's
     // uploaded, Windows users fall through to the /presenter page.
