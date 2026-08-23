@@ -50,12 +50,20 @@ export default async function AdminProfilesPage() {
               <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Profiles</h1>
               <p className="mt-2 text-sm text-[#888]">Everyone who has created an ACE account.</p>
             </div>
-            <a
-              href="/api/admin/profiles/export"
-              className="rounded-full bg-white px-5 py-2.5 text-sm font-bold text-black transition hover:bg-[#E8E8E8]"
-            >
-              Download CSV
-            </a>
+            <div className="flex gap-2">
+              <a
+                href="/admin/metrics"
+                className="rounded-full border border-[#2A2A2A] px-5 py-2.5 text-sm font-bold text-[#C4C4C4] transition hover:border-[#444]"
+              >
+                Metrics
+              </a>
+              <a
+                href="/api/admin/profiles/export"
+                className="rounded-full bg-white px-5 py-2.5 text-sm font-bold text-black transition hover:bg-[#E8E8E8]"
+              >
+                Download CSV
+              </a>
+            </div>
           </div>
 
           {/* Stats */}
