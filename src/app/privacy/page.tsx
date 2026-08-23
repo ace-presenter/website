@@ -13,7 +13,7 @@ export const metadata = { title: "Privacy — ACE" };
 
 export default function Privacy() {
   return (
-    <LegalPage title="Privacy Policy" updated="Last updated: May 4, 2026 · Finalized Enforcement Edition">
+    <LegalPage title="Privacy Policy" updated="Last updated: August 23, 2026 · Finalized Enforcement Edition">
       <Meta>
         <p>
           <strong className="text-white">Data Controller:</strong> Rainbow Kreativ
@@ -190,9 +190,10 @@ export default function Privacy() {
               to ensure software integrity.
             </li>
             <li>
-              <strong className="text-white">Crash Reports:</strong> ACE does not
-              transmit crash telemetry or usage statistics. Any future
-              introduction of debugging tracking will be strictly opt-in.
+              <strong className="text-white">Crash Reports:</strong> Crash logs
+              are written locally and are never transmitted automatically. Usage
+              and diagnostic reporting is strictly opt-in and is described in
+              full in Section 2.F below.
             </li>
           </Bullets>
         </SubSection>
@@ -254,6 +255,106 @@ export default function Privacy() {
             </li>
           </Bullets>
         </SubSection>
+        <SubSection title="F. Optional Product & Detection-Quality Diagnostics (Opt-In)">
+          <P>
+            ACE Presenter can send a small stream of anonymous diagnostic events
+            so we can measure how well automatic lyric and scripture detection
+            performs in real rooms — in particular, how on-device Whisper
+            compares to cloud transcription on real congregational audio. This is
+            the only mechanism by which we learn that detection is failing for a
+            given engine, model, or class of hardware.
+          </P>
+          <P>
+            <strong className="text-white">
+              This is off unless you switch it on.
+            </strong>{" "}
+            On first launch the app shows a disclosure describing exactly what
+            would be sent, with no pre-selected consent. Nothing is recorded,
+            written to disk, or transmitted unless and until you explicitly
+            choose to share. Declining, or simply closing the disclosure, leaves
+            the feature entirely inert. You can withdraw at any time (macOS:
+            Settings → Privacy; Windows: Detection menu), which immediately stops
+            collection and deletes anything still queued on your device.
+          </P>
+          <P>
+            <strong className="text-white">We never receive:</strong>
+          </P>
+          <Bullets>
+            <li>
+              Audio of any kind, live or recorded, from any microphone or input
+              device.
+            </li>
+            <li>
+              Transcripts, or any text derived from what was spoken or sung.
+            </li>
+            <li>
+              Lyrics, scripture text, sermon content, slide text, presentation
+              files, or media.
+            </li>
+            <li>
+              File names, file paths, folder structures, or library contents.
+            </li>
+            <li>
+              Your name, your congregation&rsquo;s name, member details, or the
+              contents of any service.
+            </li>
+            <li>
+              Your IP address. Requests reach our gateway as any web request
+              does; the originating address is used only to derive a
+              two-letter country code at the network edge and is never stored.
+            </li>
+          </Bullets>
+          <P>
+            <strong className="text-white">What is transmitted:</strong>
+          </P>
+          <Bullets>
+            <li>
+              <strong className="text-white">Detection outcomes:</strong> which
+              engine and model were running, a confidence score, how quickly a
+              cue was matched, and whether the operator corrected the automatic
+              advance within a few seconds. Cue titles are replaced by an
+              irreversible cryptographic hash, so repeat items can be counted
+              without being identified.
+            </li>
+            <li>
+              <strong className="text-white">Technical context:</strong>{" "}
+              application version, operating system version, processor
+              architecture, a coarse hardware class, and system language.
+            </li>
+            <li>
+              <strong className="text-white">Counts and error codes:</strong>{" "}
+              session lengths, feature-used flags, and numeric error codes
+              without messages (messages are excluded precisely because they can
+              embed file paths and service content).
+            </li>
+            <li>
+              <strong className="text-white">Identifiers:</strong> a random
+              installation identifier generated on your device, unconnected to
+              your hardware or account, which you reset by turning the feature
+              off. If you are signed in, the licence identifier already carried
+              by your session accompanies the report so we can support your
+              organization directly.
+            </li>
+            <li>
+              <strong className="text-white">
+                Song titles &mdash; separately and additionally optional:
+              </strong>{" "}
+              a second, independently unchecked control. Leave it off and titles
+              never leave your device, whatever else you have agreed to share.
+            </li>
+          </Bullets>
+          <P>
+            <strong className="text-white">Legal basis and retention.</strong>{" "}
+            Processing rests on your consent (GDPR Art. 6(1)(a)), which is freely
+            given, specific, and withdrawable at any time without affecting any
+            other part of the software &mdash; declining has no effect on
+            functionality, licensing, or support. Diagnostic records are stored
+            in Cloudflare Analytics Engine and Cloudflare R2, are retained for no
+            longer than twenty-four months, and are never sold, rented, or shared
+            with advertisers or data brokers.
+          </P>
+        </SubSection>
+
       </Section>
 
       <Section title="3. Legal Bases for Processing (EEA/UK Users)">
