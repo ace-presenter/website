@@ -56,7 +56,7 @@ export default function ConferencesPage() {
         },
         {
           pain: "Cloud-based slide tools fail when conference Wi-Fi craters at 9 AM Tuesday.",
-          solution: "ACE runs on-device on Apple Silicon. The audio path never leaves the laptop. Works offline.",
+          solution: "ACE runs on-device, on Mac and Windows. The audio path never leaves the laptop. Works offline.",
         },
       ]}
       ctaTitle="Run your next conference on autopilot"

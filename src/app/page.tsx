@@ -31,11 +31,39 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-export default function SuiteHome() {
+/**
+ * The newest published Windows build, or null when there is not one yet.
+ *
+ * Same source and same reasoning as /presenter: the button turns itself on when
+ * a build is published and cannot offer a download that 404s in between. The
+ * home page went without one for a while after Windows shipped, so the first
+ * page most people see said Mac only while the product page said otherwise.
+ */
+async function fetchWindowsRelease(): Promise<{ version: string } | null> {
+  try {
+    const r = await fetch("https://dl.ace-presenter.app/presenter-win/appcast.xml", {
+      next: { revalidate: 300 },
+    });
+    if (!r.ok) return null;
+    const text = await r.text();
+    const items = text.replace(/<!--[\s\S]*?-->/g, "").match(/<item[\s\S]*?<\/item>/g);
+    if (!items || items.length === 0) return null;
+    const m =
+      items[0].match(/<sparkle:shortVersionString>([^<]+)<\/sparkle:shortVersionString>/) ??
+      items[0].match(/<sparkle:version>([^<]+)<\/sparkle:version>/);
+    return m ? { version: m[1].trim() } : null;
+  } catch {
+    return null;
+  }
+}
+
+export default async function SuiteHome() {
+  const windows = await fetchWindowsRelease();
+  const windowsVersion = windows?.version ?? null;
   return (
     <main className="flex-1 flex flex-col font-sans">
       <Nav />
-      <Hero />
+      <Hero windowsVersion={windowsVersion} />
       <LogoMarquee
         label="Runs with the gear you already have"
         items={[
@@ -58,7 +86,7 @@ export default function SuiteHome() {
           { text: "0", label: "Clicks to advance" },
           { num: { to: 12, suffix: "+" }, label: "Languages" },
           { text: "Free", label: "To get started" },
-          { text: "macOS 14+", label: "Apple Silicon" },
+          { text: "Mac + PC", label: "macOS 14+ · Windows 10+" },
         ]}
       />
       <ComingSoon />
@@ -73,7 +101,7 @@ export default function SuiteHome() {
           </>
         }
         sub="You run the room. The cue runs itself. Free during the public beta."
-        primary={{ href: "/api/download?platform=mac-arm64", label: "Download for Mac" }}
+        primary={{ href: "/api/download", label: "Download ACE Presenter" }}
         secondary={{ href: "/pricing", label: "View pricing" }}
       />
       <Footer />
@@ -82,7 +110,7 @@ export default function SuiteHome() {
 }
 
 /* ───────────── HERO ───────────── */
-function Hero() {
+function Hero({ windowsVersion }: { windowsVersion: string | null }) {
   return (
     <HeroShell fill={false} floating={<HeroChips />}>
       <div className="mb-7 flex items-center gap-3">
@@ -113,6 +141,15 @@ function Hero() {
         >
           Download for Mac
         </MagneticButton>
+        {windowsVersion && (
+          <MagneticButton
+            href="/api/download?platform=win"
+            glowRgb="200,16,46"
+            className="rounded-full border border-white/25 px-8 py-4 text-sm font-bold text-white transition-colors hover:bg-white/10"
+          >
+            Download for Windows
+          </MagneticButton>
+        )}
         <Link
           href="/presenter"
           className="group inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-[#E8183A]"
@@ -126,6 +163,7 @@ function Hero() {
 
       <p className="mt-5 text-xs text-[#777]">
         Free during the public beta · macOS 14+ · Apple Silicon
+        {windowsVersion ? " · Windows 10+" : ""}
       </p>
 
       {/* Real flagship UI — framed, glowing, the product front and centre. */}

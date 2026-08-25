@@ -166,8 +166,8 @@ export default function LearnPage() {
                 System requirements
               </div>
               <ul className="text-[#C4C4C4] text-sm space-y-1">
-                <li>macOS 13 (Ventura) or later</li>
-                <li>Apple Silicon (M1/M2/M3/M4 or later)</li>
+                <li>Mac: macOS 14 (Sonoma) or later, Apple Silicon (M1 or later)</li>
+                <li>Windows: Windows 10 or later, 64-bit</li>
                 <li>4 GB free disk · ~600 MB for the app, the rest for your library</li>
                 <li>A USB or built-in microphone with a clean line of sight to the room</li>
               </ul>

@@ -38,7 +38,8 @@ export default function Terms() {
             ACE is licensed, not sold. Subject to your compliance with these
             terms, we grant you a non-transferable, revocable, non-sublicensable,
             non-exclusive license to execute the binaries on verified compatible
-            devices running macOS 14+ (Apple Silicon optimized) solely for
+            devices running macOS 14+ (Apple Silicon optimized) or Windows 10+
+            (64-bit) solely for
             professional, educational, personal, or commercial presentation
             purposes.
           </P>

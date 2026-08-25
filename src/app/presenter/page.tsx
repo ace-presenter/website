@@ -129,7 +129,7 @@ export default async function PresenterPage() {
     <main className="flex-1 flex flex-col font-sans">
       <SchemaJsonLd />
       <Nav activeProduct="presenter" />
-      <ManualBanner latestVersion={latestVersion} />
+      <ManualBanner />
       <Hero latestVersion={latestVersion} windowsVersion={windowsVersion} />
       <LogoMarquee
         label="Plays nicely with the rest of your rig"

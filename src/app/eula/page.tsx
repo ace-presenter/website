@@ -55,7 +55,7 @@ export default function Eula() {
             non-transferable, non-sublicensable license to download, install, and
             execute the object code versions of the ACE software applications on
             compatible hardware running Apple macOS (Apple Silicon optimized
-            architectures).
+            architectures) or Microsoft Windows (64-bit).
           </P>
         </SubSection>
         <SubSection title="B. Device Limitations & Unified Accounts">
