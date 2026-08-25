@@ -90,9 +90,8 @@ export async function POST(req: Request) {
         <div style="font-family:sans-serif;max-width:480px;margin:0 auto;color:#111">
           <p style="font-size:22px;font-weight:700;margin-bottom:4px">You're on the list${name ? `, ${name.split(" ")[0]}` : ""}.</p>
           <p style="color:#555;margin-top:0">
-            We'll reach out when there's news worth your time — launch updates,
-            beta invitations, and the Windows version when it's ready.
-            No noise, no spam.
+            We'll reach out when there's news worth your time — release notes
+            and product updates. No noise, no spam.
           </p>
           <p style="color:#555">— The ACE team</p>
           <hr style="border:none;border-top:1px solid #eee;margin:24px 0"/>

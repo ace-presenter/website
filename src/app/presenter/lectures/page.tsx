@@ -4,7 +4,7 @@ import SegmentLanding from "@/components/SegmentLanding";
 export const metadata: Metadata = {
   title: "ACE for Lectures — AI presenter for classrooms and lecture halls",
   description:
-    "The deck follows you, not a pre-baked cue list. ACE listens to what you're teaching and pushes the right slide — works for any subject, any language. Free during public beta. macOS.",
+    "The deck follows you, not a pre-baked cue list. ACE listens to what you're teaching and pushes the right slide — works for any subject, any language. Mac and Windows.",
   keywords: [
     "lecture slide software",
     "classroom presentation auto-advance",

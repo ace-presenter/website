@@ -4,7 +4,7 @@ import SegmentLanding from "@/components/SegmentLanding";
 export const metadata: Metadata = {
   title: "ACE for Worship — AI presenter for Sunday services",
   description:
-    "Stop clicking slides during the service. ACE listens to the worship band and pushes the right lyrics. Bible mode follows the preacher through scripture references in real time. Free during public beta.",
+    "Stop clicking slides during the service. ACE listens to the worship band and pushes the right lyrics. Bible mode follows the preacher through scripture references in real time. Mac and Windows.",
   keywords: [
     "propresenter alternative",
     "worship presentation software",
@@ -56,7 +56,7 @@ export default function WorshipPage() {
         },
         {
           pain: "ProPresenter is $499 + $99/year. EasyWorship is $399. The license eats your AV budget.",
-          solution: "Free during public beta. Existing users keep Standard tier for life when paid plans launch.",
+          solution: "A free tier runs the audience screen with a watermark. Pro removes it and unlocks stage and confidence screens, from $29/month. Accounts registered during the public beta keep Standard free for life.",
         },
       ]}
       ctaTitle="Try it on this Sunday's service"

@@ -107,22 +107,22 @@ export default function Terms() {
         </SubSection>
       </Section>
 
-      <Section title="4. Public Beta Framework and Financial Grandfathering">
-        <SubSection title="A. The Public Beta Window">
+      <Section title="4. Licensing Tiers and Beta Grandfathering">
+        <SubSection title="A. The Public Beta Window Has Concluded">
           <P>
-            The ACE software suite is currently offered within a public beta
-            framework (defined as the first ninety [90] calendar days
-            post-launch). During this phase, the software suite is free to
-            download, evaluate, and use for live production work.
+            The ACE software suite was offered within a public beta framework, during
+            which the suite was free to download, evaluate, and use for live production
+            work. That window has now closed and commercial subscription pricing applies.
+            A free tier remains available, and is limited as described on our pricing page.
           </P>
         </SubSection>
         <SubSection title="B. Lifetime Standard Tier Safeguard">
           <P>
-            Upon conclusion of the public beta window, we will introduce
-            commercial subscription pricing and modular multi-product packages.
-            Active users who registered accounts during the public beta window
-            will be grandfathered into our &ldquo;Standard Tier&rdquo; free of
-            charge for life.
+            This commitment survives the end of the beta window and is not withdrawn by
+            it. Users who registered accounts during the public beta window are
+            grandfathered into our &ldquo;Standard Tier&rdquo; free of charge for life.
+            If you registered during that window and your account does not reflect
+            Standard Tier access, contact us and we will correct it.
           </P>
         </SubSection>
         <SubSection title="C. Future Limitations">
@@ -185,7 +185,7 @@ export default function Terms() {
             OUT OF THIS CONTRACT WILL BE ABSOLUTELY RESTRICTED TO THE EXACT
             AMOUNTS FINANCIALLY PAID BY YOU TO US WITHIN THE THREE (3) MONTHS
             PRECEDING THE CLAIM, OR A PERMANENT LIQUIDATED MAXIMUM CAP OF TEN
-            EUROS (€10.00) IF THE DISPUTE EMERGES DURING THE PUBLIC BETA
+            EUROS (€10.00) IF THE DISPUTE EMERGED DURING THE PUBLIC BETA
             FRAMEWORK.
           </P>
         </SubSection>

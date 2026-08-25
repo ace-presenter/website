@@ -7,12 +7,12 @@ import HorizonGlow from "@/components/hero/HorizonGlow";
 export const metadata: Metadata = {
   title: "Join the waitlist",
   description:
-    "Be first to know when ACE ships — launch updates, the Windows version, and beta invitations. One account works across every ACE product.",
+    "Product updates and release news for the ACE suite. One account works across every ACE product.",
   alternates: { canonical: "/waitlist" },
   openGraph: {
     title: "Join the ACE waitlist",
     description:
-      "Launch updates, the Windows version, and beta invitations — straight to your inbox.",
+      "Release news and product updates — straight to your inbox.",
     url: "https://www.ace-presenter.app/waitlist",
     siteName: "ACE",
     locale: "en_US",
@@ -41,7 +41,7 @@ export default function WaitlistPage() {
             .
           </h1>
           <p className="mx-auto mb-10 max-w-md text-lg text-[#C4C4C4]">
-            Launch updates, the Windows version, and beta invitations — no noise,
+            Release news and product updates — no noise,
             just the moments that matter.
           </p>
           <WaitlistForm product="presenter" source="/waitlist" />

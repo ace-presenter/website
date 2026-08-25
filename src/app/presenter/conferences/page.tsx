@@ -4,7 +4,7 @@ import SegmentLanding from "@/components/SegmentLanding";
 export const metadata: Metadata = {
   title: "ACE for Conferences — AI slide control for live events",
   description:
-    "Speakers improvise. Slides stay aligned anyway. Drop the deck in and ACE follows the speaker through it — even when they jump around or extend a section. Free during public beta. macOS.",
+    "Speakers improvise. Slides stay aligned anyway. Drop the deck in and ACE follows the speaker through it — even when they jump around or extend a section. Mac and Windows.",
   keywords: [
     "conference slide automation",
     "av slide control",

@@ -4,7 +4,7 @@ import SegmentLanding from "@/components/SegmentLanding";
 export const metadata: Metadata = {
   title: "ACE for Theater & Live Shows — AI cue automation",
   description:
-    "Voice-triggered cue advance and automatic dialog beat detection. The stage manager focuses on the room, not the laptop. Free during public beta. macOS.",
+    "Voice-triggered cue advance and automatic dialog beat detection. The stage manager focuses on the room, not the laptop. Mac and Windows.",
   keywords: [
     "theater cue software",
     "stage cue automation",

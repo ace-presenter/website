@@ -9,7 +9,7 @@ import { AccentItalic, CTABand } from "@/components/sections";
 export const metadata: Metadata = {
   title: "Support",
   description:
-    "Get help with ACE — the user guide, email support, common issues, and beta feedback. Built and supported by a small team that replies fast.",
+    "Get help with ACE — the user guide, email support, and common issues. Built and supported by a small team that replies fast.",
   alternates: { canonical: "/support" },
 };
 
@@ -110,14 +110,19 @@ export default function Support() {
             <SpotlightCard className="glass-card h-full rounded-2xl">
               <div className="flex h-full flex-col p-7">
                 <div className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-[#C8102E]">
-                  Beta feedback
+                  Report a bug
                 </div>
                 <h2 className="mb-2 text-xl font-bold text-white">Found a bug?</h2>
                 <p className="text-sm leading-relaxed text-[#C4C4C4]">
-                  ACE is in public beta. Screenshots and the log file from{" "}
+                  Screenshots and the log file — {" "}
                   <code className="rounded border border-[#2A2A2A] bg-[#0F0F0F] px-1.5 py-0.5 text-white">
                     ~/Library/Logs/ACE/
                   </code>{" "}
+                  on Mac,{" "}
+                  <code className="rounded border border-[#2A2A2A] bg-[#0F0F0F] px-1.5 py-0.5 text-white">
+                    %APPDATA%\ACE\
+                  </code>{" "}
+                  on Windows —{" "}
                   help us fix it fast.
                 </p>
               </div>

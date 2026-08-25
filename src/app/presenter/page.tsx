@@ -161,7 +161,7 @@ export default async function PresenterPage() {
             ACE listens. You <AccentItalic>present</AccentItalic>.
           </>
         }
-        sub="Free during the public beta · macOS 14+"
+        sub="Free tier available · Pro from $29/month"
         primary={{ href: "/api/download?platform=mac-arm64", label: "Download for Mac" }}
         secondary={{ href: "/pricing", label: "View pricing" }}
       />
@@ -233,7 +233,7 @@ function Hero({
       )}
 
       <p className="mt-5 text-xs text-[#C4C4C4]">
-        Free during public beta · macOS 14+{windowsVersion ? " · Windows 10+" : ""}
+        Free tier available · macOS 14+{windowsVersion ? " · Windows 10+" : ""}
         {latestVersion && (
           <>
             {" · "}

@@ -179,8 +179,8 @@ export default function Privacy() {
           <Bullets>
             <li>
               <strong className="text-white">Data Collected:</strong> Email
-              address, account login credentials, public beta verification
-              statuses, and basic hardware parameters (App version, operating
+              address, account login credentials, licence and entitlement
+              status, and basic hardware parameters (App version, operating
               system version).
             </li>
             <li>
@@ -200,8 +200,7 @@ export default function Privacy() {
 
         <SubSection title="E. Payment Processing & Financial Transaction Data">
           <P>
-            When you upgrade from our public beta framework to a paid commercial
-            subscription tier, your payment transaction is facilitated directly
+            When you upgrade to a paid commercial subscription tier, your payment transaction is facilitated directly
             via our billing integration partner,{" "}
             <strong className="text-white">Stripe, Inc.</strong> (and its global
             affiliates).

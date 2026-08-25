@@ -42,7 +42,7 @@ export default function SegmentLanding(props: SegmentLandingProps) {
       <SchemaJsonLd
         audience={props.audience}
         url={url}
-        description={`${props.heroBody} Free during public beta. macOS 12+.`}
+        description={`${props.heroBody} Mac and Windows. Free tier available.`}
       />
       <Nav activeProduct="presenter" />
       <Hero {...props} />
@@ -51,7 +51,7 @@ export default function SegmentLanding(props: SegmentLandingProps) {
       <CTABand
         product="presenter"
         title={props.ctaTitle}
-        sub="Free during public beta. macOS 12+. Apple-signed and notarized."
+        sub="Mac and Windows. Free tier available; Pro from $29/month."
         primary={{ href: "/api/download?platform=mac-arm64", label: "Download for Mac" }}
         secondary={{ href: "/pricing", label: "View pricing" }}
       />
@@ -99,7 +99,7 @@ function Hero({
           </MagneticButton>
         </div>
 
-        <p className="mt-5 text-xs text-[#C4C4C4]">Free during public beta · macOS 12+</p>
+        <p className="mt-5 text-xs text-[#C4C4C4]">Free tier available · macOS 14+ · Windows 10+</p>
       </div>
     </section>
   );

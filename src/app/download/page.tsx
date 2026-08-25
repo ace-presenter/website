@@ -20,9 +20,9 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Download ACE — Free during public beta · macOS",
+  title: "Download ACE — Mac and Windows",
   description:
-    "Download ACE for macOS on Apple Silicon. Apple-signed and notarized. Auto-updating. Free during public beta.",
+    "Download ACE for macOS (Apple Silicon) or Windows. Apple-signed and notarized on Mac. Auto-updating. Free tier available.",
   keywords: [
     "ace download",
     "ace presenter download",
@@ -34,8 +34,8 @@ export const metadata: Metadata = {
     canonical: "/download",
   },
   openGraph: {
-    title: "Download ACE — Free during public beta · macOS",
-    description: "Apple Silicon build. Apple-signed and notarized. Auto-updating.",
+    title: "Download ACE — Mac and Windows",
+    description: "Mac and Windows builds. Apple-signed and notarized on Mac. Auto-updating.",
     url: "https://www.ace-presenter.app/download",
     siteName: "ACE",
     locale: "en_US",
@@ -43,8 +43,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download ACE — Free during public beta · macOS",
-    description: "Apple Silicon build. Apple-signed and notarized.",
+    title: "Download ACE — Mac and Windows",
+    description: "Mac and Windows builds. Apple-signed and notarized on Mac.",
   },
 };
 
@@ -88,7 +88,7 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
         <div className="flex items-center gap-3 mb-8">
           <span className="h-px w-8 bg-[#C8102E]" />
           <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#888]">
-            Public beta · Free
+            Free tier · Pro from $29/mo
           </span>
         </div>
 
@@ -129,7 +129,7 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
         </div>
 
         <p className="mt-5 text-xs text-[#C4C4C4]">
-          Free during public beta · macOS 14 (Sonoma) or later
+          Free tier available · macOS 14 (Sonoma) or later · Windows 10+
           {latestVersion && (
             <>
               {" · "}
@@ -147,8 +147,8 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
 /* ───────────── REQUIREMENTS ───────────── */
 function Requirements() {
   const ROWS = [
-    { label: "Operating system", value: "macOS 14 (Sonoma) or later" },
-    { label: "Architecture", value: "Apple Silicon (M1 or later)" },
+    { label: "Operating system", value: "macOS 14 (Sonoma) or later · Windows 10 or later" },
+    { label: "Architecture", value: "Apple Silicon (M1 or later) · Windows 64-bit" },
     { label: "Disk space", value: "~600 MB initial · ~1 GB after first launch (AI models download on first run)" },
     { label: "Microphone", value: "Built-in, USB, or any Core Audio input" },
     { label: "Network", value: "Required only for first-launch model download · core detection runs offline" },
