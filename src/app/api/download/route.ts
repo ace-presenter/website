@@ -118,13 +118,36 @@ async function resolveFromManifest(
       const live = text.replace(/<!--[\s\S]*?-->/g, "");
 
       if (platform === "win") {
-        const re = /<enclosure\b[^>]*\burl="([^"]+)"/g;
-        let mm: RegExpExecArray | null;
-        while ((mm = re.exec(live)) !== null) {
-          const u = mm[1];
-          if (/\.(exe|msi|msix|appinstaller)$/i.test(u)) return toAbsolute(u);
+        // Pick the HIGHEST version, not the first <item>.
+        //
+        // The feed is meant to be newest-first, and taking items[0] trusted that.
+        // A release once filed itself at the bottom and this served the previous
+        // installer for hours — the release was published, the feed contained it,
+        // and the only thing wrong was the order. Nothing about that is visible
+        // from either end.
+        //
+        // Comparing versions makes the order irrelevant, which is the difference
+        // between "correct because the publisher got it right" and "correct".
+        const items = live.match(/<item[\s\S]*?<\/item>/g) ?? [];
+        const parse = (v: string) => v.trim().split(".").map((n) => parseInt(n, 10) || 0);
+        const isNewer = (a: number[], b: number[]) => {
+          for (let i = 0; i < Math.max(a.length, b.length); i++) {
+            const x = a[i] ?? 0, y = b[i] ?? 0;
+            if (x !== y) return x > y;
+          }
+          return false;
+        };
+        let best: { url: string; v: number[] } | null = null;
+        for (const item of items) {
+          const um = item.match(/<enclosure\b[^>]*\burl="([^"]+)"/);
+          if (!um || !/\.(exe|msi|msix|appinstaller)$/i.test(um[1])) continue;
+          const vm =
+            item.match(/<sparkle:shortVersionString>([^<]+)</) ??
+            item.match(/<sparkle:version>([^<]+)</);
+          const v = parse(vm?.[1] ?? "0");
+          if (!best || isNewer(v, best.v)) best = { url: um[1], v };
         }
-        return null;   // feed is empty — fall through to the product page
+        return best ? toAbsolute(best.url) : null;   // empty feed → product page
       }
 
       if (platform !== "mac-arm64") return null;
