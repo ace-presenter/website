@@ -32,6 +32,11 @@ const RELEASE_BASE = "https://dl.ace-presenter.app";
  */
 const MANIFEST_PATHS: Record<string, string> = {
   presenter:       "/presenter/appcast.xml",
+  // Windows has its own WinSparkle feed beside the macOS one. Resolving from
+  // it rather than a hardcoded filename means the download follows whatever
+  // was actually published, and returns nothing while the feed is still empty
+  // — no 404 in the window between the site knowing and the build existing.
+  "presenter-win": "/presenter-win/appcast.xml",
   "editors-notes": "/editors-notes/latest-mac.yml",
   schedule:        "/schedule/latest-mac.yml",
   // world: not shipped yet; placeholder for ACE World desktop release
@@ -49,10 +54,10 @@ const FALLBACK: Record<string, Record<string, string>> = {
   presenter: {
     "mac-arm64":     "presenter/ACE-0.3.11-arm64.dmg",
     "mac-arm64-pkg": "presenter/ACE-0.3.11-installer.pkg",
-    // Windows MSIX auto-updater descriptor (see ACE-Presenter-Windows
-    // packaging/windows/HOSTING.md). HEAD-checked below, so until it's
-    // uploaded, Windows users fall through to the /presenter page.
-    "win":           "presenter-win/ACEPresenter.appinstaller",
+    // No Windows fallback on purpose. It used to name an .appinstaller that
+    // has never been published, so the fallback could only ever resolve to a
+    // 404. The feed is the single source of truth now: empty means no build
+    // yet, and the visitor gets the product page rather than a broken file.
   },
   // arm64-only app (Qt/C++ built on Apple Silicon; no Intel build).
   // Serve the same DMG for both platforms. Uses the stable alias that
@@ -83,7 +88,11 @@ async function resolveFromManifest(
   product: string,
   platform: string
 ): Promise<string | null> {
-  const manifestPath = MANIFEST_PATHS[product];
+  // A Windows request for the presenter reads the Windows feed.
+  const manifestPath =
+    product === "presenter" && platform === "win"
+      ? MANIFEST_PATHS["presenter-win"]
+      : MANIFEST_PATHS[product];
   if (!manifestPath) return null;
 
   try {
@@ -103,11 +112,26 @@ async function resolveFromManifest(
     // <enclosure url="…">. These feeds are arm64-only native apps, so Intel
     // requests get no build (they fall through to the product page).
     if (manifestPath.endsWith(".xml")) {
+      // Strip comments first: the empty Windows feed documents its own shape in
+      // one, and matching an example enclosure would hand out a URL for a build
+      // that does not exist.
+      const live = text.replace(/<!--[\s\S]*?-->/g, "");
+
+      if (platform === "win") {
+        const re = /<enclosure\b[^>]*\burl="([^"]+)"/g;
+        let mm: RegExpExecArray | null;
+        while ((mm = re.exec(live)) !== null) {
+          const u = mm[1];
+          if (/\.(exe|msi|msix|appinstaller)$/i.test(u)) return toAbsolute(u);
+        }
+        return null;   // feed is empty — fall through to the product page
+      }
+
       if (platform !== "mac-arm64") return null;
       const dmgs: string[] = [];
       const re = /<enclosure\b[^>]*\burl="([^"]+\.dmg)"/g;
       let mm: RegExpExecArray | null;
-      while ((mm = re.exec(text)) !== null) dmgs.push(mm[1]);
+      while ((mm = re.exec(live)) !== null) dmgs.push(mm[1]);
       const u = dmgs.find((x) => x.endsWith("arm64.dmg")) ?? dmgs[0];
       return u ? toAbsolute(u) : null;
     }

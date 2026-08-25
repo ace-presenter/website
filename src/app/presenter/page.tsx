@@ -52,6 +52,35 @@ async function fetchLatestVersion(): Promise<string | null> {
   }
 }
 
+/**
+ * The newest published Windows build, or null when there is not one yet.
+ *
+ * Windows has its own appcast beside the macOS one. Reading it rather than
+ * hardcoding a state means the download button turns itself on the moment the
+ * first build is published and needs no site deploy to do it — and, just as
+ * importantly, cannot show a download that 404s in the window between the two.
+ * An empty feed is a valid "nothing yet", not an error.
+ */
+async function fetchWindowsRelease(): Promise<{ version: string } | null> {
+  try {
+    const r = await fetch("https://dl.ace-presenter.app/presenter-win/appcast.xml", {
+      next: { revalidate: 300 },
+    });
+    if (!r.ok) return null;
+    const text = await r.text();
+    // Ignore the commented-out example in the empty feed: only match a version
+    // that sits inside a real <item>.
+    const items = text.replace(/<!--[\s\S]*?-->/g, "").match(/<item[\s\S]*?<\/item>/g);
+    if (!items || items.length === 0) return null;
+    const m =
+      items[0].match(/<sparkle:shortVersionString>([^<]+)<\/sparkle:shortVersionString>/) ??
+      items[0].match(/<sparkle:version>([^<]+)<\/sparkle:version>/);
+    return m ? { version: m[1].trim() } : null;
+  } catch {
+    return null;
+  }
+}
+
 const SEGMENTS: { hook: string; title: string; body: string }[] = [
   {
     hook: "Worship",
@@ -90,13 +119,18 @@ const COMPAT = [
 ];
 
 export default async function PresenterPage() {
-  const latestVersion = await fetchLatestVersion();
+  // Fetched together so one slow feed does not serialise behind the other.
+  const [latestVersion, windowsRelease] = await Promise.all([
+    fetchLatestVersion(),
+    fetchWindowsRelease(),
+  ]);
+  const windowsVersion = windowsRelease?.version ?? null;
   return (
     <main className="flex-1 flex flex-col font-sans">
       <SchemaJsonLd />
       <Nav activeProduct="presenter" />
       <ManualBanner latestVersion={latestVersion} />
-      <Hero latestVersion={latestVersion} />
+      <Hero latestVersion={latestVersion} windowsVersion={windowsVersion} />
       <LogoMarquee
         label="Plays nicely with the rest of your rig"
         items={COMPAT}
@@ -138,7 +172,13 @@ export default async function PresenterPage() {
 }
 
 /* ───────────── HERO ───────────── */
-function Hero({ latestVersion }: { latestVersion: string | null }) {
+function Hero({
+  latestVersion,
+  windowsVersion,
+}: {
+  latestVersion: string | null;
+  windowsVersion: string | null;
+}) {
   return (
     <HeroShell product="presenter" fill={false} floating={<HeroChips />}>
       <div className="mb-7 flex items-center gap-3">
@@ -172,17 +212,28 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
         </MagneticButton>
       </div>
 
-      <div className="mt-4 flex justify-center text-xs">
-        <span className="text-[#888]">
-          Windows version{" "}
-          <Link href="/waitlist" className="font-semibold text-[#E8183A] transition hover:text-white">
-            join the waitlist →
+      {windowsVersion ? (
+        <div className="mt-4 flex justify-center">
+          <Link
+            href="/api/download?product=presenter&platform=win"
+            className="rounded-full border border-[#3A3A3A] px-6 py-3 text-sm font-semibold text-white transition-colors hover:border-white hover:bg-white hover:text-black"
+          >
+            Download for Windows
           </Link>
-        </span>
-      </div>
+        </div>
+      ) : (
+        <div className="mt-4 flex justify-center text-xs">
+          <span className="text-[#888]">
+            Windows version{" "}
+            <Link href="/waitlist" className="font-semibold text-[#E8183A] transition hover:text-white">
+              join the waitlist →
+            </Link>
+          </span>
+        </div>
+      )}
 
       <p className="mt-5 text-xs text-[#C4C4C4]">
-        Free during public beta · macOS 14+
+        Free during public beta · macOS 14+{windowsVersion ? " · Windows 10+" : ""}
         {latestVersion && (
           <>
             {" · "}
