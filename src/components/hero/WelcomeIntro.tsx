@@ -16,11 +16,6 @@ export default function WelcomeIntro() {
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    try {
-      if (sessionStorage.getItem("ace-welcomed")) return;
-    } catch {
-      /* private mode — just show it */
-    }
 
     setShow(true);
     const raf = requestAnimationFrame(() => setEntered(true));
@@ -29,11 +24,6 @@ export default function WelcomeIntro() {
     const finish = () => {
       if (done) return;
       done = true;
-      try {
-        sessionStorage.setItem("ace-welcomed", "1");
-      } catch {
-        /* ignore */
-      }
       setOpacity(0);
       window.setTimeout(() => setShow(false), 750);
       window.removeEventListener("scroll", onScroll);
@@ -47,7 +37,7 @@ export default function WelcomeIntro() {
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    const hold = window.setTimeout(finish, 3400); // auto-dismiss if they don't scroll
+    const hold = window.setTimeout(finish, 5000); // auto-dismiss if they don't scroll
 
     return () => {
       cancelAnimationFrame(raf);

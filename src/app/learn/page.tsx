@@ -291,9 +291,9 @@ export default function Learn() {
             {PRODUCTS.map((p) => {
               const brand = products[p.key];
               return (
-                <a
+                <Link
                   key={p.key}
-                  href={`#${p.key}`}
+                  href={p.href}
                   className="group relative flex flex-col rounded-2xl border border-white/10 bg-[#0D0D0D] p-5 transition hover:border-white/25"
                   style={{ boxShadow: "0 20px 60px -40px rgba(0,0,0,0.9)" }}
                 >
@@ -328,9 +328,9 @@ export default function Learn() {
                     className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold transition group-hover:gap-2.5"
                     style={{ color: brand.accentVivid }}
                   >
-                    Learn more <span aria-hidden>↓</span>
+                    Explore {p.name} <span aria-hidden>→</span>
                   </span>
-                </a>
+                </Link>
               );
             })}
           </div>
