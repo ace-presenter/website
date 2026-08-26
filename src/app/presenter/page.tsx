@@ -43,11 +43,32 @@ async function fetchLatestVersion(): Promise<string | null> {
     });
     if (!r.ok) return null;
     const text = await r.text();
-    // Newest <item> is first; read its Sparkle version string.
-    const m =
-      text.match(/<sparkle:shortVersionString>([^<]+)<\/sparkle:shortVersionString>/) ??
-      text.match(/<sparkle:version>([^<]+)<\/sparkle:version>/);
-    return m ? m[1].trim() : null;
+    // Take the HIGHEST version, not the first <item>.
+    //
+    // The feed is meant to be newest-first, but "meant to" has already failed
+    // once: a publish script inserted new releases before </channel> instead of
+    // before the first <item>, and the site served the previous build twice.
+    // Reading position is an assumption about a file we edit with scripts;
+    // comparing versions is not. The commented-out example release inside the
+    // XML comment block is another way position lies, so strip comments first.
+    const body = text.replace(/<!--[\s\S]*?-->/g, "");
+    const versions = [
+      ...body.matchAll(/<sparkle:shortVersionString>([^<]+)<\/sparkle:shortVersionString>/g),
+    ].map((m) => m[1].trim());
+    const fallback = [...body.matchAll(/<sparkle:version>([^<]+)<\/sparkle:version>/g)].map(
+      (m) => m[1].trim(),
+    );
+    const all = versions.length ? versions : fallback;
+    if (!all.length) return null;
+    const rank = (v: string) =>
+      v.split(".").map((n) => parseInt(n, 10) || 0);
+    return all.sort((a, b) => {
+      const [x, y] = [rank(a), rank(b)];
+      for (let i = 0; i < Math.max(x.length, y.length); i++) {
+        if ((y[i] ?? 0) !== (x[i] ?? 0)) return (y[i] ?? 0) - (x[i] ?? 0);
+      }
+      return 0;
+    })[0];
   } catch {
     return null;
   }

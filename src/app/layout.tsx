@@ -3,6 +3,7 @@ import { Geist_Mono, Instrument_Sans, Instrument_Serif } from "next/font/google"
 import "./globals.css";
 import SiteAnalytics from "@/components/SiteAnalytics";
 import SmoothScroll from "@/components/SmoothScroll";
+import ReviewPrompt from "@/components/ReviewPrompt";
 import { Analytics } from "@vercel/analytics/next";
 
 // Body font: Instrument Sans — deliberately paired with Instrument Serif below
@@ -109,6 +110,7 @@ export default function RootLayout({
           <style>{`.sr-item{opacity:1!important;transform:none!important}`}</style>
         </noscript>
         <SmoothScroll>{children}</SmoothScroll>
+        <ReviewPrompt />
         <SiteAnalytics />
         <Analytics />
       </body>

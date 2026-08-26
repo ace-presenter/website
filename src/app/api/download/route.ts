@@ -48,17 +48,24 @@ const MANIFEST_PATHS: Record<string, string> = {
  * Structure: product → platform → filename
  */
 const FALLBACK: Record<string, Record<string, string>> = {
-  // arm64-only (native app built for Apple Silicon; no Intel build). Only an
-  // arm64 key — mac-x64 requests fall through to the /presenter page.
-  // Bump this in lockstep with the appcast if the appcast ever can't be read.
-  presenter: {
-    "mac-arm64":     "presenter/ACE-0.3.11-arm64.dmg",
-    "mac-arm64-pkg": "presenter/ACE-0.3.11-installer.pkg",
-    // No Windows fallback on purpose. It used to name an .appinstaller that
-    // has never been published, so the fallback could only ever resolve to a
-    // 404. The feed is the single source of truth now: empty means no build
-    // yet, and the visitor gets the product page rather than a broken file.
-  },
+  // Deliberately empty. There is no version-pinned fallback for presenter on
+  // any platform, because a pinned path is a build that silently ages.
+  //
+  // This entry used to read ACE-0.3.11-arm64.dmg / -installer.pkg, and the
+  // "bump it in lockstep with the appcast" comment above it did not survive
+  // contact with a release. By 1.0.1 the PKG button was resolving like this:
+  // derive ACE-1.0.1-installer.pkg from the feed, HEAD it, get a 404 because
+  // that PKG was never published, then fall through to the hardcoded path and
+  // serve ACE-0.3.11-installer.pkg with a 200. Months stale, no error, and on
+  // the one button aimed at IT departments pushing a build to a whole
+  // organisation via MDM.
+  //
+  // The Windows entry had already reasoned its way to the right answer for the
+  // same reason. The feed is the single source of truth for every platform:
+  // if it cannot be read, the visitor gets the product page, which is honest,
+  // rather than whichever build happened to be current when someone last
+  // edited this file.
+  presenter: {},
   // arm64-only app (Qt/C++ built on Apple Silicon; no Intel build).
   // Serve the same DMG for both platforms. Uses the stable alias that
   // r2-upload.js repoints to the newest DMG each release, so this never
@@ -197,7 +204,13 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(new URL("/", req.url), 302);
   }
 
-  // PKG installer — derive path from the appcast DMG URL (same version, different suffix)
+  // PKG installer — derive the path from the appcast DMG URL (same version,
+  // different suffix) and serve it only if that exact version was published.
+  //
+  // If it was not, we send the current DMG rather than an older PKG. Same
+  // application, different container: an admin who wanted a PKG can repackage
+  // a current DMG, but nobody can un-deploy a stale build they pushed to a
+  // fleet believing it was current.
   if (format === "pkg" && product === "presenter" && platform === "mac-arm64") {
     const dmgUrl = await resolveFromManifest("presenter", "mac-arm64");
     const pkgUrl = dmgUrl?.replace(/-arm64\.dmg$/, "-installer.pkg") ?? null;
@@ -205,11 +218,8 @@ export async function GET(req: NextRequest) {
       const check = await fetch(pkgUrl, { method: "HEAD" }).catch(() => null);
       if (check?.ok) return NextResponse.redirect(pkgUrl, 302);
     }
-    // Fallback to hardcoded PKG path
-    return NextResponse.redirect(
-      `${RELEASE_BASE}/${FALLBACK["presenter"]["mac-arm64-pkg"]}`,
-      302,
-    );
+    if (dmgUrl) return NextResponse.redirect(dmgUrl, 302);
+    return NextResponse.redirect(new URL("/presenter", req.url), 302);
   }
 
   // Try dynamic manifest first (live R2 path)

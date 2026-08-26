@@ -109,34 +109,30 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.9.2",
-  date: "May 26, 2026",
+  version: "1.0.1",
+  date: "August 26, 2026",
   highlights: [
     {
       icon: I.sparkle,
-      title: "Lyric tracking finally works during sung worship",
-      body: "ACE retunes Deepgram for sung vocals when song mode is active and Whisper kicks in as a parallel signal whenever Deepgram drops out. Section tracking advances slide-by-slide as the band moves through the song.",
+      title: "ACE now speaks your language",
+      body: "The whole interface is translated into eight languages — Arabic, Chinese, French, German, Korean, Portuguese, Russian and Spanish — on Mac and Windows alike. Choose yours in Settings. Every menu, panel and message, not just part of it.",
     },
     {
-      icon: I.sparkle,
-      title: "Scripture suggestions for paraphrases — in every language you preach in",
-      body: "Preach a verse paraphrased in English and the matching Spanish, Portuguese, French, or Chinese verse appears as a one-click suggestion. The Bible search now uses a multilingual paraphrase model so loose recitations still surface the right reference.",
+      icon: I.layers,
+      title: "Arabic reads properly, right to left",
+      body: "The whole layout mirrors: your library, controls and arrows all move to the side they belong on.",
     },
     {
-      icon: I.sparkle,
-      title: "Next / Previous chapter buttons in the Bible reader",
-      body: "Read straight through Malachi 4 → Matthew 1 without closing and reopening the modal. ← / → arrow keys work too.",
+      icon: I.display,
+      title: "Nothing important left in English",
+      body: "Your CCLI number, the account screens and the data-sharing choice are translated too.",
     },
   ],
   improvements: [
-    "Modal opens faster on second launch — release content is cached after the first fetch",
-    "Sidebar paraphrase results load in parallel with the main Bible text, cutting perceived wait time",
-    "Voice navigation commands now accept abbreviations: 'Rev' resolves to Revelation, '1 Cor' to 1 Corinthians",
+    "Buttons no longer cut off words in longer languages — German, Russian and French all fit now",
   ],
   fixes: [
-    "Song detection no longer goes silent when the band is singing — Deepgram is auto-reconfigured for sung vocals when it would otherwise drop them",
-    "When Deepgram still can't hear the vocals, Whisper picks up the slack and ACRCloud identifies the song from raw audio — no operator intervention needed",
-    "Bible suggestion floor lowered so paraphrase matches surface in the sidebar without changing what auto-displays",
+    "Arabic no longer renders as disconnected letters; cursive scripts keep their joins",
   ],
 };
 
