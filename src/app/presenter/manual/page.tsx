@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import HorizonGlow from "@/components/hero/HorizonGlow";
-import ManualNav from "./ManualNav";
+import { ProductTheme } from "@/components/motion";
+import ManualNav from "@/components/manual/ManualNav";
 import { MANUAL_HTML, MANUAL_NAV } from "./manual.generated";
 
 export const metadata: Metadata = {
@@ -52,10 +53,12 @@ export default function ManualPage() {
       </section>
 
       {/* Manual body — sticky TOC rail + server-rendered chapters */}
-      <div className="manual-shell">
-        <ManualNav items={MANUAL_NAV} />
-        <article className="manual" dangerouslySetInnerHTML={{ __html: MANUAL_HTML }} />
-      </div>
+      <ProductTheme product="presenter">
+        <div className="manual-shell">
+          <ManualNav items={MANUAL_NAV} label="Run of show" />
+          <article className="manual" dangerouslySetInnerHTML={{ __html: MANUAL_HTML }} />
+        </div>
+      </ProductTheme>
 
       <Footer />
     </main>

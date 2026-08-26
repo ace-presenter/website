@@ -222,9 +222,9 @@ body {
 }
 .manual-navlink:hover { background: rgba(255, 255, 255, 0.05); color: #ececea; }
 .manual-navlink.active {
-  background: linear-gradient(90deg, rgba(232, 24, 58, 0.16), rgba(232, 24, 58, 0.04));
+  background: linear-gradient(90deg, rgba(var(--accent-rgb, 200,16,46), 0.16), rgba(var(--accent-rgb, 200,16,46), 0.04));
   color: #fff;
-  box-shadow: inset 2px 0 0 #e8183a; /* "on air" bar for the cue in view */
+  box-shadow: inset 2px 0 0 var(--accent-vivid, #e8183a); /* "on air" bar for the cue in view */
 }
 .manual-navnum {
   flex: none;
@@ -238,7 +238,7 @@ body {
   font-size: 11px;
   color: #7c7876;
 }
-.manual-navlink.active .manual-navnum { border-color: #e8183a; color: #e8183a; }
+.manual-navlink.active .manual-navnum { border-color: var(--accent-vivid, #e8183a); color: var(--accent-vivid, #e8183a); }
 
 /* Prose */
 .manual {
@@ -257,13 +257,13 @@ body {
 .manual .doc:last-child { border-bottom: none; }
 /* Run-of-show cue framing — each chapter opens like a cue on a service plan */
 .manual .doc-cue { display: flex; align-items: center; gap: 12px; margin: 0 0 20px; }
-.manual .cue-rule { width: 26px; height: 2px; background: #c8102e; flex: none; }
+.manual .cue-rule { width: 26px; height: 2px; background: var(--accent, #c8102e); flex: none; }
 .manual .cue-tag {
   font-family: var(--font-geist-mono), monospace;
   font-size: 11px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #e8183a;
+  color: var(--accent-vivid, #e8183a);
 }
 .manual h1, .manual h2 {
   font-family: var(--font-instrument-serif), Georgia, serif;
@@ -279,8 +279,8 @@ body {
 .manual h3 { font-size: 18px; font-weight: 600; margin: 1.5em 0 0.4em; letter-spacing: -0.01em; }
 .manual h4 { font-size: 15px; font-weight: 600; margin: 1.3em 0 0.3em; color: #a6a3a2; }
 .manual p, .manual li { max-width: 72ch; }
-.manual a { color: #e8183a; text-decoration: none; border-bottom: 1px solid rgba(232, 24, 58, 0.35); transition: border-color 0.15s; }
-.manual a:hover { border-bottom-color: #e8183a; }
+.manual a { color: var(--accent-vivid, #e8183a); text-decoration: none; border-bottom: 1px solid rgba(var(--accent-rgb, 200,16,46), 0.35); transition: border-color 0.15s; }
+.manual a:hover { border-bottom-color: var(--accent-vivid, #e8183a); }
 .manual strong { color: #fff; font-weight: 600; }
 .manual code {
   font-family: var(--font-geist-mono), monospace;
@@ -294,11 +294,11 @@ body {
 .manual blockquote {
   margin: 1.4em 0;
   padding: 0.8em 1.2em;
-  border-left: 2px solid #e8183a;
-  background: linear-gradient(90deg, rgba(232, 24, 58, 0.08), transparent);
+  border-left: 2px solid var(--accent-vivid, #e8183a);
+  background: linear-gradient(90deg, rgba(var(--accent-rgb, 200,16,46), 0.08), transparent);
   border-radius: 0 10px 10px 0;
 }
-.manual blockquote strong { color: #e8183a; }
+.manual blockquote strong { color: var(--accent-vivid, #e8183a); }
 .manual hr { border: none; border-top: 1px solid rgba(255, 255, 255, 0.08); margin: 2em 0; }
 .manual ul, .manual ol { padding-left: 1.35em; }
 .manual li { margin: 0.28em 0; }
@@ -350,6 +350,13 @@ body {
 .manual .b-build { color: #a8b6c6; background: rgba(168, 182, 198, 0.12); border-color: rgba(168, 182, 198, 0.22); }
 .manual .b-pro { color: #c39bee; background: rgba(195, 155, 238, 0.14); border-color: rgba(195, 155, 238, 0.28); }
 .manual .b-win { color: #ec9366; background: rgba(236, 147, 102, 0.13); border-color: rgba(236, 147, 102, 0.26); }
+.manual .b-soon { color: #e3ac52; background: rgba(227, 172, 82, 0.13); border-color: rgba(227, 172, 82, 0.28); }
+.manual .b-dev { color: #a8b6c6; background: rgba(168, 182, 198, 0.12); border-color: rgba(168, 182, 198, 0.22); }
+.manual .b-preview { color: #6fb0ec; background: rgba(111, 176, 236, 0.13); border-color: rgba(111, 176, 236, 0.25); }
+.manual .b-planned { color: #9a9a9a; background: rgba(154, 154, 154, 0.12); border-color: rgba(154, 154, 154, 0.24); }
+.manual .b-beta { color: #c39bee; background: rgba(195, 155, 238, 0.14); border-color: rgba(195, 155, 238, 0.28); }
+.manual .b-early { color: #57c9b4; background: rgba(87, 201, 180, 0.13); border-color: rgba(87, 201, 180, 0.26); }
+.manual .b-web { color: #8fb0c4; background: rgba(143, 176, 196, 0.12); border-color: rgba(143, 176, 196, 0.24); }
 
 @media (max-width: 880px) {
   .manual-shell { grid-template-columns: 1fr; padding: 0 18px; }

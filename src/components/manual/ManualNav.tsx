@@ -1,12 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { ManualNavItem } from "./manual.generated";
+
+export type ManualNavItem = { id: string; title: string; num: string };
 
 // Sticky table-of-contents rail for the manual. Highlights the section in view
 // and doubles as a slide-in drawer on small screens. The article itself is
 // server-rendered; this only reads the DOM the server produced.
-export default function ManualNav({ items }: { items: ManualNavItem[] }) {
+export default function ManualNav({
+  items,
+  label = "Contents",
+}: {
+  items: ManualNavItem[];
+  label?: string;
+}) {
   const [active, setActive] = useState<string>(items[0]?.id ?? "");
   const [open, setOpen] = useState(false);
 
@@ -37,7 +44,7 @@ export default function ManualNav({ items }: { items: ManualNavItem[] }) {
         ☰ Contents
       </button>
       <nav className={"manual-nav" + (open ? " open" : "")} aria-label="Manual contents">
-        <div className="manual-nav-title">Run of show</div>
+        <div className="manual-nav-title">{label}</div>
         {items.map((i) => (
           <a
             key={i.id}
