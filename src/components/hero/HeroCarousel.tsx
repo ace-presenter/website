@@ -181,14 +181,11 @@ export default function HeroCarousel() {
     window.setTimeout(() => setPaused(false), 600);
   };
 
-  const pct = -index * 100;
-  const dragPct = (drag / width.current) * 100;
-
   return (
     <section
       aria-roledescription="carousel"
       aria-label="ACE Suite products"
-      className="relative overflow-hidden px-6 pt-14 sm:px-10 sm:pt-20"
+      className="relative overflow-hidden px-6 pt-16 sm:px-10 sm:pt-24"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -212,7 +209,7 @@ export default function HeroCarousel() {
       {/* Viewport */}
       <div
         ref={viewportRef}
-        className="relative mx-auto max-w-6xl touch-pan-y select-none overflow-hidden"
+        className="relative mx-auto grid max-w-7xl touch-pan-y select-none items-center lg:min-h-[40rem]"
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}
@@ -223,28 +220,28 @@ export default function HeroCarousel() {
         }}
         tabIndex={0}
       >
-        <div
-          className="flex"
-          style={{
-            transform: `translateX(${pct + dragPct}%)`,
-            transition: dragging.current || reduced ? "none" : "transform 0.7s cubic-bezier(0.22,1,0.36,1)",
-          }}
-        >
-          {SLIDES.map((s, i) => {
+        {SLIDES.map((s, i) => {
             const b = products[s.key];
             const active = i === index;
             return (
               <div
                 key={s.key}
-                className="w-full shrink-0 px-1"
                 aria-hidden={!active}
                 aria-roledescription="slide"
                 aria-label={`${i + 1} of ${n}: ${s.name}`}
+                className="col-start-1 row-start-1 w-full"
+                style={{
+                  opacity: active ? 1 : 0,
+                  transform: active ? "scale(1)" : "scale(1.06)",
+                  filter: active ? "blur(0px)" : "blur(10px)",
+                  pointerEvents: active ? "auto" : "none",
+                  transition: reduced
+                    ? "none"
+                    : "opacity 0.85s ease, transform 1s cubic-bezier(0.22,1,0.36,1), filter 0.85s ease",
+                  zIndex: active ? 2 : 1,
+                }}
               >
-                <div
-                  className="grid grid-cols-1 items-center gap-8 transition-opacity duration-500 lg:grid-cols-[1fr_1.1fr] lg:gap-14"
-                  style={{ opacity: active ? 1 : 0.35 }}
-                >
+                <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
                   {/* Copy */}
                   <div>
                     <div className="flex flex-wrap items-center gap-3">
@@ -273,26 +270,26 @@ export default function HeroCarousel() {
                       </span>
                     </div>
 
-                    <h1 className="mt-6 text-[2.4rem] font-bold leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-[4rem] lg:leading-[0.98]">
+                    <h1 className="mt-7 text-[2.9rem] font-bold leading-[1.0] tracking-tight text-white sm:text-7xl lg:text-[5.25rem] lg:leading-[0.94]">
                       {s.tagline}
                     </h1>
-                    <p className="mt-6 max-w-lg text-base leading-relaxed text-[#B4B4B4] sm:text-lg">
+                    <p className="mt-7 max-w-xl text-lg leading-relaxed text-[#B8B8B8] sm:text-xl">
                       {s.blurb}
                     </p>
 
-                    <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3">
+                    <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
                       <Link
                         href={s.href}
                         tabIndex={active ? 0 : -1}
-                        className="rounded-full px-7 py-3.5 text-sm font-bold text-white transition-transform hover:-translate-y-0.5"
-                        style={{ background: b.accent, boxShadow: `0 16px 40px -16px rgba(${b.rgb},0.9)` }}
+                        className="rounded-full px-8 py-4 text-base font-bold text-white transition-transform hover:-translate-y-0.5"
+                        style={{ background: b.accent, boxShadow: `0 18px 46px -16px rgba(${b.rgb},0.95)` }}
                       >
                         Explore {s.name}
                       </Link>
                       <Link
                         href={s.manualHref}
                         tabIndex={active ? 0 : -1}
-                        className="group inline-flex items-center gap-2 text-sm font-semibold text-white/85 transition hover:text-white"
+                        className="group inline-flex items-center gap-2 text-base font-semibold text-white/85 transition hover:text-white"
                       >
                         Read the manual
                         <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
@@ -327,7 +324,6 @@ export default function HeroCarousel() {
               </div>
             );
           })}
-        </div>
       </div>
 
       {/* Controls: dots + arrows */}

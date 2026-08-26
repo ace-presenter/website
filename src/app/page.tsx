@@ -4,6 +4,7 @@ import Image from "next/image";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import HeroCarousel from "@/components/hero/HeroCarousel";
+import WelcomeIntro from "@/components/hero/WelcomeIntro";
 import {
   ScrollReveal,
   ScrollStagger,
@@ -34,6 +35,7 @@ export default function SuiteHome() {
   return (
     <main className="flex-1 flex flex-col font-sans">
       <SuiteAccent />
+      <WelcomeIntro />
       <div className="relative z-10 flex flex-1 flex-col">
       <Nav />
       <HeroCarousel />

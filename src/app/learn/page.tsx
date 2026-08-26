@@ -276,6 +276,67 @@ export default function Learn() {
         </div>
       </section>
 
+      {/* All applications — at-a-glance grid so every product is visible up front */}
+      <section className="border-b border-[#161616] px-6 py-14 sm:px-10 sm:py-16">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-8 flex items-baseline justify-between gap-4">
+            <h2 className="text-sm font-mono uppercase tracking-[0.28em] text-[#888]">
+              All applications
+            </h2>
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#666]">
+              {PRODUCTS.length} tools · one account
+            </span>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {PRODUCTS.map((p) => {
+              const brand = products[p.key];
+              return (
+                <a
+                  key={p.key}
+                  href={`#${p.key}`}
+                  className="group relative flex flex-col rounded-2xl border border-white/10 bg-[#0D0D0D] p-5 transition hover:border-white/25"
+                  style={{ boxShadow: "0 20px 60px -40px rgba(0,0,0,0.9)" }}
+                >
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-x-0 top-0 h-px opacity-60"
+                    style={{ background: `linear-gradient(90deg, transparent, ${brand.accent}, transparent)` }}
+                  />
+                  <div className="flex items-center gap-2.5">
+                    <span
+                      aria-hidden
+                      className="h-2.5 w-2.5 rounded-full"
+                      style={{ background: brand.accent, boxShadow: `0 0 12px ${brand.accent}` }}
+                    />
+                    <span className="text-base font-bold text-white">{p.name}</span>
+                    <span
+                      className="ml-auto rounded-full border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em]"
+                      style={{
+                        color: brand.accentVivid,
+                        borderColor: `rgba(${brand.rgb},0.35)`,
+                        background: `rgba(${brand.rgb},0.10)`,
+                      }}
+                    >
+                      {p.status}
+                    </span>
+                  </div>
+                  <p className="mt-3 text-sm font-medium text-[#E6E6E6]">{p.tagline}</p>
+                  <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[#777]">
+                    {p.platform}
+                  </p>
+                  <span
+                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold transition group-hover:gap-2.5"
+                    style={{ color: brand.accentVivid }}
+                  >
+                    Learn more <span aria-hidden>↓</span>
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* Product sections */}
       <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">
         {PRODUCTS.map((p, i) => (
