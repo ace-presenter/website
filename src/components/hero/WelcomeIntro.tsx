@@ -48,6 +48,20 @@ export default function WelcomeIntro() {
 
   if (!show) return null;
 
+  // Per-letter stop-motion bounce. Letters share one running index so the
+  // stagger flows across "Welcome to" (sans) into "ACE" (serif italic red).
+  const HEAD_START = 0.18; // s, before the first glyph pops
+  const STEP = 0.05; // s between glyphs
+  const head: { c: string; serif: boolean }[] = [
+    ...[..."Welcome to"].map((c) => ({ c, serif: false })),
+    { c: " ", serif: false },
+    ...[..."ACE"].map((c) => ({ c, serif: true })),
+  ];
+  const lastLetter = head.filter((h) => h.c !== " ").length - 1;
+  const headEnd = HEAD_START + lastLetter * STEP + 0.62; // when the last glyph settles
+
+  let li = -1;
+
   return (
     <div
       aria-hidden
@@ -59,27 +73,53 @@ export default function WelcomeIntro() {
         background: "radial-gradient(120% 100% at 50% 0%, #180608 0%, #0F0F0F 58%)",
       }}
     >
-      <div
-        style={{
-          opacity: entered ? 1 : 0,
-          transform: entered ? "translateY(0) scale(1)" : "translateY(20px) scale(0.97)",
-          transition: "opacity 1s ease, transform 1.1s cubic-bezier(0.22,1,0.36,1)",
-        }}
-      >
-        <div className="mb-7 flex items-center justify-center gap-3">
+      <div>
+        <div
+          className="mb-7 flex items-center justify-center gap-3"
+          style={{
+            opacity: entered ? 1 : 0,
+            transform: entered ? "translateY(0)" : "translateY(8px)",
+            transition: "opacity 0.6s ease, transform 0.6s ease",
+          }}
+        >
           <span className="h-px w-10 bg-[#C8102E]" />
           <span className="font-mono text-[12px] uppercase tracking-[0.4em] text-[#9A9A9A]">
             Agentic Cue Experience
           </span>
           <span className="h-px w-10 bg-[#C8102E]" />
         </div>
-        <h1 className="text-5xl font-bold tracking-tight text-white sm:text-7xl lg:text-[7rem] lg:leading-[0.92]">
-          Welcome to{" "}
-          <span className="font-[family-name:var(--font-instrument-serif)] font-normal italic text-[#E8183A]">
-            ACE
-          </span>
+
+        <h1
+          aria-label="Welcome to ACE"
+          className="text-5xl font-bold tracking-tight text-white sm:text-7xl lg:text-[7rem] lg:leading-[0.92]"
+        >
+          {head.map((L, i) => {
+            if (L.c === " ") return <span key={i} className="inline-block w-[0.28em]" />;
+            li += 1;
+            return (
+              <span
+                key={i}
+                className={`ace-letter${
+                  L.serif
+                    ? " font-[family-name:var(--font-instrument-serif)] font-normal italic text-[#E8183A]"
+                    : ""
+                }`}
+                style={{ animationDelay: `${HEAD_START + li * STEP}s` }}
+              >
+                {L.c}
+              </span>
+            );
+          })}
         </h1>
-        <p className="mx-auto mt-7 max-w-md text-lg text-[#B4B4B4]">
+
+        <p
+          className="mx-auto mt-7 max-w-md text-lg text-[#B4B4B4]"
+          style={{
+            opacity: entered ? 1 : 0,
+            transform: entered ? "translateY(0)" : "translateY(10px)",
+            transition: `opacity 0.7s ease ${headEnd - 0.2}s, transform 0.7s ease ${headEnd - 0.2}s`,
+          }}
+        >
           One suite for the whole event — five tools that listen, plan, and run the room.
         </p>
       </div>

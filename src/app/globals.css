@@ -64,6 +64,34 @@ html {
     animation: ace-wave 1.1s ease-in-out infinite;
   }
 
+  /* Stop-motion letter bounce for the welcome title — each glyph pops in with
+     an overshoot and a small wiggle, staggered by animation-delay. */
+  @keyframes ace-letter-pop {
+    0% {
+      opacity: 0;
+      transform: translateY(0.55em) scale(0.35) rotate(-7deg);
+    }
+    55% {
+      opacity: 1;
+      transform: translateY(-0.12em) scale(1.16) rotate(4deg);
+    }
+    72% {
+      transform: translateY(0.04em) scale(0.94) rotate(-2deg);
+    }
+    86% {
+      transform: translateY(-0.02em) scale(1.04) rotate(1deg);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1) rotate(0deg);
+    }
+  }
+  .ace-letter {
+    display: inline-block;
+    transform-origin: bottom center;
+    animation: ace-letter-pop 0.62s cubic-bezier(0.22, 0.9, 0.3, 1) both;
+  }
+
   /* Terminal caret blink for the Engineering Vault readout. */
   @keyframes ace-caret {
     0%,
