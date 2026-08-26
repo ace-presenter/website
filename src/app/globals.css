@@ -224,6 +224,7 @@ body {
 .manual-navlink.active {
   background: linear-gradient(90deg, rgba(232, 24, 58, 0.16), rgba(232, 24, 58, 0.04));
   color: #fff;
+  box-shadow: inset 2px 0 0 #e8183a; /* "on air" bar for the cue in view */
 }
 .manual-navnum {
   flex: none;
@@ -254,6 +255,16 @@ body {
   scroll-margin-top: 84px;
 }
 .manual .doc:last-child { border-bottom: none; }
+/* Run-of-show cue framing — each chapter opens like a cue on a service plan */
+.manual .doc-cue { display: flex; align-items: center; gap: 12px; margin: 0 0 20px; }
+.manual .cue-rule { width: 26px; height: 2px; background: #c8102e; flex: none; }
+.manual .cue-tag {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #e8183a;
+}
 .manual h1, .manual h2 {
   font-family: var(--font-instrument-serif), Georgia, serif;
   font-weight: 400;

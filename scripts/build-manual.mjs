@@ -28,12 +28,17 @@ const files = [
 ];
 const anchor = (fn) => 'sec-' + fn.replace(/\.md$/, '');
 
+// The manual is framed like an ACE run-of-show: each chapter is a "cue".
+const cueLabel = (num) =>
+  num === '' ? 'Start here' : /^[0-9]+$/.test(num) ? `Cue ${num}` : `Appendix ${num}`;
+
 let html = '';
 for (const [fn, , num] of files) {
   let frag = execSync(`pandoc --from gfm --to html5 "${dir}/${fn}"`, { encoding: 'utf8', maxBuffer: 1e7 });
   frag = frag.replace(/href="([0-9a-zA-Z-]+)\.md(#[^"]*)?"/g, (_m, base) => `href="#sec-${base}"`);
   if (fn === 'README.md') frag = frag.replace(/<h2[^>]*>Table of contents<\/h2>[\s\S]*?<\/ul>/i, '');
-  html += `<section id="${anchor(fn)}" class="doc" data-num="${num}">\n${frag}\n</section>\n`;
+  const cue = `<div class="doc-cue"><span class="cue-rule" aria-hidden="true"></span><span class="cue-tag">${cueLabel(num)}</span></div>`;
+  html += `<section id="${anchor(fn)}" class="doc" data-num="${num}">\n${cue}\n${frag}\n</section>\n`;
 }
 
 const badges = [

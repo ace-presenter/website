@@ -37,7 +37,7 @@ export default function ManualNav({ items }: { items: ManualNavItem[] }) {
         ☰ Contents
       </button>
       <nav className={"manual-nav" + (open ? " open" : "")} aria-label="Manual contents">
-        <div className="manual-nav-title">Contents</div>
+        <div className="manual-nav-title">Run of show</div>
         {items.map((i) => (
           <a
             key={i.id}
