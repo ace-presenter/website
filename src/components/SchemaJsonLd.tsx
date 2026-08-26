@@ -36,7 +36,7 @@ export default function SchemaJsonLd({
     name: "ACE",
     alternateName: "ACE Presenter",
     applicationCategory: "BusinessApplication",
-    operatingSystem: "macOS 12+",
+    operatingSystem: "macOS 14+, Windows 10+",
     offers: {
       "@type": "Offer",
       price: "0",

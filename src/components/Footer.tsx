@@ -39,6 +39,7 @@ const COLUMNS: {
     links: [
       { href: "/learn", label: "Learn" },
       { href: "/presenter/manual", label: "Presenter Manual" },
+      { href: "/reviews", label: "Reviews" },
       { href: "/support", label: "Support" },
       { href: "/download", label: "Download" },
       { href: "/pricing", label: "Pricing" },
