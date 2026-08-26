@@ -101,6 +101,7 @@ export default function HeroCarousel() {
   const [drag, setDrag] = useState(0); // live pointer offset in px while dragging
   const [reduced, setReduced] = useState(false);
   const [progress, setProgress] = useState(0); // 0→1 countdown to the next slide
+  const [visible, setVisible] = useState(true); // hero in viewport?
 
   const viewportRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
@@ -113,13 +114,27 @@ export default function HeroCarousel() {
 
   // Drive the page-wide ambient accent to the active product (blends via the
   // --ar/--ag/--ab transition in globals.css — this is the "blend into each app").
+  // Only while the hero is on screen, so it never fights sections lower down
+  // (e.g. the pinned showcase) that own the accent once you've scrolled past.
   useEffect(() => {
+    if (!visible) return;
     const rgb = products[SLIDES[index].key].rgb.split(",");
     const root = document.documentElement;
     root.style.setProperty("--ar", rgb[0]);
     root.style.setProperty("--ag", rgb[1]);
     root.style.setProperty("--ab", rgb[2]);
-  }, [index]);
+  }, [index, visible]);
+
+  // Pause auto-advance and accent-setting when the hero scrolls out of view.
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), {
+      threshold: 0.2,
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   // Respect reduced-motion: no auto-advance, no slide transition.
   useEffect(() => {
@@ -140,7 +155,7 @@ export default function HeroCarousel() {
   // stays perfectly in sync. Pausing (hover / drag) freezes elapsed time and
   // resumes exactly where it left off; reduced-motion disables it entirely.
   useEffect(() => {
-    if (paused || reduced) return;
+    if (paused || reduced || !visible) return;
     let raf = 0;
     let last: number | null = null;
     const tick = (t: number) => {
@@ -157,7 +172,7 @@ export default function HeroCarousel() {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [index, paused, reduced, go]);
+  }, [index, paused, reduced, visible, go]);
 
   // Pointer drag / swipe.
   const onPointerDown = (e: React.PointerEvent) => {

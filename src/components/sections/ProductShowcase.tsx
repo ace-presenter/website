@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ScrollReveal, Parallax, ProductTheme } from "@/components/motion";
+import { ScrollReveal, Parallax, ProductTheme, ClipReveal, KineticHeading } from "@/components/motion";
 import { products, type ProductKey } from "@/lib/brand";
 import { AccentItalic } from "./SectionHeading";
 
@@ -52,9 +52,12 @@ export default function ProductShowcase({
               {name}
             </span>
           </div>
-          <h3 className="mt-5 text-3xl font-bold leading-[1.05] tracking-tight text-white sm:text-4xl lg:text-5xl">
+          <KineticHeading
+            as="h3"
+            className="mt-5 text-3xl font-bold leading-[1.05] tracking-tight text-white sm:text-4xl lg:text-5xl"
+          >
             {headline}
-          </h3>
+          </KineticHeading>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-[#B4B4B4] sm:text-lg">
             {body}
           </p>
@@ -88,9 +91,9 @@ export default function ProductShowcase({
                   background: `radial-gradient(60% 60% at 50% 45%, rgba(${p.rgb}, 0.28), transparent 75%)`,
                 }}
               />
-              <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0D0D0D] shadow-[0_32px_90px_-28px_rgba(0,0,0,0.8)]">
+              <ClipReveal className="overflow-hidden rounded-2xl border border-white/10 bg-[#0D0D0D] shadow-[0_32px_90px_-28px_rgba(0,0,0,0.8)]">
                 {visual}
-              </div>
+              </ClipReveal>
             </div>
           </Parallax>
         </div>

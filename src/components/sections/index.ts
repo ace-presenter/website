@@ -13,6 +13,7 @@ export { default as LogoMarquee } from "./LogoMarquee";
 export { default as CTABand } from "./CTABand";
 export { default as ProductCard } from "./ProductCard";
 export { default as ProductShowcase } from "./ProductShowcase";
+export { default as PinnedShowcase } from "./PinnedShowcase";
 export { default as ComingSoonCard } from "./ComingSoonCard";
 export { default as FooterSignup } from "./FooterSignup";
 export { default as TocSpy } from "./TocSpy";

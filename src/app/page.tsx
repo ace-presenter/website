@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import HeroCarousel from "@/components/hero/HeroCarousel";
@@ -18,8 +17,7 @@ import {
   StatsBand,
   LogoMarquee,
   CTABand,
-  ComingSoonCard,
-  ProductShowcase,
+  PinnedShowcase,
 } from "@/components/sections";
 
 export const metadata: Metadata = {
@@ -55,7 +53,7 @@ export default function SuiteHome() {
         ]}
         className="border-b border-[#1A1A1A]"
       />
-      <Showcase />
+      <PinnedShowcase />
       <StatsBand
         stats={[
           { text: "0", label: "Clicks to advance" },
@@ -64,7 +62,6 @@ export default function SuiteHome() {
           { text: "Mac + PC", label: "macOS 14+ · Windows 10+" },
         ]}
       />
-      <ComingSoon />
       <Rooms />
       <SuiteWhy />
       <PricingTeaser />
@@ -82,142 +79,6 @@ export default function SuiteHome() {
       <Footer />
       </div>
     </main>
-  );
-}
-
-/* ───────────── SHOWCASE (alternating product rows) ───────────── */
-function Showcase() {
-  return (
-    <section id="suite" className="scroll-mt-24 px-6 py-24 sm:px-10 sm:py-32">
-      <div className="mx-auto max-w-6xl">
-        <ScrollReveal>
-          <SectionHeading
-            eyebrow="The suite"
-            title={
-              <>
-                One account. <AccentItalic>Five</AccentItalic> tools.
-              </>
-            }
-            lede="Three shipping today, two on the way — all built to the same bar: native where it counts, on-device by default, made for people running real rooms."
-          />
-        </ScrollReveal>
-
-        <div className="mt-20 flex flex-col gap-24 sm:gap-32">
-          <ProductShowcase
-            product="presenter"
-            name="Presenter"
-            href="/presenter"
-            headline={
-              <>
-                Slides that <AccentItalic>follow</AccentItalic> the room.
-              </>
-            }
-            body="ACE listens to the service and fires the next cue in under a second — lyrics, scripture, and decks that keep up with the band and the preacher. No clicker, no cloud, all on-device."
-            features={[
-              "Live lyric + scripture detection, 12+ languages",
-              "HDMI · NDI · ATEM · OBS · OSC output",
-              "One-click ProPresenter library import",
-            ]}
-            visual={
-              <Image
-                src="/presenter/stage-display.png"
-                alt="ACE Presenter stage display showing live lyrics"
-                width={2200}
-                height={1384}
-                className="w-full"
-              />
-            }
-          />
-
-          <ProductShowcase
-            product="schedule"
-            name="Schedule"
-            href="/schedule"
-            flip
-            headline={
-              <>
-                Build the day. <AccentItalic>Run</AccentItalic> it.
-              </>
-            }
-            body="Photograph a syllabus and ACE turns it into a plan. Routines, Kanban projects, daily AI guidance, and two-way calendar sync — for the people behind the event."
-            features={[
-              "AI import from a photo of any plan",
-              "Kanban projects, milestones, weekly view",
-              "Google Calendar sync + cloud everywhere",
-            ]}
-            visual={
-              <Image
-                src="/schedule/my-tasks.webp"
-                alt="ACE Schedule showing a weekly agenda and task board"
-                width={1600}
-                height={1055}
-                className="w-full"
-              />
-            }
-          />
-
-          <ProductShowcase
-            product="editorsNotes"
-            name="Editors' Notes"
-            href="/editors-notes"
-            headline={
-              <>
-                Notes that talk to <AccentItalic>Resolve</AccentItalic>.
-              </>
-            }
-            body="Every timecode is a click — tap it and DaVinci Resolve's playhead jumps to that frame. Import markers, color-code by department, export to PDF. Local-first, works air-gapped."
-            features={[
-              "Click-to-seek timecodes into Resolve",
-              "Import timeline markers with colors",
-              "Rich text, per-project, PDF export",
-            ]}
-            visual={
-              <Image
-                src="/editors-notes/screenshot-insert-timecode.png"
-                alt="ACE Editors' Notes inserting a clickable timecode"
-                width={1823}
-                height={926}
-                className="w-full"
-              />
-            }
-          />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────────── COMING SOON (Manager + World) ───────────── */
-function ComingSoon() {
-  return (
-    <section className="px-6 py-24 sm:px-10 sm:py-28">
-      <div className="mx-auto max-w-6xl">
-        <ScrollReveal>
-          <SectionHeading
-            eyebrow="On the way"
-            title="Two more, joining the suite"
-          />
-        </ScrollReveal>
-        <ScrollStagger className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2" stagger={0.1}>
-          <ScrollItem>
-            <ComingSoonCard
-              product="manager"
-              name="Manager"
-              href="/manager"
-              tagline="One dashboard for teams and organizations — people, licenses, and rooms in one place."
-            />
-          </ScrollItem>
-          <ScrollItem>
-            <ComingSoonCard
-              product="world"
-              name="World"
-              href="/world"
-              tagline="A shared 3D space for your audience — beyond the room, after the event."
-            />
-          </ScrollItem>
-        </ScrollStagger>
-      </div>
-    </section>
   );
 }
 
