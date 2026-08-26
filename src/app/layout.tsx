@@ -3,6 +3,7 @@ import { Geist_Mono, Instrument_Sans, Instrument_Serif } from "next/font/google"
 import "./globals.css";
 import SiteAnalytics from "@/components/SiteAnalytics";
 import SmoothScroll from "@/components/SmoothScroll";
+import { Analytics } from "@vercel/analytics/next";
 
 // Body font: Instrument Sans — deliberately paired with Instrument Serif below
 // (same superfamily, designed together). Replaces the default-Next.js Geist.
@@ -109,6 +110,7 @@ export default function RootLayout({
         </noscript>
         <SmoothScroll>{children}</SmoothScroll>
         <SiteAnalytics />
+        <Analytics />
       </body>
     </html>
   );

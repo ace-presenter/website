@@ -100,11 +100,13 @@ export default function HeroCarousel() {
   const [paused, setPaused] = useState(false);
   const [drag, setDrag] = useState(0); // live pointer offset in px while dragging
   const [reduced, setReduced] = useState(false);
+  const [progress, setProgress] = useState(0); // 0→1 countdown to the next slide
 
   const viewportRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
   const startX = useRef(0);
   const width = useRef(1);
+  const elapsed = useRef(0); // ms spent on the current slide (survives pause)
 
   const n = SLIDES.length;
   const go = useCallback((i: number) => setIndex(((i % n) + n) % n), [n]);
@@ -128,11 +130,33 @@ export default function HeroCarousel() {
     return () => mq.removeEventListener("change", set);
   }, []);
 
-  // Auto-advance.
+  // Reset the countdown whenever the slide changes (auto or manual).
+  useEffect(() => {
+    elapsed.current = 0;
+    setProgress(0);
+  }, [index]);
+
+  // Auto-advance, driven by a rAF countdown so the active dot's progress bar
+  // stays perfectly in sync. Pausing (hover / drag) freezes elapsed time and
+  // resumes exactly where it left off; reduced-motion disables it entirely.
   useEffect(() => {
     if (paused || reduced) return;
-    const t = window.setTimeout(() => go(index + 1), ADVANCE_MS);
-    return () => window.clearTimeout(t);
+    let raf = 0;
+    let last: number | null = null;
+    const tick = (t: number) => {
+      if (last === null) last = t;
+      elapsed.current += t - last;
+      last = t;
+      const p = Math.min(1, elapsed.current / ADVANCE_MS);
+      setProgress(p);
+      if (p >= 1) {
+        go(index + 1);
+        return;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, [index, paused, reduced, go]);
 
   // Pointer drag / swipe.
@@ -329,13 +353,24 @@ export default function HeroCarousel() {
                 aria-selected={active}
                 aria-label={s.name}
                 onClick={() => go(i)}
-                className="group relative h-2.5 rounded-full transition-all duration-500"
+                className="group relative h-2.5 overflow-hidden rounded-full transition-all duration-500"
                 style={{
                   width: active ? 34 : 10,
-                  background: active ? b.accent : "rgba(255,255,255,0.22)",
-                  boxShadow: active ? `0 0 12px ${b.accent}` : "none",
+                  background: active ? `rgba(${b.rgb},0.28)` : "rgba(255,255,255,0.22)",
+                  boxShadow: active ? `0 0 12px rgba(${b.rgb},0.6)` : "none",
                 }}
-              />
+              >
+                {active && (
+                  <span
+                    aria-hidden
+                    className="absolute inset-y-0 left-0 rounded-full"
+                    style={{
+                      width: reduced ? "100%" : `${progress * 100}%`,
+                      background: b.accent,
+                    }}
+                  />
+                )}
+              </button>
             );
           })}
         </div>
