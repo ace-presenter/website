@@ -112,16 +112,21 @@ export default function Terms() {
           <P>
             The ACE software suite was offered within a public beta framework, during
             which the suite was free to download, evaluate, and use for live production
-            work. That window has now closed and commercial subscription pricing applies.
-            A free tier remains available, and is limited as described on our pricing page.
+            work. That window closed on{" "}
+            <strong className="text-white">25 August 2026</strong>, and commercial
+            subscription pricing applies from that date. A free tier remains
+            available, and is limited as described on our pricing page.
           </P>
         </SubSection>
         <SubSection title="B. Lifetime Standard Tier Safeguard">
           <P>
             This commitment survives the end of the beta window and is not withdrawn by
-            it. Users who registered accounts during the public beta window are
+            it. Users who registered an account{" "}
+            <strong className="text-white">before 25 August 2026</strong> are
             grandfathered into our &ldquo;Standard Tier&rdquo; free of charge for life.
-            If you registered during that window and your account does not reflect
+            This is applied automatically from your account&rsquo;s registration
+            date &mdash; you do not need to claim it, and it does not expire. If
+            you registered before that date and your account does not reflect
             Standard Tier access, contact us and we will correct it.
           </P>
         </SubSection>
