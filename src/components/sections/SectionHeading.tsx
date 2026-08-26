@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { KineticHeading } from "@/components/motion";
 
 /**
  * AccentItalic — the ACE typographic signature: one Instrument Serif italic
@@ -44,12 +43,9 @@ export default function SectionHeading({
           {centered && <span className="h-px w-8 bg-[var(--accent,#C8102E)]" aria-hidden />}
         </div>
       )}
-      <KineticHeading
-        as="h2"
-        className="text-3xl font-bold tracking-tight text-white sm:text-5xl"
-      >
+      <h2 className="text-3xl font-bold tracking-tight text-white sm:text-5xl">
         {title}
-      </KineticHeading>
+      </h2>
       {lede && (
         <p className={`mt-5 text-base leading-relaxed text-[#B4B4B4] sm:text-lg ${centered ? "mx-auto" : ""} max-w-2xl`}>
           {lede}
