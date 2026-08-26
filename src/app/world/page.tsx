@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/Nav";
+import ManualBanner from "@/components/ManualBanner";
 import Footer from "@/components/Footer";
 import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item, SpotlightCard } from "@/components/motion";
 import { HeroShell, AccentItalic, CTABand } from "@/components/sections";
@@ -30,6 +31,12 @@ export default function WorldPage() {
   return (
     <main className="flex-1 flex flex-col font-sans">
       <Nav activeProduct="world" />
+      <ManualBanner
+        product="world"
+        title="ACE World User Manual — Web, Desktop &amp; VR"
+        readHref="/world/manual"
+        pdfHref="/manuals/world.pdf"
+      />
       <Hero />
       <WhatsComing />
       <SuiteFit />

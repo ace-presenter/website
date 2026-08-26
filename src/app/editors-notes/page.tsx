@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/Nav";
+import ManualBanner from "@/components/ManualBanner";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import MagneticButton from "@/components/MagneticButton";
@@ -86,6 +87,12 @@ export default function EditorsNotesPage() {
   return (
     <main className="flex-1 flex flex-col font-sans">
       <Nav activeProduct="notes" />
+      <ManualBanner
+        product="editorsNotes"
+        title="ACE Editors&apos; Notes User Manual — macOS"
+        readHref="/editors-notes/manual"
+        pdfHref="/manuals/editors-notes.pdf"
+      />
       <Hero />
       <TimecodeDemo />
       <DemoVideo />

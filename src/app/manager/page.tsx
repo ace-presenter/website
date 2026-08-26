@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/Nav";
+import ManualBanner from "@/components/ManualBanner";
 import Footer from "@/components/Footer";
 import { ScrollReveal as Reveal, ScrollStagger as Stagger, ScrollItem as Item } from "@/components/motion";
 import { HeroShell, AccentItalic, CTABand } from "@/components/sections";
@@ -93,6 +94,12 @@ export default function ManagerPage() {
   return (
     <main className="flex-1 flex flex-col font-sans">
       <Nav activeProduct="manager" />
+      <ManualBanner
+        product="manager"
+        title="ACE Manager User Manual — Web"
+        readHref="/manager/manual"
+        pdfHref="/manuals/manager.pdf"
+      />
       <Hero />
       <Features />
       <VsChurchSuite />

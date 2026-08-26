@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/components/Nav";
+import ManualBanner from "@/components/ManualBanner";
 import Footer from "@/components/Footer";
 import MagneticButton from "@/components/MagneticButton";
 import {
@@ -65,6 +66,12 @@ export default function SchedulePage() {
   return (
     <main className="flex-1 flex flex-col font-sans">
       <Nav activeProduct="schedule" />
+      <ManualBanner
+        product="schedule"
+        title="ACE Schedule User Manual — Web &amp; macOS"
+        readHref="/schedule/manual"
+        pdfHref="/manuals/schedule.pdf"
+      />
       <Hero />
       <ScheduleFeatureWalk />
       <Features />
