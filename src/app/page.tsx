@@ -59,7 +59,7 @@ export default function SuiteHome() {
       <StatsBand
         stats={[
           { text: "0", label: "Clicks to advance" },
-          { num: { to: 12, suffix: "+" }, label: "Languages" },
+          { num: { to: 9, suffix: "" }, label: "Interface languages" },
           { text: "Free", label: "To get started" },
           { text: "Mac + PC", label: "macOS 14+ · Windows 10+" },
         ]}

@@ -4,6 +4,7 @@ import Image from "next/image";
 import WhatsNewModal from "@/components/WhatsNewModal";
 import SchemaJsonLd from "@/components/SchemaJsonLd";
 import Nav from "@/components/Nav";
+import Languages from "@/components/Languages";
 import Footer from "@/components/Footer";
 import ManualBanner from "@/components/ManualBanner";
 import MagneticButton from "@/components/MagneticButton";
@@ -140,7 +141,7 @@ export default async function PresenterPage() {
         <StatsBand
           stats={[
             { text: "0", label: "Clicks to advance" },
-            { num: { to: 12, suffix: "+" }, label: "Languages" },
+            { num: { to: 9, suffix: "" }, label: "Interface languages" },
             { text: "Free", label: "To get started" },
             { text: "macOS 14+", label: "Apple Silicon" },
           ]}
@@ -151,6 +152,7 @@ export default async function PresenterPage() {
       <SeeItRun />
       <Segments />
       <WhatYouGet />
+      <Languages />
       <RemoteApp />
       <PricingTeaser />
       <CTABand
@@ -783,7 +785,7 @@ function PricingTeaser() {
         "Automatic song and Bible detection",
         "Import from ProPresenter",
         "1 audience output",
-        "12+ languages",
+        "Detection in 12+ languages",
       ],
     },
     {
