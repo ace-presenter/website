@@ -4,7 +4,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PricingTable from "@/components/PricingTable";
 import HorizonGlow from "@/components/hero/HorizonGlow";
-import { ScrollReveal, ScrollStagger, ScrollItem } from "@/components/motion";
+import { ScrollReveal, ScrollStagger, ScrollItem, SuiteAccent } from "@/components/motion";
 import { SUITE_BUNDLE, checkoutHref } from "@/lib/pricing";
 
 export const metadata: Metadata = {
@@ -19,19 +19,25 @@ const SERIF = "font-[family-name:var(--font-instrument-serif)] italic font-norma
 export default function PricingPage() {
   return (
     <main className="flex-1 flex flex-col font-sans">
-      <Nav />
-      <PricingHero />
-      <PricingTable />
-      <SuiteBundle />
-      <FAQ />
-      <Footer />
+      <SuiteAccent />
+      <div className="relative z-10 flex flex-1 flex-col">
+        <Nav />
+        <PricingHero />
+        <PricingTable />
+        <SuiteBundle />
+        <FAQ />
+        <Footer />
+      </div>
     </main>
   );
 }
 
 function PricingHero() {
   return (
-    <section className="relative overflow-hidden px-6 sm:px-10 pt-24 sm:pt-32 pb-16 text-center">
+    <section
+      data-accent-rgb="200,16,46"
+      className="relative overflow-hidden px-6 sm:px-10 pt-24 sm:pt-32 pb-16 text-center"
+    >
       <HorizonGlow strength={0.5} />
       <ScrollReveal className="relative z-10 max-w-3xl mx-auto">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Pricing</div>
@@ -51,7 +57,7 @@ function PricingHero() {
 
 function SuiteBundle() {
   return (
-    <section className="px-6 sm:px-10 py-28 border-b border-[#1A1A1A]">
+    <section data-accent-rgb="200,16,46" className="px-6 sm:px-10 py-28 border-b border-[#1A1A1A]">
       <ScrollReveal className="max-w-3xl mx-auto text-center">
         <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Suite bundle</div>
         <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-5 text-white">
