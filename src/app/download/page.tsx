@@ -8,9 +8,8 @@
  * referrers (blog posts, podcast notes, Reddit threads) a
  * canonical URL that won't change.
  *
- * It also doubles as a Windows/Linux/legacy-Mac waitlist surface so
- * users who hit /download from those platforms see something useful
- * instead of a confusing macOS download.
+ * Windows shipped alongside Mac, so the only platform still unserved
+ * here is Linux.
  */
 
 import type { Metadata } from "next";
@@ -180,18 +179,14 @@ function OtherPlatforms() {
     <section className="px-6 sm:px-10 py-20">
       <div className="max-w-3xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-3">
-          Windows? Linux?
+          Linux?
         </h2>
         <p className="text-[#C4C4C4] mb-8">
-          Not yet. Both are on the roadmap and unlock with v2.0. Add yourself to the waitlist below and we&apos;ll email when builds are ready.
+          Not yet — Linux is the one platform still unserved. Mac and Windows are both
+          available above, same version, released together. Tell us if you need Linux
+          and we&apos;ll email when there is a build.
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
-          <a
-            href="mailto:hello@ace-presenter.app?subject=ACE%20Windows%20waitlist&body=Please%20add%20me%20to%20the%20Windows%20waitlist."
-            className="px-6 py-3 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm border border-[#2A2A2A] transition text-center"
-          >
-            Windows waitlist →
-          </a>
           <a
             href="mailto:hello@ace-presenter.app?subject=ACE%20Linux%20waitlist&body=Please%20add%20me%20to%20the%20Linux%20waitlist."
             className="px-6 py-3 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm border border-[#2A2A2A] transition text-center"

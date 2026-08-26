@@ -5,14 +5,14 @@ import WaitlistForm from "@/components/WaitlistForm";
 import HorizonGlow from "@/components/hero/HorizonGlow";
 
 export const metadata: Metadata = {
-  title: "Join the waitlist",
+  title: "Product updates",
   description:
-    "Product updates and release news for the ACE suite. One account works across every ACE product.",
+    "Presenter is out on Mac and Windows. Get release news, and word on Manager and World when there is something real to show.",
   alternates: { canonical: "/waitlist" },
   openGraph: {
-    title: "Join the ACE waitlist",
+    title: "ACE — product updates",
     description:
-      "Release news and product updates — straight to your inbox.",
+      "Presenter is out on Mac and Windows. Release news straight to your inbox.",
     url: "https://www.ace-presenter.app/waitlist",
     siteName: "ACE",
     locale: "en_US",
@@ -28,23 +28,27 @@ export default function WaitlistPage() {
         <HorizonGlow strength={0.6} />
         <div className="relative z-10 mx-auto max-w-xl text-center">
           <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.2em] text-[#888]">
-            ACE · Coming soon
+            ACE · What&apos;s next
           </p>
           <h1 className="mb-5 text-4xl font-bold tracking-tight text-white sm:text-6xl">
-            Be first when{" "}
+            Presenter is{" "}
             <span
               className="font-[family-name:var(--font-instrument-serif)] font-normal italic"
               style={{ color: "#E8183A" }}
             >
-              ACE ships
+              out now
             </span>
             .
           </h1>
-          <p className="mx-auto mb-10 max-w-md text-lg text-[#C4C4C4]">
-            Release news and product updates — no noise,
-            just the moments that matter.
+          <p className="mx-auto mb-6 max-w-md text-lg text-[#C4C4C4]">
+            On Mac and Windows, with a free tier —{" "}
+            <a href="/download" className="font-semibold text-white underline decoration-[#E8183A] underline-offset-4 transition hover:text-[#E8183A]">
+              download it
+            </a>
+            . Manager and World are still in development. Tell us what to send
+            and we&apos;ll email when there is something real to show.
           </p>
-          <WaitlistForm product="presenter" source="/waitlist" />
+          <WaitlistForm product="suite" source="/waitlist" />
         </div>
       </section>
       <Footer />

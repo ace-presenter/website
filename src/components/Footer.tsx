@@ -48,7 +48,7 @@ const COLUMNS: {
   {
     title: "Company",
     links: [
-      { href: "/waitlist", label: "Waitlist" },
+      { href: "/waitlist", label: "Product updates" },
       { href: "mailto:hello@ace-presenter.app", label: "hello@ace-presenter.app", external: true },
     ],
   },

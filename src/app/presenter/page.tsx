@@ -226,9 +226,9 @@ function Hero({
       ) : (
         <div className="mt-4 flex justify-center text-xs">
           <span className="text-[#888]">
-            Windows version{" "}
-            <Link href="/waitlist" className="font-semibold text-[#E8183A] transition hover:text-white">
-              join the waitlist →
+            Windows 10+{" "}
+            <Link href="/download" className="font-semibold text-[#E8183A] transition hover:text-white">
+              download →
             </Link>
           </span>
         </div>

@@ -1,7 +1,12 @@
 "use client";
 
 /**
- * WaitlistForm — email capture for the ACE launch waitlist.
+ * WaitlistForm — email capture for ACE product updates.
+ *
+ * Named for the launch waitlist it started as. Presenter has shipped, so the
+ * remaining job is release news plus interest in Manager and World, which are
+ * still in development. The route and the API path keep the old name because
+ * rows already in the table are keyed on it.
  *
  * Posts to /api/waitlist (service-role insert). Reusable: drop it on a page
  * or in a section. `product` tags which list the signup belongs to; the
@@ -29,15 +34,15 @@ interface WaitlistFormProps {
 const DEFAULT_ACCENT: [string, string, string] = ["#C8102E", "#E8183A", "200,16,46"];
 
 export default function WaitlistForm({
-  product = "presenter",
+  product = "suite",
   source,
   interests = [
-    "Launch & release updates",
-    "Windows version",
-    "Beta invitations",
+    "Release updates",
+    "Manager (teams & licensing)",
+    "World (shared 3D spaces)",
     "Tips & tutorials",
   ],
-  cta = "Join the waitlist",
+  cta = "Keep me posted",
   accent = DEFAULT_ACCENT,
 }: WaitlistFormProps) {
   const [, vivid, rgb] = accent;
