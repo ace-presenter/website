@@ -27,6 +27,8 @@ export default function ProductTheme({
   return (
     <div
       className={className}
+      data-accent-rgb={p.rgb}
+      data-accent-key={product}
       style={
         {
           "--accent": p.accent,

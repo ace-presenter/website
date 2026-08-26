@@ -9,6 +9,7 @@ import {
   ScrollStagger,
   ScrollItem,
   SpotlightCard,
+  SuiteAccent,
 } from "@/components/motion";
 import {
   HeroShell,
@@ -62,6 +63,8 @@ export default async function SuiteHome() {
   const windowsVersion = windows?.version ?? null;
   return (
     <main className="flex-1 flex flex-col font-sans">
+      <SuiteAccent />
+      <div className="relative z-10 flex flex-1 flex-col">
       <Nav />
       <Hero windowsVersion={windowsVersion} />
       <LogoMarquee
@@ -105,6 +108,7 @@ export default async function SuiteHome() {
         secondary={{ href: "/pricing", label: "View pricing" }}
       />
       <Footer />
+      </div>
     </main>
   );
 }

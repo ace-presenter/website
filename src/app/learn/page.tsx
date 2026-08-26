@@ -4,7 +4,7 @@ import Image, { type StaticImageData } from "next/image";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import HorizonGlow from "@/components/hero/HorizonGlow";
-import { ProductTheme } from "@/components/motion";
+import { ProductTheme, SuiteAccent } from "@/components/motion";
 import { products, type ProductKey } from "@/lib/brand";
 
 import presenterShot from "../../../public/presenter/stage.png";
@@ -238,6 +238,8 @@ function ProductSection({ p, flip }: { p: ProductEntry; flip: boolean }) {
 export default function Learn() {
   return (
     <main className="flex-1 flex flex-col font-sans">
+      <SuiteAccent />
+      <div className="relative z-10 flex flex-1 flex-col">
       <Nav />
 
       {/* Hero */}
@@ -310,6 +312,7 @@ export default function Learn() {
       </section>
 
       <Footer />
+      </div>
     </main>
   );
 }

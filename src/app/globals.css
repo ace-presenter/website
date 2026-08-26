@@ -172,6 +172,27 @@ body {
 }
 
 /* ============================================================
+   Suite accent — a page-wide ambient glow whose colour follows the
+   product section in view (home + /learn). Registered channels animate.
+   ============================================================ */
+@property --ar { syntax: "<number>"; inherits: true; initial-value: 200; }
+@property --ag { syntax: "<number>"; inherits: true; initial-value: 16; }
+@property --ab { syntax: "<number>"; inherits: true; initial-value: 46; }
+:root { --ar: 200; --ag: 16; --ab: 46; }
+html { transition: --ar 0.8s ease, --ag 0.8s ease, --ab 0.8s ease; }
+.suite-aura {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(55% 42% at 50% -8%, rgb(var(--ar) var(--ag) var(--ab) / 0.22), transparent 68%),
+    radial-gradient(42% 34% at 88% 20%, rgb(var(--ar) var(--ag) var(--ab) / 0.13), transparent 70%),
+    radial-gradient(46% 42% at 6% 84%, rgb(var(--ar) var(--ag) var(--ab) / 0.10), transparent 72%);
+}
+@media (prefers-reduced-motion: reduce) { html { transition: none; } }
+
+/* ============================================================
    /manual — the user manual reader (TOC rail + long-form prose)
    Prose comes from content/manual/*.md via scripts/build-manual.mjs.
    ============================================================ */

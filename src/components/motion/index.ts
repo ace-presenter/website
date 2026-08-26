@@ -14,3 +14,4 @@ export { default as SpotlightCard } from "./SpotlightCard";
 export { default as Marquee } from "./Marquee";
 export { default as Counter } from "./Counter";
 export { default as ProductTheme } from "./ProductTheme";
+export { default as SuiteAccent } from "./SuiteAccent";
