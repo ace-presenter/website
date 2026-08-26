@@ -100,7 +100,8 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
         </h1>
 
         <p className="mt-8 max-w-xl text-lg text-[#C4C4C4] leading-relaxed">
-          Apple-signed and notarized. Auto-updates from here. Pick the build that matches your Mac.
+          Signed and notarized on Mac. Auto-updates from here. Same version on both
+          platforms, released together.
         </p>
 
         <div className="mt-10 flex flex-col gap-4">
@@ -113,6 +114,20 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
               Download for Mac · Apple Silicon (M1+)
             </a>
             <span className="text-xs text-[#666]">.dmg · drag to install</span>
+          </div>
+
+          {/* Primary — Windows. The API has supported platform=win since the
+              Windows build shipped; this page simply never grew the button, so
+              every Windows visitor was reading "Mac and Windows" above a page
+              that only offered Mac. */}
+          <div className="flex items-center gap-4">
+            <a
+              href="/api/download?platform=win"
+              className="px-7 py-3.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-sm transition-colors"
+            >
+              Download for Windows · 10+
+            </a>
+            <span className="text-xs text-[#666]">.exe · 64-bit installer</span>
           </div>
 
           {/* Secondary — PKG (IT / managed) */}
