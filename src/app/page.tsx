@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import MagneticButton from "@/components/MagneticButton";
+import HeroCarousel from "@/components/hero/HeroCarousel";
 import {
   ScrollReveal,
   ScrollStagger,
@@ -12,8 +12,6 @@ import {
   SuiteAccent,
 } from "@/components/motion";
 import {
-  HeroShell,
-  FloatingCard,
   SectionHeading,
   AccentItalic,
   StatsBand,
@@ -32,41 +30,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-/**
- * The newest published Windows build, or null when there is not one yet.
- *
- * Same source and same reasoning as /presenter: the button turns itself on when
- * a build is published and cannot offer a download that 404s in between. The
- * home page went without one for a while after Windows shipped, so the first
- * page most people see said Mac only while the product page said otherwise.
- */
-async function fetchWindowsRelease(): Promise<{ version: string } | null> {
-  try {
-    const r = await fetch("https://dl.ace-presenter.app/presenter-win/appcast.xml", {
-      next: { revalidate: 300 },
-    });
-    if (!r.ok) return null;
-    const text = await r.text();
-    const items = text.replace(/<!--[\s\S]*?-->/g, "").match(/<item[\s\S]*?<\/item>/g);
-    if (!items || items.length === 0) return null;
-    const m =
-      items[0].match(/<sparkle:shortVersionString>([^<]+)<\/sparkle:shortVersionString>/) ??
-      items[0].match(/<sparkle:version>([^<]+)<\/sparkle:version>/);
-    return m ? { version: m[1].trim() } : null;
-  } catch {
-    return null;
-  }
-}
-
-export default async function SuiteHome() {
-  const windows = await fetchWindowsRelease();
-  const windowsVersion = windows?.version ?? null;
+export default function SuiteHome() {
   return (
     <main className="flex-1 flex flex-col font-sans">
       <SuiteAccent />
       <div className="relative z-10 flex flex-1 flex-col">
       <Nav />
-      <Hero windowsVersion={windowsVersion} />
+      <HeroCarousel />
       <LogoMarquee
         label="Runs with the gear you already have"
         items={[
@@ -110,142 +80,6 @@ export default async function SuiteHome() {
       <Footer />
       </div>
     </main>
-  );
-}
-
-/* ───────────── HERO ───────────── */
-function Hero({ windowsVersion }: { windowsVersion: string | null }) {
-  return (
-    <HeroShell fill={false} floating={<HeroChips />}>
-      <div className="mb-7 flex items-center gap-3">
-        <span className="h-px w-8 bg-[#C8102E]" aria-hidden />
-        <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#888]">
-          Agentic Cue Experience
-        </span>
-        <span className="h-px w-8 bg-[#C8102E]" aria-hidden />
-      </div>
-
-      <h1 className="text-[2.6rem] font-bold leading-[1.0] tracking-tight text-white sm:text-7xl sm:leading-[0.98] lg:text-8xl">
-        The room speaks.{" "}
-        <br className="hidden sm:block" />
-        The slides <AccentItalic>follow</AccentItalic>.
-      </h1>
-
-      <p className="mt-8 max-w-xl text-lg leading-relaxed text-[#B4B4B4]">
-        ACE Presenter listens to your service and fires the next slide in under
-        a second — on-device, no clicker, no cloud. Built for worship,
-        conferences, lectures, and theater.
-      </p>
-
-      <div className="mt-10 flex flex-wrap items-center justify-center gap-x-7 gap-y-4">
-        <MagneticButton
-          href="/api/download?platform=mac-arm64"
-          glowRgb="200,16,46"
-          className="rounded-full bg-white px-8 py-4 text-sm font-bold text-black transition-colors hover:bg-[#E8E8E8]"
-        >
-          Download for Mac
-        </MagneticButton>
-        {windowsVersion && (
-          <MagneticButton
-            href="/api/download?platform=win"
-            glowRgb="200,16,46"
-            className="rounded-full border border-white/25 px-8 py-4 text-sm font-bold text-white transition-colors hover:bg-white/10"
-          >
-            Download for Windows
-          </MagneticButton>
-        )}
-        <Link
-          href="/presenter"
-          className="group inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-[#E8183A]"
-        >
-          See how Presenter works
-          <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
-            →
-          </span>
-        </Link>
-      </div>
-
-      <p className="mt-5 text-xs text-[#777]">
-        Free tier available · macOS 14+ · Apple Silicon
-        {windowsVersion ? " · Windows 10+" : ""}
-      </p>
-
-      {/* Real flagship UI — framed, glowing, the product front and centre. */}
-      <div className="relative mt-16 w-full max-w-5xl">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -inset-x-10 -top-8 bottom-0 -z-10 rounded-[3rem] blur-3xl"
-          style={{
-            background:
-              "radial-gradient(55% 60% at 50% 40%, rgba(200,16,46,0.30), rgba(255,107,0,0.10) 55%, transparent 78%)",
-          }}
-        />
-        <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0D0D0D] shadow-[0_40px_120px_-32px_rgba(0,0,0,0.85)]">
-          <Image
-            src="/presenter/stage.png"
-            alt="ACE Presenter running a live service — library, stage preview, and program output"
-            width={2200}
-            height={1384}
-            priority
-            className="w-full"
-          />
-        </div>
-      </div>
-    </HeroShell>
-  );
-}
-
-/* Floating glass chips — one small live artifact per product, orbiting the
-   hero copy on lg+. Decorative (aria-hidden via HeroShell's floating layer). */
-function HeroChips() {
-  return (
-    <>
-      {/* Presenter — live lyric match */}
-      <FloatingCard className="left-[5%] top-[26%] w-52 p-4" delay={-2} duration={7.5}>
-        <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.2em] text-[#888]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
-          Live · Presenter
-        </div>
-        <div className="mt-2 text-sm font-semibold text-white">Way Maker — Chorus</div>
-        <div className="mt-3 flex h-5 items-end gap-[3px]">
-          {[0.9, 0.5, 0.75, 0.35, 1, 0.6, 0.8, 0.45, 0.7].map((h, i) => (
-            <span
-              key={i}
-              className="ace-wave-bar w-[3px] rounded-full bg-[#E8183A]/70"
-              style={{ height: `${h * 100}%`, animationDelay: `${i * 0.09}s` }}
-            />
-          ))}
-        </div>
-      </FloatingCard>
-
-      {/* Schedule — running order */}
-      <FloatingCard className="right-[5%] top-[22%] w-52 p-4" delay={-5} duration={8.5}>
-        <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#888]">
-          Schedule
-        </div>
-        <div className="mt-2.5 flex items-center gap-2.5 text-xs">
-          <span className="font-mono text-[#6941C6]">09:00</span>
-          <span className="text-[#999] line-through">Soundcheck</span>
-          <span className="ml-auto text-[#22C55E]">✓</span>
-        </div>
-        <div className="mt-2 flex items-center gap-2.5 text-xs">
-          <span className="font-mono text-[#8B68D6]">10:00</span>
-          <span className="font-semibold text-white">Service</span>
-          <span className="ml-auto h-1.5 w-1.5 rounded-full bg-[#8B68D6]" />
-        </div>
-      </FloatingCard>
-
-      {/* Editors' Notes — timecoded note */}
-      <FloatingCard className="bottom-[20%] right-[8%] w-52 p-4" delay={-3.5} duration={6.5}>
-        <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#888]">
-          Editors&apos; Notes
-        </div>
-        <div className="mt-2 font-mono text-xs text-[#CFA04D]">01:12:04</div>
-        <div className="mt-1 text-sm font-medium text-white">
-          &ldquo;Tighten this cut&rdquo;
-        </div>
-      </FloatingCard>
-    </>
   );
 }
 
