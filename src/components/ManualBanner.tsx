@@ -1,16 +1,12 @@
 /**
  * Manual banner — sits between Nav and the page Hero on Presenter pages.
- * Brand-red strip advertising the latest versioned user manual (PDF + HTML).
+ * Brand-red strip linking to the user manual.
  *
- * The manual is shipped under a stable, version-agnostic filename
- * (/manual/ACE_User_Manual.{html,pdf}) so the banner never 404s
- * between releases.
- *
- * It does not name a version, and the manual itself no longer carries one. The
- * two platforms are not on the same version number, so any single number here
- * is wrong for one of them — and it went stale the moment a release shipped,
- * which is how this banner ended up advertising a manual two versions behind
- * the app while the file it linked to was four months old.
+ * Points at the live manual: /manual (the in-site reader, one source of truth
+ * generated from content/manual/*.md) and /ACE-Presenter-Manual.pdf (download).
+ * No version number — the two platforms are not on the same version, so any
+ * single number here is wrong for one of them, and it went stale the moment a
+ * release shipped. The reader always reflects the committed manual content.
  */
 
 export default function ManualBanner() {
@@ -39,17 +35,17 @@ export default function ManualBanner() {
         <span className="hidden sm:inline text-white/70 text-sm">—</span>
         <div className="flex items-center gap-2 sm:gap-3">
           <a
-            href="/manual/ACE_User_Manual.pdf"
+            href="/ACE-Presenter-Manual.pdf"
             className="font-extrabold text-sm sm:text-base px-4 py-2 rounded-full bg-white text-[#C8102E] hover:bg-[#FFF0F2] transition shadow-[0_4px_20px_rgba(0,0,0,0.25)]"
             download
           >
             Download PDF
           </a>
           <a
-            href="/manual/ACE_User_Manual.html"
+            href="/manual"
             className="font-bold text-sm sm:text-base px-4 py-2 rounded-full bg-[#7A0A1C] text-white hover:bg-[#5C0815] transition border border-white/20"
           >
-            Read HTML
+            Read online
           </a>
         </div>
       </div>

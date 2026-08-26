@@ -99,18 +99,18 @@ export default function LearnPage() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a
-              href="/manual/ACE_User_Manual.pdf"
+              href="/ACE-Presenter-Manual.pdf"
               className="px-5 py-2.5 rounded-full bg-[#C8102E] hover:bg-[#E8183A] text-white font-extrabold text-xs uppercase tracking-wider transition shadow-[0_4px_20px_rgba(200,16,46,0.45)]"
               download
             >
               Download Manual (PDF)
             </a>
-            <a
-              href="/manual/ACE_User_Manual.html"
+            <Link
+              href="/manual"
               className="px-5 py-2.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] border border-[#2A2A2A] text-white font-bold text-xs uppercase tracking-wider transition"
             >
-              Read Manual (HTML)
-            </a>
+              Read Manual online
+            </Link>
             <Link
               href="/api/download?platform=mac-arm64"
               className="px-5 py-2.5 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-xs uppercase tracking-wider transition"
