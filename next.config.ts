@@ -93,19 +93,24 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
-      // ── 6. Old static manual files → the live /manual reader ───────────
-      // The manual is now an in-site page (/manual) with a single PDF at the
-      // web root. The old versioned snapshots under /manual/* are deleted, so
-      // any existing link or bookmark is caught here. The PDF redirect is
-      // listed first so it wins over the catch-all.
+      // ── 6. Manual → the live reader under /presenter ───────────────────
+      // The manual is an in-site page (/presenter/manual) with a single PDF at
+      // the web root. The old top-level /manual and the deleted versioned
+      // snapshots under /manual/* all resolve to the new reader. The PDF
+      // redirect is listed first so it wins over the catch-alls.
       {
         source: "/manual/:file(ACE_User_Manual.*\\.pdf)",
         destination: "/ACE-Presenter-Manual.pdf",
         permanent: true,
       },
       {
+        source: "/manual",
+        destination: "/presenter/manual",
+        permanent: true,
+      },
+      {
         source: "/manual/:file+",
-        destination: "/manual",
+        destination: "/presenter/manual",
         permanent: true,
       },
     ];

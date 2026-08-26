@@ -2,8 +2,8 @@
  * Manual banner — sits between Nav and the page Hero on Presenter pages.
  * Brand-red strip linking to the user manual.
  *
- * Points at the live manual: /manual (the in-site reader, one source of truth
- * generated from content/manual/*.md) and /ACE-Presenter-Manual.pdf (download).
+ * Points at the live manual: /presenter/manual (the in-site reader, one source
+ * of truth from content/manual/*.md) and /ACE-Presenter-Manual.pdf (download).
  * No version number — the two platforms are not on the same version, so any
  * single number here is wrong for one of them, and it went stale the moment a
  * release shipped. The reader always reflects the committed manual content.
@@ -42,7 +42,7 @@ export default function ManualBanner() {
             Download PDF
           </a>
           <a
-            href="/manual"
+            href="/presenter/manual"
             className="font-bold text-sm sm:text-base px-4 py-2 rounded-full bg-[#7A0A1C] text-white hover:bg-[#5C0815] transition border border-white/20"
           >
             Read online

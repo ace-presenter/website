@@ -61,5 +61,5 @@ export type ManualNavItem = { id: string; title: string; num: string };
 export const MANUAL_NAV: ManualNavItem[] = ${JSON.stringify(nav, null, 2)};
 export const MANUAL_HTML: string = ${JSON.stringify(html)};
 `;
-writeFileSync(resolve(root, 'src/app/manual/manual.generated.ts'), out);
+writeFileSync(resolve(root, 'src/app/presenter/manual/manual.generated.ts'), out);
 console.log('wrote src/app/manual/manual.generated.ts —', html.length, 'chars of HTML,', nav.length, 'sections');

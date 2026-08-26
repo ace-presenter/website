@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "User Manual",
   description:
     "The complete ACE Presenter user manual for macOS and Windows — building services, scripture, auto-follow detection, media, outputs, streaming, and the phone remote.",
-  alternates: { canonical: "/manual" },
+  alternates: { canonical: "/presenter/manual" },
 };
 
 export default function ManualPage() {
