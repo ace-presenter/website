@@ -170,3 +170,208 @@ body {
      nav keeps working. */
   overflow-x: clip;
 }
+
+/* ============================================================
+   /manual — the user manual reader (TOC rail + long-form prose)
+   Prose comes from content/manual/*.md via scripts/build-manual.mjs.
+   ============================================================ */
+.manual-shell {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  gap: 0;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+/* TOC rail */
+.manual-menu { display: none; }
+.manual-nav {
+  position: sticky;
+  top: 84px;
+  align-self: start;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  padding: 30px 14px 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  margin-right: 8px;
+}
+.manual-nav-title {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #7c7876;
+  margin: 0 8px 10px;
+}
+.manual-navlink {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 7px 10px;
+  border-radius: 9px;
+  text-decoration: none;
+  color: #a6a3a2;
+  font-size: 14px;
+  line-height: 1.3;
+  transition: background 0.15s, color 0.15s;
+}
+.manual-navlink:hover { background: rgba(255, 255, 255, 0.05); color: #ececea; }
+.manual-navlink.active {
+  background: linear-gradient(90deg, rgba(232, 24, 58, 0.16), rgba(232, 24, 58, 0.04));
+  color: #fff;
+}
+.manual-navnum {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  color: #7c7876;
+}
+.manual-navlink.active .manual-navnum { border-color: #e8183a; color: #e8183a; }
+
+/* Prose */
+.manual {
+  min-width: 0;
+  padding: 8px 0 40px clamp(24px, 4vw, 56px);
+  font-size: 16.5px;
+  line-height: 1.72;
+  color: #e6e4e3;
+}
+.manual .doc {
+  padding: 44px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  max-width: 74ch;
+  scroll-margin-top: 84px;
+}
+.manual .doc:last-child { border-bottom: none; }
+.manual h1, .manual h2 {
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.12;
+  text-wrap: balance;
+  letter-spacing: 0.005em;
+}
+.manual h1 { font-size: clamp(34px, 4.6vw, 48px); margin: 0 0 0.4em; }
+.manual h2 { font-size: clamp(24px, 3vw, 30px); margin: 1.6em 0 0.5em; }
+.manual h3, .manual h4 { font-family: var(--font-instrument-sans), sans-serif; color: #fff; text-wrap: balance; }
+.manual h3 { font-size: 18px; font-weight: 600; margin: 1.5em 0 0.4em; letter-spacing: -0.01em; }
+.manual h4 { font-size: 15px; font-weight: 600; margin: 1.3em 0 0.3em; color: #a6a3a2; }
+.manual p, .manual li { max-width: 72ch; }
+.manual a { color: #e8183a; text-decoration: none; border-bottom: 1px solid rgba(232, 24, 58, 0.35); transition: border-color 0.15s; }
+.manual a:hover { border-bottom-color: #e8183a; }
+.manual strong { color: #fff; font-weight: 600; }
+.manual code {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.84em;
+  background: rgba(255, 255, 255, 0.05);
+  color: #f0d9dc;
+  padding: 0.1em 0.42em;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.manual blockquote {
+  margin: 1.4em 0;
+  padding: 0.8em 1.2em;
+  border-left: 2px solid #e8183a;
+  background: linear-gradient(90deg, rgba(232, 24, 58, 0.08), transparent);
+  border-radius: 0 10px 10px 0;
+}
+.manual blockquote strong { color: #e8183a; }
+.manual hr { border: none; border-top: 1px solid rgba(255, 255, 255, 0.08); margin: 2em 0; }
+.manual ul, .manual ol { padding-left: 1.35em; }
+.manual li { margin: 0.28em 0; }
+.manual li::marker { color: #7c7876; }
+/* Tables — glass card */
+.manual table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13.5px;
+  font-variant-numeric: tabular-nums;
+  margin: 1.4em 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.028);
+}
+.manual th, .manual td { text-align: left; padding: 10px 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.07); vertical-align: top; }
+.manual thead th {
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #a6a3a2;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.manual tbody tr:last-child td { border-bottom: none; }
+.manual tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
+.manual td code { white-space: nowrap; }
+.manual .tablewrap { overflow-x: auto; }
+/* Status badges */
+.manual .badge {
+  display: inline-block;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  padding: 1.5px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+  vertical-align: baseline;
+  line-height: 1.7;
+  border: 1px solid transparent;
+}
+.manual .b-both { color: #57c98a; background: rgba(87, 201, 138, 0.12); border-color: rgba(87, 201, 138, 0.25); }
+.manual .b-mac { color: #6fb0ec; background: rgba(111, 176, 236, 0.13); border-color: rgba(111, 176, 236, 0.25); }
+.manual .b-winno { color: #e3ac52; background: rgba(227, 172, 82, 0.13); border-color: rgba(227, 172, 82, 0.28); }
+.manual .b-build { color: #a8b6c6; background: rgba(168, 182, 198, 0.12); border-color: rgba(168, 182, 198, 0.22); }
+.manual .b-pro { color: #c39bee; background: rgba(195, 155, 238, 0.14); border-color: rgba(195, 155, 238, 0.28); }
+.manual .b-win { color: #ec9366; background: rgba(236, 147, 102, 0.13); border-color: rgba(236, 147, 102, 0.26); }
+
+@media (max-width: 880px) {
+  .manual-shell { grid-template-columns: 1fr; padding: 0 18px; }
+  .manual-menu {
+    display: inline-flex;
+    position: sticky;
+    top: 76px;
+    z-index: 15;
+    margin: 12px 0 0;
+    align-self: start;
+    font: inherit;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.05);
+    color: #ececea;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 7px 13px;
+    font-size: 13px;
+  }
+  .manual-nav {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 40;
+    width: 280px;
+    max-height: none;
+    background: #121212;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 26px 16px 40px;
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+    margin: 0;
+  }
+  .manual-nav.open { transform: none; box-shadow: 0 0 40px rgba(0, 0, 0, 0.6); }
+  .manual { padding-left: 0; }
+  .manual .doc { padding: 34px 0; }
+}

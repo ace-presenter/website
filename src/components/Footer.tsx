@@ -38,6 +38,7 @@ const COLUMNS: {
     title: "Resources",
     links: [
       { href: "/learn", label: "Learn" },
+      { href: "/manual", label: "Manual" },
       { href: "/support", label: "Support" },
       { href: "/download", label: "Download" },
       { href: "/pricing", label: "Pricing" },
