@@ -107,7 +107,7 @@ export default function Terms() {
         </SubSection>
       </Section>
 
-      <Section title="4. Licensing Tiers and Beta Grandfathering">
+      <Section title="4. Licensing Tiers">
         <SubSection title="A. The Public Beta Window Has Concluded">
           <P>
             The ACE software suite was offered within a public beta framework, during
@@ -116,28 +116,6 @@ export default function Terms() {
             <strong className="text-white">25 August 2026</strong>, and commercial
             subscription pricing applies from that date. A free tier remains
             available, and is limited as described on our pricing page.
-          </P>
-        </SubSection>
-        <SubSection title="B. Lifetime Standard Tier Safeguard">
-          <P>
-            This commitment survives the end of the beta window and is not withdrawn by
-            it. Users who registered an account{" "}
-            <strong className="text-white">before 25 August 2026</strong> are
-            grandfathered into our &ldquo;Standard Tier&rdquo; free of charge for life.
-            This is applied automatically from your account&rsquo;s registration
-            date &mdash; you do not need to claim it, and it does not expire. If
-            you registered before that date and your account does not reflect
-            Standard Tier access, contact us and we will correct it.
-          </P>
-        </SubSection>
-        <SubSection title="C. Future Limitations">
-          <P>
-            This grandfathered benefit applies <strong className="text-white">only</strong>{" "}
-            to the core features present within the Standard Tier at launch. It
-            does not automatically extend to future premium enterprise add-ons, or
-            our upcoming <strong className="text-white">ACE Manager</strong> and{" "}
-            <strong className="text-white">ACE World</strong> collaboration
-            environments.
           </P>
         </SubSection>
       </Section>
