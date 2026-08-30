@@ -1,71 +1,88 @@
 /**
- * Schema.org JSON-LD for SoftwareApplication.
+ * Schema.org JSON-LD for a SoftwareApplication.
  *
- * Renders a `<script type="application/ld+json">` block. Used by the
- * home page and (with an `audience` override) by each segment landing
- * page so search engines understand who the product is for. The data
- * here is what unlocks rich-result eligibility on Google's
- * software-app cards.
+ * Renders a `<script type="application/ld+json">` block. Used by the home page,
+ * the Presenter page, each product page, and (with an `audience` override) each
+ * segment landing page, so search engines understand the product and it becomes
+ * eligible for Google's software-app rich result.
  *
- * Audience override pattern: `/worship` passes
- * `audience="religious organizations"`; `/conferences` passes
- * `audience="conference organizers"`, etc. Empty/undefined means the
- * generic home-page schema (no audience field at all).
+ * Backward-compatible: called with no props it renders the ACE Presenter schema.
+ * Product pages pass name / operatingSystem / url / image / offer overrides.
  */
 
 interface Props {
-  /** Page-specific audience descriptor — empty for the generic home schema. */
+  /** App name, e.g. "ACE Presenter", "ACE Schedule". */
+  name?: string;
+  /** Longer alternate name for disambiguation. */
+  alternateName?: string;
+  /** schema.org applicationCategory. */
+  applicationCategory?: string;
+  /** OS string, e.g. "macOS 14+, Windows 10+". */
+  operatingSystem?: string;
+  /** Offer price as a string ("0" for free-to-start). Omit to hide the offer. */
+  offerPrice?: string | null;
+  /** Human offer description. */
+  offerDescription?: string;
+  /** Page-specific audience descriptor — empty for the generic schema. */
   audience?: string;
-  /** Page URL (e.g. https://www.ace-presenter.app/worship). Defaults to root. */
+  /** Canonical URL of the page. */
   url?: string;
-  /** Override description for segment pages — defaults to the generic copy. */
+  /** Description override. */
   description?: string;
+  /** Absolute or root-relative image (a real, existing asset). */
+  image?: string;
 }
+
+const SITE = "https://www.ace-presenter.app";
 
 const DEFAULT_DESCRIPTION =
   "AI-powered live presentation software. Listens to the speaker and advances slides automatically. Built for worship services, conferences, lectures, and live events.";
 
 export default function SchemaJsonLd({
+  name = "ACE Presenter",
+  alternateName = "ACE",
+  applicationCategory = "BusinessApplication",
+  operatingSystem = "macOS 14+, Windows 10+",
+  offerPrice = "0",
+  offerDescription = "Free to start. Presenter Pro $29/mo or $279/yr; the full ACE suite is $49/mo.",
   audience,
-  url = "https://www.ace-presenter.app",
+  url = SITE,
   description = DEFAULT_DESCRIPTION,
-}: Props) {
+  image = `${SITE}/og/og-presenter.png`,
+}: Props = {}) {
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "ACE",
-    alternateName: "ACE Presenter",
-    applicationCategory: "BusinessApplication",
-    operatingSystem: "macOS 14+, Windows 10+",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-      description:
-        "Free to start. Presenter $29/mo, $279/yr, or $399 one-time; full ACE suite $49/mo.",
-    },
+    name,
+    alternateName,
+    applicationCategory,
+    operatingSystem,
     description,
     url,
-    screenshot: "https://www.ace-presenter.app/screenshots/hero.png",
+    image: image.startsWith("http") ? image : `${SITE}${image}`,
     publisher: {
       "@type": "Organization",
       name: "ACE",
-      url: "https://www.ace-presenter.app",
+      url: SITE,
     },
   };
-  if (audience) {
-    data.audience = {
-      "@type": "Audience",
-      audienceType: audience,
+  if (offerPrice != null) {
+    data.offers = {
+      "@type": "Offer",
+      price: offerPrice,
+      priceCurrency: "USD",
+      description: offerDescription,
     };
+  }
+  if (audience) {
+    data.audience = { "@type": "Audience", audienceType: audience };
   }
 
   return (
     <script
       type="application/ld+json"
-      // Schema.org JSON must be a single inlined string. Using
-      // dangerouslySetInnerHTML is the canonical Next.js pattern; the
-      // payload is fully under our control so there's no XSS risk.
+      // Schema.org JSON must be a single inlined string. dangerouslySetInnerHTML
+      // is the canonical Next.js pattern; the payload is fully under our control.
       dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />
   );

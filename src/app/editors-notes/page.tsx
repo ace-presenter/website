@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import ManualBanner from "@/components/ManualBanner";
+import SchemaJsonLd from "@/components/SchemaJsonLd";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import MagneticButton from "@/components/MagneticButton";
@@ -86,6 +87,16 @@ const FEATURES = [
 export default function EditorsNotesPage() {
   return (
     <main className="flex-1 flex flex-col font-sans">
+      <SchemaJsonLd
+        name="ACE Editors' Notes"
+        alternateName="ACE Editors' Notes for DaVinci Resolve"
+        applicationCategory="MultimediaApplication"
+        operatingSystem="macOS"
+        offerDescription="Free during public beta."
+        url="https://www.ace-presenter.app/editors-notes"
+        image="/og/og-editors-notes.png"
+        description="A native note-taking app for video editors. Every timecode you type becomes a clickable link that jumps DaVinci Resolve's playhead to that exact frame."
+      />
       <Nav activeProduct="notes" />
       <ManualBanner
         product="editorsNotes"

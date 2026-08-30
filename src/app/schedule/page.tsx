@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/components/Nav";
 import ManualBanner from "@/components/ManualBanner";
+import SchemaJsonLd from "@/components/SchemaJsonLd";
 import Footer from "@/components/Footer";
 import MagneticButton from "@/components/MagneticButton";
 import {
@@ -65,6 +66,16 @@ const FEATURES = [
 export default function SchedulePage() {
   return (
     <main className="flex-1 flex flex-col font-sans">
+      <SchemaJsonLd
+        name="ACE Schedule"
+        alternateName="ACE Schedule Manager"
+        applicationCategory="BusinessApplication"
+        operatingSystem="Web, macOS"
+        offerDescription="Free to start; paid plans from $12/mo."
+        url="https://www.ace-presenter.app/schedule"
+        image="/og/og-schedule.png"
+        description="AI schedule and task manager. Photograph any plan and ACE Schedule turns it into a working week, then guides you through each day with routines, projects, and analytics."
+      />
       <Nav activeProduct="schedule" />
       <ManualBanner
         product="schedule"

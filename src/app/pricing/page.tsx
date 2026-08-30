@@ -123,6 +123,21 @@ function FAQ() {
   ];
   return (
     <section className="px-6 sm:px-10 py-24">
+      {/* FAQPage structured data — eligible for Google's FAQ rich result. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map((faq) => ({
+              "@type": "Question",
+              name: faq.q,
+              acceptedAnswer: { "@type": "Answer", text: faq.a },
+            })),
+          }),
+        }}
+      />
       <div className="max-w-3xl mx-auto">
         <ScrollReveal>
           <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-10 text-center">FAQ</div>

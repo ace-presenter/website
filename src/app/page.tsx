@@ -5,6 +5,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import HeroCarousel from "@/components/hero/HeroCarousel";
 import WelcomeIntro from "@/components/hero/WelcomeIntro";
+import SchemaJsonLd from "@/components/SchemaJsonLd";
 import {
   ScrollReveal,
   ScrollStagger,
@@ -34,6 +35,11 @@ export const metadata: Metadata = {
 export default function SuiteHome() {
   return (
     <main className="flex-1 flex flex-col font-sans">
+      <SchemaJsonLd
+        name="ACE"
+        alternateName="ACE Presenter — Agentic Cue Experience"
+        description="ACE is a suite of agentic tools for live events and production. Presenter listens to the room and advances slides automatically; Schedule plans the day; Editors' Notes annotates the cut."
+      />
       <SuiteAccent />
       <WelcomeIntro />
       <div className="relative z-10 flex flex-1 flex-col">

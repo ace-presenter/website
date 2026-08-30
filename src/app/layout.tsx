@@ -4,6 +4,7 @@ import "./globals.css";
 import SiteAnalytics from "@/components/SiteAnalytics";
 import SmoothScroll from "@/components/SmoothScroll";
 import ReviewPrompt from "@/components/ReviewPrompt";
+import SiteJsonLd from "@/components/SiteJsonLd";
 import { Analytics } from "@vercel/analytics/next";
 
 // Body font: Instrument Sans — deliberately paired with Instrument Serif below
@@ -103,6 +104,7 @@ export default function RootLayout({
       className={`${instrumentSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#0F0F0F] text-white selection:bg-[#C8102E]/40">
+        <SiteJsonLd />
         {/* Safety net: scroll-reveal elements carry a SSR'd hidden state from
             motion's `initial`. If JS never runs, force them visible so content
             is never stuck at opacity:0. */}
