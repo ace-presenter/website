@@ -67,6 +67,13 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      // ── 2d. Retired waitlist page → download (product has shipped) ──
+      {
+        source: "/waitlist",
+        destination: "/download",
+        permanent: true,
+      },
+
       // ── 3. Old Taskify domain → /schedule ──────────────────────────────
       // The DNS-level redirect at Vercel handles the domain hop;
       // this catches any path-level links that might arrive via a 307
