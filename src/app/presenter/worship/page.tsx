@@ -56,7 +56,7 @@ export default function WorshipPage() {
         },
         {
           pain: "ProPresenter is $499 + $99/year. EasyWorship is $399. The license eats your AV budget.",
-          solution: "A free tier runs the audience screen with a watermark. Pro removes it and unlocks stage and confidence screens, from $29/month. Accounts registered during the public beta keep Standard free for life.",
+          solution: "A free tier runs the audience screen with a watermark. Pro removes it and unlocks stage and confidence screens, from $29/month.",
         },
       ]}
       ctaTitle="Try it on this Sunday's service"

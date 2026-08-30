@@ -47,8 +47,7 @@ function PricingHero() {
           to grow.
         </h1>
         <p className="text-[#C4C4C4] text-lg max-w-xl mx-auto">
-          Pay once or subscribe — your call. One account covers every product, and
-          beta testers are grandfathered in for life.
+          Pay once or subscribe — your call. One account covers every product.
         </p>
       </ScrollReveal>
     </section>
@@ -112,10 +111,6 @@ function FAQ() {
     {
       q: "One-time or subscription — what's the difference?",
       a: "Presenter and Editors' Notes can be bought once as a perpetual license (you own that major version, with a year of updates), or subscribed to for the always-latest version. Schedule Manager and the suite bundle are subscriptions.",
-    },
-    {
-      q: "What happens to my beta access?",
-      a: "Every beta tester is grandfathered into the paid Standard tier for life — no charge, no action required.",
     },
     {
       q: "Do I need an API key for AI features?",
