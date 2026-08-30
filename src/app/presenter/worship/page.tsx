@@ -47,7 +47,7 @@ export default function WorshipPage() {
       heroBody="ACE listens to what the team is singing and pushes the right lyrics. Bible mode follows the preacher through scripture references in real time. No volunteer chained to the slide laptop."
       beats={[
         {
-          pain: "Volunteers turn over. Each new one needs hours of ProPresenter training before they can run a Sunday.",
+          pain: "Volunteers turn over, and each new one needs hours of training before they can run a Sunday.",
           solution: "ACE replaces the operator. Drop the set in, hit Live, and the slides follow the band.",
         },
         {
@@ -55,7 +55,7 @@ export default function WorshipPage() {
           solution: "ACE detects song + section in real time. When the band loops back, ACE loops back. No clicks.",
         },
         {
-          pain: "ProPresenter is $499 + $99/year. EasyWorship is $399. The license eats your AV budget.",
+          pain: "Presentation software can run hundreds up front plus yearly renewals — the license eats your AV budget.",
           solution: "A free tier runs the audience screen with a watermark. Pro removes it and unlocks stage and confidence screens, from $29/month.",
         },
       ]}
