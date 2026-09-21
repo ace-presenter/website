@@ -43,7 +43,7 @@ The desktop app wraps the same experience in a native, signed and notarized macO
 - **Native macOS notifications** for reminders and daily briefings.
 - **Light / dark mode** that follows your system appearance.
 
-**To install:**
+**To install on macOS:**
 
 1. Download the Mac app from the ACE Schedule page — **[Download for Mac](https://ace-presenter.app/schedule)**.
 2. Open the downloaded `.dmg` and drag **ACE Schedule Manager** into your **Applications** folder.
@@ -51,7 +51,17 @@ The desktop app wraps the same experience in a native, signed and notarized macO
 
 **Requirements:** macOS 11 (Big Sur) or later. The app is a **universal binary**, so it runs natively on both Apple Silicon and Intel Macs.
 
-> **Windows, Linux & native mobile** *(coming soon)* — desktop builds for Windows and Linux, and native iOS/Android apps, are on the roadmap but not available yet. Use the web app on those platforms in the meantime.
+**To install on Windows:**
+
+1. Download the installer from the ACE Schedule page — **[Download for Windows](https://ace-presenter.app/schedule)**.
+2. Run `ACE-Schedule-<version>-Setup.exe`. The installer lets you choose where to install.
+3. Launch **ACE Schedule Manager** from the Start menu and sign in.
+
+**Requirements:** Windows 10 or later, 64‑bit (x64). On Windows on ARM it runs under the built‑in x64 emulation.
+
+> **The Windows installer is not yet code‑signed.** SmartScreen shows a blue *"Windows protected your PC"* screen the first time you run it. Choose **More info ▸ Run anyway** to continue. This warning is about the missing signature, not about anything the installer does, and it will stop appearing once the installer is signed.
+
+> **Linux & native mobile** *(coming soon)* — a Linux desktop build and native iOS/Android apps are on the roadmap but not available yet. Use the web app on those platforms in the meantime.
 
 ---
 

@@ -38,10 +38,14 @@ const APPCAST_FEEDS: Record<string, { mac?: string; win?: string }> = {
   },
 };
 
-/** Products whose releases are described by an electron-builder YAML manifest. */
-const MANIFEST_PATHS: Record<string, string> = {
-  "editors-notes": "/editors-notes/latest-mac.yml",
-  schedule: "/schedule/latest-mac.yml",
+/**
+ * Products whose releases are described by an electron-builder YAML manifest,
+ * one feed per platform — electron writes Windows to latest.yml and macOS to
+ * latest-mac.yml, side by side in the same folder.
+ */
+const MANIFEST_FEEDS: Record<string, { mac?: string; win?: string }> = {
+  "editors-notes": { mac: "/editors-notes/latest-mac.yml" },
+  schedule: { mac: "/schedule/latest-mac.yml", win: "/schedule/latest.yml" },
 };
 
 type ManifestFile = { url: string; sha512: string; size: number };
@@ -115,6 +119,34 @@ function parseManifest(text: string): {
   return result;
 }
 
+type Manifest = {
+  version: string;
+  releaseDate?: string;
+  files: ManifestFile[];
+  /**
+   * Absolute prefix for this manifest's relative `url` entries.
+   *
+   * Manifest urls are bare filenames, and every release lives in a per-product
+   * folder. Joining them straight onto the origin produced
+   * dl.ace-presenter.app/ACE-Schedule-1.0.16-universal.dmg — a 404, served as
+   * the download URL for the whole product, because the /schedule/ the file
+   * actually sits under came from the manifest path and was dropped.
+   */
+  base: string;
+};
+
+async function fetchManifest(path: string): Promise<Manifest | null> {
+  try {
+    const r = await fetch(`${RELEASE_BASE}${path}`, { next: { revalidate: 300 } });
+    if (!r.ok) return null;
+    const m = parseManifest(await r.text());
+    if (!m.version && m.files.length === 0) return null;
+    return { ...m, base: `${RELEASE_BASE}${path.substring(0, path.lastIndexOf("/") + 1)}` };
+  } catch {
+    return null;
+  }
+}
+
 async function fetchAppcast(path: string): Promise<Release | null> {
   try {
     const r = await fetch(`${RELEASE_BASE}${path}`, { next: { revalidate: 300 } });
@@ -162,35 +194,47 @@ export async function GET(req: NextRequest) {
   }
 
   // --- YAML manifest products (Electron apps) ---
-  const manifestPath = MANIFEST_PATHS[product];
-  if (!manifestPath) {
+  const manifests = MANIFEST_FEEDS[product];
+  if (!manifests) {
     return NextResponse.json({ error: "unknown product" }, { status: 400 });
   }
 
-  try {
-    const r = await fetch(`${RELEASE_BASE}${manifestPath}`, { next: { revalidate: 300 } });
-    if (!r.ok) throw new Error(`Manifest fetch returned ${r.status}`);
-    const m = parseManifest(await r.text());
+  // Independently, like the appcast branch above: Windows and macOS are
+  // separate uploads, and one unreadable feed must not blank out the other.
+  const [mac, win] = await Promise.all([
+    manifests.mac ? fetchManifest(manifests.mac) : Promise.resolve(null),
+    manifests.win ? fetchManifest(manifests.win) : Promise.resolve(null),
+  ]);
 
-    const arm64 = m.files.find((f) => f.url.endsWith("arm64.dmg"));
-    const x64 = m.files.find((f) => f.url.endsWith(".dmg") && !f.url.endsWith("arm64.dmg"));
-
-    return NextResponse.json({
-      product,
-      version: m.version,
-      published: m.releaseDate || null,
-      mac_arm64: arm64
-        ? { url: `${RELEASE_BASE}/${arm64.url}`, size: arm64.size, sha512: arm64.sha512 }
-        : null,
-      mac_x64: x64
-        ? { url: `${RELEASE_BASE}/${x64.url}`, size: x64.size, sha512: x64.sha512 }
-        : null,
-      win: null,
-    });
-  } catch (err) {
+  if (!mac && !win) {
     return NextResponse.json(
-      { error: "release lookup failed", detail: String(err) },
+      { error: "release lookup failed", detail: "no readable manifest for " + product },
       { status: 503 }
     );
   }
+
+  // A universal DMG runs natively on both architectures, so it answers for
+  // both. Reporting it only as mac_x64 — which is what matching "any .dmg that
+  // isn't arm64.dmg" did — told Apple Silicon visitors there was no build for
+  // them while the one they wanted sat in the same manifest.
+  const dmgs = mac?.files.filter((f) => f.url.endsWith(".dmg")) ?? [];
+  const universal = dmgs.find((f) => /universal/i.test(f.url));
+  const arm64 = universal ?? dmgs.find((f) => f.url.endsWith("arm64.dmg"));
+  const x64 = universal ?? dmgs.find((f) => !f.url.endsWith("arm64.dmg"));
+  // The blockmap sits beside the installer; match only the executable.
+  const exe = win?.files.find((f) => /\.(exe|msi)$/i.test(f.url));
+
+  const asset = (f: ManifestFile | undefined, m: Manifest | null) =>
+    f && m ? { url: m.base + f.url, size: f.size, sha512: f.sha512, version: m.version } : null;
+
+  return NextResponse.json({
+    product,
+    // macOS is the reference platform; each platform also reports its own
+    // version, because Windows can legitimately trail by a release.
+    version: mac?.version ?? win?.version ?? null,
+    published: mac?.releaseDate ?? win?.releaseDate ?? null,
+    mac_arm64: asset(arm64, mac),
+    mac_x64: asset(x64, mac),
+    win: asset(exe, win),
+  });
 }
