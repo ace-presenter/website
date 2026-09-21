@@ -30,6 +30,34 @@ export const metadata: Metadata = {
   alternates: { canonical: "/schedule" },
 };
 
+export const revalidate = 300;
+
+/**
+ * The newest published Windows build, or null when there is not one yet.
+ *
+ * Read from the same latest.yml the app's auto-updater reads, rather than a
+ * flag set by hand: the download button then turns itself on when the first
+ * build is published and off if it is ever pulled, and it cannot advertise an
+ * installer that 404s in the window between a site deploy and an upload.
+ * An absent or empty feed is a valid "nothing yet", not an error.
+ */
+async function fetchWindowsRelease(): Promise<{ version: string } | null> {
+  try {
+    const r = await fetch("https://dl.ace-presenter.app/schedule/latest.yml", {
+      next: { revalidate: 300 },
+    });
+    if (!r.ok) return null;
+    const text = await r.text();
+    // Require both a version and an actual installer entry — a feed that
+    // parses but names no .exe is not something to send anyone to.
+    const version = text.match(/^version:\s*(.+)$/m)?.[1]?.trim();
+    const hasInstaller = /^\s*-\s*url:\s*.+\.exe\s*$/mi.test(text);
+    return version && hasInstaller ? { version } : null;
+  } catch {
+    return null;
+  }
+}
+
 const FEATURES = [
   {
     tag: "AI import",
@@ -63,14 +91,15 @@ const FEATURES = [
   },
 ];
 
-export default function SchedulePage() {
+export default async function SchedulePage() {
+  const windowsVersion = (await fetchWindowsRelease())?.version ?? null;
   return (
     <main className="flex-1 flex flex-col font-sans">
       <SchemaJsonLd
         name="ACE Schedule"
         alternateName="ACE Schedule Manager"
         applicationCategory="BusinessApplication"
-        operatingSystem="Web, macOS"
+        operatingSystem={windowsVersion ? "Web, macOS, Windows" : "Web, macOS"}
         offerDescription="Free to start; paid plans from $12/mo."
         url="https://www.ace-presenter.app/schedule"
         image="/og/og-schedule.png"
@@ -83,7 +112,7 @@ export default function SchedulePage() {
         readHref="/schedule/manual"
         pdfHref="/manuals/schedule.pdf"
       />
-      <Hero />
+      <Hero windowsVersion={windowsVersion} />
       <ScheduleFeatureWalk />
       <Features />
       <UseCases />
@@ -105,7 +134,7 @@ export default function SchedulePage() {
   );
 }
 
-function Hero() {
+function Hero({ windowsVersion }: { windowsVersion: string | null }) {
   return (
     <HeroShell product="schedule" fill={false} floating={<HeroChips />}>
       <div className="mb-7 flex items-center gap-3">
@@ -136,11 +165,22 @@ function Hero() {
           Start using ACE Schedule
         </MagneticButton>
         <a
-          href="/api/download?product=schedule"
+          href="/api/download?product=schedule&platform=mac-arm64"
           className="rounded-full border border-[#2A2A2A] bg-[#1A1A1A]/70 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#222]"
         >
           Download for Mac
         </a>
+        {/* Platform is explicit on both buttons now that there are two: the
+            route falls back to sniffing the user agent, which would hand a
+            Windows visitor the .exe from the button marked Mac. */}
+        {windowsVersion && (
+          <a
+            href="/api/download?product=schedule&platform=win"
+            className="rounded-full border border-[#2A2A2A] bg-[#1A1A1A]/70 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#222]"
+          >
+            Download for Windows
+          </a>
+        )}
         <Link
           href="/pricing"
           className="px-4 py-3.5 text-sm font-semibold text-[#888] transition hover:text-white"
@@ -149,7 +189,8 @@ function Hero() {
         </Link>
       </div>
       <p className="mt-5 text-xs text-[#888]">
-        Free to start · Web + desktop · macOS universal · Part of the ACE Suite
+        Free to start · Web + desktop · macOS universal
+        {windowsVersion ? " · Windows 10+" : ""} · Part of the ACE Suite
       </p>
 
       {/* Real UI — the light app pops against the dark cosmic backdrop. */}

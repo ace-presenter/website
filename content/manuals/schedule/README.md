@@ -5,9 +5,10 @@ A comprehensive reference for **ACE Schedule Manager**, the AI‑assisted schedu
 > **What ACE Schedule is.** ACE Schedule ships as one product you can use two ways, backed by one cloud account:
 > - **Web app** — the reference experience, in any modern browser. This is where every feature appears first.
 > - **macOS desktop app** — the same app in a native, notarized macOS shell, with auto‑updates and native notifications.
+> - **Windows desktop app** — the same app in a native Windows shell, with auto‑updates. The installer is not yet code‑signed, so SmartScreen warns the first time you run it.
 > - **One ACE account** — sign in once and your schedule, projects, and settings sync across the web and the desktop. The account is shared across the ACE Suite, so the same login works in other ACE apps.
 >
-> Windows, Linux, and native mobile apps are **not** available yet — see the status notes below. In the meantime the web app runs on any device with a browser, including phones and tablets.
+> Linux and native mobile apps are **not** available yet — see the status notes below. In the meantime the web app runs on any device with a browser, including phones and tablets.
 
 ---
 

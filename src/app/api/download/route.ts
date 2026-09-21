@@ -39,6 +39,11 @@ const MANIFEST_PATHS: Record<string, string> = {
   "presenter-win": "/presenter-win/appcast.xml",
   "editors-notes": "/editors-notes/latest-mac.yml",
   schedule:        "/schedule/latest-mac.yml",
+  // Electron writes the Windows feed as latest.yml beside the macOS
+  // latest-mac.yml. Same reasoning as presenter-win: resolving from the feed
+  // means the button works the moment a build is published and serves nothing
+  // — rather than a 404 — while it is not.
+  "schedule-win":  "/schedule/latest.yml",
   // world: not shipped yet; placeholder for ACE World desktop release
   world:           "/world/latest-mac.yml",
 };
@@ -81,6 +86,8 @@ const FALLBACK: Record<string, Record<string, string>> = {
   schedule: {
     "mac-arm64": "schedule/ACE-Schedule-mac.dmg",
     "mac-x64":   "schedule/ACE-Schedule-mac.dmg",
+    // Repointed by scripts/r2-upload-alias.js win on each release.
+    "win":       "schedule/ACE-Schedule-win.exe",
   },
 };
 
@@ -95,11 +102,12 @@ async function resolveFromManifest(
   product: string,
   platform: string
 ): Promise<string | null> {
-  // A Windows request for the presenter reads the Windows feed.
+  // A Windows request reads that product's Windows feed when it has one.
+  // Keyed by convention ("<product>-win") rather than a per-product branch, so
+  // adding a platform is a table entry and not another special case here.
   const manifestPath =
-    product === "presenter" && platform === "win"
-      ? MANIFEST_PATHS["presenter-win"]
-      : MANIFEST_PATHS[product];
+    (platform === "win" ? MANIFEST_PATHS[`${product}-win`] : null) ??
+    MANIFEST_PATHS[product];
   if (!manifestPath) return null;
 
   try {
@@ -173,6 +181,12 @@ async function resolveFromManifest(
       if (m) urls.push(m[1].replace(/^['"]|['"]$/g, ""));
     }
 
+    if (platform === "win") {
+      // electron-builder lists the blockmap beside the installer; match only
+      // the executable so a delta-update sidecar is never served as a download.
+      const u = urls.find((x) => /\.(exe|msi)$/i.test(x));
+      return u ? toAbsolute(u) : null;
+    }
     if (platform === "mac-arm64") {
       // Prefer an arm64-specific DMG; fall back to any DMG (universal or arm64-only with no suffix)
       const u =
