@@ -1,6 +1,8 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "ace-presenter-site",
+  // Keep the workers.dev URL alive for testing; adding routes disables it by default.
+  "workers_dev": true,
   "compatibility_date": "2026-09-29",
   "compatibility_flags": [
     "nodejs_compat"
@@ -10,5 +12,9 @@
     "directory": "dist/client",
     "not_found_handling": "none",
     "binding": "ASSETS"
-  }
+  },
+  "routes": [
+    { "pattern": "www.ace-presenter.app", "custom_domain": true },
+    { "pattern": "ace-presenter.app", "custom_domain": true }
+  ]
 }
