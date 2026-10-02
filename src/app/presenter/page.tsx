@@ -184,7 +184,7 @@ export default async function PresenterPage() {
             ACE listens. You <AccentItalic>present</AccentItalic>.
           </>
         }
-        sub="Free tier available · Pro from $29/month"
+        sub="Free tier available · Pro from $25/month"
         primary={{ href: "/api/download?platform=mac-arm64", label: "Download for Mac" }}
         secondary={{ href: "/pricing", label: "View pricing" }}
       />
@@ -811,7 +811,7 @@ function PricingTeaser() {
     },
     {
       name: "Pro",
-      price: "$29",
+      price: "$25",
       period: "/ month",
       note: "Most popular",
       highlight: true,
@@ -823,16 +823,17 @@ function PricingTeaser() {
         "Licensed Bible translations",
         "Background video and media layers",
         "Priority support",
-        "Or $279 / year",
+        "Or $240 / year",
       ],
     },
     {
       name: "Venue",
-      price: "Custom",
-      period: "per seat",
+      price: "$30",
+      period: "/ seat / month",
       features: [
         "Everything in Pro",
         "Multiple seats — use across your team",
+        "Pick 2 to 25 seats and buy them yourself",
         "Shared song and media library",
         "Central billing",
         "Onboarding call included",

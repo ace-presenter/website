@@ -56,7 +56,7 @@ export default function WorshipPage() {
         },
         {
           pain: "Presentation software can run hundreds up front plus yearly renewals — the license eats your AV budget.",
-          solution: "A free tier runs the audience screen with a watermark. Pro removes it and unlocks stage and confidence screens, from $29/month.",
+          solution: "A free tier runs the audience screen with a watermark. Pro removes it and unlocks stage and confidence screens, from $25/month.",
         },
       ]}
       ctaTitle="Try it on this Sunday's service"

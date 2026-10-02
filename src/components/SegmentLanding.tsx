@@ -51,7 +51,7 @@ export default function SegmentLanding(props: SegmentLandingProps) {
       <CTABand
         product="presenter"
         title={props.ctaTitle}
-        sub="Mac and Windows. Free tier available; Pro from $29/month."
+        sub="Mac and Windows. Free tier available; Pro from $25/month."
         primary={{ href: "/api/download?platform=mac-arm64", label: "Download for Mac" }}
         secondary={{ href: "/pricing", label: "View pricing" }}
       />

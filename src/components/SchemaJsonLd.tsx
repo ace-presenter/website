@@ -44,7 +44,7 @@ export default function SchemaJsonLd({
   applicationCategory = "BusinessApplication",
   operatingSystem = "macOS 14+, Windows 10+",
   offerPrice = "0",
-  offerDescription = "Free to start. Presenter Pro $29/mo or $279/yr; the full ACE suite is $49/mo.",
+  offerDescription = "Free to start. Presenter Pro $25/mo or $240/yr; the full ACE suite is $49/mo.",
   audience,
   url = SITE,
   description = DEFAULT_DESCRIPTION,

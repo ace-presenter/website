@@ -1,5 +1,5 @@
 /**
- * GET /api/stripe/checkout?product=<id>&plan=<slug>&cadence=<month|year>
+ * GET /api/stripe/checkout?product=<id>&plan=<slug>&cadence=<month|year>&seats=<n>
  *
  * Starts a Stripe checkout for the signed-in user and redirects to Stripe's
  * hosted page. Stripe REST via fetch (no SDK); the customer carries
@@ -12,6 +12,11 @@
  *   - tier   = the entitlement tier to grant (standard / business / …),
  *              NOT the plan slug — this is what the webhook provisions.
  *   - price  = process.env[<the plan's price env key>]
+ *   - seats  = the plan's seat range, for plans sold by the seat (Venue). The
+ *              requested count is clamped to that range here as well as in the
+ *              page's stepper, because this URL is hand-editable; Stripe is
+ *              then told the same bounds, so changing the quantity on the
+ *              hosted page (or later in the portal) stays inside them.
  *
  * Metadata (license_id, product, tier) rides on the subscription for subs and
  * on the session + payment intent for one-time buys, so the grant-on-payment
@@ -20,7 +25,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
-import { resolveCheckout, type Cadence } from "@/lib/pricing";
+import { clampSeats, findPlan, resolveCheckout, type Cadence } from "@/lib/pricing";
 
 const STRIPE_API = "https://api.stripe.com/v1";
 
@@ -34,6 +39,11 @@ export async function GET(req: NextRequest) {
 
   const resolved = resolveCheckout(product, plan, cadence);
   if (!resolved) return NextResponse.redirect(`${appUrl}/pricing?checkout=unavailable`);
+
+  // Per-seat plans buy a quantity; everything else buys one of the thing.
+  const seats = resolved.seats
+    ? clampSeats(findPlan(product, plan), Number.parseInt(req.nextUrl.searchParams.get("seats") ?? "", 10))
+    : 1;
 
   const price = process.env[resolved.envKey];
   if (!price) return NextResponse.redirect(`${appUrl}/pricing?checkout=unavailable`);
@@ -77,7 +87,7 @@ export async function GET(req: NextRequest) {
       mode: resolved.mode,
       customer: customerId,
       "line_items[0][price]": price,
-      "line_items[0][quantity]": "1",
+      "line_items[0][quantity]": String(seats),
       success_url: `${appUrl}/account?checkout=success`,
       cancel_url: `${appUrl}/pricing?checkout=cancelled`,
       // Session-level metadata is present for both subscription and one-time.
@@ -85,7 +95,16 @@ export async function GET(req: NextRequest) {
       "metadata[license_id]": user.id,
       "metadata[product]": product,
       "metadata[tier]": resolved.tier,
+      "metadata[seats]": String(seats),
     };
+
+    if (resolved.seats) {
+      // Let them change their mind on Stripe's page without coming back here,
+      // inside the same range the card sells.
+      fields["line_items[0][adjustable_quantity][enabled]"] = "true";
+      fields["line_items[0][adjustable_quantity][minimum]"] = String(resolved.seats.min);
+      fields["line_items[0][adjustable_quantity][maximum]"] = String(resolved.seats.max);
+    }
 
     if (resolved.mode === "subscription") {
       // Rides on the subscription so the cancel→revoke webhook + the
@@ -93,6 +112,7 @@ export async function GET(req: NextRequest) {
       fields["subscription_data[metadata][license_id]"] = user.id;
       fields["subscription_data[metadata][product]"] = product;
       fields["subscription_data[metadata][tier]"] = resolved.tier;
+      fields["subscription_data[metadata][seats]"] = String(seats);
     } else {
       // One-time: carry the same on the payment intent for the
       // checkout.session.completed grant path.

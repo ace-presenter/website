@@ -81,7 +81,7 @@ export default function SuiteHome() {
             Ready when the <AccentItalic>room</AccentItalic> is.
           </>
         }
-        sub="You run the room. The cue runs itself. Free tier available; Pro from $29/month."
+        sub="You run the room. The cue runs itself. Free tier available; Pro from $25/month."
         primary={{ href: "/api/download", label: "Download ACE Presenter" }}
         secondary={{ href: "/pricing", label: "View pricing" }}
       />

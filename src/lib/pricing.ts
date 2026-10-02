@@ -30,6 +30,13 @@ export type Plan = {
   /** custom / contact tiers — shown as "from $X" when set */
   fromUSD?: number;
   perSeat?: boolean;
+  /**
+   * Sold by the seat on the page: the stepper's bounds and where it starts.
+   * Above `max` the card stops selling and points at a conversation instead —
+   * that size of deal wants a human, and Stripe's quantity is capped to match
+   * so the URL can't be hand-edited past it.
+   */
+  seats?: { min: number; max: number; default: number };
   /** entitlement tier this plan grants */
   tier: EntTier;
   /** Stripe checkout mode (omit for free/custom) */
@@ -89,8 +96,8 @@ export const PRICING: ProductPricing[] = [
         id: "pro",
         name: "Pro",
         kind: "subscription",
-        monthlyUSD: 29,
-        annualUSD: 279,
+        monthlyUSD: 25,
+        annualUSD: 240,
         tier: "standard",
         mode: "subscription",
         envMonthly: "STRIPE_PRICE_PRESENTER_MONTHLY",
@@ -105,7 +112,7 @@ export const PRICING: ProductPricing[] = [
           "Audience screen + stage monitor",
           "Stage monitor: see what's live and what's next",
           "Looks and themes editor — brand your slides in one click",
-          "Licensed Bible translations (ESV and more)",
+          "A large library of licensed Bible versions — compare up to four",
           "Background video and media layers",
           "Priority support",
         ],
@@ -113,14 +120,22 @@ export const PRICING: ProductPricing[] = [
       {
         id: "venue",
         name: "Venue",
-        kind: "custom",
+        kind: "subscription",
+        monthlyUSD: 30,
+        annualUSD: 288,
+        perSeat: true,
+        seats: { min: 2, max: 25, default: 3 },
         tier: "business",
-        cta: "contact",
-        ctaLabel: "Talk to us",
-        note: "Per seat · billed yearly",
+        mode: "subscription",
+        envMonthly: "STRIPE_PRICE_PRESENTER_VENUE_MONTHLY",
+        envAnnual: "STRIPE_PRICE_PRESENTER_VENUE_ANNUAL",
+        cta: "checkout",
+        ctaLabel: "Buy seats",
+        note: "Per seat · flat rate",
         features: [
           "Everything in Pro",
           "Multiple seats — use on more than one computer",
+          "Add or drop seats as the team changes",
           "Shared song and media library across your team",
           "Central billing and seat management",
           "Onboarding call included",
@@ -346,22 +361,58 @@ export const SUITE_BUNDLE = {
   ],
 };
 
-/** Build the checkout link for a plan + cadence. */
-export function checkoutHref(product: string, planId: string, cadence?: Cadence): string {
+/** The plan a (product, plan slug) pair names, if it exists. */
+export function findPlan(product: string, planId: string): Plan | undefined {
+  return PRICING.find((p) => p.product === product)?.plans.find((pl) => pl.id === planId);
+}
+
+/**
+ * A seat count this plan will actually sell: inside its range, a whole number,
+ * and its default when the input is nonsense. Both the stepper and the checkout
+ * route go through this, so a hand-edited ?seats= can't buy outside the range.
+ */
+export function clampSeats(plan: Plan | undefined, n: number): number {
+  const s = plan?.seats;
+  if (!s) return 1;
+  if (!Number.isFinite(n)) return s.default;
+  return Math.min(s.max, Math.max(s.min, Math.round(n)));
+}
+
+/** What one seat costs, in this cadence. */
+export function seatRate(plan: Plan, cadence: Cadence): number {
+  const rate = cadence === "year" ? plan.annualUSD : plan.monthlyUSD;
+  return rate ?? plan.annualUSD ?? plan.monthlyUSD ?? 0;
+}
+
+/** Build the checkout link for a plan + cadence (+ seats, for per-seat plans). */
+export function checkoutHref(
+  product: string,
+  planId: string,
+  cadence?: Cadence,
+  seats?: number,
+): string {
   const c = cadence ? `&cadence=${cadence}` : "";
-  return `/api/stripe/checkout?product=${product}&plan=${planId}${c}`;
+  const s = seats && seats > 1 ? `&seats=${seats}` : "";
+  return `/api/stripe/checkout?product=${product}&plan=${planId}${c}${s}`;
 }
 
 /**
  * Server-side resolver used by the checkout route: given a product + plan +
- * cadence, return the Stripe price env key, the entitlement tier to grant, and
- * the checkout mode. Returns null if the plan isn't purchasable online.
+ * cadence, return the Stripe price env key, the entitlement tier to grant, the
+ * checkout mode, and the seat range for per-seat plans (so the route can clamp
+ * the quantity and let Stripe adjust it within the same bounds). Returns null
+ * if the plan isn't purchasable online.
  */
 export function resolveCheckout(
   product: string,
   planId: string,
   cadence: Cadence,
-): { envKey: string; tier: EntTier; mode: "subscription" | "payment" } | null {
+): {
+  envKey: string;
+  tier: EntTier;
+  mode: "subscription" | "payment";
+  seats?: { min: number; max: number; default: number };
+} | null {
   if (product === "suite") {
     return {
       envKey: cadence === "year" ? SUITE_BUNDLE.envAnnual : SUITE_BUNDLE.envMonthly,
@@ -379,5 +430,5 @@ export function resolveCheckout(
   }
   const envKey = cadence === "year" ? plan.envAnnual : plan.envMonthly;
   if (!envKey) return null;
-  return { envKey, tier: plan.tier, mode: "subscription" };
+  return { envKey, tier: plan.tier, mode: "subscription", seats: plan.seats };
 }
