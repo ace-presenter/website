@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import vinext from "vinext";
+import { kvDataAdapter } from "@vinext/cloudflare/cache/kv-data-adapter";
 import { cloudflare } from "@cloudflare/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 
@@ -11,7 +12,9 @@ export default defineConfig({
   css: { postcss: { plugins: [] } },
   plugins: [
     tailwindcss(),
-    vinext(),
+    // ISR needs a persistent cache in production; KV holds it (binding
+    // VINEXT_KV_CACHE in wrangler.jsonc).
+    vinext({ cache: { data: kvDataAdapter() } }),
     cloudflare({
       viteEnvironment: {
         name: "rsc",
