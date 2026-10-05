@@ -43,7 +43,6 @@ const TOURS: Tour[] = [
         y: 8.8,
         title: "Start listening",
         body: "One button. ACE listens to the room through your mic — on-device by default — and the live transcript starts on the right. Detection Settings decide who's in control, including voice commands for the speaker.",
-        clip: { slug: "detection-settings", label: "Detection settings", length: "0:50" },
       },
       {
         x: 12.4,
