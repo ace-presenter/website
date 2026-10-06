@@ -6,6 +6,8 @@ import Footer from "@/components/Footer";
 import HeroCarousel from "@/components/hero/HeroCarousel";
 import WelcomeIntro from "@/components/hero/WelcomeIntro";
 import SchemaJsonLd from "@/components/SchemaJsonLd";
+import LiveDemo from "@/components/demo/LiveDemo";
+import ProductTour from "@/components/demo/ProductTour";
 import {
   ScrollReveal,
   ScrollStagger,
@@ -61,7 +63,9 @@ export default function SuiteHome() {
         ]}
         className="border-b border-[#1A1A1A]"
       />
+      <TryIt />
       <Showcase />
+      <Tour />
       <StatsBand
         stats={[
           { text: "0", label: "Clicks to advance" },
@@ -88,6 +92,54 @@ export default function SuiteHome() {
       <Footer />
       </div>
     </main>
+  );
+}
+
+/* ───────────── TRY IT (live console demo) ───────────── */
+function TryIt() {
+  return (
+    <section id="try" className="scroll-mt-24 px-6 pt-24 sm:px-10 sm:pt-32">
+      <div className="mx-auto max-w-6xl">
+        <ScrollReveal>
+          <SectionHeading
+            eyebrow="Try it"
+            title={
+              <>
+                Say it. Watch the <AccentItalic>cue</AccentItalic> follow.
+              </>
+            }
+            lede="This is a working slice of ACE Presenter. Type what someone on stage would say — a line of a hymn, a Bible reference, “next slide” — and the right cue goes live, the way it does in the app."
+          />
+        </ScrollReveal>
+        <ScrollReveal className="mt-14">
+          <LiveDemo />
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}
+
+/* ───────────── TOUR (hotspots over real screenshots) ───────────── */
+function Tour() {
+  return (
+    <section id="tour" className="scroll-mt-24 border-t border-[#1A1A1A] px-6 py-24 sm:px-10 sm:py-32">
+      <div className="mx-auto max-w-6xl">
+        <ScrollReveal>
+          <SectionHeading
+            eyebrow="Take the tour"
+            title={
+              <>
+                Click around the <AccentItalic>real</AccentItalic> thing.
+              </>
+            }
+            lede="Real screens from the apps. Step through each one — and where there's a clip, watch the feature working in a live service."
+          />
+        </ScrollReveal>
+        <ScrollReveal className="mt-12">
+          <ProductTour />
+        </ScrollReveal>
+      </div>
+    </section>
   );
 }
 
@@ -179,8 +231,8 @@ function Showcase() {
             ]}
             visual={
               <Image
-                src="/editors-notes/screenshot-insert-timecode.png"
-                alt="ACE Editors' Notes inserting a clickable timecode"
+                src="/editors-notes/screenshot-import-markers.png"
+                alt="ACE Editors' Notes importing colour-coded markers from DaVinci Resolve"
                 width={1823}
                 height={926}
                 className="w-full"
