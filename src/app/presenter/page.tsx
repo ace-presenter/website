@@ -8,6 +8,7 @@ import Languages from "@/components/Languages";
 import Footer from "@/components/Footer";
 import ManualBanner from "@/components/ManualBanner";
 import MagneticButton from "@/components/MagneticButton";
+import { TryItSection, TourSection } from "@/components/demo/DemoSections";
 import {
   ScrollReveal as Reveal,
   ScrollStagger as Stagger,
@@ -168,9 +169,19 @@ export default async function PresenterPage() {
           ]}
         />
       </ProductTheme>
+      <TryItSection lede="Type what someone on stage would say — a line of a hymn, a Bible reference, “next slide” — and the right cue goes live, exactly the way it does in a real service." />
       <PropresenterMigration />
       <Capabilities />
       <SeeItRun />
+      <TourSection
+        only={["presenter"]}
+        title={
+          <>
+            Every control, <AccentItalic>explained</AccentItalic>.
+          </>
+        }
+        lede="The real console, mid-service. Step through it — and where there's a clip, watch that feature run."
+      />
       <Segments />
       <WhatYouGet />
       <Languages />
