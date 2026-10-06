@@ -212,13 +212,19 @@ const TOURS: Tour[] = [
   },
 ];
 
-export default function ProductTour() {
+/**
+ * `only` limits the tour to some products. With a single product (e.g. on its
+ * own page) the switcher and the "More on …" link are dropped.
+ */
+export default function ProductTour({ only }: { only?: ProductKey[] }) {
   const reduce = useReducedMotion();
+  const tours = only ? TOURS.filter((t) => only.includes(t.key)) : TOURS;
+  const single = tours.length === 1;
   const [tourIdx, setTourIdx] = useState(0);
   const [step, setStep] = useState(0);
   const [clip, setClip] = useState<Clip | null>(null);
 
-  const tour = TOURS[tourIdx];
+  const tour = tours[tourIdx];
   const stop = tour.stops[step];
   const p = products[tour.key];
 
@@ -259,8 +265,9 @@ export default function ProductTour() {
   return (
     <div onKeyDown={onKey}>
       {/* product switcher */}
+      {!single && (
       <div className="mb-6 flex flex-wrap justify-center gap-2" role="tablist" aria-label="Choose a product to tour">
-        {TOURS.map((t, i) => {
+        {tours.map((t, i) => {
           const on = i === tourIdx;
           const tp = products[t.key];
           return (
@@ -284,6 +291,7 @@ export default function ProductTour() {
           );
         })}
       </div>
+      )}
 
       {/* screenshot + hotspots */}
       <div className="relative">
@@ -416,9 +424,11 @@ export default function ProductTour() {
         <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#666]">
           Click a number, or use ← → to step through
         </p>
-        <Link href={tour.href} className="text-sm font-semibold transition hover:opacity-80" style={{ color: p.accentVivid }}>
-          More on {tour.name} →
-        </Link>
+        {!single && (
+          <Link href={tour.href} className="text-sm font-semibold transition hover:opacity-80" style={{ color: p.accentVivid }}>
+            More on {tour.name} →
+          </Link>
+        )}
       </div>
 
       <ClipPlayer clip={clip} onClose={() => setClip(null)} />
