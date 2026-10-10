@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     template: "%s | ACE",
   },
   description:
-    "ACE is a suite of agentic tools for live events, organizations, and post-production. Presenter listens to the room. Schedule plans the day. Manager runs the organization. Editors' Notes annotates the cut.",
+    "ACE is a suite of agentic tools for live events, organizations, and post-production. Presenter listens to the room. Schedule plans the day. Editors' Notes annotates the cut. Manager, coming soon, will run the organization.",
   metadataBase: new URL("https://www.ace-presenter.app"),
   applicationName: "ACE",
   keywords: [
