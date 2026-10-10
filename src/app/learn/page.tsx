@@ -60,7 +60,7 @@ const PRODUCTS: ProductEntry[] = [
     name: "Schedule",
     tagline: "Plan and run your day with AI routines.",
     status: "Shipping",
-    platform: "Web & macOS",
+    platform: "Web, Mac & Windows",
     body: "Photograph a syllabus, planner, or whiteboard and ACE Schedule reads it into a working week — then guides you through actually running each day, from the first task to an end-of-day reflection.",
     features: [
       "AI schedule import — snap a photo of any plan and get tasks, times, and deadlines extracted for you.",

@@ -30,7 +30,7 @@ const SLIDES: Slide[] = [
     name: "Presenter",
     tagline: "The room speaks. The slides follow.",
     blurb:
-      "Live worship and event presentation that listens to the service and fires the next lyric or verse in under a second — on-device, no clicker.",
+      "Live worship and event presentation that listens to the service and fires the next lyric or verse — on-device by default, no clicker.",
     status: "Shipping",
     platform: "macOS & Windows",
     href: "/presenter",
@@ -45,7 +45,7 @@ const SLIDES: Slide[] = [
     blurb:
       "Photograph any plan and ACE Schedule reads it into a working week — then walks you through each day from the first task to an end-of-day reflection.",
     status: "Shipping",
-    platform: "Web & macOS",
+    platform: "Web, Mac & Windows",
     href: "/schedule",
     manualHref: "/schedule/manual",
     visual: scheduleShot,

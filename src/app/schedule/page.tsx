@@ -108,7 +108,7 @@ export default async function SchedulePage() {
       <Nav activeProduct="schedule" />
       <ManualBanner
         product="schedule"
-        title="ACE Schedule User Manual — Web &amp; macOS"
+        title="ACE Schedule User Manual — Web, Mac &amp; Windows"
         readHref="/schedule/manual"
         pdfHref="/manuals/schedule.pdf"
       />
