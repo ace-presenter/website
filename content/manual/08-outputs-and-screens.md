@@ -1,8 +1,8 @@
 # Outputs & Screens
 
-This chapter covers everything ACE Presenter sends to a screen: the **audience output** your congregation sees, the **stage/confidence monitor** your musicians and speakers see, the **Screen Setup** dialog where you assign displays and tune each output, **multi-output** arrangements (mirror, grouped, edge-blend), the **OUTPUT control panel** for taking content live and clearing it, **quick screen** operator messages, and how the app recovers when a display is unplugged mid-service.
+This chapter covers everything ACE Presenter sends to a screen: **screens and their destinations** (a display, a window, NDI, Syphon or SDI), the **audience output** your congregation sees, the **stage/confidence monitor** your musicians and speakers see, the **Screen Setup** dialog where you set all of this up, **multi-output** arrangements (mirror, grouped, edge-blend), the **OUTPUT control panel** for taking content live and clearing it, **quick screen** operator messages, and how the app recovers when a display is unplugged mid-service.
 
-> **How outputs are stored.** macOS keeps a per-output map that can describe any number of outputs, each keyed to a specific display. Windows keeps two roles — **Audience** and **Stage** — plus a mirror list, keyed by display name. The practical result is the same day to day; the difference matters mostly for [multi-output](#multi-output-mirror-grouped-edge-blend) setups.
+> **Screens and outputs.** A **screen** decides *what* is shown — its layers, its theme, its Look. An **output** is *where* it goes — a display, a window, or a network/video feed. A screen can have several outputs (the same picture in two places), and a role (Audience or Stage) can have several screens, each showing something different. See [Screens and destinations](#screens-and-destinations).
 
 > **Tier note.** The **Free** tier provides a **single audience output only** — no stage output, no multiple/grouped displays, and a diagonal "ACE FREE" watermark on what it shows. Multiple outputs and stage displays require **Pro**; edge-blending and the deepest compositor require **Venue**. See [Getting Started ▸ Accounts & Tiers](01-getting-started.md).
 
@@ -14,7 +14,7 @@ This chapter covers everything ACE Presenter sends to a screen: the **audience o
 
 **How to get there.**
 
-- **Assign a display:** open [Screen Setup](#the-screen-setup-dialog) — *Output ▸ Screen Setup…* (**macOS ⇧⌘, / Windows Ctrl+Shift+,**) — and pick a monitor for the audience output.
+- **Assign a display:** open [Screen Setup](#the-screen-setup-dialog) — *Output ▸ Screen Setup…* (**macOS ⇧⌘, / Windows Ctrl+Shift+,**) — select the audience screen and pick a monitor in its [destination box](#screens-and-destinations).
 - **Show/hide it:** *Workspace ▸ Toggle Audience Screen* (**macOS ⌥⌘A / Windows Ctrl+L**), or the **AUD** button in the [OUTPUT control panel's](#the-output-control-panel) OUTPUTS row.
 
 > **Shortcut collision (Windows).** On Windows, **Ctrl+L** toggles the audience screen. On macOS, ⇧⌘L is *Toggle Listening* (detection), an unrelated feature — don't carry the habit across platforms. See [Detection & Auto-Follow](05-detection-ai.md).
@@ -22,7 +22,7 @@ This chapter covers everything ACE Presenter sends to a screen: the **audience o
 **Options.**
 
 - **Keyboard on the output window itself** *(Windows only):* the Windows audience output window handles keys directly when focused — **arrows / Space / PageDown** advance to the next slide, **B** blanks, **Esc** closes the window. On macOS the audience window does not handle its own keys; drive it from the main window instead.
-- **Windowed (no display):** if you have no second monitor, you can run the output in a window rather than fullscreen (see [Display assignment](#screen-setup-sub-tabs) below).
+- **Windowed:** if you have no second monitor, choose **Windowed** in the destination box to run the output in a window rather than fullscreen.
 
 ---
 
@@ -37,7 +37,9 @@ This chapter covers everything ACE Presenter sends to a screen: the **audience o
 
 **Options.**
 
+- **A layout per stage screen** — each stage screen picks its own layout in Screen Setup's **Stage Layout** picker, or follows the live layout (macOS: **Follow Live**; Windows: **Follow the live layout**). Give the musicians lyrics and chords and the director timers and notes. *(both)*
 - **Mirror-program backdrop** — draw a dimmed copy of the live program behind the stage layout (set in [Screen Setup](#screen-setup-sub-tabs)). *(both)*
+- **Screen preview** — a stage layout can carry a live picture of the audience screen *(Windows: not yet available)*.
 - Some stage-layout data sources are **not yet wired on either platform** — AI Confidence, Stage Message, Operator Note, Video Countdown, and Chord Chart slots render as placeholders for now. *(both)*
 - The stage output requires **Pro or above**; Free is audience-only.
 
@@ -45,24 +47,57 @@ This chapter covers everything ACE Presenter sends to a screen: the **audience o
 
 ## The Screen Setup dialog
 
-**What it does.** Screen Setup is the control room for every output: which display each one uses, its color grade, keystone correction, which layers it shows, how it goes fullscreen, its blanking color, and (for the stage) its theme and backdrop. It is also where you reach the [Identify overlay and test patterns](#identify-overlay--test-patterns).
+**What it does.** Screen Setup is the control room for every screen and output: where each one goes, its color grade, keystone correction, which layers it shows, how it goes fullscreen, its blanking color, and (for the stage) its layout, theme and backdrop. It is also where you reach the [Identify overlay and test patterns](#identify-overlay--test-patterns).
 
 **How to get there.** *Output ▸ Screen Setup…* — **macOS ⇧⌘, / Windows Ctrl+Shift+,**.
+
+### Screens and destinations
+
+The left side of Screen Setup lists your screens, grouped by role (Audience, Stage), with their outputs beneath them. *(both)*
+
+**Adding a screen.** The **+** asks what you mean: *(both)*
+
+- **New screen — its own layers and theme** — a screen of its own. It appears in the [Look editor](07-themes-looks-overlays.md#looks-per-screen-theme-assignments--pro) by name, so a stream feed can carry lyrics on black while the wall keeps the full look.
+- **Another output — same content, second destination** — the same picture in a second place (mirroring).
+
+**Naming.** Double-click a screen to rename it — "Foyer TV", "Balcony" — or right-click ▸ **Rename…**. *(both)*
+
+**The destination box.** Click a selected output's destination box to choose where it goes:
+
+| Destination | What it does | Platform |
+|---|---|---|
+| **Not in use — nothing opens** | Keeps the output configured but closed. | *(both)* |
+| **Windowed** | A window on this computer. | *(both)* |
+| **A display** (listed by name) | Fullscreen on that monitor or projector. | *(both)* |
+| **NDI — send over the network** | Sends the screen as an NDI source **under that screen's name**, ready for a streaming machine, a switcher or another building — stage screens included. Needs the NDI runtime (see [Appendix C](appendix-c-dependencies.md)). | *(both)* |
+| **Syphon — share with apps on this Mac** | Hands the screen straight to OBS, vMix or another app on the same Mac, with no network in between. | *(macOS only)* — Syphon is a Mac technology. |
+| **SDI — *card name*** | Sends the screen out of a Blackmagic card as SDI, for a switcher or a hardware recorder. Listed only when a card is present. | *(macOS only for now)* *(Windows: not yet available)* |
+
+> **The single NDI switch is retired.** NDI used to be one global "broadcast" switch that could only send the audience program. Any screen can now be an NDI feed through its destination box, which is why there's no separate NDI on/off. *(both)*
+
+**Taking it back.** Removing a screen or output, or switching a whole role off, shows a banner with **Undo** for ten seconds. *(both)*
+
+**Nothing hidden.** On macOS, screens your licence can't open are marked rather than left out, the destination box shows what the screen is actually putting out, and a tab holding a corner pin or hidden layer carries a dot so nothing sits there forgotten.
+
+### Overlays NDI source
+
+In Screen Setup's advanced section (**ADVANCED — RENDERER · NDI**), **Overlay source with transparency** publishes an extra NDI source — *"… Overlays"*, by default *ACE Overlays* — carrying only the lower thirds and your logo on a transparent background, for keying over cameras in vMix, OBS, an ATEM or a TriCaster. *(both)*
 
 ### Screen Setup sub-tabs
 
 | Sub-tab | What it does | Platform notes |
 |---|---|---|
-| **Display assignment** | Pick the monitor for each output from a picker, or choose **"Windowed (no display)"** to run in a window. | *(both)* |
+| **Display / Hardware** | Where the output goes is set in the [destination box](#screens-and-destinations); this tab shows the output's size and aspect ratio. | *(both)* |
 | **Color / grade** | Brightness, Saturation, Contrast sliders + **Reset**, to match a projector or LED wall. | macOS shows a numeric readout beside each slider; Windows shows the sliders only. |
 | **Corner-Pin (keystone)** | Four draggable corner handles + **Reset** to correct a skewed projection; hold **⇧** while dragging for fine control. | *(both)* |
 | **Layers** | Per-output visibility toggles: hide **Media**, **Messages**, **Props**, **Bible**, **Announcements** on that output. | *(both)* |
-| **Fullscreen mode** | Choose **Borderless Fill** vs **True Fullscreen**. | On macOS these behave differently. On Windows both currently call the same fullscreen path, so they are **identical in effect** *(Windows: not yet available — the distinction)*. |
+| **Fullscreen mode** | Choose **Borderless Fill** vs **True Fullscreen** (under DISPLAY MODE). | On macOS these behave differently. On Windows both currently use the same fullscreen path, so they are **identical in effect** *(Windows: not yet available — the distinction)*. |
 | **Screen color** | The color the output shows when blanked / with no content. | macOS applies this per-output. On Windows the setting is stored per-role but **only the audience color is actually applied** — a stage color is saved but not used *(Windows: not yet available — stage screen color)*. |
-| **Stage Theme** (stage output only) | Override the theme used for the stage display. | macOS has a real picker. On Windows this tab is **placeholder text with no picker** *(Windows: not yet available)*. |
+| **Stage Layout** (stage screens) | The layout this stage screen shows, or follow the live layout. | *(both)* |
+| **Stage Theme** (stage output only) | Override the theme used for the stage display. | macOS has a real picker (**Same as Audience** or a theme). On Windows this tab is **placeholder text with no picker** *(Windows: not yet available)*. |
 | **Mirror-program backdrop** (stage output only) | Draw a dimmed copy of the live program behind the stage layout. | *(both)* |
 
-> Streaming-related toggles (NDI send, audio routing) also live in Screen Setup but are documented in [Streaming & Audio](09-streaming-and-audio.md).
+> Audio routing (**Screen Setup ▸ Audio**) and NDI as a destination are documented further in [Streaming & Audio](09-streaming-and-audio.md).
 
 ---
 
@@ -77,7 +112,7 @@ This chapter covers everything ACE Presenter sends to a screen: the **audience o
 
 Each slice is described by an index, a total count, an axis (horizontal/vertical), a pan offset, and a blend amount (up to ~30%).
 
-**How to get there.** Assign the displays and configure slicing in [Screen Setup](#the-screen-setup-dialog).
+**How to get there.** Assign the displays and configure slicing in [Screen Setup](#the-screen-setup-dialog). Mirroring is a choice you make with **+ ▸ Another output**.
 
 **Options & platform notes.**
 
@@ -113,9 +148,9 @@ Clears or hides individual layers without disturbing the rest of the live output
 
 | Button | What it does | Platform notes |
 |---|---|---|
-| **TXT** | Blank the slide text layer. | macOS clears the slide (text) layer specifically; Windows currently maps this to a blank toggle. |
-| **MEDIA** | Suppress the media/background layer (checkable). | macOS clears media plus any video input; Windows applies a scoped per-output media suppression, kept in sync across outputs. |
-| **L3** | Clear the lower-third / props overlay. | *(both)* |
+| **TXT** | Clear / hide the slide text layer. | macOS clears the slide (text) layer; on Windows it's an on/off toggle that hides the text on the targeted outputs. |
+| **MEDIA** | Suppress the media/background layer (checkable). | macOS clears media plus any video input; Windows hides the media/backdrop on the targeted outputs. The NDI feeds follow this button too. |
+| **L3** | Clear the lower-third / props overlay. | *(both)* — a toggle on Windows. |
 | **ALL CLR** | Clear everything and restore all layers to their normal state. | *(both)* |
 
 See [Themes, Looks & Overlays](07-themes-looks-overlays.md) for what lives on each layer (lower-thirds, logo, translation overlay).
@@ -137,14 +172,14 @@ The **AUD** and **STG** buttons mirror the *Workspace ▸ Toggle Audience/Stage*
 
 **How to get there.**
 
-- **Windows:** *View ▸ Quick Screen…* (**Ctrl+J**). It opens as an inspector panel.
-- **macOS:** the quick-screen sheet (also under the *Output* workspace controls); the shared shortcut is **⌘J**.
-- **Clear it:** press **Esc**.
+- *View ▸ Quick Screen…* (**⌘J / Ctrl+J**). *(both)*
+- **Clear it:** macOS *Output ▸ Clear Quick Screen* (**Esc**); Windows **Clear screen**.
 
 **Options.**
 
-- **Route** the message to **ALL**, **STG** (stage), or **AUD** (audience). The default is **stage**, so you can cue the platform without the congregation seeing it.
+- **Route** the message to **All**, **Stage**, or **Audience**. On macOS the default is **stage**, so you can cue the platform without the congregation seeing it; on Windows the default is **Audience**.
 - Type free text, or pick from **recents / presets** (saved between sessions).
+- **Windows:** the sheet's *Push to…* button currently only saves the text to recents — show the message from the **Messages** tab instead *(Windows: Push not yet working)*.
 - On macOS, showing a quick screen also ducks the front-of-house audio slightly; see [Streaming & Audio](09-streaming-and-audio.md).
 
 ---
@@ -156,7 +191,7 @@ The **AUD** and **STG** buttons mirror the *Workspace ▸ Toggle Audience/Stage*
 **Platform behavior.**
 
 - **macOS:** rebinds outputs by a stable display identifier, tracks which specific output was lost, dims a degraded window to ~45% so you can see something is wrong, and shows a banner: **"DISPLAY LOST … ⇧⌘, to reassign"**.
-- **Windows:** re-matches displays by name and rebuilds any mirror set, showing a banner: **"… Ctrl+Shift+, to reassign"**. It does not dim the degraded window or rebind by stable identifier.
+- **Windows:** moves windows to the remaining displays and shows a **DISPLAY LOST** banner — **"… — Ctrl+Shift+, to reassign"** — with a **REASSIGN** button. It does not dim the degraded window or rebind by stable identifier.
 
 **What to do.** Follow the banner — open [Screen Setup](#the-screen-setup-dialog) (**macOS ⇧⌘, / Windows Ctrl+Shift+,**) and reassign the affected output to the correct monitor.
 
@@ -171,7 +206,7 @@ The **AUD** and **STG** buttons mirror the *Workspace ▸ Toggle Audience/Stage*
 **Options.**
 
 - **Identify Screens** — overlays each display's number, name, and resolution.
-- **Identify Outputs** — overlays a role card (Audience / Stage) on each output.
+- **Identify Outputs** — overlays a role card (Audience / Stage) on each output. (On Windows it labels the main audience and stage outputs only, not extra named screens.)
 - **Test Patterns:**
   - **macOS:** four patterns — **Color Bars, Focus Grid, Greyscale, Solid White** — each shown for **8 seconds**.
   - **Windows:** a single **color-bars** pattern shown for **3 seconds** *(Windows: reduced test-pattern set)*.
@@ -181,6 +216,6 @@ The **AUD** and **STG** buttons mirror the *Workspace ▸ Toggle Audience/Stage*
 ## See also
 
 - [Themes, Looks & Overlays](07-themes-looks-overlays.md) — what renders on each layer, the stage-display layout editor, lower-thirds, logo, and the Free-tier watermark.
-- [Streaming & Audio](09-streaming-and-audio.md) — NDI send/receive, capture cards, ATEM, and audio routing (also configured in Screen Setup).
+- [Streaming & Audio](09-streaming-and-audio.md) — the livestream, NDI receive, capture cards, ATEM, and audio routing (also configured in Screen Setup).
 - [Building a Service: Cues & Running Order](02-service-and-cues.md) — going live, blank/clear behavior, and Go On Air.
 - [Appendix A — Platform Differences](appendix-a-platform-differences.md) — the authoritative macOS ↔ Windows list.
