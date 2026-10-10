@@ -7,7 +7,7 @@ Detection is closely tied to two other workspaces:
 - [Scripture](04-scripture.md) — where detected Bible references land and preview.
 - [Songs & Arrangements](03-songs-and-arrangements.md) — the lyrics that auto-follow matches against.
 
-> **How honest is "AI" here?** Everything below runs on-device by default and for free. The cloud option (Deepgram) is optional and requires sign-in. Where a capability is far richer on one platform — and song matching is the big one — this chapter says so plainly rather than promising parity.
+> **How honest is "AI" here?** Everything below runs on-device by default and for free, with the speech models ACE ships. The cloud option (Deepgram) is optional and requires sign-in. Song detection works the same way on both editions; where one edition has something the other doesn't (Apple's speech engine on macOS 26, operator voice commands), this chapter says so plainly.
 
 ---
 
@@ -64,8 +64,9 @@ Pick **SONG** during worship sets and **BIBLE** during the sermon if you want to
 | Backend | What it is | Platform notes |
 |---|---|---|
 | **Sample Phrases** | A stub that cycles through fixed example lines — no microphone. Useful for previewing behaviour or when there's no mic. | *(both)* |
-| **WhisperKit (on-device)** | The default. Real microphone transcription via a bundled Whisper model. Works offline out of the box — free and private. | macOS uses Core ML / WhisperKit. **Windows uses whisper.cpp / GGML and is *(build-dependent)*** — on-device Whisper is present only when the app was compiled with `ACE_WITH_WHISPER`. |
-| **Deepgram (cloud)** | Cloud streaming through Deepgram's **nova-3** model. Lower latency than on-device; the connection is managed by ACE. | *(both)* — **requires sign-in** (or your own key). See below. |
+| **WhisperKit (on-device)** | The default. Real microphone transcription via the Whisper speech models that come with ACE. Works offline out of the box — free and private. | *(both)* — macOS runs it through Core ML; Windows runs the same models through whisper.cpp (the option keeps the same name). |
+| **Apple Speech (on-device)** | Apple's own speech engine — the most accurate we measured for preaching and scripture, free and private. Where this Mac runs Large v3 Turbo, Turbo still listens beside it for the songs; Arabic, Russian and African languages use Whisper instead. | *(macOS only)* — macOS 26 and later, where supported. Older Macs keep Whisper. Apple's framework doesn't exist on Windows. |
+| **Deepgram (cloud)** | Cloud streaming through Deepgram's **nova-3** model for preaching and scripture, with the on-device engine listening for the songs beside it (see below). The connection is managed by ACE. | *(both)* — **requires sign-in** (or your own key). See below. |
 
 Changing the backend applies without a full restart; the matchers stay untouched while the transcriber is swapped underneath them.
 
@@ -83,7 +84,7 @@ Changing the backend applies without a full restart; the matchers stay untouched
 - **A specific language** — pick one to lock the transcriber to it.
 - **Biased languages (✨)** — a ✨ marks languages that ship with a hand-crafted worship/sermon vocabulary bias (better recognition of hymn and scripture wording). Languages without the sparkle use generic Whisper vocabulary.
 
-macOS offers a broader list (~30 languages, each with bias metadata); **Windows offers a fixed set (~20)**.
+macOS offers a broader list (~30 languages, each with bias metadata); **Windows offers English, Auto and 20 further languages**.
 
 **Warnings the dialog raises.**
 
@@ -102,7 +103,7 @@ macOS offers a broader list (~30 languages, each with bias metadata); **Windows 
 
 - **Managed (pooled) access — requires sign-in.** When you're signed in, ACE authenticates to its relay (`wss://api.ace-presenter.app`) using your licence, and cloud transcription is ready with **no key needed**. If you're *not* signed in, the section tells you to sign in and use WhisperKit (on-device) in the meantime.
 - **Bring your own key.** Enter a personal Deepgram token and ACE connects directly to `api.deepgram.com`. A personal key needs **no sign-in**.
-- **Empty-audio fallback *(macOS only)*.** On macOS, if Deepgram returns empty audio, the app quietly spins up a parallel WhisperKit fallback so you don't lose the transcript. **Windows has no such fallback** — if the cloud stream goes quiet, it stays on Deepgram.
+- **Deepgram for speech, on-device for songs.** Deepgram hears preaching and scripture well but returns almost nothing on recorded choirs, so with Deepgram on, ACE **also listens on this computer for the songs**: Deepgram keeps the preaching and scripture, and the on-device Whisper engine hears the singing. This needs a Whisper model to load, and on Windows it runs unless the target mode is **Bible only**. *(both)*
 
 ---
 
@@ -112,17 +113,19 @@ macOS offers a broader list (~30 languages, each with bias metadata); **Windows 
 
 **How to get there.** **Detection Settings ▸ Detection model** (visible only while the WhisperKit backend is selected).
 
-**Options.**
+**The models ACE comes with.** Both editions install two speech models, so detection works the moment ACE opens — no download needed: *(both)*
 
-- **macOS** downloads a rich catalogue from Hugging Face: `tiny` / `base` / `small` in both `.en` (English) and multilingual variants, plus **large-v3-turbo**.
-- **Windows** bundles two base GGML models out of the box, plus a **Download** and **Choose a detection model** (pick a local file) button for larger models:
-
-| Windows bundled model | Best for |
+| Bundled model | Best for |
 |---|---|
 | **Base — English** | Services that are always in English (English-only; sharper on English). |
-| **Base — Multilingual** | 99 languages — choose this if any service is not in English. |
+| **Base — Multilingual** | Many languages — choose this if any service is not in English. |
 
-Anything larger than base — notably **Large v3 Turbo**, the most accurate multilingual option — is an extra download and needs a fast machine.
+**Large v3 Turbo (optional).** The larger, most accurate multilingual model is an optional download: *File ▸ Extras Download…* (the **Extras Download Manager**), or the download control in Detection Settings. It recognised songs far more often on recorded choirs, but it needs a fast computer. When ACE uses it on its own differs by edition:
+
+- **macOS** — once Turbo is downloaded, ACE uses it automatically on a Mac with **Apple silicon and 16 GB of memory**, until you choose a model yourself in Detection Settings.
+- **Windows** — ACE uses Turbo automatically only for the languages the base models can't transcribe usefully (**Yoruba, Igbo, Hausa, Swahili, Zulu, Xhosa, Amharic, Tamil, Telugu**). For other languages Detection Settings recommends it for songs, and you can pick the downloaded file with **Choose file…**.
+
+**If Turbo falls behind.** On both editions, if Turbo can't keep up during a service, ACE moves to the faster base model by itself, says so, and remembers for next time (on Windows, except for the languages only Turbo can transcribe). *(both)*
 
 ---
 
@@ -136,11 +139,10 @@ Anything larger than base — notably **Large v3 Turbo**, the most accurate mult
 
 **Options.**
 
-- **macOS** uses Apple **ShazamKit** with a `.shazamcatalog`. You build and reveal the catalog from the dialog; the on/off flag lives outside the dialog.
-- **Windows** uses ACE's **own fingerprinter**. Everything is in-dialog: an **on/off toggle**, plus **add / remove / list** controls for the recordings in your bank.
+- **macOS** uses Apple **ShazamKit** with a `.shazamcatalog`. You build and reveal the catalog from the dialog (restart detection after building to load it).
+- **Windows** uses ACE's **own fingerprinter**, with an **Identify songs by sound** toggle and **Add recordings…**, **Remove** and **Reveal folder** buttons in the dialog.
+- **Only with recordings.** Acoustic ID matches the exact recordings in your bank — never a choir singing live — so it runs only when the Song Bank has recordings, and starts the moment you add some. *(both)*
 - **Song lock.** When the Song Bank identifies a song, it *owns* the song selection (locks it), and the learned timing advances slides without needing a transcript.
-
-If detection reports no Song Bank yet, add a recording in Detection Settings and start again.
 
 ---
 
@@ -170,9 +172,9 @@ If detection reports no Song Bank yet, add a recording in Detection Settings and
 
 ---
 
-## Lyric matching & song auto-advance
+## Lyric matching & song identification
 
-**What it does.** Matches the live transcript against the lyrics of the current (or a candidate) song and advances the slide when confidence is high enough.
+**What it does.** Works out which song is being sung, then matches the live transcript against its lyrics and advances the slide when confidence is high enough.
 
 **How to get there.** Automatic while listening in **AUTO** or **SONG** mode. The threshold is **Detection Settings ▸ Advanced (VAD) ▸ Min match confidence**.
 
@@ -180,9 +182,14 @@ If detection reports no Song Bank yet, add a recording in Detection Settings and
 
 - **Min match confidence.** The floor a match must clear before the app jumps slides (Windows default 50%, adjustable 20–90%). Raise it if it jumps too eagerly; lower it if it hesitates.
 
-> **Platform reality — song following differs a lot.**
-> - **macOS** is far more sophisticated: semantic **embeddings**, a **vote / challenger state machine** that confirms the song before committing, **silence-hold**, **ACRCloud** acoustic verification, and an **online AI identification fallback** (via Anthropic / Genius) that can even **auto-import** a song it recognizes but you don't have.
-> - **Windows** is a **single token-set F1-threshold jump**: it compares word overlap and advances when the score clears *Min match confidence*. There is **no confirmed-song state machine and no online fallback**. It follows well within a song you already have loaded, but won't identify or import an unknown one.
+- **Songs found by their words.** ACE picks a song by the words that tell it apart — the line only that song has — rather than words every worship song shares, and it keeps listening once a song is found so the slides keep following. Both editions use the same method and were replayed against the same recorded choirs with the same results. *(both)*
+
+**Online Song ID (a song you don't have).** **Detection Settings ▸ Online Song ID ▸ Look up unknown songs online** (needs sign-in, or your own Anthropic key on Windows). When ACE keeps hearing a song that isn't in your plan, it asks an online provider to **name** it from a short transcript — the title and artist only, never the lyrics: *(both)*
+
+- If the song is in your **Library**, ACE adds it to the plan (it doesn't take it live).
+- If not, a notice reads *"Sounds like {title}. It isn't in your Library — import it from SongSelect under your CCLI licence."* with a **Find on SongSelect** button.
+
+> **ACE never copies lyrics from the web.** Since 2.3, lyrics enter your Library only from files you import — SongSelect files, ProPresenter, your own typing — never from websites. See [Songs & Arrangements ▸ SongSelect lyrics files](03-songs-and-arrangements.md#songselect-lyrics-files).
 
 ---
 
@@ -195,7 +202,7 @@ If detection reports no Song Bank yet, add a recording in Detection Settings and
 **Options / status.**
 
 - **macOS** — fully functional (OperatorMicSession + a VoiceCommandEngine). Toggle the operator mic and speak the commands above.
-- **Windows — *(Windows: not yet available)*.** The OP MIC pill is a **placeholder**: it has no handler and there is no voice-command engine behind it. Toggling it does nothing yet. Use the keyboard and the [phone remote](10-remote-control.md) for hands-off control on Windows.
+- **Windows — *(Windows: not yet available)*.** The OP MIC pill is shown but has nothing behind it yet — toggling it does nothing. Use the keyboard and the [phone remote](10-remote-control.md) for hands-off control on Windows. (*Spoken Verse Navigation ▸ Let the preacher move the reading*, which lets the preacher's own words step a live reading, works on both.)
 
 ---
 
@@ -211,16 +218,18 @@ If detection reports no Song Bank yet, add a recording in Detection Settings and
 
 **How to get there.** *Detection ▸ Detection Settings…* — **macOS ⌥⌘, / Windows Ctrl+Alt+,**.
 
-The dialog gathers everything above in one place. On **Windows** it also hosts the **Song Bank on/off** toggle and the **auto-program spoken-scripture** toggle in-dialog; on **macOS** those two live elsewhere (a Song Bank flag outside the dialog, and the auto-program option in the Settings sheet).
+The dialog gathers everything above in one place. On **Windows** it also hosts the **auto-program spoken-scripture** toggle in-dialog; on **macOS** that option lives in the Settings sheet.
 
 | Control / section | What it sets |
 |---|---|
-| **Backend** | Sample Phrases · WhisperKit (on-device) · Deepgram (cloud). |
-| **Detection model** | (WhisperKit only) pick/download the on-device Whisper model — Windows: Base — English, Base — Multilingual, plus Download / Choose a detection model. |
+| **Backend** | Sample Phrases · WhisperKit (on-device) · Apple Speech (on-device) *(macOS 26+)* · Deepgram (cloud). |
+| **Detection model** | (WhisperKit only) Base — English and Base — Multilingual (bundled), Large v3 Turbo (download); Windows also **Choose file…**. |
 | **Deepgram Cloud** | Ready state (signed-in relay or BYO key); prompts sign-in when not ready. |
 | **Audio Input** | The capture device detection listens on. |
 | **Language** | Auto (multilingual) or a specific language; ✨ marks bias-tuned languages; raises `.en`-model and Large-v3-Turbo warnings. |
-| **Song Bank — Acoustic ID** | Fingerprint your own recordings; Windows adds an in-dialog on/off toggle and add/remove/list. |
+| **Song Bank — Acoustic ID** | Fingerprint your own recordings; runs only when the bank has recordings. |
+| **Online Song ID** | "Look up unknown songs online" — names a song you don't have and offers Find on SongSelect. |
+| **Spoken Verse Navigation** | "Let the preacher move the reading" (default off). |
 | **Operator Voice Commands** | "Show command toast" *(macOS: functional; Windows: placeholder — not yet available)*. |
 | **Spoken Scripture** | "Send a heard verse straight to Program" — auto-program a heard verse with no cue (default **OFF**). |
 | **Detection Diagnostics** | Log trace + a reveal button for troubleshooting. |
