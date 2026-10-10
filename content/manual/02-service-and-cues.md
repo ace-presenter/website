@@ -4,7 +4,7 @@ This chapter covers the heart of ACE Presenter: assembling your order of service
 
 Song authoring (lyrics, sections, arrangements) is covered in [Songs & Arrangements](03-songs-and-arrangements.md); presenting scripture is in [Scripture](04-scripture.md); the deep slide editor and the Edit workspace slide grid are in [Songs & Arrangements](03-songs-and-arrangements.md) and [Outputs & Screens](08-outputs-and-screens.md). This chapter cross‑links to those where the topics touch.
 
-> **Reading conventions.** Shortcuts are written **macOS ⌘X / Windows Ctrl+X**. Status badges: *(both)*, *(macOS only)*, *(Windows: not yet available)*, *(build‑dependent)*. See the manual [README](README.md#how-to-read-this-manual) and the [Platform Differences appendix](appendix-a-platform-differences.md).
+> **Reading conventions.** Shortcuts are written **macOS ⌘X / Windows Ctrl+X**. Status badges: *(both)*, *(macOS only)*, *(Windows: not yet available)*. See the manual [README](README.md#how-to-read-this-manual) and the [Platform Differences appendix](appendix-a-platform-differences.md).
 
 ---
 
@@ -21,7 +21,7 @@ The **running order** is the top‑to‑bottom sequence of cues, shown in the le
 
 **Slides** are the atomic unit of what appears on screen. A cue's slides can be lyrics, scripture verses, an image, a video, or a blank. Slides carry a couple of per‑slide properties (skip/disable and a label color) described under [Slides](#slides) below.
 
-> The Windows edition's document model is a deliberate "pragmatic subset" of the macOS model. Most differences in this chapter trace back to that: fewer cue kinds, no cross‑reference song library link, and a smaller set of per‑slide/per‑cue options. macOS is the reference edition; where the two differ, macOS is authoritative.
+> Both editions read and write the same services and the same `.acePlaylist` files. The differences that remain in this chapter are named where they occur: Windows stores fewer cue kinds, its per‑cue auto‑advance only counts down, and its scheduled auto‑start and speaker timer are simpler.
 
 ---
 
@@ -54,7 +54,7 @@ A cue's **kind** sets its default styling and how ACE treats it (for example, sc
 | Lower Third | A lower‑third overlay cue |
 | Custom | Anything else |
 
-**Windows: 6 kinds.** The Windows model stores six kinds — **Song, Scripture, Media, Announcement, Sermon, Generic**. The Add/Edit Cue dialog still *offers* nine choices in its **KIND** menu (Announcement, Song, Scripture, Sermon, Prayer, Offering, Video, Timer, Custom), but several fold down on save:
+**Windows: fewer stored kinds.** The Windows model stores **Song, Scripture, Media, Announcement, Sermon, Generic**, plus **Presentation** (an imported PowerPoint) and **Lower Third** cues. The Add/Edit Cue dialog *offers* nine choices in its **KIND** menu (Announcement, Song, Scripture, Sermon, Prayer, Offering, Video, Timer, Custom), but several fold down on save:
 
 | You pick (Windows) | Stored as |
 |---|---|
@@ -85,18 +85,21 @@ The practical effect: on Windows, Prayer/Offering/Timer/Custom cues all behave a
 |---|---|---|
 | Go Live | both | Takes the cue live |
 | Edit Cue… | both | Opens the [New/Edit Cue dialog](#the-new-cue-dialog) on this cue |
+| Fire Lower Third / Edit Lower Third… | both | On a lower‑third cue, in place of Go Live / Edit Cue… (see [Themes, Looks & Overlays](07-themes-looks-overlays.md#lower-thirds)) |
 | Duplicate | both | Copies the cue into the order |
-| Note | both | Attaches an operator note to the cue |
+| Note | both | Attaches an operator note to the cue (Windows: **Add Note…** / **Edit Note…**, plus **Clear Note**) |
 | Arrangement ▸ | both | Chooses a song arrangement for the cue (see [Songs & Arrangements](03-songs-and-arrangements.md)) |
-| Delete | both | Removes the cue |
-| Learn Timing… | Windows only | Tap‑to‑learn slide timing against a recording (see [Detection & Auto‑Follow](05-detection-ai.md)) |
+| Delete | both | Removes the cue (Windows labels it **Delete Cue**) |
+| Learn Timing… | Windows only (on a cue) | Tap‑to‑learn slide timing against a recording (see [Detection & Auto‑Follow](05-detection-ai.md)). On macOS, Learn Timing… is on the song's Library row. |
 | Assign to Plan ▸ | Windows only | Assigns the cue to a [service plan](#service-plans-templates) |
 
 ### Multi‑select and batch delete
 
 **What it does.** Select several cues at once to delete them together.
 
-**How to get there.** **⌘‑click / Ctrl‑click** to add individual cues to the selection, or **⇧‑click** to select a range, then delete. *(both)*
+**How to get there.** **⌘‑click / Ctrl‑click** to add individual cues to the selection, or **⇧‑click** to select a range, then press **Delete**. *(both)*
+
+**Delete always asks.** Pressing **Delete** (or **Backspace**) removes what you selected in the list you clicked last — the Cue Plan, the song Library, or (macOS) the media bin — after asking *"Delete “…” from the service?"* (or *"Delete N items from …?"*). **Return** answers **Delete**; **Esc** answers **Cancel**. Delete never acts while you are typing in a text box. *(both)*
 
 ---
 
@@ -129,6 +132,7 @@ The practical effect: on Windows, Prayer/Offering/Timer/Custom cues all behave a
 | Disabled / skip | both | Marks a slide to be **skipped when going live** while keeping it in the cue for editing. Set from the Edit‑grid right‑click ▸ **Enable/Disable**. |
 | Label color | both | A colored tag on the slide (from the Edit‑grid right‑click ▸ **Label color**). Section labels are auto‑colored too — verse = blue, chorus = green, bridge = orange (see [Songs & Arrangements](03-songs-and-arrangements.md)). |
 | Media action (background/foreground media binding) | **macOS only** | Binds a slide to a specific background or foreground media asset. *(Windows: not yet available)* |
+| Start Media Playlist | both | Right‑click a slide ▸ **Start Media Playlist** ▸ a media playlist (or **None**): when the slide goes live, that playlist starts — useful for a walk‑in loop. On Windows this is offered on the Cue Plan's slide grid. See [Media](06-media.md#media-playlists-folders-and-smart-playlists). |
 | Media fit | both (differs) | How media fills the slide. macOS offers **Fit / Fill / Stretch / Scale+Blur** (four modes); the Windows slide‑grid menu offers **Fill / Fit / Stretch** (Blur‑Fill exists in the model but is not exposed in that menu). |
 
 **How slides relate to cues.** Going live sends **one slide** of the current cue to the outputs; **Next/Previous** step through the cue's (enabled) slides and then cross into the next/previous cue. Disabled slides are stepped over during live playback but remain editable.
@@ -145,18 +149,28 @@ The practical effect: on Windows, Prayer/Offering/Timer/Custom cues all behave a
 **What it does.** Sends cue content to your outputs. ACE distinguishes **preview** (what you're lining up) from **program** (what the audience sees).
 
 **How to get there.**
-- **Single‑click a cue row** in the Cue Plan sidebar to take it live. *(both)*
+- **Single‑click a cue row** in the Cue Plan sidebar to take it live. *(both)* The live cue row, the live slide card and the live song section carry a red **LIVE** mark.
 - **PVW** (preview) and **PGM** (program) tile buttons: **PVW** stages content to preview/stage only; **PGM** sends it to the audience. While a cue is live, the Cue Plan shows a **PREV / NOW / NEXT** confidence strip (the NOW slot carries a red **LIVE** badge), and a **NEXT UP** strip is pinned at the bottom.
 
 **Next / Previous / Take.**
 
 | Action | macOS | Windows |
 |---|---|---|
-| Next | **→** (no modifier) | **→**; the output window also accepts **Space** / **Page Down** |
-| Previous | **←** (no modifier) | **←** |
-| Take | **⌘Return** | *(no equivalent)* — use Next |
+| Next slide | **→** or **Page Down** | **→** or **Page Down** |
+| Previous slide | **←** or **Page Up** | **←** or **Page Up** |
+| One row down / up in the slide grid | **↓ / ↑** | **↓ / ↑** |
+| Play / pause the live video | **Space** | **Space** |
+| Take | **⌘Return** (*Output ▸ Take*) | *(no shortcut)* — use the **TAKE** button or Next |
 
-Next/Previous walk the current cue's enabled slides and then cross cue boundaries into the next/previous cue. On Windows the audience **output window** handles keys directly (arrows, Space, Page Down = next; **B** = blank; **Esc** = close); on macOS the audience window has no key handling of its own. See [Outputs & Screens](08-outputs-and-screens.md) for output‑window behavior.
+A presentation clicker's **Page Down / Page Up** buttons therefore move one slide on both editions.
+
+**Rows.** ↓ and ↑ jump the live slide by one row of the slide grid and stop at the top and bottom rows of the live item — they don't skip to another service item. On macOS a row is the Stage grid's column count (the **cols** pill, 3 by default); on Windows the grid is a fixed 3 columns. In the Bible workspace these keys move through the verse grid instead (see [Scripture](04-scripture.md#keyboard-navigation)).
+
+**Next/Previous** walk the current cue's enabled slides and then cross cue boundaries into the next/previous cue.
+
+**Keys after typing in a search box.** The arrow keys and Space stand aside while you are typing in a text box, and come back as soon as you click anywhere that isn't a text box — so after searching the Library you can carry straight on with → and ←. (On macOS an *empty* focused search box doesn't block them at all.) Holding any modifier key bypasses these bare‑key controls, and they never act while a dialog is open. *(both)*
+
+On Windows the audience **output window** also handles keys directly when it has focus (→ / Space / Page Down = next; ← / Page Up = previous; **B** = blank; **Esc** = close); on macOS the audience window has no key handling of its own. See [Outputs & Screens](08-outputs-and-screens.md) for output‑window behavior.
 
 ---
 
@@ -173,7 +187,7 @@ Blanking hides output temporarily; clearing stops content on one or more layers.
 | | macOS | Windows |
 |---|---|---|
 | Shortcut | **⌘B** | **B** |
-| Menu / control | Output ▸ Clear‑area / **BLACK** button (toggles) | **BLACK** button (toggles); output window also **B** |
+| Menu / control | *Output ▸ Toggle Blank* / **BLACK** button (toggles) | *Output ▸ Toggle Blank* / **BLACK** button (toggles); output window also **B** |
 
 ### Clear
 
@@ -185,7 +199,7 @@ Blanking hides output temporarily; clearing stops content on one or more layers.
 - **L3** — clears the lower‑third / props layer,
 - **ALL CLR** — clears everything and restores layers.
 
-**Windows — single clear + Blank‑Scope.** Windows has a single `clear()` (stop all content) plus a **Blank‑Scope** selector (**CLEAR TARGETS**) that decides *which outputs* BLACK/CLEAR affect: **All / Audience / Stage**. There is **no per‑layer clear** on Windows; the LAYERS row's TXT simply toggles blank, MEDIA applies scoped per‑output media suppression, and ALL CLR clears everything. *(Windows: no per‑layer clear; per‑layer restore not yet available)*
+**Windows — layer toggles + clear targets.** On Windows the LAYERS row's **TXT**, **MEDIA** and **L3** are on/off toggles that hide the slide text, the media/backdrop and the lower third on the outputs chosen in **CLEAR TARGETS** (**ALL / AUD / STG**, remembered between sessions), and bring them back when toggled again. **ALL CLR** clears everything and restores every hidden layer. *Output ▸ Clear* is a single clear of the slide, background and lower third. *(Windows: no separate messages‑layer clear)*
 
 > The output control panel (CLEAR / BLACK↔SHOW / LIVE / TAKE, CLEAR TARGETS, LAYERS, and the AUD/STG output toggles) is documented in full in [Outputs & Screens](08-outputs-and-screens.md#output-control-panel). This chapter covers only how blank/clear relate to running the service.
 
@@ -209,9 +223,11 @@ Blanking hides output temporarily; clearing stops content on one or more layers.
 
 | Action | Button | macOS | Windows |
 |---|---|---|---|
-| Go on air (take from the top) | **GO ON AIR** | **⌃⌘G** | **Ctrl+Meta+G** |
-| Hold / resume (suspends auto‑advance) | **HOLD** / **RESUME** | **⌃⌘H** | **Ctrl+Meta+H** |
-| End service (clear live, back to pre‑service) | **END SERVICE** | **⌃⌘E** | **Ctrl+Meta+E** |
+| Go on air (take from the top) | **GO ON AIR** | **⌃⌘G** | **Ctrl+Win+G** |
+| Hold / resume (suspends auto‑advance) | **HOLD** / **RESUME** | **⌃⌘H** | **Ctrl+Win+H** |
+| End service (clear live, back to pre‑service) | **END SERVICE** | **⌃⌘E** | **Ctrl+Win+E** |
+
+*(On Windows these use Ctrl plus the Windows key.)*
 
 **Holding** freezes the run and suspends auto‑advance; **resuming** continues. **Ending** clears the live output and returns to the pre‑service state.
 
@@ -237,7 +253,7 @@ Blanking hides output temporarily; clearing stops content on one or more layers.
 
 **How to get there.**
 - **macOS:** New Cue is offered from the cue‑plan / Edit rails. The rail's **"Add Cue"** menu includes options such as **"Add Lower Third."**
-- **Windows:** **File ▸ New Cue…**, or the rail's **"Add Cue"** button (which appends a blank **Generic** cue directly). Editing an existing cue via **Edit Cue…** opens the same dialog titled **Edit Cue**.
+- **Windows:** **File ▸ New Cue…**, or the cue list's **+ Add Cue** menu — **New Cue…**, **New Lower Third…**, and **Add Lower Third ▸** (your saved lower thirds). Editing an existing cue via **Edit Cue…** opens the same dialog titled **Edit Cue**.
 
 **Fields (Windows dialog).**
 
@@ -253,7 +269,7 @@ Blanking hides output temporarily; clearing stops content on one or more layers.
 
 The dialog's footer buttons are **Cancel** and **Add Cue** (or **Save Cue** when editing). Editing preserves the cue's other fields (audio trigger, arrangements, theme, label color, operator note, target lanes, lyrics render mode) rather than rebuilding the cue from scratch.
 
-> **Creating songs** (Title / Artist / Lyrics with auto‑split sections) uses the separate **New Song** dialog (**⌘N / Ctrl+N**), covered in [Songs & Arrangements](03-songs-and-arrangements.md). On macOS that sheet doubles as the song editor; on Windows it is create‑only (edit later via Reflow / the song CRUD).
+> **Creating songs** (Title / Artist / Lyrics with auto‑split sections) uses the separate **New Song** dialog (**⌘N / Ctrl+N**), covered in [Songs & Arrangements](03-songs-and-arrangements.md). On both editions the same dialog reopens as the song editor from the Library's **Edit Song…**.
 
 ---
 
