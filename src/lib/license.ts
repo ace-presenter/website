@@ -22,6 +22,14 @@ export interface LicenseClaim {
   license_id: string;
   tier: Tier;
   products: Product[];
+  /**
+   * The plan for EACH product, in the same words as `tier` — e.g.
+   * { presenter: "business", schedule: "standard" }. `tier` is the highest of
+   * them, so an app reading only `tier` sees another product's plan (Schedule
+   * Pro is "business", which Presenter took for its own top plan). Apps and the
+   * gateway read their own product here; `tier` stays for older apps.
+   */
+  plans?: Partial<Record<Product, Tier>>;
   user_email: string;
   /**
    * Unix seconds when the subscription period ends.
@@ -81,6 +89,7 @@ export async function issueLicense(claim: LicenseClaim): Promise<IssuedLicense> 
     license_id: claim.license_id,
     tier: claim.tier,
     products: claim.products,
+    ...(claim.plans && Object.keys(claim.plans).length ? { plans: claim.plans } : {}),
     user_email: claim.user_email,
   })
     .setProtectedHeader({ alg: "RS256", typ: "JWT" })
