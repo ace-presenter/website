@@ -37,9 +37,9 @@ Detection is closely tied to two other workspaces:
 
 **How to get there.** The **AUTO · SONG · BIBLE** segmented pill in the top bar, or the *Detection* menu:
 
-- **AUTO** — **macOS ⌥1 / Windows Ctrl+Alt+1**
-- **SONG** — **macOS ⌥2 / Windows Ctrl+Alt+2**
-- **BIBLE** — **macOS ⌥3 / Windows Ctrl+Alt+3**
+- **AUTO** — **macOS ⌥⌘1 / Windows Ctrl+Alt+1**
+- **SONG** — **macOS ⌥⌘2 / Windows Ctrl+Alt+2**
+- **BIBLE** — **macOS ⌥⌘3 / Windows Ctrl+Alt+3**
 
 **Options.**
 
@@ -252,8 +252,8 @@ The dialog gathers everything above in one place. On **Windows** it also hosts t
 |---|---|---|
 | Toggle Listening | ⌘⇧L | *(unbound — use pill / START-STOP / menu)* |
 | Detection Settings | ⌥⌘, | Ctrl+Alt+, |
-| Target mode AUTO | ⌥1 | Ctrl+Alt+1 |
-| Target mode SONG | ⌥2 | Ctrl+Alt+2 |
-| Target mode BIBLE | ⌥3 | Ctrl+Alt+3 |
+| Target mode AUTO | ⌥⌘1 | Ctrl+Alt+1 |
+| Target mode SONG | ⌥⌘2 | Ctrl+Alt+2 |
+| Target mode BIBLE | ⌥⌘3 | Ctrl+Alt+3 |
 
 See [Preferences, Shortcuts & Menus](11-preferences-shortcuts.md) and [Appendix B — Keyboard Shortcuts](appendix-b-keyboard-shortcuts.md) for the complete map, and [Appendix A — Platform Differences](appendix-a-platform-differences.md) for the authoritative list of what's available on each edition.
