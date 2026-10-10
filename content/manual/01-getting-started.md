@@ -18,6 +18,8 @@ This chapter gets you from installation to your first live slide, and explains t
 2. Launch **ACE Presenter** from the Start menu.
 3. Windows Firewall may prompt the first time the phone remote or a network camera (NDI) is used — allow access on your local network.
 
+ACE also creates a **Documents ▸ ACE Presenter** folder for its own files — exported songs, services and themes, library backups, and an **Inbox** that imports whatever you drop into it. See [Media ▸ ACE files and the ACE Presenter folder](06-media.md#ace-files-and-the-ace-presenter-folder).
+
 Updates are delivered in-app; see [Preferences ▸ Updates](11-preferences-shortcuts.md) and [Appendix C](appendix-c-dependencies.md).
 
 ---
@@ -30,6 +32,10 @@ The first time you launch, a short **Welcome tour** appears a couple of seconds 
 - **Windows:** *Help ▸ Welcome Tour* (and *Help ▸ What's New* after an update)
 
 You'll also be asked once about optional, anonymous usage **telemetry** — this is your choice and can be changed later in Preferences.
+
+**Interface language.** ACE Presenter's menus and screens are available in **9 languages** on both editions — English, Spanish, French, German, Portuguese, Russian, Chinese (Simplified), Korean and Arabic. It follows your system language by default; choose another in *Preferences ▸ General ▸ Language* (the change applies after a relaunch).
+
+**Coming from ProPresenter?** *File ▸ Import ▸ File…* (⌘I / Ctrl+I) takes a ProPresenter library or a single playlist and keeps its shape. See [Media ▸ The Import Wizard](06-media.md#the-import-wizard).
 
 ---
 
@@ -69,25 +75,25 @@ Upgrade any time from *Help ▸ Upgrade ACE Presenter…* (macOS) / *Help ▸ AC
 
 ## The main window
 
-ACE Presenter centers on **workspaces** you switch between, a **media tray** along the bottom, and an **output control panel** for taking content live.
+ACE Presenter centers on **workspaces** you switch between, a **media bin** along the bottom, and an **output control panel** for taking content live.
 
 ### Workspaces (⌘1–⌘6 / Ctrl+1–Ctrl+6)
 
 | # | Workspace | What it's for |
 |---|---|---|
-| 1 | **Stage / Program** | The live presentation view with preview (PVW) and program (PGM) controls |
-| 2 | **Cue Plan** | Your service order (running order) plus the song/media library |
+| 1 | **Stage** | The live presentation view with preview (PVW) and program (PGM) controls and the live slide grid |
+| 2 | **Song** | The song panel — the selected song's slides as the audience sees them, with Labels and Credit pickers |
 | 3 | **Edit** | A non-destructive slide editor |
 | 4 | **Bible** | The scripture workspace |
-| 5 | **Looks** | Apply themes and looks |
-| 6 | **Theme** | The theme editor |
+| 5 | **Looks** | Apply themes and Looks |
+| 6 | **Cue Plan** | Your service order (running order) |
 
-*(Exact tab order and numbering can vary slightly by layout preset; the workspace switcher along the top always shows the current set.)*
+The tab bar along the top reads **STAGE · SONG · EDIT · BIBLE · LOOKS · CUE PLAN** in that order on both editions. The Theme Editor opens as its own window (*Output ▸ Themes…*, ⌘T / Ctrl+T).
 
 ### Persistent elements
 
-- **Top status bar** — the **LISTENING / IDLE** pill (detection on/off), a match-confidence pill while listening, stream/NDI status, and the venue badge. See [Detection & Auto-Follow](05-detection-ai.md) and [Streaming & Audio](09-streaming-and-audio.md).
-- **Media tray** (⌘M / Ctrl+M to toggle) — your images, videos, audio, and slide decks. See [Media](06-media.md).
+- **Top status bar** — the **LISTENING / IDLE** pill (detection on/off), a match-confidence pill while listening, stream status, and the venue badge. See [Detection & Auto-Follow](05-detection-ai.md) and [Streaming & Audio](09-streaming-and-audio.md).
+- **Media bin** (⌘M / Ctrl+M to toggle) — your images, videos, audio, and slide decks, in folders and playlists. See [Media](06-media.md).
 - **Output control panel** — **CLEAR / BLACK / LIVE / TAKE**, per-layer clears, and audience/stage toggles. See [Outputs & Screens](08-outputs-and-screens.md).
 
 ### Layout presets
@@ -98,11 +104,11 @@ The workspace layout can be switched between presets (General, Sermon, Conferenc
 
 ## Your first service (quick path)
 
-1. **Add songs.** *File ▸ New Song…* (⌘N / Ctrl+N), paste the lyrics, and let ACE split them into sections. See [Songs & Arrangements](03-songs-and-arrangements.md).
+1. **Add songs.** *File ▸ New Song…* (⌘N / Ctrl+N), paste the lyrics, and let ACE split them into sections — or drop in SongSelect lyrics files, or add the *Public-Domain Hymns* pack from *File ▸ Import*. See [Songs & Arrangements](03-songs-and-arrangements.md).
 2. **Build the order.** Add songs and cues to the **Cue Plan**; drag to reorder. Add scripture from the **Bible** workspace. See [Building a Service](02-service-and-cues.md) and [Scripture](04-scripture.md).
 3. **Set up your screen.** *Output ▸ Screen Setup…* (⇧⌘, / Ctrl+Shift+,) — assign your projector/TV to the **audience** output. See [Outputs & Screens](08-outputs-and-screens.md).
 4. **Pick a look.** Choose a theme in the **Looks** workspace or edit one in the **Theme** editor. See [Themes, Looks & Overlays](07-themes-looks-overlays.md).
-5. **Go live.** Click a cue to send it live; use **→ / ←** to move between slides, **B** (Windows) / **⌘B** (macOS) to blank, and **CLEAR** to stop showing content.
+5. **Go live.** Click a cue to send it live; use **→ / ←** (or a clicker's **Page Down / Page Up**) to move one slide, **↓ / ↑** to move one row in the slide grid, **⌘B** (macOS) / **B** (Windows) to blank, and **CLEAR** to stop showing content.
 6. *(Optional)* **Turn on auto-follow.** Click the **LISTENING** pill so ACE can follow the worship leader and advance slides for you. See [Detection & Auto-Follow](05-detection-ai.md).
 7. *(Optional)* **Use your phone.** Enable the remote and connect a phone as a wireless controller. See [The Phone Remote](10-remote-control.md).
 
