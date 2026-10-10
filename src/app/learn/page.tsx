@@ -10,13 +10,11 @@ import { products, type ProductKey } from "@/lib/brand";
 import presenterShot from "../../../public/presenter/stage.png";
 import scheduleShot from "../../../public/schedule/welcome.webp";
 import notesShot from "../../../public/editors-notes/screenshot-insert-timecode.png";
-import managerShot from "../../../public/og/og-manager.png";
-import worldShot from "../../../public/og/og-world.png";
 
 export const metadata: Metadata = {
   title: "Learn",
   description:
-    "Learn the ACE Suite — Presenter, Schedule, Editors' Notes, Manager, and World. What each product does, who it's for, and where to find its user manual.",
+    "Learn ACE — Presenter, Schedule and Editors' Notes. What each product does, who it's for, and where to find its user manual.",
   alternates: { canonical: "/learn" },
 };
 
@@ -94,46 +92,6 @@ const PRODUCTS: ProductEntry[] = [
     manualHref: "/editors-notes/manual",
     visual: notesShot,
     visualAlt: "ACE Editors' Notes inserting a timecode",
-  },
-  {
-    key: "manager",
-    name: "Manager",
-    tagline: "One dashboard for your whole organization.",
-    status: "Early access",
-    platform: "Web",
-    body: "Where Presenter runs the service and Schedule runs your day, ACE Manager runs the organisation — members, departments, rotas, giving, events, and communication in one place, with an AI agent handling the routine work in the background.",
-    features: [
-      "A member and team directory with departments, roles, and engagement tracking.",
-      "Volunteer rotas, attendance, events with ticketing, and children's check-in.",
-      "Giving and donations with funds, pledges, and online payments.",
-      "Multi-channel messaging — WhatsApp, SMS, email, Telegram, and Instagram.",
-      "An autonomous AI agent that assigns tasks, follows up with members, and drafts reports.",
-      "A member self-service portal, plus Planning Center, Google, Zoom, and Stripe connections.",
-    ],
-    href: "/manager",
-    manualHref: "/manager/manual",
-    visual: managerShot,
-    visualAlt: "ACE Manager dashboard",
-  },
-  {
-    key: "world",
-    name: "World",
-    tagline: "A shared 3D space for your audience.",
-    status: "In development",
-    platform: "Web, Desktop & VR",
-    body: "A virtual venue that recreates your live event as a place. The audience enters as avatars, watches your program feed together on the in-world stage, hears each other in spatial voice, and a producer drives the room in real time — the same cueing language as Presenter.",
-    features: [
-      "Your live feed on an in-world stage, sub-second, from OBS, vMix, a camera, or Presenter.",
-      "Spatial voice — attendee mics panned to their avatar and fading with distance.",
-      "A producer console that fires scenes and cues — lighting, cameras, and screens — for everyone at once.",
-      "Zero-install audience join by link in any browser, or step inside on a Meta Quest headset.",
-      "Zones, live occupancy, and audio moderation for VIP areas and keynotes.",
-      "Multi-tenant event worlds, metered against your licence — audiences just open a link.",
-    ],
-    href: "/world",
-    manualHref: "/world/manual",
-    visual: worldShot,
-    visualAlt: "ACE World virtual venue",
   },
 ];
 

@@ -269,97 +269,14 @@ export const PRICING: ProductPricing[] = [
       },
     ],
   },
-  {
-    key: "manager",
-    product: "manager",
-    name: "ACE Manager",
-    href: "/manager",
-    tagline: "Run the organization.",
-    plans: [
-      {
-        id: "free",
-        name: "Free",
-        kind: "free",
-        tier: "free",
-        cta: "get-started",
-        ctaLabel: "Get started",
-        ctaHref: "/manager",
-        features: ["1 organization", "Up to 5 members", "Members & departments"],
-      },
-      {
-        id: "team",
-        name: "Team",
-        kind: "subscription",
-        monthlyUSD: 15,
-        annualUSD: 144,
-        perSeat: true,
-        tier: "business",
-        // Manager is in development — present pricing, route interest to us
-        // rather than live checkout (entitlement is org-derived).
-        cta: "contact",
-        ctaLabel: "Join the waitlist",
-        highlight: true,
-        note: "per seat",
-        features: [
-          "Unlimited members",
-          "Events & campaigns",
-          "Roles & permissions",
-          "AI agent actions",
-        ],
-      },
-      {
-        id: "enterprise",
-        name: "Enterprise",
-        kind: "custom",
-        tier: "enterprise",
-        cta: "contact",
-        ctaLabel: "Talk to us",
-        features: ["SSO", "Audit logs", "Multi-org", "Dedicated support & SLA"],
-      },
-    ],
-  },
-  {
-    key: "world",
-    product: "world",
-    name: "ACE World",
-    href: "/world",
-    tagline: "Live audience. Virtual space.",
-    plans: [
-      {
-        id: "beta",
-        name: "Beta",
-        kind: "free",
-        tier: "free",
-        cta: "contact",
-        ctaLabel: "Request beta access",
-        badge: "In beta",
-        note: "Free during beta",
-        features: [
-          "Shared 3D venue",
-          "Live stage feed",
-          "Desktop + WebXR",
-          "Pricing at launch",
-        ],
-      },
-    ],
-  },
 ];
 
-/** The cross-sell bundle (rendered separately, but driven by the same data). */
-export const SUITE_BUNDLE = {
-  product: "suite",
-  monthlyUSD: 49,
-  annualUSD: 468,
-  tier: "business" as EntTier,
-  envMonthly: "STRIPE_PRICE_SUITE_MONTHLY",
-  envAnnual: "STRIPE_PRICE_SUITE_ANNUAL",
-  features: [
-    "Presenter, Schedule, and Editors' Notes",
-    "Manager for small teams",
-    "World beta access",
-    "One account, one bill, always the latest",
-  ],
-};
+/**
+ * Only the three products that are live are sold here, each with its own
+ * plans and payments (owner, 2026-10-10). The Suite bundle, Manager and World
+ * are off the site for now; their old entries are in git history.
+ */
+export const LIVE_PRODUCTS = ["presenter", "schedule", "notes"] as const;
 
 /** The plan a (product, plan slug) pair names, if it exists. */
 export function findPlan(product: string, planId: string): Plan | undefined {
@@ -413,13 +330,7 @@ export function resolveCheckout(
   mode: "subscription" | "payment";
   seats?: { min: number; max: number; default: number };
 } | null {
-  if (product === "suite") {
-    return {
-      envKey: cadence === "year" ? SUITE_BUNDLE.envAnnual : SUITE_BUNDLE.envMonthly,
-      tier: SUITE_BUNDLE.tier,
-      mode: "subscription",
-    };
-  }
+  if (!(LIVE_PRODUCTS as readonly string[]).includes(product)) return null;   // not sold right now
   const prod = PRICING.find((p) => p.product === product);
   const plan = prod?.plans.find((pl) => pl.id === planId);
   if (!plan || plan.cta !== "checkout" || !plan.mode) return null;

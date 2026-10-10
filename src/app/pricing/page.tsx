@@ -5,12 +5,11 @@ import Footer from "@/components/Footer";
 import PricingTable from "@/components/PricingTable";
 import HorizonGlow from "@/components/hero/HorizonGlow";
 import { ScrollReveal, ScrollStagger, ScrollItem, SuiteAccent } from "@/components/motion";
-import { SUITE_BUNDLE, checkoutHref } from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Per-product plans or one suite subscription. ACE Presenter, Schedule Manager, Editors' Notes, Manager, and World — free to start, fair to grow. One-time and subscription options.",
+    "ACE Presenter, Schedule Manager and Editors' Notes — each with its own plans. Free to start, fair to grow. One-time and subscription options.",
   alternates: { canonical: "/pricing" },
 };
 
@@ -24,7 +23,6 @@ export default function PricingPage() {
         <Nav />
         <PricingHero />
         <PricingTable />
-        <SuiteBundle />
         <FAQ />
         <Footer />
       </div>
@@ -54,63 +52,15 @@ function PricingHero() {
   );
 }
 
-function SuiteBundle() {
-  return (
-    <section data-accent-rgb="200,16,46" className="px-6 sm:px-10 py-28 border-b border-[#1A1A1A]">
-      <ScrollReveal className="max-w-3xl mx-auto text-center">
-        <div className="text-[10px] uppercase tracking-[0.25em] text-[#C8102E] font-bold mb-3">Suite bundle</div>
-        <h2 className="text-4xl sm:text-6xl font-bold tracking-tight mb-5 text-white">
-          The whole suite.{" "}
-          <span>One subscription.</span>
-        </h2>
-        <div className="flex items-baseline justify-center gap-2 mb-2">
-          <span className="text-5xl font-bold text-white tracking-tight">${SUITE_BUNDLE.monthlyUSD}</span>
-          <span className="text-[#C4C4C4]">/ mo</span>
-          <span className="text-[#666] mx-2">·</span>
-          <span className="text-2xl font-bold text-white tracking-tight">${SUITE_BUNDLE.annualUSD}</span>
-          <span className="text-[#C4C4C4]">/ yr</span>
-        </div>
-        <p className="text-[#888] text-sm mb-8">Everything, always the latest — cheaper than buying the pieces.</p>
-
-        <ScrollStagger className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl mx-auto mb-10 text-left" stagger={0.06}>
-          {SUITE_BUNDLE.features.map((f) => (
-            <ScrollItem key={f}>
-              <div className="flex items-start gap-2 text-sm text-[#D4D4D4]">
-                <span className="text-[#E8183A] mt-0.5">✓</span>
-                <span className="leading-relaxed">{f}</span>
-              </div>
-            </ScrollItem>
-          ))}
-        </ScrollStagger>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a
-            href={checkoutHref("suite", "bundle", "year")}
-            className="px-7 py-3.5 rounded-full bg-[#C8102E] hover:bg-[#E8183A] text-white font-bold text-sm transition-colors"
-          >
-            Get the suite — ${SUITE_BUNDLE.annualUSD}/yr
-          </a>
-          <a
-            href={checkoutHref("suite", "bundle", "month")}
-            className="px-6 py-3.5 rounded-full bg-[#1A1A1A] hover:bg-[#222] text-white font-semibold text-sm transition border border-[#2A2A2A]"
-          >
-            Monthly — ${SUITE_BUNDLE.monthlyUSD}/mo
-          </a>
-        </div>
-      </ScrollReveal>
-    </section>
-  );
-}
-
 function FAQ() {
   const faqs = [
     {
-      q: "Does one ACE account work across the suite?",
-      a: "Yes. Sign in once at ace-presenter.app. Your license covers the products you own — buy them individually or get everything with the suite bundle.",
+      q: "Does one ACE account work across the products?",
+      a: "Yes. Sign in once at ace-presenter.app. Your license covers the products you own, and each product has its own plan.",
     },
     {
       q: "One-time or subscription — what's the difference?",
-      a: "Presenter and Editors' Notes can be bought once as a perpetual license (you own that major version, with a year of updates), or subscribed to for the always-latest version. Schedule Manager and the suite bundle are subscriptions.",
+      a: "Presenter and Editors' Notes can be bought once as a perpetual license (you own that major version, with a year of updates), or subscribed to for the always-latest version. Schedule Manager is a subscription.",
     },
     {
       q: "Do I need an API key for AI features?",

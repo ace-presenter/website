@@ -36,12 +36,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/editors-notes/manual`, lastModified, changeFrequency: "monthly", priority: 0.6 },
 
     // ── ACE Manager ──────────────────────────────────────────────────────
-    { url: `${SITE}/manager`, lastModified, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${SITE}/manager/manual`, lastModified, changeFrequency: "monthly", priority: 0.5 },
 
     // ── ACE World ────────────────────────────────────────────────────────
-    { url: `${SITE}/world`, lastModified, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${SITE}/world/manual`, lastModified, changeFrequency: "monthly", priority: 0.4 },
 
     // ── Shared ───────────────────────────────────────────────────────────
     { url: `${SITE}/download`, lastModified, changeFrequency: "weekly", priority: 0.9 },

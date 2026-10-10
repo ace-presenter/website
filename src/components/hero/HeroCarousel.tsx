@@ -8,8 +8,6 @@ import { products, type ProductKey } from "@/lib/brand";
 import presenterShot from "../../../public/presenter/stage.png";
 import scheduleShot from "../../../public/schedule/welcome.webp";
 import notesShot from "../../../public/editors-notes/screenshot-insert-timecode.png";
-import managerShot from "../../../public/og/og-manager.png";
-import worldShot from "../../../public/og/og-world.png";
 
 type Slide = {
   key: ProductKey;
@@ -63,32 +61,6 @@ const SLIDES: Slide[] = [
     manualHref: "/editors-notes/manual",
     visual: notesShot,
     visualAlt: "ACE Editors' Notes inserting a timecode",
-  },
-  {
-    key: "manager",
-    name: "Manager",
-    tagline: "One dashboard for the whole organization.",
-    blurb:
-      "Members, departments, rotas, giving, events, and messaging in one place — with an AI agent handling the routine follow-ups in the background.",
-    status: "Early access",
-    platform: "Web",
-    href: "/manager",
-    manualHref: "/manager/manual",
-    visual: managerShot,
-    visualAlt: "ACE Manager dashboard",
-  },
-  {
-    key: "world",
-    name: "World",
-    tagline: "A shared 3D space for your audience.",
-    blurb:
-      "A virtual venue that recreates your event as a place — avatars watch your live feed together, hear each other in spatial voice, and a producer drives the room.",
-    status: "In development",
-    platform: "Web, Desktop & VR",
-    href: "/world",
-    manualHref: "/world/manual",
-    visual: worldShot,
-    visualAlt: "ACE World virtual venue",
   },
 ];
 
