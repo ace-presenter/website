@@ -121,11 +121,11 @@ function Showcase() {
                 Slides that <AccentItalic>follow</AccentItalic> the room.
               </>
             }
-            body="ACE listens to the service and fires the next cue in under a second — lyrics, scripture, and decks that keep up with the band and the preacher. No clicker, no cloud, all on-device."
+            body="ACE listens to the service and fires the next cue — lyrics, scripture, and decks that keep up with the band and the preacher. No clicker. On-device by default; cloud detection only if you switch it on."
             features={[
-              "Live lyric + scripture detection, 12+ languages",
-              "HDMI · NDI · ATEM · OBS · OSC output",
-              "One-click ProPresenter library import",
+              "Live lyric + scripture detection, dozens of languages",
+              "HDMI · NDI · Syphon · SDI · ATEM · OBS · OSC output",
+              "ProPresenter import that keeps your playlists and media bin",
             ]}
             visual={
               <Image
@@ -329,14 +329,14 @@ function SuiteWhy() {
           ))}
         </ScrollStagger>
 
-        {/* Measured facts, not hype — carried over from the Proof strip. */}
+        {/* Plain facts only — no unmeasured numbers. Carried over from the Proof strip. */}
         <ScrollReveal className="mt-20 max-w-3xl sm:mt-24">
           <div className="mb-7 h-px w-8 bg-[#C8102E]" aria-hidden />
           <blockquote className="text-2xl font-semibold leading-snug tracking-tight text-white sm:text-3xl">
             &ldquo;You run the room. The cue runs itself.&rdquo;
           </blockquote>
           <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.22em] text-[#666]">
-            Under 1 second cue latency · no clicker needed · audio never leaves the room
+            No clicker needed · on-device by default · cloud detection only if you switch it on
           </p>
         </ScrollReveal>
       </div>
