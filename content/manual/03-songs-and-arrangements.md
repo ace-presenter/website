@@ -2,7 +2,7 @@
 
 Songs are the heart of most worship services, and ACE Presenter treats them as **reusable, structured documents** rather than one-off slide decks. A song is a title, an optional artist, and a set of **sections** (Verse 1, Chorus, Bridge…), each holding a few lines of lyrics. Because a song is structured this way, ACE can auto-colour its sections, let you re-order them into named **arrangements**, and drop the same song into any number of services without retyping it.
 
-This chapter covers the **song library**, creating and editing songs, how sections work, building and applying **arrangements**, the **Reflow** lyric editor, and the **Edit workspace / Slide Grid** as they apply to song cues.
+This chapter covers the **song library** and finding a song by its words, the **Song panel** (Labels and Credit), creating and editing songs, bringing songs in from **SongSelect** and the **Public-Domain Hymns** pack, the **CCLI credit line and usage report**, how sections work, building and applying **arrangements**, the **Reflow** lyric editor, and the **Edit workspace / Slide Grid** as they apply to song cues.
 
 Related reading:
 - [Building a Service: Cues & Running Order](02-service-and-cues.md) — how a song becomes a cue in the running order, going live, blank/clear, auto-advance.
@@ -23,15 +23,14 @@ Two lists sit in the left sidebar, and it's worth being clear on the difference:
 
 **What it does.** The library is your permanent stock of songs. The running order is a *selection* from that stock (plus scripture, media, and announcements) arranged for one service. Adding a song to the plan does **not** remove it from the library — the same song can appear in many services over time.
 
-> **Platform difference — how a plan cue links back to the library.**
-> - **macOS:** the library is a generic collection on the presentation document, and each cue carries a **`libraryRef`** back to its source song. Editing the library song **propagates** the change to every plan cue that references it. *(macOS only)*
-> - **Windows:** songs live in a dedicated **Song library** with **revision-based (rev/CAS) concurrency** to keep edits safe when the phone remote and the desktop edit at once. A plan cue created from a song does **not** keep a live back-reference — edits made through Reflow or the library are applied to the cue you're editing. *(Windows)*
+> **How a plan cue links back to the library.** A song cue in the plan stays linked to its library song. Editing the song with **Edit Song…** updates the cue built from it — including the slides on screen if that song is live. *(both)*
 
 ### Adding a song to the plan
 
 **How to get there:**
 - **Per-row `+`** — every song in the Library list has a **`+`** button; click it to append that song to the running order. *(both)*
-- **Drag** the song from the Library list into the Cue Plan. *(macOS; Windows adds via `+` and right-click)*
+- **Right-click ▸ Add to Cue Plan.** *(both)*
+- **Drag** the song from the Library list into the Cue Plan. *(macOS only — on Windows use `+` or the right-click menu)*
 - **From the New Song dialog** — tick **"Also add to current service"** so the song lands in the plan the moment you create it (see below). *(both)*
 
 ### Taking a song slide live
@@ -42,11 +41,26 @@ Preview shows a hint until you pick a song: *"Click a song in the left sidebar t
 
 For prev/next, PVW vs PGM, and blank/clear once a song is live, see [Building a Service](02-service-and-cues.md#going-live).
 
-### Searching the library
+### Searching the library — by title or by the words
 
-The Library list has a search box that filters by song title (and artist/name).
+**What it does.** The Library's search box (placeholder *"Search title or lyrics..."*) matches a song's **title**, its **artist**, or **any line of its lyrics**. Type a line the congregation sings and ACE finds the song; when a song was found by its words rather than its title, the line that matched appears in quotes under the song's name. *(both)*
 
-> **Platform difference.** macOS search is **scope-aware** (it can narrow to songs, scripture, etc.). The phone remote's library search on Windows is a **flat title/name substring** match. *(see [The Phone Remote](10-remote-control.md))*
+Library rows also have a right-click menu: **Preview** the song, **Add to Cue Plan**, **Edit Song…**, **Learn Timing…**, and **Remove from Library** (which asks first). Pressing **Delete** on a selected song asks the same question — **Return** confirms, **Esc** cancels.
+
+> Searching from the **phone remote** works differently on each edition — see [The Phone Remote](10-remote-control.md).
+
+---
+
+## The Song panel: Labels and Credit
+
+**What it does.** The **Song** workspace (⌘2 / Ctrl+2) shows the selected song's slides as cards drawn the way the audience will see them — theme, font and colours — with each slide's number and section underneath. It opens on the last song you had up, even after a relaunch. *(both)*
+
+Two pickers sit in its toolbar:
+
+| Picker | Choices | What it does |
+|---|---|---|
+| **Labels:** | **Section names** · **Numbers only** (the button reads *Sections* or *Numbers*) | What appears under each slide card — the section label (Verse 1, Chorus…) or just the slide number. |
+| **Credit:** | **First slide** · **Last slide** · **First and last** · **Every slide** · **None** | Which slides of the song carry the CCLI credit line (title, writers, ©, CCLI song number). Changing it updates a live song straight away. See [CCLI credit line and usage report](#ccli-credit-line-and-usage-report). |
 
 ---
 
@@ -85,13 +99,44 @@ So pasting plain lyrics with sensible blank lines is usually enough; you rarely 
 
 ## Editing an existing song
 
-Here the two editions diverge in an important way.
+**What it does.** The New Song dialog **doubles as the song editor**. Right-click a song in the Library and choose **Edit Song…** to reopen it in edit mode (on Windows the window is titled **Edit Song** and its button reads **Save Song**) — change the title, artist, or lyrics, and the edit reaches the plan cue built from that song, live slides included. *(both)*
 
-> **Platform difference — the New Song dialog and editing.**
-> - **macOS:** the New Song sheet **doubles as the song editor**. Right-click a song in the Library and choose **Edit Song…** (pencil) to reopen the same sheet in edit mode — change the title, artist, or lyrics, and (because of `libraryRef`) the edit propagates to plan cues built from that song. *(macOS only)*
-> - **Windows:** the New Song dialog is **create-only**. To change an existing song's words you edit it in place with the **Reflow** editor, or through the library's create/edit/delete (CRUD) operations, which use rev-based concurrency. There is no "reopen the New Song dialog to edit" path. *(Windows: New Song is create-only)*
+For a quick fix to a song cue that's already in your plan, the **Reflow editor** (below) also works on both editions.
 
-The **Reflow editor** (below) is the reliable, cross-platform way to fix a typo or re-line lyrics on a song that's already in your plan.
+---
+
+## Bringing songs in
+
+### SongSelect lyrics files
+
+**What it does.** If your church has a CCLI SongSelect subscription, download a song's lyrics file from SongSelect and give it to ACE: the song arrives in your Library with its **writers, copyright and CCLI song number**, and none of SongSelect's footer text ends up on your slides. *(both)*
+
+**How to get there.** There's no separate menu item — ACE recognises a SongSelect lyrics file by its CCLI footer. Use any of the usual import routes:
+
+- *File ▸ Import ▸ File…* (⌘I / Ctrl+I) — the [Import Wizard](06-media.md#the-import-wizard); you can also drop the file onto the Import window.
+- Drop the file into the **Inbox** folder inside *Documents ▸ ACE Presenter* (see [Media ▸ ACE files](06-media.md#ace-files-and-the-ace-presenter-folder)). *(macOS only — on Windows the Inbox takes ACE files, ProPresenter files and media; use the Import Wizard for SongSelect files.)*
+
+> **ACE never copies lyrics from the internet.** When detection hears a song you don't have, it names the song and offers **Find on SongSelect**, so you can import it under your CCLI licence — it does not fetch lyrics from websites into your Library. See [Detection & Auto-Follow](05-detection-ai.md#lyric-matching--song-identification).
+
+### Public-Domain Hymns
+
+**What it does.** *File ▸ Import ▸ Public-Domain Hymns* adds a pack of well-loved hymns whose words are free to project anywhere — *Amazing Grace*, *Holy, Holy, Holy*, *It Is Well* and more — to your Library. Hymns already in your Library are skipped, so running it twice adds nothing new. *(both)*
+
+### Songs as ACE files (`.acesong`)
+
+Every song can be saved as an **`.acesong`** file — ACE's own song format, with the ACE icon, identical on both editions. Double-click one to bring it into ACE, drop it into the Import Wizard or the Inbox folder, or back up your whole library at once with *File ▸ Export ▸ Back Up Library to Documents*. See [Media ▸ ACE files and the ACE Presenter folder](06-media.md#ace-files-and-the-ace-presenter-folder).
+
+---
+
+## CCLI credit line and usage report
+
+**What it does.** For licence compliance, once your **CCLI licence number** is set ACE adds a credit line to a song's slides — the song's **title, writers, © copyright and CCLI song number** — on the **first slide** by default. Use the Song panel's **Credit:** picker to put it on the last slide, first and last, every slide, or none. *(both)*
+
+**How to get there.** *Preferences ▸ General ▸ CCLI license number*. The credit line only appears when this number is set.
+
+**Usage report.** Below the licence number, **Export song usage (CSV)…** saves every song that went live, by date, with its CCLI song number — ready for your CCLI usage report. *(both)*
+
+> **Windows theme note.** On Windows the CCLI number and credit line are drawn by the built-in slide layout; themes built from positioned objects don't draw them yet *(Windows: not yet available on object-based themes)*. See [Themes, Looks & Overlays ▸ The CCLI number](07-themes-looks-overlays.md#the-ccli-number).
 
 ---
 
@@ -144,7 +189,7 @@ These labels are what make **arrangements** possible: an arrangement is simply a
 
 ## The Reflow editor
 
-**What it does.** **Reflow** is an in-place lyric editor for a **song cue**. Use it to fix a typo, re-line a verse, or adjust how lyrics are split across slides **without** rebuilding the song from scratch. It's the practical way to edit a song that's already in your running order — and on Windows it's the main path for editing song lyrics after creation.
+**What it does.** **Reflow** is an in-place lyric editor for a **song cue**. Use it to fix a typo, re-line a verse, or adjust how lyrics are split across slides **without** rebuilding the song from scratch. It's the practical way to edit a song that's already in your running order.
 
 **How to get there:**
 - **Edit workspace header ▸ Reflow…** (see below). *(both)*
@@ -171,10 +216,8 @@ The workspace header offers three actions for the selected cue: **Reflow…**, *
 **What it does.** A grid of a song's slides, rendered as thumbnails, for reviewing the whole song at once and jumping to any slide.
 
 > **Platform difference — Slide Grid.**
-> - **macOS:** an **inline grid** inside the Edit workspace with an adjustable **1–6 columns** (via the column-count control) and **placeholder** thumbnails, plus run-sheet PVW/PGM tiles. *(macOS)*
-> - **Windows:** a **modal Slide Grid dialog** (*Slide Grid…*) that renders **real 16:9 theme thumbnails** — actual previews styled with the cue's theme — in a **fixed 3-column** layout. **Click a thumbnail to take that slide live.** *(Windows)*
-
-Because the Windows grid paints true themed thumbnails, it's a faithful preview of what each slide will look like on the audience screen; the fixed three columns are not adjustable.
+> - **macOS:** an **inline grid** inside the Edit workspace with an adjustable column count, plus run-sheet PVW/PGM tiles. *(macOS)*
+> - **Windows:** *Slide Grid…* opens a **Slide Grid dialog** of 16:9 themed thumbnails in a **fixed 3-column** layout — **click a thumbnail to take that slide live**. The Cue Plan and Song workspaces also show inline slide grids, likewise 3 columns. *(Windows)*
 
 ### Editing individual song slides
 
@@ -187,10 +230,14 @@ For song lyrics, prefer **Reflow** (above) — it understands sections and re-li
 | Task | macOS | Windows |
 |---|---|---|
 | New song | ⌘N — *File ▸ New Song…* | Ctrl+N — *File ▸ New Song…* |
-| Edit a song's words | New Song sheet in edit mode (*Edit Song…*) or Reflow | Reflow / library CRUD *(New Song is create-only)* |
-| Add a section to a plan | Library `+` / drag | Library `+` / right-click |
+| Find a song by a line of its lyrics | Library search | Library search |
+| Edit a song's words | Library ▸ *Edit Song…* or Reflow | Library ▸ *Edit Song…* or Reflow |
+| Add a song to the plan | Library `+` / right-click / drag | Library `+` / right-click |
+| Import SongSelect lyrics | ⌘I, or drop in the Inbox | Ctrl+I |
+| Add public-domain hymns | *File ▸ Import ▸ Public-Domain Hymns* | *File ▸ Import ▸ Public-Domain Hymns* |
+| Choose where the CCLI credit goes | Song panel ▸ **Credit:** | Song panel ▸ **Credit:** |
 | Build an arrangement | Cue-row ▸ Arrangement ▸ Manage Arrangements… | Cue-row ▸ Arrangement ▸ Manage Arrangements…, or *Editors ▸ Arrangements* |
 | Return to natural order | Arrangement ▸ (none/Default) | Arrangement ▸ **Default** |
 | Reflow lyrics | Edit workspace ▸ Reflow… | Edit workspace ▸ Reflow… |
 | Edit workspace | ⌘3 | Ctrl+3 |
-| Slide Grid | Inline, 1–6 columns, placeholders | Modal dialog, real thumbnails, fixed 3 columns |
+| Slide Grid | Inline, adjustable columns | Dialog + inline grids, fixed 3 columns |

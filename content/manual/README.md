@@ -1,10 +1,10 @@
 # ACE Presenter — User Manual
 
-A comprehensive reference for **ACE Presenter**, the worship/church presentation system. This manual covers both the **macOS** and **Windows** editions in one place, with a platform-differences appendix and honest status notes wherever a feature exists on one platform but not (yet) the other.
+A comprehensive reference for **ACE Presenter 2.4**, the worship/church presentation system. This manual covers both the **macOS** and **Windows** editions in one place. The two are built to the same standard — every feature lands on both — and the few genuine differences are named where they occur and collected in the platform-differences appendix.
 
 > **Which app is which.** ACE Presenter ships as two native desktop apps that share one design and one underlying document model, plus a companion phone remote:
-> - **macOS** — the reference edition.
-> - **Windows** — a native port of the macOS app; a small number of features are still in progress (each is marked below).
+> - **macOS** — a native Mac app (Apple silicon).
+> - **Windows** — a native Windows app with the same features, menus and file formats. Where it uses **Ctrl** the Mac uses **⌘**, and where it uses **Alt** the Mac uses **⌥**.
 > - **ACE Presenter Remote** — a phone app (iOS + Android) that controls either edition over your local network.
 
 ---
@@ -19,10 +19,11 @@ A comprehensive reference for **ACE Presenter**, the worship/church presentation
 |---|---|
 | *(both)* | Works the same on macOS and Windows |
 | *(macOS only)* | Present on macOS; not available on Windows |
-| *(Windows: not yet available)* | Exists on macOS; the Windows port has not implemented it yet |
-| *(build-dependent)* | On Windows, present only if the app was compiled with the relevant module |
+| *(Windows: not yet available)* | Present on macOS; still to come on Windows (named, not hidden) |
+| *(Windows only)* | Present on Windows; not available on macOS |
+| *(Pro)* | Needs a Pro (or higher) licence |
 
-When in doubt, the [Platform Differences appendix](appendix-a-platform-differences.md) is the authoritative list of what is and isn't available on each edition today.
+When in doubt, the [Platform Differences appendix](appendix-a-platform-differences.md) is the authoritative list of what differs between the editions today.
 
 ---
 
@@ -30,12 +31,12 @@ When in doubt, the [Platform Differences appendix](appendix-a-platform-differenc
 
 1. [Getting Started](01-getting-started.md) — install, first run, sign-in, tiers, the main window
 2. [Building a Service: Cues & Running Order](02-service-and-cues.md) — cues, service plans, going live, blank/clear, auto-advance, Go On Air
-3. [Songs & Arrangements](03-songs-and-arrangements.md) — the song library, sections, arrangements, editing lyrics
+3. [Songs & Arrangements](03-songs-and-arrangements.md) — the song library, lyric search, SongSelect, CCLI credits, sections, arrangements, editing lyrics
 4. [Scripture](04-scripture.md) — the Bible workspace, translations, presenting passages, comparison, study
 5. [Detection & Auto-Follow (AI)](05-detection-ai.md) — live transcription, song matching, Bible detection, Song Bank, voice commands
-6. [Media](06-media.md) — the media library, playlists, video, slide decks (PPTX/PDF), stock media
-7. [Themes, Looks & Overlays](07-themes-looks-overlays.md) — the theme editor, looks, lower-thirds, logo, translation overlay, CCLI
-8. [Outputs & Screens](08-outputs-and-screens.md) — audience & stage displays, Screen Setup, multi-output, clear/blank, quick screen
+6. [Media](06-media.md) — the media bin, folders & smart playlists, video, audio, slide decks, the Import Wizard, ACE files and the ACE Presenter folder
+7. [Themes, Looks & Overlays](07-themes-looks-overlays.md) — the theme editor, text scaling, looks, lower thirds, logo, translation overlay, CCLI
+8. [Outputs & Screens](08-outputs-and-screens.md) — screens and destinations (display, NDI, Syphon, SDI), Screen Setup, stage layouts, clear/blank, quick screen
 9. [Streaming & Audio](09-streaming-and-audio.md) — RTMP streaming, NDI, capture cards, ATEM, audio routing, spatial audio, venues & zones
 10. [The Phone Remote](10-remote-control.md) — enabling, pairing, and everything the phone can control
 11. [Preferences, Shortcuts & Menus](11-preferences-shortcuts.md) — every settings pane, the command palette, the full menu map
@@ -50,14 +51,15 @@ When in doubt, the [Platform Differences appendix](appendix-a-platform-differenc
 
 ## The main window at a glance
 
-ACE Presenter is organized around **workspaces** you switch between (⌘1–⌘6 / Ctrl+1–Ctrl+6), a persistent **media tray** along the bottom, and an **output control panel** for taking content live.
+ACE Presenter is organized around **workspaces** you switch between (⌘1–⌘6 / Ctrl+1–Ctrl+6), a persistent **media bin** along the bottom, and an **output control panel** for taking content live.
 
-- **Cue Plan** — your service order (the running order of cues) and the song/media library.
-- **Stage / Program** — the live presentation view with preview (PVW) and program (PGM) controls.
+- **Stage** — the live presentation view with preview (PVW) and program (PGM) controls.
+- **Song** — the selected song's slides, shown as the audience sees them.
 - **Edit** — a non-destructive slide editor.
 - **Bible** — the scripture workspace.
-- **Theme / Looks** — visual styling.
-- **Top status bar** — the LISTENING pill (detection), stream/NDI status, and venue badge.
+- **Looks** — themes and per-screen Looks.
+- **Cue Plan** — your service order (the running order of cues); the song library sits in the left sidebar.
+- **Top status bar** — the LISTENING pill (detection), stream status, and venue badge.
 - **Output control panel** — CLEAR / BLACK / LIVE / TAKE, per-layer clears, and audience/stage toggles.
 
 Each of these is documented in its chapter above.
@@ -66,7 +68,7 @@ Each of these is documented in its chapter above.
 
 ## Editions & tiers
 
-ACE Presenter has three licence tiers. Sign in from *Help ▸ Sign In…* (Windows) or *Settings ▸ Account* (macOS).
+ACE Presenter has three licence tiers. Sign in from *Settings ▸ Account* (macOS) or *Help ▸ Sign In…* (Windows).
 
 | Tier | Highlights |
 |---|---|

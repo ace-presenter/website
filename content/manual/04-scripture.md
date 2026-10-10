@@ -4,7 +4,7 @@ The **Bible workspace** is where you look up, preview, and present passages of s
 
 This chapter covers the Bible workspace itself. Automatic Bible-reference detection from live audio is introduced briefly here and documented in full in [Detection & Auto-Follow (AI)](05-detection-ai.md). For turning a passage into part of your running order, see [Building a Service](02-service-and-cues.md).
 
-> **Platform note.** The Bible workspace exists on both editions and works the same way for the core tasks. Two differences matter: macOS ships a **wider set of bundled translations**, while Windows adds a **Zefania XML import** for bringing your own; and live auto-follow behaves slightly differently (covered under [Auto-scroll & follow](#auto-scroll--follow-live-detection)).
+> **Platform note.** The Bible workspace works the same way on both editions — the same bundled translations, the same keys, the same options. The one visible difference is how live auto-follow presents a heard reference (covered under [Auto-scroll & follow](#auto-scroll--follow-live-detection)).
 
 ---
 
@@ -15,9 +15,9 @@ This chapter covers the Bible workspace itself. Automatic Bible-reference detect
 **How to get there.**
 
 - Click the **BIBLE** tab (workspace switcher).
-- Or use the workspace shortcut — the Bible workspace is one of the numbered workspaces (macOS ⌘1–⌘6 / Windows Ctrl+1–Ctrl+6); see [Preferences, Shortcuts & Menus](11-preferences-shortcuts.md) for the exact number in your layout.
+- Or press **⌘4 / Ctrl+4** (*Workspace ▸ Bible*).
 
-The chapter you were last viewing is restored. The top control bar has two rows: **Row 1** holds the keyword search field plus the **Compare** and **Options** buttons; **Row 2** holds the reference field, the book / chapter / verse pickers, the translation picker, and **GO** / **CLEAR**.
+The panel opens where you left it — the same translation, book, chapter, verse and range — even after a relaunch. (A remembered online translation reappears once your licence check has listed it.) The top control bar has two rows: **Row 1** holds the keyword search field plus the **Compare** and **Options** buttons; **Row 2** holds the reference field, the book / chapter / verse pickers, the translation picker, and **GO** / **CLEAR**.
 
 ---
 
@@ -40,16 +40,21 @@ The chapter you were last viewing is restored. The top control bar has two rows:
 
 Ranges are fully supported — `John 3:1-36` selects verses 1 through 36, and **All verses** selects the entire chapter.
 
-### Arrow-key navigation
+### Keyboard navigation
 
-**What it does.** Moves through scripture without touching the mouse once the grid has focus.
+**What it does.** Walks a reading verse by verse without touching the mouse. *(both)*
 
-| Key | Moves |
-|---|---|
-| **←** / **→** | Previous / next **verse** |
-| **↑** / **↓** | Previous / next **chapter** |
+| Key | macOS | Windows | What it does |
+|---|---|---|---|
+| Next / previous verse | **→ / ←** | **→ / ←** | With a Bible verse **live**, shows the next (or previous) verse — crossing into the next chapter when needed — and **adds it to the service plan right after the current cue**, so the plan ends up holding the reading in order. With nothing live, moves the selection. |
+| One row down / up | **↓ / ↑** | **↓ / ↑** | Moves one row of the verse grid. With a verse live, the verse one row away goes live and into the plan. |
+| Next / previous chapter | **⌥↓ / ⌥↑** | **Alt+↓ / Alt+↑** | Changes chapter (the Bible panel needs the keyboard). |
 
-This is the fastest way to walk a reading verse by verse while it is live.
+The toolbar tooltip sums it up: *"← → next verse · ↑ ↓ one row · ⌥↑ ⌥↓ chapter."* The verse grid's column count (macOS: **2–6 columns**) decides how far a row is. If the live cue holds several slides, the arrows step through those slides first.
+
+### Showing several verses together
+
+**⌘-click / Ctrl-click** a verse tile to add or remove it; **⇧-click** to add a run of verses. A bar shows *"N verses selected"*; **double-click a selected verse** to show them all together on one passage. On macOS the bar also has **Show**, **Add to plan** and **Clear** buttons. *(both)*
 
 ### Search — reference vs keyword
 
@@ -70,7 +75,7 @@ This is the fastest way to walk a reading verse by verse while it is live.
 
 | Group | What's in it | Requirements |
 |---|---|---|
-| **Installed** | Bundled public-domain translations plus anything you've imported. KJV is the default. macOS bundles a wider set (e.g. ASV, WEB, BBE, CUV, RV1909, LSG1910, and more). | None — works offline, all tiers *(both)* |
+| **Installed** | Bundled public-domain translations — **KJV** (the default), **ASV**, **WEB**, **BBE**, **CUV** (Chinese Union), **Van Dyck** (Arabic), **RV1909**, **LSG1910** and **Bíblia Livre** — plus any extra public-domain packs you download. | None — works offline, all tiers *(both)* |
 | **Online (licensed)** | Licensed/online translations such as **ESV** and translations served through **API.Bible**. | **Pro tier + an available gateway** *(Pro)*. Streamed a chapter at a time. |
 
 **Honesty note.** Online and licensed translations are **not usable on the Free tier**, and they require a reachable gateway (ACE's licensing/content service). If you are on Free, or the gateway is unavailable, these entries will not present. The picker groups them under **Online (licensed)** so it is clear which ones carry that requirement. Everything under **Installed** works offline on any tier.
@@ -79,10 +84,10 @@ This is the fastest way to walk a reading verse by verse while it is live.
 
 **Getting more translations.**
 
-- **Download translations… *(both)*** — the picker's overflow offers a downloader for additional bundled/available versions.
-- **Import translation (Zefania XML)… *(Windows only)*** — Windows adds a menu item to import a translation from a Zefania-format XML file. This appears in the translation picker's overflow menu, the **Options** menu, and the workspace context menu. macOS does not expose Zefania import here; it relies on its wider bundled set and the Import Wizard for other scripture formats (see [Media](06-media.md)).
+- **Download translations… *(both)*** — in the translation picker (and *Preferences ▸ Bible*), opens the **Extras Download Manager** with more public-domain Bible packs to download.
+- **Licensed translations** come through the **Online (licensed)** group above rather than as files: redistributing most modern translations is a licensing matter, so ACE ships public-domain Bibles and offers licensed ones online. *(Windows: custom translation files can't be sideloaded.)*
 
-Cues built from a licensed translation are internally flagged as licensed, so that exporting a service will **not redistribute** copyrighted verse text.
+Cues built from a licensed translation are internally flagged as licensed, so licensed verse text is **kept out of every export** — presentations, ACE playlists, and songs saved in the Library alike — and is never redistributed.
 
 ---
 
@@ -120,6 +125,7 @@ Tiles carry the tooltip *"Click to preview · double-click to go live"* as a rem
 | **Show reference** | On | Displays the passage reference (e.g. *John 3:16*) on the slide. |
 | **Show translation** | On | Displays the translation name/abbreviation. |
 | **Break on new verse** | On | Puts **each verse on its own slide**; off keeps the passage together and paginates by fit. |
+| **Split long verses** | Off | Breaks a verse that's too long for one slide across several. While on, a **Slide length** submenu chooses **Short**, **Medium** or **Long**. |
 | **Reference placement** | Each slide | Radio group — see below. |
 
 **Reference placement** (only meaningful when *Show reference* is on):
@@ -130,7 +136,7 @@ Tiles carry the tooltip *"Click to preview · double-click to go live"* as a rem
 | **Passage — last slide** | The reference appears only on the final slide. |
 | **No reference** | Suppresses the reference on the slides. |
 
-> **Windows theme caveat.** The Windows slide renderer does not yet honour the `{{translation}}` token or indexed `{{verse:N}}` tokens in custom themes, and it uses `{{scripture}}` where macOS uses `{{verse}}`. Multi-template and comparison themes are macOS-only. If a custom scripture theme looks wrong on Windows, this is why — see [Themes, Looks & Overlays](07-themes-looks-overlays.md).
+Row 2 of the control bar also carries two quick pickers, **Verse:** and **Reference:**, that mirror the *Show verse numbers* and *Show reference* options.
 
 ---
 
@@ -138,9 +144,9 @@ Tiles carry the tooltip *"Click to preview · double-click to go live"* as a rem
 
 **What it does.** Shows the same verse in several translations side by side, so you can read them together and then push the comparison live.
 
-**How to get there.** The **Compare** button (Row 1). Pick the translations to include; the panel shows each translation's rendering of the current verse. A **GO LIVE** action sends the comparison to the audience. A **Clear comparison** entry resets the set.
+**How to get there.** The **Compare** button (Row 1) — it reads **Compare (N)** once translations are picked. Choose the translations to include from the **Installed** and **Online** sections; the panel shows each translation's rendering of the current verse. A **GO LIVE** action sends the comparison to the audience, laid out by the theme's **Compare 2 / 3 / 4 Translations** template. **Clear comparison** resets the set.
 
-**Requirements.** *(both)* for bundled translations. If your comparison set includes any **Online (licensed)** translation, that translation still requires **Pro + a gateway** *(Pro)* — the same rule as elsewhere. Side-by-side comparison slides are richest on macOS; on Windows, see the theme caveat above.
+**Online Bibles in Compare.** When you're signed in on **Pro**, your online (licensed) translations appear in the Compare list too and are fetched as their rows appear (Windows shows *"Loading…"*, or *"Not in this translation"* for a verse a translation lacks). *(both; online translations: Pro)*
 
 ---
 
@@ -151,7 +157,7 @@ Tiles carry the tooltip *"Click to preview · double-click to go live"* as a rem
 | Edition | Follow behaviour |
 |---|---|
 | **macOS** | **Auto-follows** live detection directly in the verse grid — as references are heard, the grid moves to them. The detection banner shows the **confidence %** and the **translation**. |
-| **Windows** | Follows via a **detection banner**: when a reference is heard, a banner appears reading *"Detected: {reference}"* with **Preview** and **Show** buttons. **Preview** jumps the grid to it; **Show** takes it live. The banner shows the **reference only** (no confidence % or translation). |
+| **Windows** | Follows via a **detection banner**: when a reference is heard, a banner appears reading *"Detected: {reference}"* with **Preview** and **Show** buttons. **Preview** jumps the grid to it; **Show** takes it live. The banner shows the **reference only** (no confidence % or translation) and hides itself after 25 seconds. |
 
 On both editions, verses the preacher seems to be **paraphrasing** surface as a **suggested verses** panel — each entry has a **Show** button that pushes that verse live, and a **CLEAR** to dismiss all suggestions.
 
@@ -176,5 +182,5 @@ From the study panel you can navigate to any cross-referenced verse and, from th
 
 - [Detection & Auto-Follow (AI)](05-detection-ai.md) — live transcription, Bible-reference detection, and the confidence/translation banner details.
 - [Building a Service](02-service-and-cues.md) — how *Add Passage to Plan* fits into your running order.
-- [Themes, Looks & Overlays](07-themes-looks-overlays.md) — scripture slide templates, tokens, and the Windows renderer caveats.
+- [Themes, Looks & Overlays](07-themes-looks-overlays.md) — scripture slide templates (Bible, Compare) and tokens.
 - [Preferences, Shortcuts & Menus](11-preferences-shortcuts.md) — the Bible preferences pane and your BYO API.Bible key.
