@@ -4,6 +4,7 @@ import Nav from "@/components/Nav";
 import ManualBanner from "@/components/ManualBanner";
 import SchemaJsonLd from "@/components/SchemaJsonLd";
 import Footer from "@/components/Footer";
+import { findPlan } from "@/lib/pricing";
 import Image from "next/image";
 import MagneticButton from "@/components/MagneticButton";
 import ScreenshotCarousel from "@/components/ScreenshotCarousel";
@@ -23,9 +24,9 @@ import {
 } from "@/components/sections";
 
 export const metadata: Metadata = {
-  title: "ACE Editors' Notes — Click-to-Seek Notes for DaVinci Resolve (Free, Mac)",
+  title: "ACE Editors' Notes — Click-to-Seek Notes for DaVinci Resolve (Mac)",
   description:
-    "The notes app for DaVinci Resolve editors. Click any timecode in your notes — Resolve's playhead jumps to that frame. Free, Apple-signed, auto-updating. macOS.",
+    "The notes app for DaVinci Resolve editors. Click any timecode in your notes — Resolve's playhead jumps to that frame. 14-day free trial, then a one-time purchase. Apple-signed, auto-updating. macOS.",
   alternates: { canonical: "/editors-notes" },
   keywords: [
     "davinci resolve notes",
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "ACE Editors' Notes — Click-to-Seek Notes for DaVinci Resolve",
     description:
-      "Stop alt-tabbing between Notes.app and Resolve. Click a timecode, the playhead jumps. Free for Mac.",
+      "Stop alt-tabbing between Notes.app and Resolve. Click a timecode, the playhead jumps. 14-day free trial on Mac.",
     images: [{ url: "/editors-notes/screenshot-insert-timecode.png", width: 1823, height: 926 }],
     url: "/editors-notes",
     type: "website",
@@ -46,10 +47,13 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "ACE Editors' Notes for DaVinci Resolve",
-    description: "Click any timecode in your notes — Resolve seeks to that frame. Free, Mac.",
+    description: "Click any timecode in your notes — Resolve seeks to that frame. 14-day free trial, Mac.",
     images: ["/editors-notes/screenshot-insert-timecode.png"],
   },
 };
+
+/** The one-time price, read from the pricing table so the two never disagree. */
+const NOTES_ONE_TIME_USD = findPlan("notes", "lifetime")?.oneTimeUSD ?? null;
 
 const FEATURES = [
   {
@@ -92,7 +96,8 @@ export default function EditorsNotesPage() {
         alternateName="ACE Editors' Notes for DaVinci Resolve"
         applicationCategory="MultimediaApplication"
         operatingSystem="macOS"
-        offerDescription="Free during public beta."
+        offerPrice={NOTES_ONE_TIME_USD != null ? String(NOTES_ONE_TIME_USD) : null}
+        offerDescription="14-day free trial, then a one-time purchase."
         url="https://www.ace-presenter.app/editors-notes"
         image="/og/og-editors-notes.png"
         description="A native note-taking app for video editors. Every timecode you type becomes a clickable link that jumps DaVinci Resolve's playhead to that exact frame."
@@ -118,7 +123,7 @@ export default function EditorsNotesPage() {
             Notes that talk to <AccentItalic>Resolve</AccentItalic>.
           </>
         }
-        sub="Free · macOS · DaVinci Resolve integration · Part of the ACE Suite"
+        sub="14-day free trial, then a one-time purchase · macOS · DaVinci Resolve integration · Part of the ACE Suite"
         primary={{
           href: "/api/download?product=editors-notes&platform=mac-arm64",
           label: "Download for Mac",
@@ -165,8 +170,8 @@ function Hero() {
         </MagneticButton>
       </div>
       <p className="mt-5 text-xs text-[#888]">
-        Free · macOS · Apple Silicon · DaVinci Resolve integration · Part of the
-        ACE Suite
+        14-day free trial, then a one-time purchase · macOS 12+ · Apple Silicon ·
+        DaVinci Resolve integration · Part of the ACE Suite
       </p>
 
       {/* Real UI — timecoded notes, framed with the amber accent glow. */}
@@ -215,7 +220,7 @@ function HeroChips() {
           Resolve
         </div>
         <div className="mt-2 text-sm font-semibold text-white">Playhead → 01:12:04:18</div>
-        <div className="mt-1.5 font-mono text-[10px] text-[#CFA04D]">seeked · 0 ms lag</div>
+        <div className="mt-1.5 font-mono text-[10px] text-[#CFA04D]">seeked · on that frame</div>
       </FloatingCard>
 
       <FloatingCard className="bottom-[20%] right-[9%] w-48 p-4" delay={-3} duration={6.5}>
@@ -304,7 +309,7 @@ function DemoVideo() {
           />
         </div>
         <p className="mt-4 text-center text-xs text-[#555]">
-          v1.2.0 · macOS · DaVinci Resolve 17+ · Free
+          v1.6.1 · public beta · Apple Silicon · DaVinci Resolve 18+
         </p>
       </div>
     </section>
@@ -437,8 +442,9 @@ function UseCase() {
           </div>
           <div className="mt-8 rounded-xl border border-[#1F1F1F] bg-[#0F0F0F] p-5 text-sm text-[#888]">
             <span className="font-semibold text-white">System requirement:</span>{" "}
-            macOS 26+ · DaVinci Resolve 17+ for marker import · Resolve does not
-            need to be open for basic note-taking{" · "}
+            Apple Silicon Mac · macOS 12 or later (macOS 26 only for the AI
+            features) · DaVinci Resolve 18+ for the live link and marker import ·
+            Resolve does not need to be open for basic note-taking{" · "}
             <Link href="/support" className="text-[#B07C2A] transition hover:text-[#CFA04D]">
               Get support →
             </Link>
