@@ -89,7 +89,7 @@ export const PRICING: ProductPricing[] = [
           "Smart Bible reference detection",
           "Import your ProPresenter library",
           "1 audience output (projector or screen)",
-          "12+ languages",
+          "Detection in dozens of languages",
         ],
       },
       {

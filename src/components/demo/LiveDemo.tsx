@@ -575,7 +575,7 @@ export default function LiveDemo() {
         ))}
       </div>
       <p className="mt-4 font-mono text-[10.5px] uppercase tracking-[0.18em] text-[#666]">
-        This demo reads text in your browser · the app hears the room, on-device, in 30+ languages
+        This demo reads text in your browser · the app hears the room, on-device by default, in dozens of languages
       </p>
     </div>
   );
