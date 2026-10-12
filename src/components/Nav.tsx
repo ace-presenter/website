@@ -26,7 +26,7 @@ function navInitials(u: NavUser): string {
  * Sticky, backdrop-blurred, dark-only. Scroll-aware: condenses and deepens its
  * background once the page scrolls.
  *
- * Desktop: Products ▾ dropdown (3 live products + Manager/World "SOON"),
+ * Desktop: Products ▾ dropdown (the 3 live products),
  * Learn, Support, Pricing, Sign in, Get started. The dropdown opens on hover
  * and focus, toggles on click, and closes on Escape (restoring focus to the
  * trigger). Mobile: hamburger → full-screen sheet; scroll is frozen via Lenis
@@ -71,22 +71,8 @@ const LIVE_PRODUCTS: {
   },
 ];
 
-const SOON_PRODUCTS: typeof LIVE_PRODUCTS = [
-  {
-    key: "manager",
-    href: "/manager",
-    name: "Manager",
-    desc: "One dashboard for teams and orgs.",
-    accent: products.manager.accent,
-  },
-  {
-    key: "world",
-    href: "/world",
-    name: "World",
-    desc: "A shared space for your audience.",
-    accent: products.world.accent,
-  },
-];
+// Manager and World are off the site for now (owner, 2026-10-10).
+const SOON_PRODUCTS: typeof LIVE_PRODUCTS = [];
 
 function ProductRow({
   item,
@@ -293,15 +279,19 @@ export default function Nav({ activeProduct }: NavProps) {
                   <ProductRow key={p.key} item={p} onNavigate={() => setOpen(false)} />
                 ))}
               </div>
-              <div className="mx-3 my-1.5 h-px bg-white/10" aria-hidden />
-              <p className="px-3 pt-1 pb-0.5 font-mono text-[9px] uppercase tracking-[0.25em] text-[#777]">
-                Coming soon
-              </p>
-              <div className="flex flex-col">
-                {SOON_PRODUCTS.map((p) => (
-                  <ProductRow key={p.key} item={p} soon onNavigate={() => setOpen(false)} />
-                ))}
-              </div>
+              {SOON_PRODUCTS.length > 0 && (
+                <>
+                  <div className="mx-3 my-1.5 h-px bg-white/10" aria-hidden />
+                  <p className="px-3 pt-1 pb-0.5 font-mono text-[9px] uppercase tracking-[0.25em] text-[#777]">
+                    Coming soon
+                  </p>
+                  <div className="flex flex-col">
+                    {SOON_PRODUCTS.map((p) => (
+                      <ProductRow key={p.key} item={p} soon onNavigate={() => setOpen(false)} />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>

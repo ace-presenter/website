@@ -26,6 +26,7 @@ import {
   FeatureBento,
   CTABand,
 } from "@/components/sections";
+import { fetchPresenterVersions, type PresenterVersions } from "@/lib/appcast";
 
 export const metadata: Metadata = {
   title: "ACE Presenter",
@@ -35,74 +36,6 @@ export const metadata: Metadata = {
 };
 
 export const revalidate = 300;
-
-async function fetchLatestVersion(): Promise<string | null> {
-  try {
-    // Presenter ships a Sparkle appcast (native app), not electron's yml.
-    const r = await fetch("https://dl.ace-presenter.app/presenter/appcast.xml", {
-      next: { revalidate: 300 },
-    });
-    if (!r.ok) return null;
-    const text = await r.text();
-    // Take the HIGHEST version, not the first <item>.
-    //
-    // The feed is meant to be newest-first, but "meant to" has already failed
-    // once: a publish script inserted new releases before </channel> instead of
-    // before the first <item>, and the site served the previous build twice.
-    // Reading position is an assumption about a file we edit with scripts;
-    // comparing versions is not. The commented-out example release inside the
-    // XML comment block is another way position lies, so strip comments first.
-    const body = text.replace(/<!--[\s\S]*?-->/g, "");
-    const versions = [
-      ...body.matchAll(/<sparkle:shortVersionString>([^<]+)<\/sparkle:shortVersionString>/g),
-    ].map((m) => m[1].trim());
-    const fallback = [...body.matchAll(/<sparkle:version>([^<]+)<\/sparkle:version>/g)].map(
-      (m) => m[1].trim(),
-    );
-    const all = versions.length ? versions : fallback;
-    if (!all.length) return null;
-    const rank = (v: string) =>
-      v.split(".").map((n) => parseInt(n, 10) || 0);
-    return all.sort((a, b) => {
-      const [x, y] = [rank(a), rank(b)];
-      for (let i = 0; i < Math.max(x.length, y.length); i++) {
-        if ((y[i] ?? 0) !== (x[i] ?? 0)) return (y[i] ?? 0) - (x[i] ?? 0);
-      }
-      return 0;
-    })[0];
-  } catch {
-    return null;
-  }
-}
-
-/**
- * The newest published Windows build, or null when there is not one yet.
- *
- * Windows has its own appcast beside the macOS one. Reading it rather than
- * hardcoding a state means the download button turns itself on the moment the
- * first build is published and needs no site deploy to do it — and, just as
- * importantly, cannot show a download that 404s in the window between the two.
- * An empty feed is a valid "nothing yet", not an error.
- */
-async function fetchWindowsRelease(): Promise<{ version: string } | null> {
-  try {
-    const r = await fetch("https://dl.ace-presenter.app/presenter-win/appcast.xml", {
-      next: { revalidate: 300 },
-    });
-    if (!r.ok) return null;
-    const text = await r.text();
-    // Ignore the commented-out example in the empty feed: only match a version
-    // that sits inside a real <item>.
-    const items = text.replace(/<!--[\s\S]*?-->/g, "").match(/<item[\s\S]*?<\/item>/g);
-    if (!items || items.length === 0) return null;
-    const m =
-      items[0].match(/<sparkle:shortVersionString>([^<]+)<\/sparkle:shortVersionString>/) ??
-      items[0].match(/<sparkle:version>([^<]+)<\/sparkle:version>/);
-    return m ? { version: m[1].trim() } : null;
-  } catch {
-    return null;
-  }
-}
 
 const SEGMENTS: { hook: string; title: string; body: string }[] = [
   {
@@ -118,12 +51,12 @@ const SEGMENTS: { hook: string; title: string; body: string }[] = [
   {
     hook: "Education",
     title: "Lectures that don't lose the slide",
-    body: "Your tempo, your order. The deck follows you, not a pre-baked cue list. Works for any subject, any language.",
+    body: "Your tempo, your order. The deck follows you, not a pre-baked cue list. Works for any subject, in dozens of languages.",
   },
   {
     hook: "Theater & live shows",
-    title: "AI handles the cues — one operator runs the show",
-    body: "Voice-triggered cue advance + automatic dialog beat detection. The stage manager focuses on the room, not the laptop.",
+    title: "ACE follows the lines — one operator runs the show",
+    body: "ACE listens for the spoken line and advances the cue, with voice commands for the rest. The stage manager focuses on the room, not the laptop.",
   },
 ];
 
@@ -133,27 +66,27 @@ const COMPAT = [
   "OBS Studio",
   "HDMI out",
   "NDI",
+  "Syphon",
+  "SDI",
   "MIDI",
   "OSC",
   "PowerPoint",
   "Keynote",
+  "SongSelect",
+  "CCLI reporting",
   "iPhone remote",
   "Android remote",
 ];
 
 export default async function PresenterPage() {
-  // Fetched together so one slow feed does not serialise behind the other.
-  const [latestVersion, windowsRelease] = await Promise.all([
-    fetchLatestVersion(),
-    fetchWindowsRelease(),
-  ]);
-  const windowsVersion = windowsRelease?.version ?? null;
+  // Both update feeds, fetched together. Windows is null until it has a build.
+  const versions = await fetchPresenterVersions();
   return (
     <main className="flex-1 flex flex-col font-sans">
       <SchemaJsonLd />
       <Nav activeProduct="presenter" />
       <ManualBanner />
-      <Hero latestVersion={latestVersion} windowsVersion={windowsVersion} />
+      <Hero versions={versions} />
       <LogoMarquee
         label="Plays nicely with the rest of your rig"
         items={COMPAT}
@@ -165,7 +98,7 @@ export default async function PresenterPage() {
             { text: "0", label: "Clicks to advance" },
             { num: { to: 9, suffix: "" }, label: "Interface languages" },
             { text: "Free", label: "To get started" },
-            { text: "macOS 14+", label: "Apple Silicon" },
+            { text: "Mac + PC", label: "macOS 14+ · Windows 10+" },
           ]}
         />
       </ProductTheme>
@@ -200,19 +133,14 @@ export default async function PresenterPage() {
         secondary={{ href: "/pricing", label: "View pricing" }}
       />
       <Footer />
-      <WhatsNewModal version={latestVersion} />
+      <WhatsNewModal version={versions.mac} />
     </main>
   );
 }
 
 /* ───────────── HERO ───────────── */
-function Hero({
-  latestVersion,
-  windowsVersion,
-}: {
-  latestVersion: string | null;
-  windowsVersion: string | null;
-}) {
+function Hero({ versions }: { versions: PresenterVersions }) {
+  const windowsVersion = versions.windows;
   return (
     <HeroShell product="presenter" fill={false} floating={<HeroChips />}>
       <div className="mb-7 flex items-center gap-3">
@@ -268,12 +196,23 @@ function Hero({
 
       <p className="mt-5 text-xs text-[#C4C4C4]">
         Free tier available · macOS 14+{windowsVersion ? " · Windows 10+" : ""}
-        {latestVersion && (
+        {(versions.mac || versions.windows) && (
           <>
             {" · "}
             <span className="text-[#888]">
               Latest:{" "}
-              <span className="font-semibold tabular-nums text-white">v{latestVersion}</span>
+              {versions.mac && (
+                <>
+                  Mac <span className="font-semibold tabular-nums text-white">v{versions.mac}</span>
+                </>
+              )}
+              {versions.mac && versions.windows && " · "}
+              {versions.windows && (
+                <>
+                  Windows{" "}
+                  <span className="font-semibold tabular-nums text-white">v{versions.windows}</span>
+                </>
+              )}
             </span>
           </>
         )}
@@ -363,7 +302,7 @@ function SeeItRun() {
                 The whole service, <AccentItalic>in one window</AccentItalic>.
               </>
             }
-            lede="Library, stage output, themes, and program — everything an operator touches during a live service, built native for macOS."
+            lede="Library, stage output, themes, and program — everything an operator touches during a live service, built native for Mac and Windows."
           />
         </Reveal>
         <div className="mt-20 flex flex-col gap-24 sm:gap-28">
@@ -441,11 +380,9 @@ function HeroChips() {
 
       <FloatingCard className="bottom-[18%] right-[9%] w-44 p-4" delay={-3.5} duration={6.5}>
         <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#888]">
-          Cue latency
+          Out to
         </div>
-        <div className="mt-1.5 text-2xl font-bold tabular-nums text-white">
-          0.4<span className="text-sm text-[#888]">s</span>
-        </div>
+        <div className="mt-1.5 text-sm font-semibold text-white">NDI · Syphon · SDI</div>
       </FloatingCard>
     </>
   );
@@ -453,7 +390,7 @@ function HeroChips() {
 
 /* ───────────── PROPRESENTER MIGRATION ───────────── */
 function PropresenterMigration() {
-  const chips = ["Songs", "Sections", "Media", "Playlists"];
+  const chips = ["Songs", "Playlist folders", "Smart playlists", "Media + Audio bins"];
   return (
     <section className="border-b border-[#1A1A1A] px-6 py-20 sm:px-10">
       <div className="mx-auto max-w-5xl text-center">
@@ -502,9 +439,11 @@ function PropresenterMigration() {
         </h2>
 
         <p className="mx-auto mb-8 max-w-xl text-base leading-relaxed text-[#C4C4C4] sm:text-lg">
-          Five-stage wizard finds your local ProPresenter library, previews
-          exactly what&apos;s coming across, then imports songs, sections, media, and
-          playlists in one click.
+          The import wizard finds your ProPresenter library — or takes a folder
+          you drop on it — shows you what&apos;s coming across, imports it, and
+          ends with a summary. Playlist folders, playlist order and smart
+          playlists come with it, and so do the Media and Audio bins. A file
+          that can&apos;t be found keeps its place, marked missing.
         </p>
 
         <MagneticButton
@@ -534,7 +473,7 @@ function Capabilities() {
             <SectionHeading
               eyebrow="Capabilities"
               title="What ACE actually does"
-              lede="Local-first, latency-conscious, built for the kind of pressure where mistakes are visible."
+              lede="On-device by default, built for the kind of pressure where mistakes are visible."
             />
           </Reveal>
           <FeatureBento
@@ -562,7 +501,7 @@ function Capabilities() {
               },
               {
                 title: "Drives your screens",
-                desc: "Audience projector, stage monitor for the team, and a live operator preview — all controlled from one window on your Mac.",
+                desc: "Audience projector, stage screens that each show their own layout, and a live operator preview — plus NDI per screen, SDI through a Blackmagic card and Syphon on the Mac. All from one window on your Mac or PC.",
               },
               {
                 title: "Stays live all service",
@@ -580,11 +519,27 @@ function Capabilities() {
               },
               {
                 title: "Control from your phone",
-                desc: "The ACE Remote app connects to your Mac over Wi-Fi. Advance slides, blank the screen, or jump to any slide from anywhere in the room — no clicker required.",
+                desc: "The ACE Remote app connects to your Mac or PC over Wi-Fi. Advance slides, blank the screen, or jump to any slide from anywhere in the room — no clicker required.",
               },
               {
                 title: "Always up to date",
                 desc: "New versions install in the background and are ready next time you launch — nothing interrupts a live service.",
+              },
+              {
+                title: "Lower thirds",
+                desc: "Names, lyrics and Bible verses as a bar along the bottom — the look a livestream or camera feed needs. Static or animated designs, or make your own, on every output.",
+              },
+              {
+                title: "A media bin that keeps up",
+                desc: "Folders, playlists and smart playlists for pictures, video and audio. Whatever is on screen — picture, song slide, verse — carries a red LIVE mark.",
+              },
+              {
+                title: "Scripture, verse by verse",
+                desc: "Arrow keys step through a reading one verse at a time and add each verse to the service in order. Compare a verse across up to four versions side by side.",
+              },
+              {
+                title: "Songs, found and credited",
+                desc: "Search for a line the congregation sings to find the song. Import from SongSelect with writers and CCLI number, show the credit line, and export your CCLI usage report.",
               },
             ]}
           />
@@ -711,7 +666,7 @@ function RemoteApp() {
               Control from anywhere<br className="hidden sm:block" /> in the room.
             </h2>
             <p className="mt-5 max-w-lg text-base leading-relaxed text-[#B4B4B4] sm:text-lg">
-              The ACE Remote app connects to your Mac over Wi-Fi. No setup beyond your local network — open the app, connect, and you have full control from your phone.
+              The ACE Remote app connects to your Mac or PC over Wi-Fi. No setup beyond your local network — open the app, connect, and you have full control from your phone.
             </p>
             <ul className="mt-8 space-y-3">
               {features.map((f) => (
@@ -817,7 +772,7 @@ function PricingTeaser() {
         "Automatic song and Bible detection",
         "Import from ProPresenter",
         "1 audience output",
-        "Detection in 12+ languages",
+        "Detection in dozens of languages",
       ],
     },
     {

@@ -15,9 +15,10 @@
  * attention to a major release without a banner taking permanent real
  * estate.
  *
- * Server-side: `version` is passed in from the home page after it
- * resolves the live latest-mac.yml manifest. If the manifest fetch
- * failed (returns null), the modal simply doesn't render.
+ * Server-side: `version` is passed in from the Presenter page — the
+ * highest version in the live Mac appcast (src/lib/appcast.ts). It must
+ * equal CURRENT.version for the modal to show; if the fetch failed
+ * (null) or the feed is on another version, the modal doesn't render.
  */
 
 import { useEffect, useState, useCallback } from "react";
@@ -109,30 +110,41 @@ const I = {
 // record; this object is the headline-curated subset.
 
 const CURRENT: ReleaseContent = {
-  version: "1.0.1",
-  date: "August 26, 2026",
+  version: "2.4.0",
+  date: "October 10, 2026 on Mac · Windows 2.4.0 to follow",
   highlights: [
     {
-      icon: I.sparkle,
-      title: "ACE now speaks your language",
-      body: "The whole interface is translated into eight languages — Arabic, Chinese, French, German, Korean, Portuguese, Russian and Spanish — on Mac and Windows alike. Choose yours in Settings. Every menu, panel and message, not just part of it.",
+      icon: I.layers,
+      title: "Your ProPresenter library comes across whole",
+      body: "Playlist folders, playlists in order and smart playlists keep their shape — for songs and for the Media and Audio bins. A file that can't be found stays in its place, marked missing, ready to reconnect. Or drop a folder on the Import window.",
     },
     {
-      icon: I.layers,
-      title: "Arabic reads properly, right to left",
-      body: "The whole layout mirrors: your library, controls and arrows all move to the side they belong on.",
+      icon: I.image,
+      title: "A media bin with folders and smart playlists",
+      body: "Organise media in folders and playlists, or make a smart playlist that shows whatever is in a folder. Let a playlist play through on its own for walk-in loops, and have a slide start a playlist when it goes live.",
     },
     {
       icon: I.display,
-      title: "Nothing important left in English",
-      body: "Your CCLI number, the account screens and the data-sharing choice are translated too.",
+      title: "What's on screen is marked LIVE",
+      body: "The picture, video, song slide, service item and Bible verse on screen carry a clear red LIVE mark, and the song panel shows each slide as the audience sees it.",
+    },
+    {
+      icon: I.book,
+      title: "Bible readings, verse by verse",
+      body: "With a verse on screen, ← and → show the next or previous verse and add it to the service list in order; ↑ and ↓ jump a row, ⌥↑ and ⌥↓ change chapter. Compare your online Bibles side by side.",
     },
   ],
   improvements: [
-    "Buttons no longer cut off words in longer languages — German, Russian and French all fit now",
+    "Find a song by its words: search the Library for a line the congregation sings",
+    "Text that fits its box: long lyrics and Bible verses shrink to fit instead of being cut off",
+    "Songs, services and themes save as ACE files, with a backup folder in Documents › ACE Presenter",
+    "The keyboard works the way you expect: ← → and Page Up/Down move a slide, ↑ ↓ a row",
+    "Everything new in this release reads in all nine interface languages, Arabic mirrored right to left",
   ],
   fixes: [
-    "Arabic no longer renders as disconnected letters; cursive scripts keep their joins",
+    "Audio attached to a cue, and audio from the media bin, now plays",
+    "Licensed Bible text is kept out of every export",
+    "Panel dividers stay where you drag them, and the Bible and Song panels open where you left them",
   ],
 };
 

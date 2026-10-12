@@ -8,8 +8,6 @@ import { products, type ProductKey } from "@/lib/brand";
 import presenterShot from "../../../public/presenter/stage.png";
 import scheduleShot from "../../../public/schedule/welcome.webp";
 import notesShot from "../../../public/editors-notes/screenshot-insert-timecode.png";
-import managerShot from "../../../public/og/og-manager.png";
-import worldShot from "../../../public/og/og-world.png";
 
 type Slide = {
   key: ProductKey;
@@ -30,7 +28,7 @@ const SLIDES: Slide[] = [
     name: "Presenter",
     tagline: "The room speaks. The slides follow.",
     blurb:
-      "Live worship and event presentation that listens to the service and fires the next lyric or verse in under a second — on-device, no clicker.",
+      "Live worship and event presentation that listens to the service and fires the next lyric or verse — on-device by default, no clicker.",
     status: "Shipping",
     platform: "macOS & Windows",
     href: "/presenter",
@@ -45,7 +43,7 @@ const SLIDES: Slide[] = [
     blurb:
       "Photograph any plan and ACE Schedule reads it into a working week — then walks you through each day from the first task to an end-of-day reflection.",
     status: "Shipping",
-    platform: "Web & macOS",
+    platform: "Web, Mac & Windows",
     href: "/schedule",
     manualHref: "/schedule/manual",
     visual: scheduleShot,
@@ -63,32 +61,6 @@ const SLIDES: Slide[] = [
     manualHref: "/editors-notes/manual",
     visual: notesShot,
     visualAlt: "ACE Editors' Notes inserting a timecode",
-  },
-  {
-    key: "manager",
-    name: "Manager",
-    tagline: "One dashboard for the whole organization.",
-    blurb:
-      "Members, departments, rotas, giving, events, and messaging in one place — with an AI agent handling the routine follow-ups in the background.",
-    status: "Early access",
-    platform: "Web",
-    href: "/manager",
-    manualHref: "/manager/manual",
-    visual: managerShot,
-    visualAlt: "ACE Manager dashboard",
-  },
-  {
-    key: "world",
-    name: "World",
-    tagline: "A shared 3D space for your audience.",
-    blurb:
-      "A virtual venue that recreates your event as a place — avatars watch your live feed together, hear each other in spatial voice, and a producer drives the room.",
-    status: "In development",
-    platform: "Web, Desktop & VR",
-    href: "/world",
-    manualHref: "/world/manual",
-    visual: worldShot,
-    visualAlt: "ACE World virtual venue",
   },
 ];
 

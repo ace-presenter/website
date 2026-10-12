@@ -17,6 +17,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { fetchPresenterVersions, type PresenterVersions } from "@/lib/appcast";
 
 export const metadata: Metadata = {
   title: "Download ACE — Mac and Windows",
@@ -47,31 +48,14 @@ export const metadata: Metadata = {
   },
 };
 
-async function fetchLatestVersion(): Promise<string | null> {
-  try {
-    // Presenter ships a Sparkle appcast (native app), not electron's yml.
-    const r = await fetch("https://dl.ace-presenter.app/presenter/appcast.xml", {
-      next: { revalidate: 300 },
-    });
-    if (!r.ok) return null;
-    const text = await r.text();
-    const m =
-      text.match(/<sparkle:shortVersionString>([^<]+)<\/sparkle:shortVersionString>/) ??
-      text.match(/<sparkle:version>([^<]+)<\/sparkle:version>/);
-    return m ? m[1].trim() : null;
-  } catch {
-    return null;
-  }
-}
-
 export const revalidate = 300;
 
 export default async function DownloadPage() {
-  const latestVersion = await fetchLatestVersion();
+  const versions = await fetchPresenterVersions();
   return (
     <main className="flex-1 flex flex-col font-sans">
       <Nav />
-      <Hero latestVersion={latestVersion} />
+      <Hero versions={versions} />
       <Requirements />
       <OtherPlatforms />
       <Footer />
@@ -80,7 +64,7 @@ export default async function DownloadPage() {
 }
 
 /* ───────────── HERO ───────────── */
-function Hero({ latestVersion }: { latestVersion: string | null }) {
+function Hero({ versions }: { versions: PresenterVersions }) {
   return (
     <section className="px-6 sm:px-10 pt-20 sm:pt-32 pb-20">
       <div className="max-w-3xl mx-auto">
@@ -100,8 +84,9 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
         </h1>
 
         <p className="mt-8 max-w-xl text-lg text-[#C4C4C4] leading-relaxed">
-          Signed and notarized on Mac. Auto-updates from here. Same version on both
-          platforms, released together.
+          Signed and notarized on Mac. Auto-updates from here. Same features on
+          Mac and Windows — a new version can reach one a few days before the
+          other.
         </p>
 
         <div className="mt-10 flex flex-col gap-4">
@@ -144,11 +129,22 @@ function Hero({ latestVersion }: { latestVersion: string | null }) {
 
         <p className="mt-5 text-xs text-[#C4C4C4]">
           Free tier available · macOS 14 (Sonoma) or later · Windows 10+
-          {latestVersion && (
+          {(versions.mac || versions.windows) && (
             <>
               {" · "}
               <span className="text-[#888]">
-                Latest: <span className="text-white font-semibold tabular-nums">v{latestVersion}</span>
+                Latest:{" "}
+                {versions.mac && (
+                  <>
+                    Mac <span className="text-white font-semibold tabular-nums">v{versions.mac}</span>
+                  </>
+                )}
+                {versions.mac && versions.windows && " · "}
+                {versions.windows && (
+                  <>
+                    Windows <span className="text-white font-semibold tabular-nums">v{versions.windows}</span>
+                  </>
+                )}
               </span>
             </>
           )}
@@ -163,9 +159,9 @@ function Requirements() {
   const ROWS = [
     { label: "Operating system", value: "macOS 14 (Sonoma) or later · Windows 10 or later" },
     { label: "Architecture", value: "Apple Silicon (M1 or later) · Windows 64-bit" },
-    { label: "Disk space", value: "~600 MB initial · ~1 GB after first launch (AI models download on first run)" },
-    { label: "Microphone", value: "Built-in, USB, or any Core Audio input" },
-    { label: "Network", value: "Required only for first-launch model download · core detection runs offline" },
+    { label: "Disk space", value: "≈320 MB download on Mac, ≈340 MB on Windows · speech models included · Large v3 Turbo is an optional extra download from Extras" },
+    { label: "Microphone", value: "Built-in, USB, or any audio interface your Mac or PC can see" },
+    { label: "Network", value: "Not needed for detection, which runs offline from first launch · used only for the optional Large v3 Turbo model, online Bibles, cloud detection (off unless you switch it on), sign-in and updates" },
   ];
   return (
     <section className="px-6 sm:px-10 py-16 border-y border-[#1A1A1A] bg-[#0A0A0A]">
@@ -198,7 +194,7 @@ function OtherPlatforms() {
         </h2>
         <p className="text-[#C4C4C4] mb-8">
           Not yet — Linux is the one platform still unserved. Mac and Windows are both
-          available above, same version, released together. Tell us if you need Linux
+          available above, with the same features. Tell us if you need Linux
           and we&apos;ll email when there is a build.
         </p>
         <div className="flex flex-col sm:flex-row gap-3">

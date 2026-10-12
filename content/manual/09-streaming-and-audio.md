@@ -4,7 +4,7 @@ This chapter covers everything ACE Presenter does *past the projector*: pushing 
 
 If you are still setting up the audience and stage displays themselves, start with [Outputs & Screens](08-outputs-and-screens.md). Anything that needs an external driver, runtime, or piece of hardware is summarised in [Appendix C — External Dependencies & Troubleshooting](appendix-c-dependencies.md).
 
-> **How to read the badges.** *(both)* = same on macOS and Windows · *(macOS only)* = not on Windows · *(Windows: not yet available)* = exists on macOS, not yet ported · *(build-dependent)* = on Windows, present only if the app was compiled with the relevant module. See the [Platform Differences appendix](appendix-a-platform-differences.md) for the authoritative list.
+> **How to read the badges.** *(both)* = same on macOS and Windows · *(macOS only)* = not on Windows · *(Windows: not yet available)* = exists on macOS, still to come on Windows. See the [Platform Differences appendix](appendix-a-platform-differences.md) for the authoritative list.
 
 ---
 
@@ -34,20 +34,19 @@ If you are still setting up the audience and stage displays themselves, start wi
 
 **Encoder & requirements.**
 
-- **macOS** — uses HaishinKit and is **always built in**. No extra install; streaming is available in any macOS build.
-- **Windows** — uses an **FFmpeg** encoder that is **(build-dependent)**: the build must be compiled with `ACE_WITH_FFMPEG`. If it wasn't, the Stream dialog shows the message *"This build has no streaming encoder. Rebuild with ACE_WITH_FFMPEG=ON"* and **Go Live is disabled**. Check your build if the button is greyed out.
+- **macOS** — uses HaishinKit, built in. No extra install.
+- **Windows** — uses an FFmpeg encoder that ships in the Windows installer. No extra install.
 
 | Requirement | Platform | Needed for |
 |---|---|---|
 | RTMP ingest URL + stream key | both | Any live stream |
 | Upload bandwidth ≥ selected bitrate | both | Stable broadcast |
-| `ACE_WITH_FFMPEG` build | Windows | Streaming at all (else Go Live disabled) |
 
 ---
 
 ## The PROGRAM composite
 
-**What it does.** The single image ACE streams and sends over NDI. It is layered: a **camera or capture backdrop** (cover-fit to fill the frame) with the **live slide composited on top**. When output is blanked, the composite goes black. It is always rendered at 1080p internally and scaled to the chosen stream resolution. This is what your online audience sees — independent of the physical audience and stage displays. *(both)*
+**What it does.** The single image ACE streams and records. It is layered: a **camera or capture backdrop** (cover-fit to fill the frame) with the **live slide composited on top** — lower thirds and your logo included. When output is blanked, the composite goes black. It is always rendered at 1080p internally and scaled to the chosen stream resolution. This is what your online audience sees — independent of the physical audience and stage displays. *(both)*
 
 To put a camera *into* this composite rather than just a slide, see [Camera & video input](#camera--video-input).
 
@@ -57,18 +56,17 @@ To put a camera *into* this composite rather than just a slide, see [Camera & vi
 
 NDI carries video (and alpha) between machines over the local network — sending ACE's program to a switcher or capture PC, or bringing another NDI source into ACE as a video input.
 
-### NDI send
+### NDI send — any screen
 
-**What it does.** Publishes the PROGRAM composite as a named NDI source that other NDI-aware software on your network can subscribe to.
+**What it does.** Sends a screen over the network as a named NDI source that other NDI-aware software can subscribe to — a streaming PC, a switcher, another building. *(both)*
 
-**How to get there.** **Screen Setup ▸ NDI** — toggle it on and set the **stream name** that will appear to receivers.
+**How to get there.** **Screen Setup** — select a screen's output, click its destination box and choose **NDI — send over the network**. It is sent **under that screen's name**, so rename the screen to rename the source. Stage screens can go out this way too. (This replaced the old single NDI switch, which could only send the audience program.) See [Outputs & Screens ▸ Screens and destinations](08-outputs-and-screens.md#screens-and-destinations).
 
-- **macOS** — shows a teal status badge and, if the runtime is missing, a guided install sheet.
-- **Windows** — shows an inline caption for status.
+- A clip playing on screen plays on the NDI feed too, even with no audience window open, and the feed follows the **MEDIA** button in the LAYERS row. On the Free plan it carries the same ACE FREE mark as the screen.
+- **Overlay source with transparency** adds a second source with just the lower thirds and logo on a clear background — see [Overlays NDI source](08-outputs-and-screens.md#overlays-ndi-source).
+- On macOS, **Syphon** and **SDI** are destinations alongside NDI and behave the same way, transparency included *(Syphon: macOS only; SDI: Windows not yet available)*.
 
-The NDI setting is stored **per venue** (`ndiEnabled` / `ndiName`), so different venue profiles can publish under different names — see [Venues & venue profiles](#venues--venue-profiles).
-
-**Requirements.** The **NDI runtime is not bundled** with either edition and must be installed separately. macOS provides a fetch helper; Windows detects the runtime on the filesystem. See [Appendix C](appendix-c-dependencies.md).
+**Requirements.** The **NDI runtime is not bundled** with either edition and must be installed separately; the NDI choice appears in the destination box once it is. macOS provides a guided install; Windows detects the runtime on disk. See [Appendix C](appendix-c-dependencies.md).
 
 ### NDI receive
 
@@ -93,8 +91,8 @@ The NDI setting is stored **per venue** (`ndiEnabled` / `ndiName`), so different
 
 **Platform notes.**
 
-- **Windows** — a COM implementation with format detection, **gated on the Blackmagic SDK at build time**.
-- **macOS** — the `ACEDeckLink` module, loaded dynamically (`dlopen`).
+- **Windows** — DeckLink capture with format detection, included in the Windows installer.
+- **macOS** — the `ACEDeckLink` module, loaded when Blackmagic's driver is present.
 
 **Requirements.** The **Blackmagic Desktop Video** driver must be installed for the capture hardware to be visible to ACE on either platform. See [Appendix C](appendix-c-dependencies.md).
 
@@ -122,8 +120,7 @@ The NDI setting is stored **per venue** (`ndiEnabled` / `ndiName`), so different
 
 **How to get there.**
 
-- **Windows** — **Preferences ▸ ATEM** tab. Enable it, set the **host** (default `192.168.1.100`) and **port** (default `9910`), and use **Connect** to test the link. Then set the per-cue **VIDEO SWITCHER** input in the New/Edit Cue dialog (the field appears when ATEM is enabled).
-- **macOS** — configured in the app's persistence/settings rather than a dedicated Preferences tab; the same per-cue video-switcher input applies.
+- **Preferences ▸ ATEM** *(both)*. Enable it, set the **host** (default `192.168.1.100`) and **port** (default `9910`), and test the link (Windows: **Test connection**). Then set the per-cue **VIDEO SWITCHER** input in the New/Edit Cue dialog (on Windows the field appears when ATEM is enabled).
 
 **Macro triggering.**
 
@@ -195,18 +192,18 @@ ACE distinguishes two audio concerns that are easy to confuse:
 **Platform status & requirements.**
 
 - **macOS** — uses `AVAudioEnvironmentNode` HRTF and includes an **AudioWatchdog** that automatically degrades spatial processing under CPU load. Always available.
-- **Windows** — **(build-dependent)**: requires the app to be compiled with **`ACE_WITH_SPATIAL_AUDIO`**. Without it, spatial audio is disabled and there is no binaural bus. There is **no watchdog** on Windows.
+- **Windows** — Qt Spatial Audio HRTF, included in the Windows installer ("HRTF-rendered positioning, through the binaural device"). There is **no CPU watchdog** on Windows.
 
 ### Venues & venue profiles
 
-**What it does.** A **venue profile** bundles a whole room's configuration: display assignments, output devices, NDI settings, audio roles, room model / zones, spatial settings, and detection language. Switching venues re-applies all of it at once — ideal for a portable rig used in different rooms, or a building with several spaces.
+**What it does.** A **venue profile** bundles a whole room's configuration: display assignments, output devices, audio roles, room model / zones, spatial settings, and detection language. Switching venues re-applies all of it at once — ideal for a portable rig used in different rooms, or a building with several spaces.
 
 **How to get there.** **⌘⇧V** (macOS) / **Ctrl+Shift+V** (Windows).
 
 - **macOS** — the **Venues sheet**: full create/read/update/delete plus detailed per-section editing.
-- **Windows** — **Output ▸ Venues…** opens the Venues dialog: **create/read/update/delete only**, plus a venue badge in the status bar.
+- **Windows** — **Output ▸ Venues…** opens the Venues dialog: **Add**, **Rename**, **Delete** and **Switch to this venue**, plus a venue badge in the status bar. A Windows venue is a name only for now — switching doesn't yet capture or re-apply displays, audio or other settings *(Windows: full venue profiles not yet available)*.
 
-Profiles are stored in `venues.json`. *(both, editor is richer on macOS)*
+macOS stores profiles in `venues.json`.
 
 ### Audio Zones / RoomModel
 
@@ -217,7 +214,7 @@ Profiles are stored in `venues.json`. *(both, editor is richer on macOS)*
 **Platform status.**
 
 - **macOS** — the **full floorplan editor** described above: init room model, add zone/speaker, drag to position, live level/mute faders in the Inspector Zones tab. *(macOS only)*
-- **Windows** — **(Windows: not yet available)**. The Zones tab is a hardcoded empty state ("Phase 7/9"); there is no zone or room editor and no fader UI. Zones authored on macOS **do** travel in an imported `venues.json`, so a Windows machine can *load* a venue that contains zones — but it still cannot edit them or show faders.
+- **Windows** — *(Windows: not yet available)*. The Zones tab shows an empty state ("No zones yet"); there is no zone or room editor and no fader UI yet.
 
 **Requirements.** None external; this is an in-app model.
 
@@ -231,7 +228,7 @@ Profiles are stored in `venues.json`. *(both, editor is richer on macOS)*
 - **Background audio beds loop**.
 - **Video audio is muted on the stage output by default.**
 - **macOS** — an on-preview **mute toggle**, and FOH is **ducked by −6 dB during a quick-screen** message so spoken announcements sit above the bed.
-- **Windows** — per-lane **mute / solo / bypass** controls plus the media defaults above.
+- **Windows** — the media defaults above; the **LANES** tab also has per-lane **M** (mute) and **S** (solo) buttons.
 
 ---
 
@@ -241,4 +238,4 @@ Profiles are stored in `venues.json`. *(both, editor is richer on macOS)*
 - [Themes, Looks & Overlays](07-themes-looks-overlays.md) — the slides that composite over camera/capture in the PROGRAM image.
 - [Building a Service: Cues & Running Order](02-service-and-cues.md) — where a cue's VIDEO SWITCHER input is set.
 - [Preferences, Shortcuts & Menus](11-preferences-shortcuts.md) — the ATEM tab and other settings panes.
-- [Appendix C — External Dependencies & Troubleshooting](appendix-c-dependencies.md) — NDI runtime, Blackmagic Desktop Video, ATEM on the LAN, and the `ACE_WITH_FFMPEG` / `ACE_WITH_SPATIAL_AUDIO` build flags.
+- [Appendix C — External Dependencies & Troubleshooting](appendix-c-dependencies.md) — NDI runtime, Blackmagic Desktop Video, ATEM on the LAN.
