@@ -1,84 +1,62 @@
 # Appendix A — Platform Differences (macOS ↔ Windows)
 
-ACE Presenter is one product with two native editions. The **macOS** edition is the reference; the **Windows** edition is a native port that matches it closely but has a handful of features still in progress. This appendix is the authoritative "what works where" list — if a chapter and this appendix ever seem to disagree, trust this appendix.
+ACE Presenter is one product with two native editions, built to the same standard: every feature and fix is meant to land on both, with the same menus, the same file formats (`.acesong`, `.acePlaylist`, `.aceTheme`), the same nine interface languages and the same release numbers. This appendix lists the differences that remain in **version 2.4** — some because a technology exists on only one platform, the rest because Windows hasn't caught up yet. If a chapter and this appendix ever seem to disagree, trust this appendix.
 
-> Everything not listed here behaves the same on both editions.
+> Everything not listed here behaves the same on both editions. Windows uses **Ctrl** where macOS uses **⌘**, and **Alt** where macOS uses **⌥**.
 
 ---
 
-## At-a-glance parity matrix
+## Platform technologies (by design)
 
-| Area | macOS | Windows | Where |
+| Feature | macOS | Windows | Where |
 |---|---|---|---|
-| Per-cue **auto-advance** | Advances the slide | **Shows a countdown but does not advance** | [Ch 2](02-service-and-cues.md) |
-| **Operator voice commands** | Full command engine | **Not available** (placeholder) | [Ch 5](05-detection-ai.md) |
-| **Audio Zones** (trim/delay editor) | Floorplan editor + live faders | **Not available** (empty state) | [Ch 9](09-streaming-and-audio.md) |
-| **Looks** authoring | Full editor | **Not available** (shows upgrade prompt) | [Ch 7](07-themes-looks-overlays.md) |
-| Theme **slide templates / comparison** | Multiple per-slide templates + Compare-N | **Single layout per theme** | [Ch 7](07-themes-looks-overlays.md) |
-| **Stage Theme** override tab | Working picker | **Placeholder** (no picker) | [Ch 8](08-outputs-and-screens.md) |
-| Fullscreen **Borderless vs True** | Genuinely different | **Identical** (both fullscreen) | [Ch 8](08-outputs-and-screens.md) |
-| **RTMP streaming** | Always available | **Build-dependent** (may be disabled) | [Ch 9](09-streaming-and-audio.md) |
-| **Spatial / HRTF audio** | Always available | **Build-dependent** | [Ch 9](09-streaming-and-audio.md) |
-| On-device **Whisper** detection | Always available | **Build-dependent** | [Ch 5](05-detection-ai.md) |
-| **Song matching** intelligence | Embeddings + voting + online ID | Simpler threshold match | [Ch 5](05-detection-ai.md) |
-| **Remote screen config / Bible versions** | Phone Screens tab works | **Not available** over the remote | [Ch 10](10-remote-control.md) |
-| **Remote search** | Scope-aware + Bible references | Basic title/name match | [Ch 10](10-remote-control.md) |
-| **Remote operator adoption** | Phone inherits your account | Phone signs in itself | [Ch 10](10-remote-control.md) |
-| **Remote server** | Always on | Off by default (Ctrl+R) | [Ch 10](10-remote-control.md) |
-| **CCLI number** on object-based themes | Always shown on song slides | **Not drawn** on object themes | [Ch 7](07-themes-looks-overlays.md) |
-| **Import Wizard** breadth | Many formats + drag-drop | **Slide decks only** (others pending) | [Ch 6](06-media.md) |
-| Deck import **without LibreOffice** | Falls back to PPTX text | **Yields 0 pages** | [Ch 6](06-media.md) |
-| Video **transport (local)** | On-clip controls + spacebar | **Remote-driven only** | [Ch 6](06-media.md) |
-| Dashboard **video preview** | Live video | Still frame | [Ch 6](06-media.md) |
-| Multi-output **slice count/index** | Editable | Derived from screen order | [Ch 8](08-outputs-and-screens.md) |
-| **Cue kinds** | 10 | 6 (extras folded to Generic) | [Ch 2](02-service-and-cues.md) |
-| Per-layer clear / per-slide media / per-cue transitions | Full | Reduced | [Ch 2](02-service-and-cues.md) |
-| **Preferences** panes | All functional | Same panes present; some inert (ProPresenter, Linked Computers), NDI is install-only, Account is sign-in-only | [Ch 11](11-preferences-shortcuts.md) |
-| **Auto-update** | Checks each launch | Checks once shortly after launch | [Ch 11](11-preferences-shortcuts.md) |
-| **Test patterns** (Identify) | 4 patterns, ~8 s | 1 pattern, ~3 s | [Ch 8](08-outputs-and-screens.md) |
-| Media: single-click-to-background, relink, tag search, tray resize | Yes | No | [Ch 6](06-media.md) |
+| **Syphon** screen destination (hand a screen to OBS/vMix on the same machine) | ✅ | — Syphon is a Mac technology | [Ch 8](08-outputs-and-screens.md) |
+| **Apple Speech** detection backend | ✅ macOS 26 and later | — Apple's framework | [Ch 5](05-detection-ai.md) |
+| Song Bank fingerprinting | Apple ShazamKit | ACE's own fingerprinter | [Ch 5](05-detection-ai.md) |
+| When **Large v3 Turbo** is used automatically | Apple silicon with 16 GB of memory | Only for languages the base models can't handle (Yoruba, Igbo, Hausa, Swahili, Zulu, Xhosa, Amharic, Tamil, Telugu) | [Ch 5](05-detection-ai.md) |
+| Updater | Sparkle (checks each launch) | WinSparkle (one quiet check ~8 s after launch) | [Ch 11](11-preferences-shortcuts.md) |
 
----
+## Windows: not yet available
 
-## macOS-only features (today)
+| Area | macOS | Windows today | Where |
+|---|---|---|---|
+| **SDI output** (screen to a Blackmagic card) | ✅ | Not yet — and **Spout** output isn't built yet either | [Ch 8](08-outputs-and-screens.md) |
+| **Operator voice commands** (OP MIC) | ✅ | The pill is shown but does nothing yet | [Ch 5](05-detection-ai.md) |
+| Per-cue **auto-advance** | Advances the slide | Shows the countdown but doesn't advance | [Ch 2](02-service-and-cues.md) |
+| **Scheduled auto-start** (Go On Air at a time) | Kept across relaunches, with its plan | Works, but forgotten when ACE quits; time only | [Ch 2](02-service-and-cues.md) |
+| **Speaker timers** | Several | One | [Ch 2](02-service-and-cues.md) |
+| Stored **cue kinds** | 10 | Prayer, Offering, Timer and Custom save as Generic; Video as Media | [Ch 2](02-service-and-cues.md) |
+| **Audio Zones** (room model, trim/delay, faders) | ✅ | Empty state only | [Ch 9](09-streaming-and-audio.md) |
+| **Venue profiles** | Capture and re-apply displays, audio, zones, language | A venue is a name only (add, rename, delete, switch) | [Ch 9](09-streaming-and-audio.md) |
+| **Preferences** | Account (sign out, seats, delete), Audio, display hold | Account is sign-in only; Audio pane is a placeholder; no display hold; the NDI pane's install button isn't connected; ProPresenter and Linked Computers panes are shown disabled | [Ch 11](11-preferences-shortcuts.md) |
+| **Screen Setup** | Stage Theme picker; Borderless vs True Fullscreen differ; stage screen colour; 4 test patterns; editable slice count; licence-locked screens marked | Stage Theme is a placeholder; the two fullscreen modes are identical; screen colour applies to the audience only; 1 test pattern (3 s); slice count follows the screen list; Identify Outputs labels the main audience/stage only | [Ch 8](08-outputs-and-screens.md) |
+| **Stage layouts** | Screen-preview object; undo, snap, rulers; full source list | No screen-preview object; no undo/snap/rulers; no Video Countdown, Chord Chart or Next Scripture Translation sources | [Ch 7](07-themes-looks-overlays.md) |
+| **CCLI number and credit line** on themes built from positioned objects | ✅ | Drawn only by the built-in layout | [Ch 7](07-themes-looks-overlays.md) |
+| **Quick Screen** sheet | Shows the message | *Push to…* only saves to recents — show it from the Messages tab | [Ch 8](08-outputs-and-screens.md) |
+| **Fade to Black / Fade to Clear** at a video's end | Fades | Cuts | [Ch 6](06-media.md) |
+| **ProPresenter media/audio bins** on import | Folders, smart playlists and missing-file placeholders kept | Flattened to named playlists; no smart playlists; missing files listed instead of kept | [Ch 6](06-media.md) |
+| **Import Wizard** formats | Also ProPresenter 6, ChordPro, plain text, Bible files | Those are skipped (listed in the Summary) | [Ch 6](06-media.md) |
+| **Inbox** folder | Also takes SongSelect and ChordPro files | ACE files, ProPresenter files and media | [Ch 6](06-media.md) |
+| PPTX without **LibreOffice** | Falls back to slide text | No pages | [Ch 6](06-media.md) |
+| **Media bin** extras | Tag-name search; grid/list and zoom remembered; Delete key | Name search only; view resets each launch; delete from the right-click menu | [Ch 6](06-media.md) |
+| **Command Palette** | Indexes media and saved Looks | Doesn't index media or saved Looks | [Ch 11](11-preferences-shortcuts.md) |
+| **Take** shortcut | ⌘⏎ | None (TAKE button) | [Appendix B](appendix-b-keyboard-shortcuts.md) |
+| **Toggle Listening** shortcut | ⇧⌘L | None (click the pill) | [Appendix B](appendix-b-keyboard-shortcuts.md) |
+| Drag a song from the Library into the plan | ✅ | Use `+` or right-click ▸ Add to Cue Plan | [Ch 3](03-songs-and-arrangements.md) |
+| **Phone remote** | Always on; phone adopts your account; Screens tab and Bible versions; scope-aware search with Bible references | Off until Ctrl+R; phone signs in itself; Screens tab answers "not supported"; flat title search | [Ch 10](10-remote-control.md) |
+| **Spatial audio CPU watchdog** | Degrades spatial processing under load | — | [Ch 9](09-streaming-and-audio.md) |
 
-These exist on macOS and are not yet in the Windows port:
+## Windows only
 
-- **Operator voice commands** (spoken "next / blank / show John 3:16", etc.).
-- **Audio Zones** — the room-model floorplan editor with per-zone trim, delay, speakers, and live level/mute faders.
-- **Looks authoring** — creating per-screen theme assignments (Windows can apply themes but not author Looks).
-- **Theme slide templates & multi-translation comparison themes** (Compare 2–4).
-- **Local video transport** — the on-clip play/pause/scrub overlay and spacebar; live video in the dashboard preview.
-- **Import Wizard** for the full range of formats (ProPresenter, ChordPro, plain text, Bible formats, images/video) and drag-and-drop into it.
-- **Native PPTX text fallback** when LibreOffice isn't installed.
-- **Media niceties** — single-click-to-background, missing-media relink/clean-up, search that matches tags, a resizable media tray.
-- **Richer song auto-follow** — semantic matching, vote/challenger promotion, acoustic verification, and online AI song identification that can auto-import a song.
-- **Remote screen configuration & Bible-version listing** from the phone; operator-profile adoption; scope-aware/Bible-reference remote search.
-- A **complete Account pane** (profile, sign-out, delete-account, seat management) — on Windows the Account pane is sign-in-only.
+- **Move Up / Move Down** and **Learn Timing…** on a cue's right-click menu (on macOS, drag to reorder; Learn Timing… is on the song's Library row).
+- The **Editors** menu (macOS opens the same editors from the **EDITORS** pop-up).
+- An **Integrations** pane for your own Pixabay and Anthropic keys.
+- Keys handled by the **audience output window** itself when it has focus.
+- **Auto-reconnect** for the livestream (macOS reports the drop and stops).
 
-## Windows: present but incomplete or behaving differently
+## The same on purpose
 
-- **Auto-advance** shows a countdown on the stage display and timers panel but does **not** actually advance the slide.
-- **Fullscreen mode** — "Borderless Fill" and "True Fullscreen" currently behave the same.
-- **Stage Theme** sub-tab in Screen Setup is a placeholder (no picker).
-- **Screen color** applies to the audience output only (a stage screen-color is saved but not shown).
-- **CCLI number** is not drawn on themes built from positioned objects (it shows on the classic text layout).
-- **Theme tokens** `{{translation}}` and indexed comparison tokens aren't substituted.
-- The **Recents** tab badge in the media tray always reads "0" (the tab still works).
-- **Preferences** now shows the same panes as macOS, but some are placeholders: **ProPresenter** and **Linked Computers** are inert, **NDI** is reduced to an install button, and a couple of **Integrations** keys (Anthropic/Genius) are unwired (Pixabay works). **ATEM** is a fully working Windows tab.
-
-## Windows build-dependent features
-
-Some Windows capabilities are compiled in per build. If your build was made without the relevant module, the feature is cleanly unavailable (with an on-screen note) rather than broken:
-
-- **RTMP streaming** (requires the FFmpeg module) — *Go Live* is disabled with a message otherwise.
-- **Spatial / binaural HRTF audio** (requires the Qt SpatialAudio module) — the toggle is disabled otherwise.
-- **On-device Whisper detection** (requires the Whisper module) — otherwise use the Sample Phrases or Deepgram backends.
-- **DeckLink / SDI capture** (requires the Blackmagic SDK at build time).
-
-## Things that are the same on purpose
-
-The Free-tier watermark, lower-third styles, translation-overlay styles, logo/watermark defaults, the 1920×1080 letterbox rendering rule, the phone-remote wire protocol, and the licence tiers are all deliberately identical across editions.
+The Free-tier watermark, the lower-third designs, the lyric and scripture lower-third themes, Looks, theme templates and tokens, text Scaling and Line Transform, translation-overlay styles, logo/watermark defaults, the 1920×1080 letterbox rendering rule, the media bin's folders, smart playlists and play-through, the ACE file formats and the Documents ▸ ACE Presenter folder, the bundled Bibles and speech models, song identification, SongSelect import, the CCLI credit line and usage report, the phone-remote wire protocol, and the licence tiers are deliberately identical across editions.
 
 ---
 

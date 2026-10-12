@@ -7,15 +7,15 @@ Most of ACE Presenter works out of the box. A few features rely on software or h
 | Feature | You need | Notes |
 |---|---|---|
 | Import **PowerPoint / Keynote / ODP** decks | **LibreOffice** (`soffice`) installed | Not bundled (~600 MB). **PDF decks need nothing** (built-in). Without LibreOffice, PPTX import yields 0 pages on Windows; macOS falls back to text-only. See [Media](06-media.md). |
-| **Stock media** search/download | A free **Pixabay API key** | Enter it in Preferences (macOS: Integrations; Windows: the stock dialog / `stock/pixabayKey`). Get one at pixabay.com/api/docs. |
-| **NDI** send/receive | The **NDI runtime** installed | Not bundled. macOS has a guided install step; Windows detects it on disk. See [Streaming & Audio](09-streaming-and-audio.md). |
-| **DeckLink / SDI** capture | **Blackmagic Desktop Video** driver | Plus a DeckLink card. On Windows the SDK must also be present at build time. |
-| **ATEM** switcher control | An **ATEM** on the same LAN | No vendor SDK needed. macOS can also trigger macros (in progress); Windows cuts program input only. |
+| **Stock media** search/download | A **Pixabay API key** | macOS uses the key built into the app. On Windows, enter a free key in *Preferences ▸ Integrations ▸ Pixabay* (get one at pixabay.com/api/docs). |
+| **NDI** (screens as NDI sources, NDI cameras in) | The **NDI runtime** installed | Not bundled. The NDI destination appears in Screen Setup once it's installed. macOS has a guided install step; Windows detects it on disk. See [Streaming & Audio](09-streaming-and-audio.md). |
+| **SDI output** *(macOS)* / **DeckLink capture** | **Blackmagic Desktop Video** driver | Plus a DeckLink card. SDI appears as a screen destination only when a card is present. |
+| **ATEM** switcher control | An **ATEM** on the same LAN | No vendor SDK needed. ACE cuts the program input when a cue goes live; macro triggering isn't offered. |
+| **Speech models** | Nothing — **Base — English** and **Base — Multilingual** come with ACE | **Large v3 Turbo** is an optional download from *File ▸ Extras Download…*. See [Detection & Auto-Follow](05-detection-ai.md). |
 | **Cloud transcription (Deepgram)** | A **signed-in account**, or a personal Deepgram key | Pooled cloud needs sign-in; a BYO key works without it. On-device Whisper needs neither. See [Detection & Auto-Follow](05-detection-ai.md). |
+| **Online Song ID** | A **signed-in account** (Windows: or your own Anthropic key) | Names a song you don't have; lyrics come only from your SongSelect files. |
 | **Licensed / online Bibles** (e.g. ESV) | **Pro** tier + internet | Optionally your church's own API.Bible key. Bundled public-domain Bibles are always free. See [Scripture](04-scripture.md). |
 | **Multiple outputs, Looks, image/video playback** | **Pro** tier | See [Getting Started ▸ tiers](01-getting-started.md#accounts--tiers). |
-
-**Windows build-dependent modules.** RTMP streaming, spatial/HRTF audio, on-device Whisper, and DeckLink are compiled into the Windows build per configuration. If a build lacks one, that feature is cleanly unavailable with an on-screen note — it is not broken. See [Appendix A](appendix-a-platform-differences.md).
 
 ---
 
@@ -31,6 +31,7 @@ Most of ACE Presenter works out of the box. A few features rely on software or h
 
 ### Detection / auto-follow
 
+- **Songs aren't recognised while Deepgram is on.** Deepgram hears speech; the songs are heard by the on-device engine beside it, which needs a Whisper model to load (and on Windows, a target mode other than *Bible only*).
 - **Detection prints nonsense or won't follow.** Confirm the correct **Audio Input** in *Detection Settings* (⌥⌘, / Ctrl+Alt+,), pick the right **Language**, and note that a language-specific model may be required (the dialog warns you). ACE silently filters common mis-hearings; if nothing appears at all, check the microphone permission and input level.
 - **Cloud transcription says "sign in".** Deepgram's pooled relay needs a signed-in account, or enter a personal Deepgram key. On-device Whisper works offline with no account.
 - **(Windows) Operator voice commands don't do anything.** They're not implemented on Windows yet — use the keyboard, the on-screen controls, or the phone remote.
@@ -39,8 +40,8 @@ Most of ACE Presenter works out of the box. A few features rely on software or h
 ### Media
 
 - **A PowerPoint imported with no pages.** Install **LibreOffice** and re-import (PDF decks don't need it). See the dependency table above.
-- **A media tile shows "MISSING".** The source file moved or was deleted. On macOS, use relink/search-paths; on either platform, remove and re-add the file, or turn on "manage media automatically" so future imports are copied into the app.
-- **(Windows) No play/pause controls on a live video.** Local video transport isn't in the Windows edition yet — drive play/pause/seek from the phone remote. See [The Phone Remote](10-remote-control.md).
+- **A media tile shows "MISSING".** The source file moved or was deleted. **Click the tile** and find the file (*Locate Missing File*) — other missing files from the same folder reconnect with it. Keep "Manage media automatically" on so future imports are copied into the app. On macOS, *Preferences ▸ General ▸ Relink Missing Media* also searches folders you add.
+- **A ProPresenter import is missing media.** The files weren't where the library said. On macOS they arrive as MISSING tiles ready to relink; on Windows the Import Wizard's Summary lists them so you can add them by hand.
 
 ### Auto-advance
 
@@ -48,7 +49,6 @@ Most of ACE Presenter works out of the box. A few features rely on software or h
 
 ### Streaming
 
-- **(Windows) "Go Live" is disabled with a note about a streaming encoder.** This build was compiled without the FFmpeg module — use a build that includes streaming.
 - **The stream keeps dropping.** On Windows the stream auto-reconnects with backoff; check your upload bandwidth and lower the bitrate/resolution in the Stream panel. Verify the server URL and stream key.
 - **A network camera (NDI) isn't listed.** Install the NDI runtime, ensure the source is on the same network, and open the camera picker (it defers NDI discovery until first opened to avoid a firewall prompt).
 
@@ -63,7 +63,8 @@ Most of ACE Presenter works out of the box. A few features rely on software or h
 
 - **Bundled Bibles / extra translations:** an app support folder (`…/ACE/Bibles`); downloaded/imported translations live alongside the bundled ones.
 - **Managed media** (when "manage media automatically" is on): an app media folder; on Windows, rasterized deck pages and video poster frames are cached under the app data folder.
-- **Settings:** standard per-platform preferences storage (macOS defaults / Windows registry). Venue profiles are saved as `venues.json` in the app support folder.
+- **Your ACE files:** *Documents ▸ ACE Presenter* — songs, services and themes you export or back up, plus the **Inbox** (see [Media](06-media.md#ace-files-and-the-ace-presenter-folder)). The live show itself stays in the app support folder.
+- **Settings:** standard per-platform preferences storage (macOS defaults / Windows registry). On macOS, venue profiles are saved as `venues.json` in the app support folder.
 
 ---
 

@@ -1,7 +1,7 @@
 /**
  * Interface languages — what the app itself is written in.
  *
- * Deliberately separate from the "12+ languages" stat elsewhere on the site,
+ * Deliberately separate from the "dozens of languages" line elsewhere on the site,
  * which is about what detection can HEAR. They are different capabilities and
  * different numbers, and running them together would be a false claim in one
  * direction or the other: a church that reads Korean cares that the buttons are

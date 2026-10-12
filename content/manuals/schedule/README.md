@@ -86,4 +86,4 @@ Exact prices, annual billing, and ministry/education discounts are on the **[ACE
 
 ---
 
-*ACE Schedule Manager is part of the ACE Suite. This manual documents the web app and the macOS desktop app.*
+*ACE Schedule Manager is part of the ACE Suite. This manual documents the web app and the Mac and Windows desktop apps.*

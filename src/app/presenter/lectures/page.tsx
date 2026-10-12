@@ -4,7 +4,7 @@ import SegmentLanding from "@/components/SegmentLanding";
 export const metadata: Metadata = {
   title: "ACE for Lectures — AI presenter for classrooms and lecture halls",
   description:
-    "The deck follows you, not a pre-baked cue list. ACE listens to what you're teaching and pushes the right slide — works for any subject, any language. Mac and Windows.",
+    "The deck follows you, not a pre-baked cue list. ACE listens to what you're teaching and pushes the right slide — works for any subject, in dozens of languages. Mac and Windows.",
   keywords: [
     "lecture slide software",
     "classroom presentation auto-advance",
@@ -44,7 +44,7 @@ export default function LecturesPage() {
       eyebrow="For educators"
       headlineLeft="Lecture without losing"
       headlineAccent="The slide"
-      heroBody="Your tempo, your order. ACE listens to what you're teaching and surfaces the right slide. Works for any subject, any language. No clicker required."
+      heroBody="Your tempo, your order. ACE listens to what you're teaching and surfaces the right slide. Works for any subject, in dozens of languages. No clicker required."
       beats={[
         {
           pain: "You're mid-explanation. The next slide is the example you need. You fumble for the clicker and break flow.",

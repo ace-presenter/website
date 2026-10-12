@@ -4,7 +4,7 @@ import SegmentLanding from "@/components/SegmentLanding";
 export const metadata: Metadata = {
   title: "ACE for Theater & Live Shows — AI cue automation",
   description:
-    "Voice-triggered cue advance and automatic dialog beat detection. The stage manager focuses on the room, not the laptop. Mac and Windows.",
+    "ACE listens for the spoken line and advances the cue, with voice commands for the rest. The stage manager focuses on the room, not the laptop. Mac and Windows.",
   keywords: [
     "theater cue software",
     "stage cue automation",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "ACE for Theater & Live Shows — AI cue automation",
     description:
-      "Voice-triggered cue advance + automatic dialog beat detection. One operator runs the show.",
+      "ACE listens for the spoken line and advances the cue. One operator runs the show.",
     url: "https://www.ace-presenter.app/presenter/theater",
     siteName: "ACE",
     locale: "en_US",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "ACE for Theater & Live Shows — AI cue automation",
-    description: "Voice-triggered cue advance + dialog beat detection.",
+    description: "ACE listens for the spoken line and advances the cue.",
   },
 };
 
@@ -44,7 +44,7 @@ export default function TheaterPage() {
       eyebrow="For stage managers"
       headlineLeft="One operator,"
       headlineAccent="A whole show"
-      heroBody="Voice-triggered cue advance and automatic dialog beat detection. The stage manager runs the room. ACE handles the cue list."
+      heroBody="ACE listens for the spoken line and advances the cue, with voice commands for the rest. The stage manager runs the room. ACE keeps the cue list moving."
       beats={[
         {
           pain: "Cue calling demands eyes on the script + finger on the GO button. You miss what's happening on stage.",

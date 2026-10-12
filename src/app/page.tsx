@@ -20,7 +20,6 @@ import {
   StatsBand,
   LogoMarquee,
   CTABand,
-  ComingSoonCard,
   ProductShowcase,
 } from "@/components/sections";
 
@@ -73,7 +72,6 @@ export default function SuiteHome() {
           { text: "Mac + PC", label: "macOS 14+ · Windows 10+" },
         ]}
       />
-      <ComingSoon />
       <Rooms />
       <SuiteWhy />
       <PricingTeaser />
@@ -121,11 +119,11 @@ function Showcase() {
                 Slides that <AccentItalic>follow</AccentItalic> the room.
               </>
             }
-            body="ACE listens to the service and fires the next cue in under a second — lyrics, scripture, and decks that keep up with the band and the preacher. No clicker, no cloud, all on-device."
+            body="ACE listens to the service and fires the next cue — lyrics, scripture, and decks that keep up with the band and the preacher. No clicker. On-device by default; cloud detection only if you switch it on."
             features={[
-              "Live lyric + scripture detection, 12+ languages",
-              "HDMI · NDI · ATEM · OBS · OSC output",
-              "One-click ProPresenter library import",
+              "Live lyric + scripture detection, dozens of languages",
+              "HDMI · NDI · Syphon · SDI · ATEM · OBS · OSC output",
+              "ProPresenter import that keeps your playlists and media bin",
             ]}
             visual={
               <Image
@@ -196,40 +194,6 @@ function Showcase() {
   );
 }
 
-/* ───────────── COMING SOON (Manager + World) ───────────── */
-function ComingSoon() {
-  return (
-    <section className="px-6 py-24 sm:px-10 sm:py-28">
-      <div className="mx-auto max-w-6xl">
-        <ScrollReveal>
-          <SectionHeading
-            eyebrow="On the way"
-            title="Two more, joining the suite"
-          />
-        </ScrollReveal>
-        <ScrollStagger className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2" stagger={0.1}>
-          <ScrollItem>
-            <ComingSoonCard
-              product="manager"
-              name="Manager"
-              href="/manager"
-              tagline="One dashboard for teams and organizations — people, licenses, and rooms in one place."
-            />
-          </ScrollItem>
-          <ScrollItem>
-            <ComingSoonCard
-              product="world"
-              name="World"
-              href="/world"
-              tagline="A shared 3D space for your audience — beyond the room, after the event."
-            />
-          </ScrollItem>
-        </ScrollStagger>
-      </div>
-    </section>
-  );
-}
-
 /* ───────────── ROOMS ───────────── */
 function Rooms() {
   const rooms = [
@@ -293,7 +257,7 @@ function SuiteWhy() {
   const points = [
     {
       label: "One account",
-      body: "Sign in once. Your license covers Presenter, Schedule, and Editors' Notes today — with Manager and World joining as they ship.",
+      body: "Sign in once. Your account covers Presenter, Schedule, and Editors' Notes, each with its own plan.",
     },
     {
       label: "Tools that hand off",
@@ -329,14 +293,14 @@ function SuiteWhy() {
           ))}
         </ScrollStagger>
 
-        {/* Measured facts, not hype — carried over from the Proof strip. */}
+        {/* Plain facts only — no unmeasured numbers. Carried over from the Proof strip. */}
         <ScrollReveal className="mt-20 max-w-3xl sm:mt-24">
           <div className="mb-7 h-px w-8 bg-[#C8102E]" aria-hidden />
           <blockquote className="text-2xl font-semibold leading-snug tracking-tight text-white sm:text-3xl">
             &ldquo;You run the room. The cue runs itself.&rdquo;
           </blockquote>
           <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.22em] text-[#666]">
-            Under 1 second cue latency · no clicker needed · audio never leaves the room
+            No clicker needed · on-device by default · cloud detection only if you switch it on
           </p>
         </ScrollReveal>
       </div>
@@ -353,7 +317,7 @@ function PricingTeaser() {
           align="left"
           eyebrow="Pricing"
           title="Free to start. Fair to grow."
-          lede="Per-product plans or a suite bundle. No surprise costs."
+          lede="Each product has its own plans. No surprise costs."
         />
         <Link
           href="/pricing"

@@ -48,7 +48,7 @@ export default function WorshipPage() {
       beats={[
         {
           pain: "Volunteers turn over, and each new one needs hours of training before they can run a Sunday.",
-          solution: "ACE replaces the operator. Drop the set in, hit Live, and the slides follow the band.",
+          solution: "ACE works with whoever is on the desk, so a new volunteer can keep up. Drop the set in, hit Live, and the slides follow the band.",
         },
         {
           pain: "Bands change keys, repeat the bridge, drop a chorus. The slide volunteer panics.",

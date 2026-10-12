@@ -1,6 +1,6 @@
 # Themes, Looks & Overlays
 
-This chapter covers everything that controls how your slides *look* on screen: the **Looks workspace** for applying and switching themes at showtime, the **Theme Editor** for designing them, the **overlays** that sit on top of every slide (lower-thirds, logo/watermark, translation band, CCLI, the Free-tier watermark), and the **Stage Display Layout editor** for your confidence/stage monitor.
+This chapter covers everything that controls how your slides *look* on screen: the **Looks workspace** for applying and switching themes at showtime, the **Theme Editor** for designing them, **text scaling** that keeps words inside their box, the **lower thirds** (animated name bars, and lyrics or scripture as a lower-third bar), the other **overlays** that sit on top of every slide (logo/watermark, translation band, CCLI, the Free-tier watermark), and the **Stage Display Layout editor** for your confidence/stage monitor.
 
 For where these themes actually appear — audience versus stage windows, multiple outputs, transparency for downstream keying — see [Outputs & Screens](08-outputs-and-screens.md). For the slide content that themes render (song lyrics, scripture, sections), see [Songs & Arrangements](03-songs-and-arrangements.md) and [Scripture](04-scripture.md).
 
@@ -17,7 +17,7 @@ For where these themes actually appear — audience versus stage windows, multip
 
 The two sections are **mutually exclusive**: applying a theme clears the active Look, and applying a Look overrides the plain theme. Only one is live at a time.
 
-**How to get there.** Open the workspace with **⌘5 / Ctrl+5**, or from the workspace switcher. From here you can also jump straight into design tools: **Edit Themes** opens the [Theme Editor](#the-theme-editor); **Edit Looks** *(macOS)* opens the Look editor.
+**How to get there.** Open the workspace with **⌘5 / Ctrl+5**, or from the workspace switcher. From here you can also jump straight into design tools: **Edit Themes** opens the [Theme Editor](#the-theme-editor); **Edit Looks** opens the Look editor (it reads **Upgrade to Pro** without a Pro licence). On Windows the Look editor is also at *Editors ▸ Look Editor*.
 
 **Options.**
 
@@ -26,14 +26,17 @@ The two sections are **mutually exclusive**: applying a theme clears the active 
 | Theme tile | Applies the theme to live output | *(both)* |
 | **LIVE** badge | Marks the theme/Look currently on air | *(both)* |
 | Edit Themes | Opens the Theme Editor | *(both)* |
-| Edit Looks | Opens the per-screen Look editor | *(macOS only)* |
+| Edit Looks | Opens the per-screen Look editor | *(both)* *(Pro)* |
 
 ### Looks (per-screen theme assignments) — *(Pro)*
 
-A **Look** bundles a theme *per screen*, so one action re-skins your whole rig at once. On macOS the **LookEditor** lets you assign, per screen, a theme plus its layers, opacity/blend, and transition, then save the result as a named Look you can recall from the Looks grid or the [Command Palette](11-preferences-shortcuts.md).
+A **Look** decides what each screen shows, so one action re-skins your whole rig at once. In the Look editor you set, per screen, an optional theme override and which **layers** that screen shows, then save the result as a named Look you can recall from the Looks grid. *(both)*
 
-- **macOS** — full authoring. Create, name, and edit Looks with per-screen theme, layers, opacity/blend, and transitions.
-- **Windows: not yet available** — the LOOKS section is an **upsell**, not an editor. On the Free tier the button reads **Upgrade to Pro**; even on Pro the Windows port folds Looks into the flat theme list rather than authoring per-screen assignments. The hint text explains what a Look *would* do ("a warm audience theme while the stage runs a high-contrast cue list"), but there is no Look editor on Windows yet.
+- **Layers really come off.** Turning *Background* or *Media* off for a screen in a Look takes it off that screen — the wall, the stage and the network feed alike.
+- **A Look sits on top of the show's theme.** Screens a Look doesn't mention keep their theme rather than going black.
+- **One theme for the whole service.** The Look editor's **ALL SCREENS ▸ Theme** sets a single theme across every screen at once ("everything goes white tonight"). It holds even over cues that carry a theme of their own; a screen you've given its own theme in the Look still keeps it.
+- **Screens of their own** (added in [Screen Setup](08-outputs-and-screens.md#screens-and-destinations)) appear in the Look editor by name, so a stream feed can carry lyrics on black while the wall keeps the full look.
+- macOS also offers per-screen opacity/blend and transitions, and lists Looks in the [Command Palette](11-preferences-shortcuts.md).
 
 Because Looks is Pro-gated, the Free tier shows the upgrade prompt on both platforms. See [Getting Started ▸ Accounts & Tiers](01-getting-started.md#accounts--tiers).
 
@@ -41,7 +44,7 @@ Because Looks is Pro-gated, the Free tier shows the upgrade prompt on both platf
 
 ## The Theme Editor
 
-**What it does.** The Theme Editor is where you design a theme — the fonts, colors, background, and on-slide objects that ACE uses to render every slide of a given kind. It is a **three-pane** editor: a **sidebar** listing your themes, a **16:9 canvas** in the middle, and an **inspector** on the right for the selected object or the theme as a whole.
+**What it does.** The Theme Editor is where you design a theme — the fonts, colors, background, and on-slide objects that ACE uses to render every slide of a given kind. It is a **three-pane** editor: a **sidebar** listing your themes (with a separate **LOWER THIRD THEMES** section), a **16:9 canvas** in the middle, and an **inspector** on the right for the selected object or the theme as a whole. It opens as a window of its own that you can move, resize and leave open.
 
 **How to get there.** *Output ▸ Themes…* (**⌘T / Ctrl+T**), or **Edit Themes** in the [Looks workspace](#the-looks-workspace).
 
@@ -49,7 +52,7 @@ Because Looks is Pro-gated, the Free tier shows the upgrade prompt on both platf
 
 - **Make Active** applies the theme you are editing to live output. (On Windows the button reads **Make Active**, then flips to **Active** once applied.)
 - Changes **auto-save**, with **undo/redo** while you work.
-- **Rulers and guides** help you align objects on the canvas *(macOS richer; Windows provides the core canvas)*.
+- **Rulers and guides** help you align objects on the canvas *(macOS)*.
 
 ### Fonts
 
@@ -92,7 +95,19 @@ A theme can carry **objects** stacked on the canvas: **text**, **shape**, and **
 | Opacity | Transparency |
 | Build animation | An entrance/reveal animation |
 
-Text objects can contain **content tokens** — placeholders ACE substitutes at render time (see below).
+Text objects can contain **content tokens** — placeholders ACE substitutes at render time (see below) — and each has [Scaling and Line Transform](#text-that-fits-its-box-scaling-and-line-transform) settings.
+
+### Text that fits its box: Scaling and Line Transform
+
+**What it does.** Keeps text inside its box, the way ProPresenter does. Every text box has these settings in the Text inspector: *(both)*
+
+| Setting | Choices | Effect |
+|---|---|---|
+| **Scaling** | **None** · **Text up or down** · **Text up** · **Text down** | Whether the text grows to fill the box, shrinks to fit it, or both. |
+| **Size limits** | **Min** / **Max** | The smallest and largest size Scaling may use. |
+| **Line Transform** | **None** · **One word per line** · **One character per line** · **Remove line returns** · **Replace line returns** (with a **Replace with** field) | Reshapes the lines before they're drawn. |
+
+**Lyrics and Bible verses shrink to fit by default**, so a long passage is never cut off — on the screen or the stage display. The [Stage Layout editor](#the-stage-display-layout-editor) has Scaling with Min/Max too (no Line Transform). Scaling and Line Transform don't apply to lower-third slides, which size their bar to the words instead.
 
 ### Content tokens
 
@@ -101,22 +116,23 @@ Text objects use `{{token}}` placeholders that ACE fills in from the live slide.
 | Token | Renders | Availability |
 |---|---|---|
 | `{{title}}` | Song/cue title | *(both)* |
-| `{{verse}}` | Current verse text (macOS) | macOS |
-| `{{scripture}}` | Current passage text (Windows uses this where macOS uses `{{verse}}`) | Windows |
-| `{{translation}}` | Translated line for comparison/multi-language themes | **macOS only** — *(Windows: not yet available)* |
-| `{{verse:N}}` | The Nth verse in a comparison layout (indexed) | **macOS only** — *(Windows: not yet available)* |
+| `{{lyrics}}` | The slide's lyric lines | *(both)* |
+| `{{verse}}` | Current verse text (Windows also accepts `{{scripture}}`) | *(both)* |
+| `{{reference}}` | The passage reference | *(both)* |
+| `{{translation}}` | The translation name | *(both)* |
+| `{{verse:N}}`, `{{translation:N}}` | The Nth column of a comparison layout (indexed) | *(both)* |
 
-> **Windows token caveat.** The Windows renderer **ignores `{{translation}}` and indexed `{{verse:N}}`**, and uses `{{scripture}}` where macOS uses `{{verse}}`. If you build a theme on macOS that relies on translation or indexed-verse tokens and open it on Windows, those tokens will not render. See [Per-slide templates & comparison](#per-slide-templates--comparison-themes) below.
+A theme built on one edition renders the same on the other.
 
 ### Per-slide templates & comparison themes
 
-- **macOS** — a single theme carries **multiple per-slide templates** (Lyrics / Bible / Title / Blank), and ACE picks the right template automatically based on the cue's kind. macOS themes can also define **comparison / multi-translation** layouts that show several translations at once (**Compare N Translations**), driven by the `{{translation}}` and `{{verse:N}}` tokens above.
-- **Windows: not yet available** — a Windows theme is a **single object canvas**. The "add slide template" control is present but **stubbed** (it does not yet create per-kind templates), and comparison / multi-translation themes are macOS-only.
+A single theme carries **multiple per-slide templates** — **Lyrics**, **Bible**, **Title**, **Blank**, **Compare 2 / 3 / 4 Translations** and **Lower Third** — listed under **SLIDES** in the editor (the **+** adds one). ACE picks the right template automatically: Lyrics for a song, Bible for a verse, Compare *N* for a comparison. In the Bible and Compare templates the reference, the verse and the translation each sit in a box of their own. Themes from earlier versions get the missing templates added without losing anything you designed. *(both)*
 
 ### Built-in themes
 
 - **macOS** — a library-driven set of built-in themes.
-- **Windows** — three hardcoded starters: **Default Dark**, **Bold Red**, **Minimal White**.
+- **Windows** — three starters: **Default Dark**, **Bold Red**, **Minimal White**.
+- **Both** — two lower-third themes, **Static** and **Animated** (see [Lyrics and scripture as lower thirds](#lyrics-and-scripture-as-lower-thirds)).
 
 You can duplicate and edit any built-in as the starting point for your own.
 
@@ -124,7 +140,7 @@ You can duplicate and edit any built-in as the starting point for your own.
 
 ## Slide rendering
 
-Every slide is composed on a fixed **1920×1080** canvas and then scaled to fit each output, **letterboxing** to preserve aspect ratio. Text **auto-fits** — long lines shrink to stay inside their box.
+Every slide is composed on a fixed **1920×1080** canvas and then scaled to fit each output, **letterboxing** to preserve aspect ratio. Text follows each box's [Scaling](#text-that-fits-its-box-scaling-and-line-transform) setting; lyric and verse boxes shrink to fit by default.
 
 Under the hood the two editions render differently, which is why some effects are macOS-only:
 
@@ -139,27 +155,35 @@ For how many layers your tier unlocks and how layers are cleared per output, see
 
 Overlays draw *on top of* whatever theme is live. They are configured once and stay on until you turn them off.
 
-### Lower-thirds
+### Lower thirds
 
-**What it does.** A lower-third is a title/subtitle banner (speaker name, sermon title, announcement) that fires over the current slide.
+**What it does.** A lower third is a title/subtitle bar (speaker name and role, sermon title, announcement) that fires over the current slide. Lower thirds **animate in, hold, and animate out**. *(both)*
 
-**How to get there.** *Editors ▸ Lower Thirds*. On Windows this is **Ctrl+Shift+L**. *(macOS has no default shortcut.)*
+**How to get there.** **macOS:** the **EDITORS** pop-up in the tab bar ▸ **Lower Thirds**. **Windows:** *Editors ▸ Lower Thirds* (**Ctrl+Shift+L**). Press **+** to create one.
 
 **Options.**
 
 | Option | Choices |
 |---|---|
-| Title / Subtitle | The two text fields |
-| **Style** | Classic Bar · Full-Width Band · Name Bug · Centered Card |
-| Accent color / Text color | Banner and type colors |
-| Alignment | Left / center / right |
-| Opacity | Banner transparency |
-| Margin | Distance from the screen edge |
-| Font sizes | Title and subtitle sizes |
+| **Title** / **Subtitle** (optional) | The two text fields |
+| **Design** | The theme's default, or one of **twelve** designs: Classic Bar · Full-Width Band · Name Bug · Centered Card · Wipe Bar · Line Draw · Split Bar · Glass Panel · Kinetic Type · Scripture Tag · Social Handle · Ticker |
+| **Hide automatically** | Takes the lower third down by itself after the seconds you set |
+| Alignment, margin, background opacity, title/subtitle size | Placement and sizing |
+| Accent color / Text color | Bar and type colors |
 
-Each saved lower-third row has its own **FIRE** (put it on air) and **HIDE** (take it off) controls, so you can prepare several and trigger them during the service.
+**Designing your own.** A lower third's look comes from a theme: design your own under **LOWER THIRD THEMES** in the Theme Editor, set how each part moves **in** and **out**, and press **Play** to watch it run. Change the theme and the look follows.
 
-**Where they're stored.** macOS stores lower-thirds inside the presentation document; Windows stores them in app settings (with a migration for older files). Functionally they behave the same *(both)*.
+**In the Cue Plan.** Making a lower third adds its cue to the plan; **clicking the cue fires it**. Right-click the cue for **Edit Lower Third…** (Windows also lists **Fire Lower Third**). **CLEAR** takes a lower third down too, and clearing one from the phone remote no longer clears the whole screen. *(both)*
+
+**Where they appear.** On the audience screen, the PROGRAM monitor, NDI, the livestream and the recording. For keying over cameras, Screen Setup's **Overlay source with transparency** publishes a separate NDI source — named *"… Overlays"* (default *ACE Overlays*) — carrying just the lower thirds and your logo on a clear background. *(both)* See [Outputs & Screens](08-outputs-and-screens.md#overlays-ndi-source).
+
+### Lyrics and scripture as lower thirds
+
+**What it does.** Songs and verses can go out as a **bar along the bottom** instead of filling the screen — the look a livestream or camera feed needs. Give your stream screen a lower-third theme in its Look and the room keeps its full-screen words. *(both)*
+
+- **Two ready-made themes**, **Static** and **Animated**, sit in the Theme Editor beside your other themes. Press **+** under **LOWER THIRD THEMES** to make your own from **sixteen designs** for lyrics and Bible — half static, half animated — and set colours and position once for the whole theme. Every part of a design can be animated in, out and on Next; **Play** shows exactly what will go out.
+- **The bar stays up; the words change.** The bar comes in with the first line, and on every Next only the words change, with the bar growing or shrinking smoothly to fit. CLEAR, a blank or an announcement takes it out. Verses compared in two, three or four translations sit side by side, one column each.
+- **Too long? Split it.** A slide with more words than the bar can hold is marked **TOO LONG** in the slide grid (*"Too long for a lower third. Right-click → Split in Two."*). Right-click it ▸ **Split in Two**: it breaks where a reader would pause and keeps the reference on both halves.
 
 ### Logo / watermark overlay
 
@@ -189,12 +213,12 @@ On the **Free** tier, ACE tiles a diagonal **"ACE FREE"** watermark across the f
 
 ### The CCLI number
 
-**What it does.** For licence compliance, ACE draws a small, dimmed CCLI licence number in the corner of song-lyric slides.
+**What it does.** For licence compliance, once your CCLI licence number is set ACE draws it, small and dimmed, on song-lyric slides, together with the song's **credit line** — title, writers, © and CCLI song number — on the slides chosen with the Song panel's **Credit:** picker (first slide by default). See [Songs & Arrangements ▸ CCLI credit line and usage report](03-songs-and-arrangements.md#ccli-credit-line-and-usage-report).
 
-**How to get there.** Set your number in *Settings / Preferences ▸ CCLI license number* (see [Preferences](11-preferences-shortcuts.md)).
+**How to get there.** *Preferences ▸ General ▸ CCLI license number* (see [Preferences](11-preferences-shortcuts.md)).
 
-- **macOS** — always shown on song slides.
-- **Windows: not yet available** on object-based themes — Windows renders the CCLI number **only on legacy-style themes**, not on the newer object-based themes. If you rely on CCLI display on Windows, use a legacy theme until this lands.
+- **macOS** — shown on song slides.
+- **Windows** — drawn by the built-in slide layout; themes built from positioned objects don't draw the number or the credit line yet *(Windows: not yet available on object-based themes)*.
 
 ---
 
@@ -202,7 +226,9 @@ On the **Free** tier, ACE tiles a diagonal **"ACE FREE"** watermark across the f
 
 **What it does.** Designs the layout of your **stage / confidence monitor** — the screen the worship team and speaker see. It is a 1920×1080 canvas of **slots** you place and size, some of which show **live data** pulled from the presentation engine.
 
-**How to get there.** *Output ▸ Stage Layout…* (**⇧⌘T / Ctrl+Shift+T**). Toggle the stage output itself with **⌥⌘S / Ctrl+Shift+D**; see [Outputs & Screens ▸ Stage monitor](08-outputs-and-screens.md).
+**How to get there.** *Output ▸ Stage Layout…* (**⇧⌘T / Ctrl+Shift+T**). It opens as a window of its own. Toggle the stage output itself with **⌥⌘S / Ctrl+Shift+D**; see [Outputs & Screens ▸ Stage monitor](08-outputs-and-screens.md).
+
+**Each stage screen can show something different.** Every stage screen picks its own layout in Screen Setup (**Stage Layout**, or follow the live layout) — lyrics and chords on the musicians' monitor, timers and notes on the director's. See [Outputs & Screens](08-outputs-and-screens.md#the-stage--confidence-monitor). *(both)*
 
 > **Free tier:** there is no stage output on Free (audience only). Stage layouts require Pro or above.
 
@@ -215,6 +241,9 @@ On the **Free** tier, ACE tiles a diagonal **"ACE FREE"** watermark across the f
 | **Shape** | A rectangle/graphic element |
 | **Image** | A static image |
 | **Video** | A video element |
+| **Screen preview** | A live picture of the audience screen, so a musician sees what the congregation sees without turning round *(Windows: not yet available)* |
+
+Text and Live Text slots have **Scaling** with **Min/Max** size limits, like theme text boxes.
 
 **Live Text sources.** A Live Text slot binds to one of the engine's data sources:
 
@@ -239,6 +268,6 @@ On the **Free** tier, ACE tiles a diagonal **"ACE FREE"** watermark across the f
 **Platform differences.**
 
 - **macOS** — the richer editor: layouts are stored in the presentation, with **undo/redo**, **snap**, and **rulers**, and the **full source list**.
-- **Windows** — a lighter editor: layouts are stored in app settings (`stage/layoutJSON` and `stage/savedLayouts`), with **no undo/snap/rulers** and a **reduced source picker** that omits **Video Countdown**, **Chord Chart**, and **Next Scripture Translation**.
+- **Windows** — a lighter editor: layouts are stored in app settings, with **no undo/snap/rulers** *(Windows: not yet available)* and a **reduced source picker** that omits **Video Countdown**, **Chord Chart**, and **Next Scripture Translation**.
 
-> **Stage theme override.** The per-output *Stage Theme* control (in Screen Setup) is a real picker on macOS but a **placeholder on Windows** — it does not yet apply a stage-specific theme. This lives with the output configuration; see [Outputs & Screens ▸ Screen Setup](08-outputs-and-screens.md).
+> **Stage theme override.** The per-output *Stage Theme* control (in Screen Setup) is a real picker on macOS (**Same as Audience** or a theme) but still a **placeholder on Windows** *(Windows: not yet available)*. See [Outputs & Screens ▸ Screen Setup](08-outputs-and-screens.md).
