@@ -3,6 +3,7 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PricingTable from "@/components/PricingTable";
+import PresenterPlanComparison from "@/components/PresenterPlanComparison";
 import HorizonGlow from "@/components/hero/HorizonGlow";
 import { ScrollReveal, ScrollStagger, ScrollItem, SuiteAccent } from "@/components/motion";
 
@@ -23,6 +24,7 @@ export default function PricingPage() {
         <Nav />
         <PricingHero />
         <PricingTable />
+        <PresenterPlanComparison />
         <FAQ />
         <Footer />
       </div>
