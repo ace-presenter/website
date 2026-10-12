@@ -15,6 +15,9 @@ These bare keys work anywhere in the main window. They stand aside while you're 
 | One row down / up in the slide grid | ↓ / ↑ | ↓ / ↑ |
 | Play / pause the live video | Space | Space |
 | Toggle Blank | ⌘B | **B** |
+| Blank from a presentation clicker | **B** or **.** | **B** or **.** |
+| Presenter View (3.0) | ⌥⌘P | Ctrl+Alt+P |
+| Hold detection (still listening; the screens are yours) | ⇧⌘H | Ctrl+Shift+H |
 | Take | ⌘⏎ | — *(TAKE button)* |
 | Delete the selection (asks first) | Delete | Delete |
 | Answer the Delete question | Return = Delete · Esc = Cancel | Enter = Delete · Esc = Cancel |

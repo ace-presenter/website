@@ -20,8 +20,11 @@ ACE Presenter is one product with two native editions, built to the same standar
 
 | Area | macOS | Windows today | Where |
 |---|---|---|---|
+| **Several stream destinations at once**, and the catch-up for a slow upload | ✅ | One destination, without the catch-up yet | [Ch 12](12-following-by-voice.md) |
+| **Stream health** (STREAM pill, panel) | ✅ | Not shown yet | [Ch 12](12-following-by-voice.md) |
+| **Input check** — "mostly music" | ✅ | Levels only (too quiet, too loud, nothing) | [Ch 12](12-following-by-voice.md) |
+| A recording's **captions as SRT / VTT** | ✅ | Not yet | [Ch 12](12-following-by-voice.md) |
 | **SDI output** (screen to a Blackmagic card) | ✅ | Not yet — and **Spout** output isn't built yet either | [Ch 8](08-outputs-and-screens.md) |
-| **Operator voice commands** (OP MIC) | ✅ | The pill is shown but does nothing yet | [Ch 5](05-detection-ai.md) |
 | Per-cue **auto-advance** | Advances the slide | Shows the countdown but doesn't advance | [Ch 2](02-service-and-cues.md) |
 | **Scheduled auto-start** (Go On Air at a time) | Kept across relaunches, with its plan | Works, but forgotten when ACE quits; time only | [Ch 2](02-service-and-cues.md) |
 | **Speaker timers** | Several | One | [Ch 2](02-service-and-cues.md) |
@@ -35,7 +38,7 @@ ACE Presenter is one product with two native editions, built to the same standar
 | **Quick Screen** sheet | Shows the message | *Push to…* only saves to recents — show it from the Messages tab | [Ch 8](08-outputs-and-screens.md) |
 | **Fade to Black / Fade to Clear** at a video's end | Fades | Cuts | [Ch 6](06-media.md) |
 | **ProPresenter media/audio bins** on import | Folders, smart playlists and missing-file placeholders kept | Flattened to named playlists; no smart playlists; missing files listed instead of kept | [Ch 6](06-media.md) |
-| **Import Wizard** formats | Also ProPresenter 6, ChordPro, plain text, Bible files | Those are skipped (listed in the Summary) | [Ch 6](06-media.md) |
+| **Import Wizard** formats | Also Bible files | Bible files are skipped (listed in the Summary) | [Ch 6](06-media.md) |
 | **Inbox** folder | Also takes SongSelect and ChordPro files | ACE files, ProPresenter files and media | [Ch 6](06-media.md) |
 | PPTX without **LibreOffice** | Falls back to slide text | No pages | [Ch 6](06-media.md) |
 | **Media bin** extras | Tag-name search; grid/list and zoom remembered; Delete key | Name search only; view resets each launch; delete from the right-click menu | [Ch 6](06-media.md) |

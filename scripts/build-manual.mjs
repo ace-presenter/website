@@ -22,6 +22,7 @@ const files = [
   ['09-streaming-and-audio.md', 'Streaming & Audio', '9'],
   ['10-remote-control.md', 'The Phone Remote', '10'],
   ['11-preferences-shortcuts.md', 'Preferences & Shortcuts', '11'],
+  ['12-following-by-voice.md', 'Following by Voice', '12'],
   ['appendix-a-platform-differences.md', 'A · Platform Differences', 'A'],
   ['appendix-b-keyboard-shortcuts.md', 'B · Keyboard Shortcuts', 'B'],
   ['appendix-c-dependencies.md', 'C · Dependencies', 'C'],

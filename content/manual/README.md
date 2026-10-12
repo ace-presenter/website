@@ -1,6 +1,6 @@
 # ACE Presenter — User Manual
 
-A comprehensive reference for **ACE Presenter 2.4**, the worship/church presentation system. This manual covers both the **macOS** and **Windows** editions in one place. The two are built to the same standard — every feature lands on both — and the few genuine differences are named where they occur and collected in the platform-differences appendix.
+A comprehensive reference for **ACE Presenter 3.0**, the worship/church presentation system. This manual covers both the **macOS** and **Windows** editions in one place. The two are built to the same standard — every feature lands on both — and the few genuine differences are named where they occur and collected in the platform-differences appendix.
 
 > **Which app is which.** ACE Presenter ships as two native desktop apps that share one design and one underlying document model, plus a companion phone remote:
 > - **macOS** — a native Mac app (Apple silicon).
@@ -22,6 +22,7 @@ A comprehensive reference for **ACE Presenter 2.4**, the worship/church presenta
 | *(Windows: not yet available)* | Present on macOS; still to come on Windows (named, not hidden) |
 | *(Windows only)* | Present on Windows; not available on macOS |
 | *(Pro)* | Needs a Pro (or higher) licence |
+| *(Venue)* | Needs a Venue licence |
 
 When in doubt, the [Platform Differences appendix](appendix-a-platform-differences.md) is the authoritative list of what differs between the editions today.
 
@@ -40,6 +41,7 @@ When in doubt, the [Platform Differences appendix](appendix-a-platform-differenc
 9. [Streaming & Audio](09-streaming-and-audio.md) — RTMP streaming, NDI, capture cards, ATEM, audio routing, spatial audio, venues & zones
 10. [The Phone Remote](10-remote-control.md) — enabling, pairing, and everything the phone can control
 11. [Preferences, Shortcuts & Menus](11-preferences-shortcuts.md) — every settings pane, the command palette, the full menu map
+12. [Following by Voice, Speakers & Shows](12-following-by-voice.md) — new in 3.0: what ACE is for, following by voice, speaker notes and the presenter view, the teleprompter, cue markers, surtitles, live captions, the rundown, several stream destinations, the input check and the plans
 
 **Appendices**
 
