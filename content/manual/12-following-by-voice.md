@@ -83,7 +83,7 @@ Give each item a **planned length** in Edit Cue (half-minute steps). When you *G
 
 Cue rows show each item's planned length and, once it has run, its actual time. A **Hold** doesn't stop the clock — the room's time keeps going — and an item you go back to carries on counting.
 
-## Streaming to several places at once *(Venue)* *(Windows: not yet available)*
+## Streaming to several places at once *(Venue)* *(both)*
 
 In the Stream panel, *Destinations* lists where the stream goes — up to four, each with its own on/off switch, server URL and stream key. ACE encodes the picture **once** and sends it to every destination you have switched on.
 
@@ -92,7 +92,7 @@ In the Stream panel, *Destinations* lists where the stream goes — up to four, 
 - **A destination that drops** reconnects on its own; one that can't connect at all (a wrong key) is marked *Failed* and the rest carry on.
 - The same catch-up applies to a single destination: a slow upload no longer leaves your stream minutes behind by the end of the service.
 
-**Stream health** *(Pro)* *(Windows: not yet available)* — the STREAM pill in the top bar and the Stream panel show whether the stream is getting out: the rate, dropped frames and reconnects, green / amber / red.
+**Stream health** *(Pro)* *(both)* — the STREAM pill in the top bar and the Stream panel show whether the stream is getting out: the rate, dropped frames and reconnects, green / amber / red.
 
 ## The input check *(every plan)* *(both — Windows checks levels only)*
 
