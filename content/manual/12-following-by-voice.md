@@ -27,7 +27,7 @@ ACE listens to the speaker and moves the slides as they talk, reading from the *
 - If the speaker goes off script, it **holds** where it is (the presenter view says *OFF SCRIPT*) and picks up again when they come back.
 - Moving a slide by hand is always fine: ACE carries on from wherever you put it.
 - It never moves backwards on its own by mistake.
-- On recorded talks it was within one line of the speaker 98% of the time, about 0.8 s behind.
+- On recorded talks it was within one line of the speaker about 98% of the time, usually less than a second behind (a little over a second with Large v3 Turbo).
 
 **Good input matters.** Give ACE the presenter's microphone feed from the desk, not a room microphone. See *The input check* below.
 
