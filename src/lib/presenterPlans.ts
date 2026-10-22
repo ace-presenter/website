@@ -53,6 +53,18 @@ export const PRESENTER_LIMITS: LimitRow[] = [
     "free": "—",
     "pro": "20 song lookups + 4 sets of sermon notes a month; then paused until next month",
     "venue": "60 + 12"
+  },
+  {
+    "where": "Ask ACE (slides from a prompt)",
+    "free": "3 drafts a month",
+    "pro": "40 drafts a month",
+    "venue": "100 drafts a month"
+  },
+  {
+    "where": "Extra Ask ACE drafts",
+    "free": "25 more for $5 (bought drafts don't expire)",
+    "pro": "25 more for $5 (bought drafts don't expire)",
+    "venue": "25 more for $5 (bought drafts don't expire)"
   }
 ];
 
@@ -359,6 +371,10 @@ export const PRESENTER_FREE: PlanGroup[] = [
       {
         "name": "Teleprompter, moved by the slides",
         "limit": "Free: one service day a week. Pro: full."
+      },
+      {
+        "name": "Ask ACE (slides from a prompt)",
+        "limit": "Free: 3 drafts a month. Pro: 40. Venue: 100. Packs of 25 more for $5 on every plan."
       }
     ]
   },
