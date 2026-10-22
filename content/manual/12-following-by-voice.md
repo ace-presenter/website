@@ -106,6 +106,12 @@ The LISTENING pill and Detection settings say what ACE is hearing, and what to d
 | Too loud | Turn the send or the gain down until the peaks stay below full scale |
 | No sound | Check the input device, the cable, and that the desk send is up |
 
+## Staying awake while ACE listens *(every plan)* *(both)*
+
+ACE keeps the computer and its screens awake while it is listening, so a service with nobody at the desk keeps following on its own. To keep the computer awake whenever ACE is open, turn on **Keep this Mac awake while ACE is open** (Settings › General) or **Keep this computer awake while ACE is open** (Preferences › General on Windows).
+
+A closed laptop lid still puts the computer to sleep: keep a laptop plugged in with its lid open.
+
 ## The plans *(both)*
 
 ACE Presenter has three plans — **Free**, **Pro** and **Venue**. In short:
