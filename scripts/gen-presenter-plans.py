@@ -19,8 +19,7 @@ src = open(sys.argv[1], encoding="utf-8").read()
 MAC_ONLY = {
     "Syphon output", "SDI output (Blackmagic)", "Record the program", "Sermon recording + chapter marks",
     "Past recordings, captions and transcript export", "AI sermon notes", "MIDI control",
-    "Linked computers (backup Mac)", "Several stream destinations at once", "Apple speech (macOS 26)",
-    "Stream health",
+    "Linked computers (backup Mac)", "Apple speech (macOS 26)",
 }
 SECTIONS = [("free", "## Free"), ("pro", "## Pro"), ("venue", "## Venue only")]
 

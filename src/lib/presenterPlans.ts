@@ -25,6 +25,12 @@ export const PRESENTER_LIMITS: LimitRow[] = [
     "venue": "Full"
   },
   {
+    "where": "Stream destinations at once",
+    "free": "1",
+    "pro": "Up to 4",
+    "venue": "Up to 4"
+  },
+  {
     "where": "Following by voice: slides, voice teleprompter, live captions (room and stream)",
     "free": "—",
     "pro": "10 hours a month",
@@ -382,8 +388,8 @@ export const PRESENTER_FREE: PlanGroup[] = [
     "group": "Streaming and recording",
     "items": [
       {
-        "name": "Live stream (RTMP: YouTube, Facebook, any server)",
-        "limit": "Free: one service day a week, with the ACE FREE mark. Pro: full."
+        "name": "Live stream (RTMP, RTMPS or SRT: YouTube, Facebook, any server; 720p or 1080p at 30 or 60 fps, up to 14 Mb/s or a custom bitrate; saved stream presets)",
+        "limit": "Free: one service day a week, with the ACE FREE mark, to one destination. Pro: full."
       }
     ]
   }
@@ -513,6 +519,10 @@ export const PRESENTER_PRO: PlanGroup[] = [
       {
         "name": "AI sermon notes",
         "macOnly": true
+      },
+      {
+        "name": "Several stream destinations at once",
+        "limit": "Pro and Venue: up to 4 at once. Free: one."
       }
     ]
   },
@@ -577,8 +587,7 @@ export const PRESENTER_PRO: PlanGroup[] = [
         "limit": "Pro: 10 hours a month. Venue: unlimited."
       },
       {
-        "name": "Stream health",
-        "macOnly": true
+        "name": "Stream health"
       }
     ]
   }
@@ -641,10 +650,6 @@ export const PRESENTER_VENUE: PlanGroup[] = [
       },
       {
         "name": "Broadcast rundown (planned vs actual times)"
-      },
-      {
-        "name": "Several stream destinations at once",
-        "macOnly": true
       }
     ]
   }
