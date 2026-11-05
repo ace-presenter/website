@@ -505,8 +505,7 @@ export const PRESENTER_PRO: PlanGroup[] = [
         "name": "Choose what the stream carries"
       },
       {
-        "name": "Record the program",
-        "macOnly": true
+        "name": "Record the program"
       },
       {
         "name": "Sermon recording + chapter marks",
