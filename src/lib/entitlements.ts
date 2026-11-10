@@ -1,5 +1,6 @@
 import type { LicenseClaim, Tier, Product } from "./license";
 import { createSupabaseServerClient, createSupabaseAdminClient } from "./supabase-server";
+import { subscriptionSeats } from "./seats";
 
 /**
  * Resolve the requesting user's ACE Suite entitlements.
@@ -152,11 +153,20 @@ export async function resolveEntitlements(req: Request): Promise<LicenseClaim | 
     }
   }
 
+  // Venue is sold by the seat: carry how many, so the gateway allows that many
+  // computers instead of a fixed 3 (docs/V3_VENUE_PLAN.md, A1).
+  const seats: Partial<Record<Product, number>> = {};
+  if (plans.presenter === "business") {
+    const n = await subscriptionSeats(user.id, "presenter");
+    if (n) seats.presenter = n;
+  }
+
   return {
     license_id: user.id,
     tier,
     products,
     plans,
+    seats,
     user_email: user.email ?? "",
     period_end,
   };

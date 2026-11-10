@@ -30,6 +30,12 @@ export interface LicenseClaim {
    * gateway read their own product here; `tier` stays for older apps.
    */
   plans?: Partial<Record<Product, Tier>>;
+  /**
+   * Seats bought, per product, when the plan is sold by the seat (Presenter
+   * Venue: 2–25). The gateway allows this many computers; without it, its
+   * old default (3) stands.
+   */
+  seats?: Partial<Record<Product, number>>;
   user_email: string;
   /**
    * Unix seconds when the subscription period ends.
@@ -90,6 +96,7 @@ export async function issueLicense(claim: LicenseClaim): Promise<IssuedLicense> 
     tier: claim.tier,
     products: claim.products,
     ...(claim.plans && Object.keys(claim.plans).length ? { plans: claim.plans } : {}),
+    ...(claim.seats && Object.keys(claim.seats).length ? { seats: claim.seats } : {}),
     user_email: claim.user_email,
   })
     .setProtectedHeader({ alg: "RS256", typ: "JWT" })
