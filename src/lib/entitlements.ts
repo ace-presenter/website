@@ -116,11 +116,16 @@ export async function resolveEntitlements(req: Request): Promise<LicenseClaim | 
   }
 
   if (!rows.length) {
-    // Authenticated but no entitlements → free tier, no products.
+    // Authenticated but no entitlements → ACE Presenter Free. Every account
+    // has Presenter on its Free plan: a licence listing no products was
+    // refused by the apps ("does not include ACE Presenter") and by the
+    // gateway's Free services, so no new Free user could sign in
+    // (operator, 2026-11-15).
     return {
       license_id: user.id,
       tier: "free",
-      products: [],
+      products: ["presenter"],
+      plans: { presenter: "free" },
       user_email: user.email ?? "",
     };
   }
@@ -151,6 +156,13 @@ export async function resolveEntitlements(req: Request): Promise<LicenseClaim | 
         ? Math.floor(new Date(row.expires_at).getTime() / 1000)
         : null;
     }
+  }
+
+  // Presenter's Free plan comes with every account (see above): someone who
+  // bought only another ACE product still signs in to Presenter as Free.
+  if (!products.includes("presenter")) {
+    products.push("presenter");
+    plans.presenter = "free";
   }
 
   // Venue is sold by the seat: carry how many, so the gateway allows that many
