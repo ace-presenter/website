@@ -17,6 +17,7 @@ import { createBrowserClient } from "@supabase/ssr";
 import HorizonGlow from "@/components/hero/HorizonGlow";
 import CityAutocomplete from "@/components/CityAutocomplete";
 import { COUNTRIES } from "@/lib/countries";
+import PasswordInput from "@/components/PasswordInput";
 
 const SUPABASE_URL  = process.env.NEXT_PUBLIC_SUPABASE_URL  ?? "";
 const SUPABASE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
@@ -185,8 +186,7 @@ function SignupForm() {
                 <label className="block text-[10px] uppercase tracking-[0.2em] text-[#888] font-semibold mb-1.5">
                   Password
                 </label>
-                <input
-                  type="password"
+                <PasswordInput
                   required
                   minLength={8}
                   value={password}
