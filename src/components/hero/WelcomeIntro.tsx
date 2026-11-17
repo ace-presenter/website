@@ -60,6 +60,11 @@ export default function WelcomeIntro() {
   const lastLetter = head.filter((h) => h.c !== " ").length - 1;
   const headEnd = HEAD_START + lastLetter * STEP + 0.62; // when the last glyph settles
 
+  const words: (typeof head)[] = [[]];
+  for (const L of head) {
+    if (L.c === " ") words.push([]);
+    else words[words.length - 1].push(L);
+  }
   let li = -1;
 
   return (
@@ -91,25 +96,31 @@ export default function WelcomeIntro() {
 
         <h1
           aria-label="Welcome to ACE"
-          className="text-5xl font-bold tracking-tight text-white sm:text-7xl lg:text-[7rem] lg:leading-[0.92]"
+          className="text-[2.6rem] font-bold leading-[1.05] tracking-tight text-white sm:text-7xl lg:text-[7rem] lg:leading-[0.92]"
         >
-          {head.map((L, i) => {
-            if (L.c === " ") return <span key={i} className="inline-block w-[0.28em]" />;
-            li += 1;
-            return (
-              <span
-                key={i}
-                className={`ace-letter${
-                  L.serif
-                    ? " font-[family-name:var(--font-instrument-serif)] font-normal italic text-[#E8183A]"
-                    : ""
-                }`}
-                style={{ animationDelay: `${HEAD_START + li * STEP}s` }}
-              >
-                {L.c}
-              </span>
-            );
-          })}
+          {/* One nowrap group per word: the letters animate one by one, but a
+              phone can only break the line between words, never mid-"ACE". */}
+          {words.map((w, wi) => (
+            <span key={wi} className="inline-block whitespace-nowrap">
+              {wi > 0 && <span className="inline-block w-[0.28em]" />}
+              {w.map((L, i) => {
+                li += 1;
+                return (
+                  <span
+                    key={i}
+                    className={`ace-letter${
+                      L.serif
+                        ? " font-[family-name:var(--font-instrument-serif)] font-normal italic text-[#E8183A]"
+                        : ""
+                    }`}
+                    style={{ animationDelay: `${HEAD_START + li * STEP}s` }}
+                  >
+                    {L.c}
+                  </span>
+                );
+              })}
+            </span>
+          ))}
         </h1>
 
         <p
