@@ -16,6 +16,9 @@ export default defineConfig({
     // VINEXT_KV_CACHE in wrangler.jsonc).
     vinext({ cache: { data: kvDataAdapter() } }),
     cloudflare({
+      // The private preview builds against wrangler.preview.jsonc (its own
+      // Worker and cache, no custom domains). Unset = the live config.
+      ...(process.env.ACE_WRANGLER_CONFIG ? { configPath: process.env.ACE_WRANGLER_CONFIG } : {}),
       viteEnvironment: {
         name: "rsc",
         childEnvironments: ["ssr"],

@@ -1,0 +1,18 @@
+// PRIVATE PREVIEW of the 3.0 site (2026-11-17). Its own Worker, its own
+// cache, NO custom domains: it can't touch ace-presenter.app or the live
+// page cache. Build with ACE_WRANGLER_CONFIG=wrangler.preview.jsonc (see
+// vite.config.ts), then deploy dist/server/wrangler.json. No secrets are set
+// on it, so sign-in and checkout don't work there, on purpose.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ace-site-preview-8pagxm2j",
+  "workers_dev": true,
+  "preview_urls": false,
+  "compatibility_date": "2026-09-29",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "vinext/server/fetch-handler",
+  "kv_namespaces": [
+    { "binding": "VINEXT_KV_CACHE", "id": "35a269403602454da4d31e2d2cc481de" }
+  ],
+  "assets": { "directory": "dist/client", "not_found_handling": "none", "binding": "ASSETS" }
+}
