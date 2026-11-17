@@ -52,12 +52,18 @@ export default function WorshipPage() {
         },
         {
           pain: "Bands change keys, repeat the bridge, drop a chorus. The slide volunteer panics.",
-          solution: "ACE detects song + section in real time. When the band loops back, ACE loops back. No clicks.",
+          solution: "ACE follows the song and moves the lyric with it. Load the day's songs into the service and it picks the right song more reliably. One key takes over whenever you want.",
         },
         {
           pain: "Presentation software can run hundreds up front plus yearly renewals — the license eats your AV budget.",
-          solution: "A free tier runs the audience screen with a watermark. Pro removes it and unlocks stage and confidence screens, from $29/month.",
+          solution: "Free runs your audience screen, with listening one service day a week. Pro takes the mark off and adds the stage screen.",
         },
+      ]}
+      tools={[
+        { name: "Say the verse. It's up.", body: "\"Matthew five, verses three to twelve\" goes on screen as the preacher says it. One click shows a verse." },
+        { name: "Stream to four places", body: "YouTube, Facebook, your website and a backup at once. A slow one goes red on its own; the others carry on.", plan: "Pro" },
+        { name: "Lyrics as lower thirds", body: "Lyrics and verses along the bottom of the stream, in a design you make.", plan: "Venue" },
+        { name: "Planning Center", body: "Bring the service plan in, songs and all, on Mac and Windows.", plan: "Venue" },
       ]}
       ctaTitle="Try it on this Sunday's service"
     />

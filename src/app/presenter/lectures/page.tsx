@@ -51,13 +51,19 @@ export default function LecturesPage() {
           solution: "ACE recognises the moment from your speech and advances. Eye contact stays on the room.",
         },
         {
-          pain: "Students ask a question that pulls you back to slide 3. Now you're navigating in front of a hundred people.",
-          solution: "Say the topic. ACE finds the slide. Continue.",
+          pain: "Some students need captions, and a few are watching from home.",
+          solution: "Live captions put what you say on the screen in the room and on the stream.",
         },
         {
           pain: "Recorded lectures need clean cuts at slide changes for editing. Manual clicking is inconsistent.",
-          solution: "ACE timestamps every transition. Editor gets a frame-accurate cue list with the recording.",
+          solution: "Record the lecture in ACE and export the captions as SRT or VTT for the edit.",
         },
+      ]}
+      tools={[
+        { name: "Follow slides by voice", body: "Your deck moves as you teach, usually within a second or so.", plan: "Pro" },
+        { name: "Voice teleprompter", body: "Your notes scroll as you speak, at your pace.", plan: "Pro" },
+        { name: "Live captions", body: "On the room's screens, the stream, or the recording only.", plan: "Pro" },
+        { name: "21 languages", body: "The whole app and its Help, from Español to 日本語. Pick yours." },
       ]}
       ctaTitle="Teach without the clicker"
     />
