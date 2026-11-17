@@ -116,8 +116,9 @@ export default function Privacy() {
               <strong className="text-white">Retention:</strong> Audio segments
               are automatically overwritten and permanently discarded after each
               sub-second detection cycle. <strong className="text-white">No
-              audio data or voice prints leave your room, land on our servers, or
-              enter any AI training sets.</strong>
+              live-detection audio or voice prints leave your room, land on our
+              servers, or enter any AI training sets.</strong> The one exception is
+              a meeting you choose to record in the ACE Presenter Remote (below).
             </li>
             <li>
               <strong className="text-white">Meeting Recordings (ACE Presenter
