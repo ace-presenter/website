@@ -57,7 +57,8 @@ const TOURS: Tour[] = [
         y: 27.0,
         title: "Your library, ready to detect",
         body: "Import from ProPresenter, ChordPro or CCLI — or paste lyrics and ACE splits verse, chorus and bridge. Load an arrangement and ACE knows the song when the band starts it.",
-        clip: { slug: "song-detection", label: "Song detection", length: "0:35" },
+        // Clip "song-detection" hidden for 3.0: it shows the 2.x Detection Settings
+        // window, which changed in 3.0. Put it back once it's re-recorded.
       },
       {
         x: 8.0,
