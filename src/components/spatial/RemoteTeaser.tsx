@@ -5,9 +5,8 @@ import PhoneFrame from "./PhoneFrame";
 /**
  * A short stop for the phone app on the home and Presenter pages; the full
  * story is /remote. Three phones fanned in depth (CSS only, no JS).
- * Studio / Meeting notes / Teleprompter stay "coming soon" until Apple
- * approves 1.2.0 (operator, 2026-11-17), so the teaser leads with the
- * remote screens that are live.
+ * Leads with the remote; Studio (Teleprompter, Meeting notes) is new in
+ * 1.2.0, approved by Apple on 2026-11-17.
  */
 export default function RemoteTeaser() {
   const phones = [
@@ -44,7 +43,8 @@ export default function RemoteTeaser() {
             ))}
           </ul>
           <p className="mt-5 text-sm text-white/45">
-            Coming soon in the same app: a teleprompter that follows your voice, and meeting notes.
+            New in 1.2: a teleprompter that follows your voice, and AI meeting notes. Both work with no
+            computer at all.
           </p>
           <Link
             href="/remote"

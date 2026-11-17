@@ -11,8 +11,8 @@ import PhoneFrame from "@/components/spatial/PhoneFrame";
  * ACE Remote — the phone app's own page (operator, 2026-11-17: "something
  * techy and good"). Facts come from the remote repo (README, services/,
  * i18n/locales: 9 languages) and the Presenter plans (phone remote = Pro and
- * Venue). Teleprompter and Meeting notes are "coming soon" until Apple
- * approves 1.2.0. Android is a direct download (not on Google Play) from
+ * Venue). Teleprompter and Meeting notes: live in 1.2.0 (Apple approved
+ * 2026-11-17). Android is a direct download (not on Google Play) from
  * dl.ace-presenter.app/remote/ (ANDROID_APK_URL in RemoteHero).
  */
 
@@ -158,7 +158,7 @@ function UnderTheHood() {
   );
 }
 
-/* ───────────── STUDIO (coming soon) ───────────── */
+/* ───────────── STUDIO (new in 1.2) ───────────── */
 function Studio() {
   const tools = [
     {
@@ -194,14 +194,14 @@ function Studio() {
       <div className="mx-auto max-w-6xl">
         <div className="ace-sp-reveal mx-auto max-w-3xl text-center">
           <span className="ace-glass inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-white/75">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#F59E0B]" /> Studio · coming soon
+            <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E]" /> Studio · new in 1.2
           </span>
           <h2 className="mt-6 text-[clamp(2.2rem,5vw,3.6rem)] font-bold leading-[1] tracking-[-0.035em] text-white">
             No computer? <span className="font-serif font-normal italic text-[#FF4D5E]">Still</span> useful.
           </h2>
           <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-[#B8B8BE] sm:text-lg">
             Two tools that work on the phone alone, for speakers, creators and anyone who runs a meeting.
-            They arrive in the next version of the app.
+            In ACE Remote 1.2, on iPhone and Android.
           </p>
         </div>
 
@@ -214,8 +214,8 @@ function Studio() {
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FF4D5E]">{t.tag}</span>
-                  <span className="rounded-full border border-white/15 px-1.5 py-px font-mono text-[8.5px] uppercase tracking-[0.16em] text-white/55">
-                    Soon
+                  <span className="rounded-full border border-[#FF3B4F]/40 bg-[#FF3B4F]/10 px-1.5 py-px font-mono text-[8.5px] uppercase tracking-[0.16em] text-[#FF8A96]">
+                    New
                   </span>
                 </div>
                 <h3 className="mt-3 text-xl font-semibold leading-snug text-white sm:text-2xl">{t.title}</h3>
@@ -241,11 +241,11 @@ function GetIt() {
   const faqs = [
     {
       q: "What do I need?",
-      a: "ACE Presenter on a Mac or PC, and the phone on the same Wi-Fi. The app is free to download; controlling ACE from your phone is part of the Pro and Venue plans.",
+      a: "For the remote: ACE Presenter on a Mac or PC, and the phone on the same Wi-Fi. Controlling ACE from your phone is part of the Pro and Venue plans. Teleprompter and Meeting notes need only the phone. The app is free to download.",
     },
     {
       q: "Does it need the internet?",
-      a: "Only to sign in the first time. After that the remote talks straight to the computer over the room's network.",
+      a: "The remote needs it only to sign in the first time; after that it talks straight to the computer over the room's network. Meeting notes need the internet to write the notes up.",
     },
     {
       q: "Can more than one phone connect?",

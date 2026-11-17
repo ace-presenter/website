@@ -20,19 +20,19 @@ import { useCalmMotion } from "./useFitScale";
  * (ACE-Presenter-Remote-Mac/scripts/store-screenshots.py), so the site and
  * the store say the same thing.
  *
- * Studio, Meeting notes and Teleprompter carry "Coming soon" until Apple
+ * Studio, Meeting notes and Teleprompter are marked "New in 1.2": Apple approved
  * approves 1.2.0 (operator, 2026-11-17).
  */
 
-type Screen = { file: string; tag: string; title: [string, string]; sub: string; soon?: boolean };
+type Screen = { file: string; tag: string; title: [string, string]; sub: string; isNew?: boolean };
 
 const SCREENS: Screen[] = [
   { file: "01-remote", tag: "Remote", title: ["Run the service", "from your pocket"], sub: "Slides, lower thirds and Next under your thumb." },
   { file: "02-cues", tag: "Cues", title: ["Every cue,", "one tap from live"], sub: "The whole service order on your phone." },
   { file: "03-library", tag: "Library", title: ["Songs, scripture", "and media"], sub: "Search and put anything on screen." },
-  { file: "04-studio", tag: "Studio", title: ["Teleprompter and", "meeting notes"], sub: "They work on their own, no computer needed.", soon: true },
-  { file: "05-meeting-notes", tag: "Meeting notes", title: ["Record a meeting.", "Get the notes."], sub: "Summary, decisions and who does what.", soon: true },
-  { file: "06-teleprompter", tag: "Teleprompter", title: ["Scripts that scroll", "as you speak"], sub: "Follow my voice, mirror mode, record yourself.", soon: true },
+  { file: "04-studio", tag: "Studio", title: ["Teleprompter and", "meeting notes"], sub: "They work on their own, no computer needed.", isNew: true },
+  { file: "05-meeting-notes", tag: "Meeting notes", title: ["Record a meeting.", "Get the notes."], sub: "Summary, decisions and who does what.", isNew: true },
+  { file: "06-teleprompter", tag: "Teleprompter", title: ["Scripts that scroll", "as you speak"], sub: "Follow my voice, mirror mode, record yourself.", isNew: true },
   { file: "07-screens", tag: "Screens", title: ["Every screen,", "under control"], sub: "Turn outputs on and off from anywhere." },
   { file: "08-output", tag: "Output", title: ["See exactly what", "the room sees"], sub: "The live slide, large, with Next under your thumb." },
 ];
@@ -109,7 +109,7 @@ export default function PhoneTour() {
                 <span className={i === idx ? "text-[#FF3B4F]" : ""}>{String(i + 1).padStart(2, "0")}</span>
                 <span className={`h-px transition-all duration-500 ${i === idx ? "w-10 bg-[#FF3B4F]" : "w-4 bg-white/15"}`} />
                 {sc.tag}
-                {sc.soon && <span className="text-[9px] tracking-[0.15em] text-white/30">· soon</span>}
+                {sc.isNew && <span className="text-[9px] tracking-[0.15em] text-[#FF8A96]/70">· new</span>}
               </li>
             ))}
           </ol>
@@ -166,9 +166,9 @@ export default function PhoneTour() {
             >
               <div className="flex items-center justify-center gap-3 lg:justify-start">
                 <span className="font-mono text-[11px] uppercase tracking-[0.35em] text-[#FF4D5E]">{s.tag}</span>
-                {s.soon && (
+                {s.isNew && (
                   <span className="rounded-full border border-[#FF3B4F]/40 bg-[#FF3B4F]/10 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-[#FF8A96]">
-                    Coming soon
+                    New in 1.2
                   </span>
                 )}
               </div>
