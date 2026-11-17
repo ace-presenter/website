@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import SpatialHero from "@/components/spatial/SpatialHero";
 import SpatialAudioDemo from "@/components/spatial/SpatialAudioDemo";
 import PhoneTour from "@/components/spatial/PhoneTour";
+import WhatsNewBento from "@/components/spatial/WhatsNewBento";
 
 // Concept for the 3.0 look (operator, 2026-11-17). Not linked, not indexed.
 // Once approved these sections move into the home and Presenter pages and
@@ -19,6 +20,7 @@ export default function ConceptPage() {
       <Nav />
       <SpatialHero />
       <SpatialAudioDemo />
+      <WhatsNewBento />
       <PhoneTour />
       <Footer />
     </main>

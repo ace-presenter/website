@@ -5,13 +5,13 @@ import { useRef, useState } from "react";
 import {
   motion,
   useMotionValueEvent,
-  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
 } from "motion/react";
 import PhoneFrame from "./PhoneFrame";
 import { Grain } from "./SpatialHero";
+import { useCalmMotion } from "./useFitScale";
 
 /**
  * ACE Remote 1.2, as a pinned scroll tour. One phone in the middle turns as
@@ -41,7 +41,7 @@ const N = SCREENS.length;
 
 export default function PhoneTour() {
   const ref = useRef<HTMLElement>(null);
-  const reduce = useReducedMotion() ?? false;
+  const reduce = useCalmMotion();
   const [idx, setIdx] = useState(0);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   useMotionValueEvent(scrollYProgress, "change", (v) => {
@@ -51,6 +51,7 @@ export default function PhoneTour() {
   const rotY = useTransform(smooth, [0, 0.5, 1], [-18, 0, 18]);
   const rotX = useTransform(smooth, [0, 0.5, 1], [8, 2, 8]);
   const bar = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const sheen = useTransform(smooth, [0, 1], ["-80%", "80%"]);
   const s = SCREENS[idx];
 
   return (
@@ -82,9 +83,10 @@ export default function PhoneTour() {
         <Grain />
 
         {/* Header bar */}
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 pt-24 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40 sm:px-10">
-          <span>
-            <span className="text-[#FF4D5E]">ACE Remote 1.2</span> · iPhone + Android
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-6 pt-24 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40 sm:px-10">
+          <span className="ace-glass flex items-center gap-2 rounded-full px-3 py-1.5">
+            <span className="text-[#FF4D5E]">ACE Remote 1.2</span>
+            <span className="hidden sm:inline">· iPhone + Android</span>
           </span>
           <span className="tabular-nums">
             Screen {String(idx + 1).padStart(2, "0")} / {String(N).padStart(2, "0")}
@@ -132,6 +134,16 @@ export default function PhoneTour() {
                     style={{ opacity: i === idx ? 1 : 0, transform: i === idx ? "scale(1)" : "scale(0.97)" }}
                   />
                 ))}
+                {!reduce && (
+                  <motion.div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 z-10"
+                    style={{
+                      x: sheen,
+                      background: "linear-gradient(115deg, transparent 38%, rgba(255,255,255,0.09) 48%, transparent 58%)",
+                    }}
+                  />
+                )}
                 {!reduce && (
                   <div
                     key={idx}

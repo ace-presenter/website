@@ -1,8 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "motion/react";
+import { trackPointer } from "./glass";
 import { Grain } from "./SpatialHero";
+import { useCalmMotion } from "./useFitScale";
 
 /**
  * Spatial Audio, heard for real. Four voices play at once (the room in
@@ -12,7 +13,8 @@ import { Grain } from "./SpatialHero";
  *
  * Claims kept to what 3.0 does (docs: spatial-audio memory / V3 facts):
  * a headphone mix for translation, each language placed by a slider and
- * checked with Test voice. Mac only in 3.0. Not room/immersive audio.
+ * checked with Test voice. Mac AND Windows in 3.0 (operator, 2026-11-17;
+ * V3_RELEASE_FACTS "Spatial Audio in Headphones"). Not room/immersive audio.
  */
 
 type Source = {
@@ -61,7 +63,7 @@ const norm = (a: number) => {
 };
 
 export default function SpatialAudioDemo() {
-  const reduce = useReducedMotion() ?? false;
+  const reduce = useCalmMotion();
   const [sources, setSources] = useState(START);
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -230,11 +232,11 @@ export default function SpatialAudioDemo() {
       <Grain />
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-16 lg:grid-cols-[1fr_1.1fr]">
         {/* Copy */}
-        <div>
+        <div className="ace-sp-reveal">
           <div className="flex flex-wrap items-center gap-3">
             <span className="font-mono text-[11px] uppercase tracking-[0.35em] text-[#FF4D5E]">Spatial Audio · New in 3.0</span>
-            <span className="rounded-full border border-white/12 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white/55">
-              Mac only in 3.0
+            <span className="ace-glass rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white/70">
+              Mac + Windows
             </span>
           </div>
           <h2 className="mt-5 text-[clamp(2.2rem,5vw,3.9rem)] font-bold leading-[1.02] tracking-[-0.03em] text-white">
@@ -272,7 +274,8 @@ export default function SpatialAudioDemo() {
               role="switch"
               aria-checked={spatial}
               onClick={() => setSpatial((v) => !v)}
-              className="flex items-center gap-3 rounded-full border border-white/12 bg-white/[0.04] px-4 py-3 text-sm text-white/85 transition hover:bg-white/[0.08]"
+              onPointerMove={trackPointer}
+              className="ace-glass flex items-center gap-3 rounded-full px-4 py-3 text-sm text-white/85 transition hover:bg-white/[0.08]"
             >
               <span className={`relative h-5 w-9 rounded-full transition ${spatial ? "bg-[#E8183A]" : "bg-white/15"}`}>
                 <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-all ${spatial ? "left-[18px]" : "left-0.5"}`} />
@@ -285,7 +288,7 @@ export default function SpatialAudioDemo() {
           </p>
 
           {/* Legend / mixer */}
-          <ul className="mt-10 divide-y divide-white/[0.06] rounded-2xl border border-white/[0.08] bg-white/[0.02]">
+          <ul onPointerMove={trackPointer} className="ace-glass mt-10 divide-y divide-white/[0.06] rounded-2xl">
             {sources.map((s) => (
               <li key={s.id} className="flex items-center gap-4 px-4 py-3">
                 <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: s.color, boxShadow: `0 0 12px ${s.color}` }} />
