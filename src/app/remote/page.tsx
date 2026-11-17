@@ -12,8 +12,8 @@ import PhoneFrame from "@/components/spatial/PhoneFrame";
  * techy and good"). Facts come from the remote repo (README, services/,
  * i18n/locales: 9 languages) and the Presenter plans (phone remote = Pro and
  * Venue). Teleprompter and Meeting notes are "coming soon" until Apple
- * approves 1.2.0. Android is a direct download (not on Google Play); its link
- * goes up with the release, so the button says so.
+ * approves 1.2.0. Android is a direct download (not on Google Play) from
+ * dl.ace-presenter.app/remote/ (ANDROID_APK_URL in RemoteHero).
  */
 
 export const metadata: Metadata = {
@@ -252,8 +252,8 @@ function GetIt() {
       a: "Each phone asks to join and the computer approves it, so the pastor, the worship leader and the booth can each have one.",
     },
     {
-      q: "Where's the Android app?",
-      a: "Android gets the app straight from this site rather than Google Play. The download link goes up with the release.",
+      q: "How do I install it on Android?",
+      a: "Android gets the app straight from this site, not Google Play. Tap Download, open the file, and the first time Android asks you to allow installs from your browser. Later versions install over the top, keeping your scripts and meetings.",
     },
   ];
   return (

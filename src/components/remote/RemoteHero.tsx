@@ -34,7 +34,11 @@ const N = SLIDES.length;
 type Packet = { id: number; dir: "out" | "in"; label: string };
 type LogLine = { id: number; t: string; dir: "→" | "←" | "·"; msg: string; arg?: string };
 
+// No country in the App Store link: Apple sends each visitor to their own store.
 const IOS_URL = "https://apps.apple.com/app/id6795585584";
+// Android is a direct download (not on Google Play), from the release bucket.
+// Versioned name: a new APK is a new file, so the CDN never serves a stale one.
+export const ANDROID_APK_URL = "https://dl.ace-presenter.app/remote/ACE-Presenter-Remote-1.2.0.apk";
 
 export default function RemoteHero() {
   const reduce = useCalmMotion();
@@ -405,17 +409,18 @@ export function StoreButtons({ className = "" }: { className?: string }) {
           <span className="block text-[15px] font-semibold">App Store</span>
         </span>
       </a>
-      <span
+      <a
+        href={ANDROID_APK_URL}
+        download
         onPointerMove={trackPointer}
-        className="ace-glass flex items-center gap-2.5 rounded-full px-6 py-3 text-white/80"
-        title="The Android app is a direct download from this site. The link goes up with the release."
+        className="ace-glass flex items-center gap-2.5 rounded-full px-6 py-3 text-white transition hover:bg-white/[0.08]"
       >
         <AndroidMark />
         <span className="text-left leading-none">
-          <span className="block text-[9px] font-medium uppercase tracking-[0.12em] text-white/50">Android</span>
-          <span className="block text-[15px] font-semibold">Download soon</span>
+          <span className="block text-[9px] font-medium uppercase tracking-[0.12em] text-white/50">Android · APK</span>
+          <span className="block text-[15px] font-semibold">Download</span>
         </span>
-      </span>
+      </a>
       <Link href="#remote" className="px-3 py-3 text-sm font-semibold text-white/70 transition hover:text-white">
         See every screen ↓
       </Link>
