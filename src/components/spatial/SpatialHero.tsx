@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import PhoneFrame from "./PhoneFrame";
 import ShaderStage from "./ShaderStage";
@@ -38,7 +38,26 @@ const LINES = [
 const W = 1120; // design size of the desktop scene
 const H = 600;
 
-export default function SpatialHero() {
+type Cta = { href: string; label: string };
+
+export default function SpatialHero({
+  eyebrow = "ACE Presenter 3.0 · Mac + Windows",
+  primary = { href: "/api/download", label: "Download ACE Presenter" },
+  secondary = { href: "#new", label: "See what\u2019s new in 3.0" },
+  extra,
+  note,
+  title,
+}: {
+  /** Replaces "The room speaks. The slides follow." */
+  title?: ReactNode;
+  eyebrow?: string;
+  primary?: Cta;
+  secondary?: Cta;
+  /** A third button (the Presenter page's Windows download). */
+  extra?: Cta;
+  /** A small line under the buttons (plans, versions). */
+  note?: ReactNode;
+} = {}) {
   const reduce = useCalmMotion();
   const fitRef = useRef<HTMLDivElement>(null);
   const tiltRef = useRef<HTMLDivElement>(null);
@@ -173,12 +192,16 @@ export default function SpatialHero() {
       <div className="relative mx-auto max-w-4xl px-6 text-center">
         <span className="ace-glass inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-white/80 sm:text-[11px]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#FF3B4F] shadow-[0_0_10px_#FF3B4F]" />
-          ACE Presenter 3.0 · Mac + Windows
+          {eyebrow}
         </span>
         <h1 className="mt-6 text-[clamp(2.6rem,6.4vw,5.2rem)] font-bold leading-[0.96] tracking-[-0.04em] text-white">
-          <span className="bg-gradient-to-b from-white to-white/70 bg-clip-text text-transparent">The room speaks.</span>
-          <br />
-          The slides <span className="font-serif font-normal italic tracking-[-0.02em] text-[#FF4D5E]">follow.</span>
+          {title ?? (
+            <>
+              <span className="bg-gradient-to-b from-white to-white/70 bg-clip-text text-transparent">The room speaks.</span>
+              <br />
+              The slides <span className="font-serif font-normal italic tracking-[-0.02em] text-[#FF4D5E]">follow.</span>
+            </>
+          )}
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[#B8B8BE] sm:text-lg">
           ACE listens to the service and moves the lyrics, scripture, slides and captions with it.
@@ -186,19 +209,32 @@ export default function SpatialHero() {
         </p>
         <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
           <Link
-            href="/api/download"
+            href={primary.href}
             className="rounded-full bg-gradient-to-b from-[#FF3B4F] to-[#C8102E] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_10px_40px_-8px_rgba(232,24,58,0.7),inset_0_1px_0_rgba(255,255,255,0.3)] transition hover:brightness-110"
           >
-            Download ACE Presenter
+            {primary.label}
           </Link>
+          {extra && (
+            <Link
+              href={extra.href}
+              onPointerMove={trackPointer}
+              className="ace-glass rounded-full px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-white/[0.08]"
+            >
+              {extra.label}
+            </Link>
+          )}
           <a
-            href="#spatial"
+            href={secondary.href}
             onPointerMove={trackPointer}
-            className="ace-glass rounded-full px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-white/[0.08]"
+            className={`rounded-full px-7 py-3.5 text-sm font-semibold transition ${
+              extra ? "text-white/75 hover:text-white" : "ace-glass text-white hover:bg-white/[0.08]"
+            }`}
           >
-            Hear what&rsquo;s new in 3.0
+            {secondary.label}
+            {extra && <span aria-hidden> →</span>}
           </a>
         </div>
+        {note && <div className="mt-5 text-xs text-white/50">{note}</div>}
       </div>
 
       {/* Phones: a layout of their own, not a shrunken stage */}

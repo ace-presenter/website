@@ -35,7 +35,7 @@ function navInitials(u: NavUser): string {
  * Pass `activeProduct` from each product page to highlight the trigger.
  */
 
-type Product = "presenter" | "schedule" | "notes" | "manager" | "world";
+type Product = "presenter" | "remote" | "schedule" | "notes" | "manager" | "world";
 
 interface NavProps {
   activeProduct?: Product;
@@ -54,6 +54,13 @@ const LIVE_PRODUCTS: {
     name: "Presenter",
     desc: "Slides that follow the room, live.",
     accent: products.presenter.accent,
+  },
+  {
+    key: "remote",
+    href: "/remote",
+    name: "Remote",
+    desc: "The phone app: run the service from your pocket.",
+    accent: "#FF4D5E",
   },
   {
     key: "schedule",
@@ -190,10 +197,11 @@ export default function Nav({ activeProduct }: NavProps) {
 
   return (
     <nav
-      className={`sticky top-0 z-40 px-6 sm:px-10 flex items-center justify-between backdrop-blur-xl border-b transition-all duration-300 ${
+      // Floating glass bar (3.0 look): it lifts off the page once you scroll.
+      className={`sticky z-40 mx-auto flex w-full items-center justify-between border backdrop-blur-xl backdrop-saturate-150 transition-all duration-300 ${
         scrolled
-          ? "py-3 bg-[#0F0F0F]/95 border-[#222] shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)]"
-          : "py-4 bg-[#0F0F0F]/80 border-[#1A1A1A]"
+          ? "top-2 max-w-[min(72rem,calc(100%-1rem))] rounded-full border-white/10 bg-[#101012]/75 px-4 py-2 shadow-[0_18px_50px_-18px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.06)] sm:px-5"
+          : "top-0 max-w-full rounded-none border-transparent border-b-white/[0.06] bg-[#09090B]/60 px-6 py-4 sm:px-10"
       }`}
     >
       {/* Wordmark */}
@@ -254,7 +262,9 @@ export default function Nav({ activeProduct }: NavProps) {
                   background:
                     activeProduct === "notes"
                       ? products.editorsNotes.accent
-                      : products[activeProduct as Exclude<Product, "notes">].accent,
+                      : activeProduct === "remote"
+                        ? "#FF4D5E"
+                        : products[activeProduct as Exclude<Product, "notes" | "remote">].accent,
                 }}
               />
             )}
@@ -336,7 +346,7 @@ export default function Nav({ activeProduct }: NavProps) {
             </Link>
             <Link
               href="/pricing"
-              className="px-4 sm:px-5 py-2 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-xs uppercase tracking-wider transition hover:scale-[1.04] active:scale-100"
+              className="whitespace-nowrap px-4 sm:px-5 py-2 rounded-full bg-white hover:bg-[#E8E8E8] text-black font-bold text-xs uppercase tracking-wider transition hover:scale-[1.04] active:scale-100"
             >
               Get started
             </Link>
@@ -361,7 +371,7 @@ export default function Nav({ activeProduct }: NavProps) {
 
       {/* Mobile sheet */}
       {mobileOpen && (
-        <div className="md:hidden fixed inset-0 top-[57px] z-40 overflow-y-auto bg-[#0C0C0C] px-6 py-8">
+        <div className="md:hidden fixed inset-x-0 bottom-0 top-[64px] z-40 overflow-y-auto bg-[#0C0C0C] px-6 py-8">
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#777]">
             Products
           </p>

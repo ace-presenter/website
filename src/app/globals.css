@@ -379,6 +379,10 @@ html { transition: --ar 0.8s ease, --ag 0.8s ease, --ab 0.8s ease; }
 .manual tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
 .manual td code { white-space: nowrap; }
 .manual .tablewrap { overflow-x: auto; }
+/* Phones: a wide table scrolls inside itself, not the whole page sideways. */
+@media (max-width: 640px) {
+  .manual table { display: block; overflow-x: auto; }
+}
 /* Status badges */
 .manual .badge {
   display: inline-block;
@@ -443,18 +447,9 @@ html { transition: --ar 0.8s ease, --ag 0.8s ease, --ab 0.8s ease; }
   .manual .doc { padding: 34px 0; }
 }
 
-/* ───────── Spatial look (site-look concept, 2026-11) ─────────
+/* ───────── Spatial look (3.0 site, 2026-11) ─────────
    Namespaced ace-sp-*. Everything moves only without reduced motion. */
 @media (prefers-reduced-motion: no-preference) {
-  @keyframes ace-sp-ring {
-    from { transform: translate(-50%, -50%) rotateX(74deg) scale(0.15); opacity: 0.9; }
-    to   { transform: translate(-50%, -50%) rotateX(74deg) scale(3.4); opacity: 0; }
-  }
-  .ace-sp-ring { animation: ace-sp-ring 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-
-  @keyframes ace-sp-grid { from { background-position: 0 0; } to { background-position: 0 64px; } }
-  .ace-sp-grid { animation: ace-sp-grid 3.5s linear infinite; }
-
   @keyframes ace-sp-scan {
     from { transform: translateY(-100%); opacity: 1; }
     to   { transform: translateY(100%); opacity: 0.2; }

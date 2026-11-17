@@ -44,7 +44,7 @@ export const PRESENTER_LIMITS: LimitRow[] = [
   },
   {
     "where": "Cloud speech (Deepgram)",
-    "free": "—",
+    "free": "— (minutes already bought still work until they run out)",
     "pro": "300 min / month",
     "venue": "900 min / month"
   },
@@ -56,7 +56,7 @@ export const PRESENTER_LIMITS: LimitRow[] = [
   },
   {
     "where": "Online song ID, AI sermon notes (paid AI)",
-    "free": "—",
+    "free": "10 song lookups + 1 set of sermon notes a month",
     "pro": "20 song lookups + 4 sets of sermon notes a month; then paused until next month",
     "venue": "60 + 12"
   },
@@ -193,9 +193,6 @@ export const PRESENTER_FREE: PlanGroup[] = [
     "group": "Media",
     "items": [
       {
-        "name": "Pictures and video, background video"
-      },
-      {
         "name": "Media bin, folders, playlists"
       },
       {
@@ -206,9 +203,6 @@ export const PRESENTER_FREE: PlanGroup[] = [
       },
       {
         "name": "When a video ends (hold, black, fade…)"
-      },
-      {
-        "name": "Background per song / slide / cue + inspector"
       },
       {
         "name": "Video transport (play, scrub, loop, mute)"
@@ -247,10 +241,10 @@ export const PRESENTER_FREE: PlanGroup[] = [
     "group": "Screens and outputs",
     "items": [
       {
-        "name": "Audience screen"
+        "name": "One audience screen (on a display, or over NDI)"
       },
       {
-        "name": "NDI output, any screen"
+        "name": "NDI output of the audience screen"
       },
       {
         "name": "Syphon output",
@@ -345,7 +339,7 @@ export const PRESENTER_FREE: PlanGroup[] = [
         "name": "Extras download (models, Bibles)"
       },
       {
-        "name": "9 languages, right-to-left for Arabic"
+        "name": "21 languages, right-to-left for Arabic"
       },
       {
         "name": "Anonymous usage sharing (opt-in)"
@@ -390,6 +384,19 @@ export const PRESENTER_FREE: PlanGroup[] = [
       {
         "name": "Live stream (RTMP, RTMPS or SRT: YouTube, Facebook, any server; 720p or 1080p at 30 or 60 fps, up to 14 Mb/s or a custom bitrate; saved stream presets)",
         "limit": "Free: one service day a week, with the ACE FREE mark, to one destination. Pro: full."
+      },
+      {
+        "name": "Sermon recording + chapter marks (audio, or the transcript only)",
+        "macOnly": true
+      },
+      {
+        "name": "Past recordings, captions and transcript export",
+        "macOnly": true
+      },
+      {
+        "name": "AI sermon notes",
+        "limit": "Free: 1 set a month; more need Pro",
+        "macOnly": true
       }
     ]
   }
@@ -411,7 +418,7 @@ export const PRESENTER_PRO: PlanGroup[] = [
     "group": "Bible",
     "items": [
       {
-        "name": "Extra free Bibles (download)"
+        "name": "Extra free Bibles (download), except the Yoruba, Igbo, Hausa and Swahili Biblica Bibles, which are Free"
       },
       {
         "name": "Licensed Bibles (ESV, NLT, CSB…)"
@@ -450,6 +457,20 @@ export const PRESENTER_PRO: PlanGroup[] = [
       },
       {
         "name": "Backgrounds: colour, gradient, picture, video"
+      },
+      {
+        "name": "8-layer compositor (a Look's per-screen layers, opacity and blend)"
+      }
+    ]
+  },
+  {
+    "group": "Media",
+    "items": [
+      {
+        "name": "Pictures and video, background video"
+      },
+      {
+        "name": "Background per song / slide / cue + inspector"
       }
     ]
   },
@@ -508,20 +529,11 @@ export const PRESENTER_PRO: PlanGroup[] = [
         "name": "Record the program"
       },
       {
-        "name": "Sermon recording + chapter marks",
-        "macOnly": true
-      },
-      {
-        "name": "Past recordings, captions and transcript export",
-        "macOnly": true
-      },
-      {
-        "name": "AI sermon notes",
-        "macOnly": true
-      },
-      {
         "name": "Several stream destinations at once",
         "limit": "Pro and Venue: up to 4 at once. Free: one."
+      },
+      {
+        "name": "Network redundancy (a destination's backup server: failover or both at once)"
       }
     ]
   },

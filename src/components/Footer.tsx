@@ -19,6 +19,7 @@ const COLUMNS: {
     title: "Products",
     links: [
       { href: "/presenter", label: "Presenter" },
+      { href: "/remote", label: "Remote (phone app)" },
       { href: "/schedule", label: "Schedule" },
       { href: "/editors-notes", label: "Editors' Notes" },
       { href: "/manager", label: "Manager", soon: true },
@@ -43,7 +44,7 @@ const COLUMNS: {
       { href: "/support", label: "Support" },
       { href: "/download", label: "Download" },
       { href: "/pricing", label: "Pricing" },
-      { href: "/presenter#whats-new", label: "What's New" },
+      { href: "/presenter#new", label: "What's New" },
     ],
   },
   {

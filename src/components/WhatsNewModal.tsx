@@ -377,10 +377,10 @@ export default function WhatsNewModal({ version }: Props) {
             Close
           </button>
           <a
-            href="#whats-new"
+            href="#new"
             onClick={(e) => {
               e.preventDefault();
-              const target = document.getElementById("whats-new");
+              const target = document.getElementById("new");
               if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
               dismiss();
             }}

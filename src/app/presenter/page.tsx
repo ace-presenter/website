@@ -8,6 +8,11 @@ import Languages from "@/components/Languages";
 import Footer from "@/components/Footer";
 import ManualBanner from "@/components/ManualBanner";
 import MagneticButton from "@/components/MagneticButton";
+import SpatialHero from "@/components/spatial/SpatialHero";
+import WhatsNewBento from "@/components/spatial/WhatsNewBento";
+import SpatialAudioDemo from "@/components/spatial/SpatialAudioDemo";
+import RemoteTeaser from "@/components/spatial/RemoteTeaser";
+import { PRICING, proMonthly } from "@/lib/pricing";
 import { TryItSection, TourSection } from "@/components/demo/DemoSections";
 import {
   ScrollReveal as Reveal,
@@ -17,8 +22,6 @@ import {
   ProductTheme,
 } from "@/components/motion";
 import {
-  HeroShell,
-  FloatingCard,
   SectionHeading,
   AccentItalic,
   StatsBand,
@@ -82,7 +85,7 @@ export default async function PresenterPage() {
   // Both update feeds, fetched together. Windows is null until it has a build.
   const versions = await fetchPresenterVersions();
   return (
-    <main className="flex-1 flex flex-col font-sans">
+    <main className="flex flex-1 flex-col bg-[#09090B] font-sans">
       <SchemaJsonLd />
       <Nav activeProduct="presenter" />
       <ManualBanner />
@@ -90,18 +93,21 @@ export default async function PresenterPage() {
       <LogoMarquee
         label="Plays nicely with the rest of your rig"
         items={COMPAT}
-        className="border-b border-[#1A1A1A]"
+        className="border-b border-white/[0.06]"
       />
       <ProductTheme product="presenter">
         <StatsBand
           stats={[
             { text: "0", label: "Clicks to advance" },
-            { num: { to: 9, suffix: "" }, label: "Interface languages" },
+            { num: { to: 21, suffix: "" }, label: "Interface languages" },
             { text: "Free", label: "To get started" },
             { text: "Mac + PC", label: "macOS 14+ · Windows 10+" },
           ]}
+          className="border-white/[0.06]"
         />
       </ProductTheme>
+      <WhatsNewBento />
+      <SpatialAudioDemo />
       <TryItSection lede="Type what someone on stage would say — a line of a hymn, a Bible reference, “next slide” — and the right cue goes live, exactly the way it does in a real service." />
       <PropresenterMigration />
       <Capabilities />
@@ -118,7 +124,7 @@ export default async function PresenterPage() {
       <Segments />
       <WhatYouGet />
       <Languages />
-      <RemoteApp />
+      <RemoteTeaser />
       <PricingTeaser />
       <CTABand
         product="presenter"
@@ -128,7 +134,7 @@ export default async function PresenterPage() {
             ACE listens. You <AccentItalic>present</AccentItalic>.
           </>
         }
-        sub="Free tier available · Pro from $29/month"
+        sub={`Free to start · Pro from $${proMonthly()} a month`}
         primary={{ href: "/api/download?platform=mac-arm64", label: "Download for Mac" }}
         secondary={{ href: "/pricing", label: "View pricing" }}
       />
@@ -140,106 +146,38 @@ export default async function PresenterPage() {
 
 /* ───────────── HERO ───────────── */
 function Hero({ versions }: { versions: PresenterVersions }) {
-  const windowsVersion = versions.windows;
+  const win = versions.windows;
   return (
-    <HeroShell product="presenter" fill={false} floating={<HeroChips />}>
-      <div className="mb-7 flex items-center gap-3">
-        <span className="h-px w-8 bg-[#C8102E]" aria-hidden />
-        <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#888]">
-          Live presentation, on autopilot
-        </span>
-        <span className="h-px w-8 bg-[#C8102E]" aria-hidden />
-      </div>
-
-      <h1 className="text-[2.6rem] font-bold leading-[1.0] tracking-tight text-white sm:text-7xl sm:leading-[0.95] lg:text-8xl">
-        ACE listens.{" "}
-        <br className="hidden sm:block" />
-        You <AccentItalic>present</AccentItalic>
-        <span className="text-[#C8102E]">.</span>
-      </h1>
-
-      <p className="mt-8 max-w-2xl text-lg leading-relaxed text-[#C4C4C4] sm:text-xl">
-        AI-powered live presentation for worship, conferences, lectures, and
-        theater. ACE listens to the room and pushes the right slide —
-        automatically.
-      </p>
-
-      <div className="mt-10 flex justify-center">
-        <MagneticButton
-          href="/api/download?platform=mac-arm64"
-          glowRgb="200,16,46"
-          className="rounded-full bg-white px-8 py-4 text-sm font-bold text-black transition-colors hover:bg-[#E8E8E8]"
-        >
-          Download for Mac · Apple Silicon
-        </MagneticButton>
-      </div>
-
-      {windowsVersion ? (
-        <div className="mt-4 flex justify-center">
-          <Link
-            href="/api/download?product=presenter&platform=win"
-            className="rounded-full border border-[#3A3A3A] px-6 py-3 text-sm font-semibold text-white transition-colors hover:border-white hover:bg-white hover:text-black"
-          >
-            Download for Windows
-          </Link>
-        </div>
-      ) : (
-        <div className="mt-4 flex justify-center text-xs">
-          <span className="text-[#888]">
-            Windows 10+{" "}
-            <Link href="/download" className="font-semibold text-[#E8183A] transition hover:text-white">
-              download →
-            </Link>
-          </span>
-        </div>
-      )}
-
-      <p className="mt-5 text-xs text-[#C4C4C4]">
-        Free tier available · macOS 14+{windowsVersion ? " · Windows 10+" : ""}
-        {(versions.mac || versions.windows) && (
-          <>
-            {" · "}
-            <span className="text-[#888]">
-              Latest:{" "}
-              {versions.mac && (
-                <>
-                  Mac <span className="font-semibold tabular-nums text-white">v{versions.mac}</span>
-                </>
-              )}
-              {versions.mac && versions.windows && " · "}
-              {versions.windows && (
-                <>
-                  Windows{" "}
-                  <span className="font-semibold tabular-nums text-white">v{versions.windows}</span>
-                </>
-              )}
-            </span>
-          </>
-        )}
-      </p>
-
-      {/* Real flagship UI — framed and glowing under the hero copy. */}
-      <div className="relative mt-16 w-full max-w-5xl">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -inset-x-10 -top-8 bottom-0 -z-10 rounded-[3rem] blur-3xl"
-          style={{
-            background:
-              "radial-gradient(55% 60% at 50% 40%, rgba(200,16,46,0.30), rgba(255,107,0,0.10) 55%, transparent 78%)",
-          }}
-        />
-        <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0D0D0D] shadow-[0_40px_120px_-32px_rgba(0,0,0,0.85)]">
-          <Image
-            src="/presenter/stage.png"
-            alt="ACE Presenter running a live service — library, stage preview, and program output"
-            width={2200}
-            height={1384}
-            priority
-            className="w-full"
-          />
-        </div>
-      </div>
-    </HeroShell>
+    <SpatialHero
+      eyebrow="ACE Presenter 3.0 · Mac + Windows"
+      title={
+        <>
+          <span className="bg-gradient-to-b from-white to-white/70 bg-clip-text text-transparent">ACE listens.</span>
+          <br />
+          You <span className="font-serif font-normal italic tracking-[-0.02em] text-[#FF4D5E]">present.</span>
+        </>
+      }
+      primary={{ href: "/api/download?platform=mac-arm64", label: "Download for Mac" }}
+      extra={
+        win
+          ? { href: "/api/download?product=presenter&platform=win", label: "Download for Windows" }
+          : { href: "/download", label: "Windows download" }
+      }
+      secondary={{ href: "#new", label: "What’s new in 3.0" }}
+      note={
+        <>
+          Free to start · macOS 14+ · Windows 10+
+          {(versions.mac || win) && (
+            <>
+              {" · Latest: "}
+              {versions.mac && <span className="tabular-nums text-white/80">Mac v{versions.mac}</span>}
+              {versions.mac && win && " · "}
+              {win && <span className="tabular-nums text-white/80">Windows v{win}</span>}
+            </>
+          )}
+        </>
+      }
+    />
   );
 }
 
@@ -343,48 +281,6 @@ function SeeItRun() {
         </div>
       </div>
     </section>
-  );
-}
-
-/* Floating chips — live artifacts of the listening engine. */
-function HeroChips() {
-  return (
-    <>
-      <FloatingCard className="left-[5%] top-[24%] w-52 p-4" delay={-2} duration={7.5}>
-        <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.2em] text-[#888]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
-          Listening
-        </div>
-        <div className="mt-3 flex h-6 items-end gap-[3px]">
-          {[0.8, 0.45, 1, 0.6, 0.85, 0.35, 0.7, 0.5, 0.9, 0.4].map((h, i) => (
-            <span
-              key={i}
-              className="ace-wave-bar w-[3px] rounded-full bg-[#E8183A]/70"
-              style={{ height: `${h * 100}%`, animationDelay: `${i * 0.08}s` }}
-            />
-          ))}
-        </div>
-      </FloatingCard>
-
-      <FloatingCard className="right-[5%] top-[22%] w-56 p-4" delay={-5} duration={8.5}>
-        <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#888]">
-          Detected
-        </div>
-        <div className="mt-2 text-sm font-semibold text-white">
-          &ldquo;…turn with me to John 3:16&rdquo;
-        </div>
-        <div className="mt-1.5 font-mono text-[10px] text-[#E8183A]">
-          → John 3:16 · on screen
-        </div>
-      </FloatingCard>
-
-      <FloatingCard className="bottom-[18%] right-[9%] w-44 p-4" delay={-3.5} duration={6.5}>
-        <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#888]">
-          Out to
-        </div>
-        <div className="mt-1.5 text-sm font-semibold text-white">NDI · Syphon · SDI</div>
-      </FloatingCard>
-    </>
   );
 }
 
@@ -644,207 +540,57 @@ function WhatYouGet() {
   );
 }
 
-/* ───────────── ACE REMOTE APP ───────────── */
-function RemoteApp() {
-  const features = [
-    "Next, previous, and blank from your pocket",
-    "See the current cue and what's coming next",
-    "Search your song and Bible library on-the-fly",
-    "Toggle audience and stage screens remotely",
-  ];
-  return (
-    <section className="border-t border-[#1A1A1A] px-6 py-24 sm:px-10">
-      <div className="mx-auto max-w-6xl">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
-
-          {/* Copy */}
-          <Reveal>
-            <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#E8183A]">
-              ACE Remote
-            </span>
-            <h2 className="mt-4 text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl">
-              Control from anywhere<br className="hidden sm:block" /> in the room.
-            </h2>
-            <p className="mt-5 max-w-lg text-base leading-relaxed text-[#B4B4B4] sm:text-lg">
-              The ACE Remote app connects to your Mac or PC over Wi-Fi. No setup beyond your local network — open the app, connect, and you have full control from your phone.
-            </p>
-            <ul className="mt-8 space-y-3">
-              {features.map((f) => (
-                <li key={f} className="flex items-start gap-3 text-sm text-[#C4C4C4]">
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#E8183A]" />
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <p className="mt-8 text-xs text-[#666]">
-              Available for iPhone and Android · connects over local Wi-Fi
-            </p>
-          </Reveal>
-
-          {/* Phone screenshots — 6-phone fanned arrangement */}
-          <div className="relative mx-auto flex h-[540px] w-full max-w-[620px] items-center justify-center lg:h-[600px]">
-            {/* Glow behind phones */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 -z-10 rounded-[3rem] blur-3xl"
-              style={{
-                background:
-                  "radial-gradient(55% 55% at 50% 55%, rgba(200,16,46,0.18), transparent 80%)",
-              }}
-            />
-            {/* Far left: sign in */}
-            <div className="absolute left-0 top-14 w-[114px] -rotate-[14deg] overflow-hidden rounded-[1.8rem] border border-white/7 shadow-[0_16px_36px_-12px_rgba(0,0,0,0.75)]">
-              <Image
-                src="/remote/remote_login.png"
-                alt="ACE Remote — sign in"
-                width={310}
-                height={672}
-                className="w-full"
-              />
-            </div>
-            {/* Left: library search */}
-            <div className="absolute left-[9%] top-7 w-[130px] -rotate-[7deg] overflow-hidden rounded-[2rem] border border-white/8 shadow-[0_20px_44px_-12px_rgba(0,0,0,0.75)]">
-              <Image
-                src="/remote/remote_library.png"
-                alt="ACE Remote — library search"
-                width={310}
-                height={672}
-                className="w-full"
-              />
-            </div>
-            {/* Centre-left: account / plan */}
-            <div className="absolute left-[21%] top-2 z-[1] w-[148px] -rotate-[2deg] overflow-hidden rounded-[2.1rem] border border-white/12 shadow-[0_24px_52px_-12px_rgba(0,0,0,0.75)]">
-              <Image
-                src="/remote/remote_account.png"
-                alt="ACE Remote — account and plan"
-                width={310}
-                height={672}
-                className="w-full"
-              />
-            </div>
-            {/* Centre: remote control (hero phone) */}
-            <div className="relative z-10 w-[172px] overflow-hidden rounded-[2.4rem] border border-white/20 shadow-[0_40px_80px_-16px_rgba(200,16,46,0.28),0_40px_80px_-16px_rgba(0,0,0,0.85)]">
-              <Image
-                src="/remote/remote_control.png"
-                alt="ACE Remote — slide control"
-                width={310}
-                height={672}
-                className="w-full"
-              />
-            </div>
-            {/* Centre-right: screens */}
-            <div className="absolute right-[21%] top-2 z-[1] w-[148px] rotate-[2deg] overflow-hidden rounded-[2.1rem] border border-white/12 shadow-[0_24px_52px_-12px_rgba(0,0,0,0.75)]">
-              <Image
-                src="/remote/remote_screens.png"
-                alt="ACE Remote — screens overview"
-                width={310}
-                height={672}
-                className="w-full"
-              />
-            </div>
-            {/* Right: language */}
-            <div className="absolute right-[9%] top-7 w-[130px] rotate-[7deg] overflow-hidden rounded-[2rem] border border-white/8 shadow-[0_20px_44px_-12px_rgba(0,0,0,0.75)]">
-              <Image
-                src="/remote/remote_language.png"
-                alt="ACE Remote — language settings"
-                width={310}
-                height={672}
-                className="w-full"
-              />
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ───────────── PRICING TEASER ───────────── */
+// Reads src/lib/pricing.ts, the same file the pricing page and checkout use,
+// so this can't show a price the checkout doesn't charge.
 function PricingTeaser() {
-  const tiers = [
-    {
-      name: "Free",
-      price: "$0",
-      period: "forever",
-      features: [
-        "Unlimited songs, slides, and cues",
-        "Automatic song and Bible detection",
-        "Import from ProPresenter",
-        "1 audience output",
-        "Detection in dozens of languages",
-      ],
-    },
-    {
-      name: "Pro",
-      price: "$29",
-      period: "/ month",
-      note: "Most popular",
-      highlight: true,
-      features: [
-        "Everything in Free",
-        "No watermark on any output",
-        "Audience screen + stage monitor",
-        "Looks and themes editor",
-        "Licensed Bible translations",
-        "Background video and media layers",
-        "Edge blend, 8-layer compositor and network redundancy",
-        "Priority support",
-        "Or $279 / year",
-      ],
-    },
-    {
-      name: "Venue",
-      price: "$35",
-      period: "/ seat / month",
-      features: [
-        "Everything in Pro",
-        "Multiple seats — use across your team",
-        "Pick 2 to 25 seats and buy them yourself",
-        "Shared song and media library (coming soon)",
-        "Central billing",
-        "Onboarding call included",
-      ],
-    },
-  ] as const;
+  const plans = PRICING.find((p) => p.key === "presenter")?.plans ?? [];
   return (
-    <section id="pricing" className="border-t border-[#1A1A1A] px-6 py-24 sm:px-10">
+    <section id="pricing" className="border-t border-white/[0.06] px-6 py-24 sm:px-10">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <SectionHeading
             eyebrow="Pricing"
             title={<>Free to start. <AccentItalic>Built to grow.</AccentItalic></>}
-            lede="Start free with no limits on your content. Upgrade when you need more outputs, no watermark, or seats for your whole team."
+            lede="Start free with no limits on your content. Upgrade for every day of listening, no mark on your screens, and seats for the whole team."
           />
         </Reveal>
         <p className="mb-12 mt-4 text-center">
-          <Link href="/pricing" className="text-sm font-semibold text-[#C8102E] transition hover:text-[#E8183A]">
-            Full pricing details →
+          <Link href="/pricing" className="text-sm font-semibold text-[#FF4D5E] transition hover:text-white">
+            Every feature, plan by plan →
           </Link>
         </p>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {tiers.map((t) => (
+          {plans.map((t) => (
             <div
-              key={t.name}
-              className={`relative rounded-2xl p-7 ${"highlight" in t && t.highlight
-                ? "border border-[#C8102E]/40 bg-gradient-to-b from-[#C8102E]/15 to-[#1A1A1A]"
-                : "glass-card"
+              key={t.id}
+              className={`ace-card ace-sp-reveal relative rounded-3xl p-7 ${
+                t.highlight ? "bg-gradient-to-b from-[#C8102E]/15 to-transparent ring-1 ring-[#C8102E]/45" : ""
               }`}
             >
-              {"note" in t && t.note && (
-                <div className="absolute -top-2.5 left-7 rounded-full bg-[#C8102E] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
-                  {t.note}
-                </div>
-              )}
-              <div className="mb-3 text-sm font-bold uppercase tracking-wider text-[#C4C4C4]">{t.name}</div>
-              <div className="mb-6 flex items-baseline gap-1.5">
-                <span className="text-4xl font-bold tracking-tight text-white">{t.price}</span>
-                <span className="text-sm text-[#C4C4C4]">{t.period}</span>
+              <div className="mb-3 flex items-center justify-between gap-2">
+                <span className="text-sm font-bold uppercase tracking-wider text-white/70">{t.name}</span>
+                {t.badge && (
+                  <span className="rounded-full bg-[#C8102E] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                    {t.badge}
+                  </span>
+                )}
               </div>
-              <ul className="space-y-2.5 text-sm text-[#D4D4D4]">
-                {t.features.map((f) => (
+              <div className="mb-1 flex items-baseline gap-1.5">
+                <span className="text-4xl font-bold tracking-tight text-white">
+                  ${t.kind === "free" ? 0 : t.monthlyUSD}
+                </span>
+                <span className="text-sm text-white/60">
+                  {t.kind === "free" ? "forever" : t.perSeat ? "/ seat / month" : "/ month"}
+                </span>
+              </div>
+              <div className="mb-6 h-5 text-xs text-white/45">
+                {t.annualUSD ? `or $${t.annualUSD} a year${t.perSeat ? " per seat" : ""}` : ""}
+              </div>
+              <ul className="space-y-2.5 text-sm text-white/80">
+                {t.features.slice(0, 5).map((f) => (
                   <li key={f} className="flex items-start gap-2">
-                    <span className="mt-0.5 text-[#C8102E]">✓</span>
+                    <span className="mt-0.5 text-[#FF4D5E]">✓</span>
                     <span className="leading-relaxed">{f}</span>
                   </li>
                 ))}

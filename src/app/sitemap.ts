@@ -21,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // ── ACE Presenter ────────────────────────────────────────────────────
     { url: `${SITE}/presenter`, lastModified, changeFrequency: "weekly", priority: 1.0 },
+    { url: `${SITE}/remote`, lastModified, changeFrequency: "monthly", priority: 0.9 },
     { url: `${SITE}/presenter/worship`, lastModified, changeFrequency: "monthly", priority: 0.9 },
     { url: `${SITE}/presenter/conferences`, lastModified, changeFrequency: "monthly", priority: 0.9 },
     { url: `${SITE}/presenter/lectures`, lastModified, changeFrequency: "monthly", priority: 0.8 },

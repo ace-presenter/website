@@ -1,9 +1,10 @@
 "use client";
+import { useCalmMotion } from "@/components/motion/useCalmMotion";
 
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { AnimatePresence, motion, useMotionTemplate, useReducedMotion, useSpring } from "motion/react";
+import { AnimatePresence, motion, useMotionTemplate, useSpring } from "motion/react";
 import { products, type ProductKey } from "@/lib/brand";
 
 import presenterShot from "../../../public/presenter/stage.png";
@@ -217,7 +218,7 @@ const TOURS: Tour[] = [
  * own page) the switcher and the "More on …" link are dropped.
  */
 export default function ProductTour({ only }: { only?: ProductKey[] }) {
-  const reduce = useReducedMotion();
+  const reduce = useCalmMotion();
   const tours = only ? TOURS.filter((t) => only.includes(t.key)) : TOURS;
   const single = tours.length === 1;
   const [tourIdx, setTourIdx] = useState(0);

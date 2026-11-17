@@ -1,7 +1,8 @@
 "use client";
+import { useCalmMotion } from "@/components/motion/useCalmMotion";
 
 import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import {
   CUES,
   SAMPLE_SCRIPT,
@@ -55,7 +56,7 @@ function chipColor(label: string) {
 }
 
 export default function LiveDemo() {
-  const reduce = useReducedMotion();
+  const reduce = useCalmMotion();
   const [listening, setListening] = useState(false);
   const [mode, setMode] = useState<Mode>("AUTO");
   const [live, setLive] = useState<Position>({ cue: 0, slide: 0 });

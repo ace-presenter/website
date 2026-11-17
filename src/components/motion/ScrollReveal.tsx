@@ -1,6 +1,7 @@
 "use client";
+import { useCalmMotion } from "@/components/motion/useCalmMotion";
 
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import { motion, type Variants } from "motion/react";
 import type { CSSProperties, ReactNode } from "react";
 
 /**
@@ -48,7 +49,7 @@ export default function ScrollReveal({
   /** Fraction of the element that must be visible to trigger (0–1). */
   amount?: number;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useCalmMotion();
 
   // Reduced motion → no animation, no hidden state. Just render.
   if (reduce) return <div className={className} style={style}>{children}</div>;
@@ -93,7 +94,7 @@ export function ScrollStagger({
   once?: boolean;
   amount?: number;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useCalmMotion();
   if (reduce) return <div className={className} style={style}>{children}</div>;
 
   return (
@@ -128,7 +129,7 @@ export function ScrollItem({
   y?: number;
   duration?: number;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useCalmMotion();
   if (reduce) return <div className={className} style={style}>{children}</div>;
 
   return (

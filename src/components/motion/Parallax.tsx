@@ -1,6 +1,7 @@
 "use client";
+import { useCalmMotion } from "@/components/motion/useCalmMotion";
 
-import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { useRef, type ReactNode } from "react";
 
 /**
@@ -17,7 +18,7 @@ export default function Parallax({
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useCalmMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],

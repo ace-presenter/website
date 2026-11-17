@@ -85,7 +85,7 @@ export const PRICING: ProductPricing[] = [
         ctaHref: "/api/download?platform=mac-arm64",
         features: [
           "Unlimited songs, slides, cues and public-domain Bibles",
-          "Your audience screen, and NDI to any screen",
+          "One audience screen, on a display or over NDI",
           "ProPresenter and PowerPoint import",
           "Song and Bible detection, streaming and the speaker tools — one service day a week",
           "Detection in dozens of languages, on your computer",
@@ -346,4 +346,9 @@ export function resolveCheckout(
   const envKey = cadence === "year" ? plan.envAnnual : plan.envMonthly;
   if (!envKey) return null;
   return { envKey, tier: plan.tier, mode: "subscription", seats: plan.seats };
+}
+
+/** Presenter Pro's monthly price, for copy outside the pricing page. */
+export function proMonthly(): number {
+  return PRICING.find((p) => p.key === "presenter")?.plans.find((p) => p.id === "pro")?.monthlyUSD ?? 29;
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, type RefObject } from "react";
-import { useReducedMotion } from "motion/react";
 
 /** Scale factor that fits a fixed-size design (designWidth px) into the element's width. */
 export function useFitScale(ref: RefObject<HTMLElement | null>, designWidth: number) {
@@ -57,9 +56,4 @@ export function usePointerTilt(target: RefObject<HTMLElement | null>, enabled: b
  * Reduced-motion preference that is safe to render with: false on the server
  * AND on the first client render (so hydration matches), then the real value.
  */
-export function useCalmMotion() {
-  const pref = useReducedMotion();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  return mounted && !!pref;
-}
+export { useCalmMotion } from "@/components/motion/useCalmMotion";

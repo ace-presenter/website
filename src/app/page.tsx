@@ -3,10 +3,12 @@ import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import HeroCarousel from "@/components/hero/HeroCarousel";
-import WelcomeIntro from "@/components/hero/WelcomeIntro";
 import SchemaJsonLd from "@/components/SchemaJsonLd";
-import { TryItSection, TourSection } from "@/components/demo/DemoSections";
+import SpatialHero from "@/components/spatial/SpatialHero";
+import WhatsNewBento from "@/components/spatial/WhatsNewBento";
+import SpatialAudioDemo from "@/components/spatial/SpatialAudioDemo";
+import RemoteTeaser from "@/components/spatial/RemoteTeaser";
+import { proMonthly } from "@/lib/pricing";
 import {
   ScrollReveal,
   ScrollStagger,
@@ -34,59 +36,66 @@ export const metadata: Metadata = {
 
 export default function SuiteHome() {
   return (
-    <main className="flex-1 flex flex-col font-sans">
+    <main className="flex flex-1 flex-col bg-[#09090B] font-sans">
       <SchemaJsonLd
         name="ACE"
         alternateName="ACE Presenter — Agentic Cue Experience"
         description="ACE is a suite of agentic tools for live events and production. Presenter listens to the room and advances slides automatically; Schedule plans the day; Editors' Notes annotates the cut."
       />
       <SuiteAccent />
-      <WelcomeIntro />
       <div className="relative z-10 flex flex-1 flex-col">
-      <Nav />
-      <HeroCarousel />
-      <LogoMarquee
-        label="Runs with the gear you already have"
-        items={[
-          "ProPresenter import",
-          "ATEM",
-          "OBS",
-          "NDI",
-          "MIDI",
-          "OSC",
-          "HDMI",
-          "PowerPoint",
-          "Keynote",
-          "DaVinci Resolve",
-        ]}
-        className="border-b border-[#1A1A1A]"
-      />
-      <TryItSection />
-      <Showcase />
-      <TourSection />
-      <StatsBand
-        stats={[
-          { text: "0", label: "Clicks to advance" },
-          { num: { to: 9, suffix: "" }, label: "Interface languages" },
-          { text: "Free", label: "To get started" },
-          { text: "Mac + PC", label: "macOS 14+ · Windows 10+" },
-        ]}
-      />
-      <Rooms />
-      <SuiteWhy />
-      <PricingTeaser />
-      <CTABand
-        eyebrow="Get started"
-        title={
-          <>
-            Ready when the <AccentItalic>room</AccentItalic> is.
-          </>
-        }
-        sub="You run the room. The cue runs itself. Free tier available; Pro from $29/month."
-        primary={{ href: "/api/download", label: "Download ACE Presenter" }}
-        secondary={{ href: "/pricing", label: "View pricing" }}
-      />
-      <Footer />
+        <Nav />
+        <SpatialHero
+          eyebrow="New · ACE Presenter 3.0 · Mac + Windows"
+          note={<>Free to start · Pro from ${proMonthly()} a month · macOS 14+ · Windows 10+</>}
+        />
+        <LogoMarquee
+          label="Runs with the gear you already have"
+          items={[
+            "ProPresenter import",
+            "PowerPoint",
+            "Keynote",
+            "ATEM",
+            "OBS",
+            "NDI",
+            "SDI",
+            "Syphon",
+            "RTMP · SRT",
+            "MIDI",
+            "OSC",
+            "Planning Center",
+            "DaVinci Resolve",
+          ]}
+          className="border-b border-white/[0.06]"
+        />
+        <WhatsNewBento />
+        <SpatialAudioDemo />
+        <StatsBand
+          stats={[
+            { text: "0", label: "Clicks to advance" },
+            { num: { to: 21, suffix: "" }, label: "Interface languages" },
+            { text: "Free", label: "To get started" },
+            { text: "Mac + PC", label: "macOS 14+ · Windows 10+" },
+          ]}
+          className="border-white/[0.06]"
+        />
+        <RemoteTeaser />
+        <Showcase />
+        <Rooms />
+        <SuiteWhy />
+        <PricingTeaser />
+        <CTABand
+          eyebrow="Get started"
+          title={
+            <>
+              Ready when the <AccentItalic>room</AccentItalic> is.
+            </>
+          }
+          sub={`You run the room. The cue runs itself. Free to start; Pro from $${proMonthly()} a month.`}
+          primary={{ href: "/api/download", label: "Download ACE Presenter" }}
+          secondary={{ href: "/pricing", label: "View pricing" }}
+        />
+        <Footer />
       </div>
     </main>
   );

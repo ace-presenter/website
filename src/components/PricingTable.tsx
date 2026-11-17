@@ -1,5 +1,6 @@
 "use client";
 
+import { trackPointer } from "@/components/spatial/glass";
 import { useState } from "react";
 import Link from "next/link";
 import { ProductTheme, ScrollReveal } from "@/components/motion";
@@ -230,23 +231,25 @@ function PlanCard({ plan, product, cadence }: { plan: Plan; product: string; cad
   const [seats, setSeats] = useState(plan.seats?.default ?? 1);
   return (
     <div
-      className={`h-full p-7 rounded-2xl relative flex flex-col ${highlight ? "" : "bg-[#141414] border border-[#222]"}`}
+      onPointerMove={trackPointer}
+      className={`ace-card h-full p-7 rounded-3xl relative flex flex-col ${highlight ? "ring-1 ring-[rgba(var(--accent-rgb),0.5)]" : ""}`}
       style={
         highlight
           ? {
-              background: "linear-gradient(to bottom, rgba(var(--accent-rgb),0.15), #141414)",
-              border: "1px solid rgba(var(--accent-rgb),0.45)",
-              boxShadow: "0 30px 80px -50px rgba(var(--accent-rgb),0.7)",
+              background: "linear-gradient(to bottom, rgba(var(--accent-rgb),0.16), rgba(255,255,255,0.015))",
+              boxShadow: "0 30px 80px -50px rgba(var(--accent-rgb),0.8)",
             }
           : undefined
       }
     >
-      {plan.badge && (
-        <div className="absolute -top-2.5 left-7 px-2.5 py-0.5 rounded-full text-white text-[10px] uppercase tracking-wider font-bold bg-[var(--accent)]">
-          {plan.badge}
-        </div>
-      )}
-      <div className="text-sm font-bold uppercase tracking-wider text-[#C4C4C4] mb-3">{plan.name}</div>
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <span className="text-sm font-bold uppercase tracking-wider text-[#C4C4C4]">{plan.name}</span>
+        {plan.badge && (
+          <span className="rounded-full bg-[var(--accent)] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+            {plan.badge}
+          </span>
+        )}
+      </div>
       <div className="mb-6">
         <PriceBlock plan={plan} cadence={cadence} />
       </div>
@@ -287,11 +290,11 @@ export default function PricingTable() {
   const [cadence, setCadence] = useState<Cadence>("year");
 
   return (
-    <section className="px-6 sm:px-10 py-20 border-y border-[#1A1A1A] bg-[#0A0A0A]">
+    <section className="px-6 sm:px-10 py-20 border-y border-white/[0.06]">
       <div className="max-w-6xl mx-auto">
         {/* Cadence toggle */}
         <ScrollReveal className="flex justify-center mb-14">
-          <div className="inline-flex items-center p-1 rounded-full bg-[#141414] border border-[#2A2A2A]">
+          <div className="ace-glass inline-flex items-center p-1 rounded-full">
             {(["month", "year"] as Cadence[]).map((c) => (
               <button
                 key={c}
@@ -325,7 +328,7 @@ export default function PricingTable() {
                 <p className="text-[#888] text-sm mb-6">{prod.tagline}</p>
               </ScrollReveal>
               <ScrollReveal>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className={`grid grid-cols-1 gap-4 sm:grid-cols-2 ${prod.plans.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4"}`}>
                   {prod.plans.map((plan) => (
                     <PlanCard key={plan.id} plan={plan} product={prod.product} cadence={cadence} />
                   ))}

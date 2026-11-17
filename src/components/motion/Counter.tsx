@@ -1,7 +1,8 @@
 "use client";
+import { useCalmMotion } from "@/components/motion/useCalmMotion";
 
 import { useEffect, useRef, useState } from "react";
-import { useInView, useReducedMotion } from "motion/react";
+import { useInView } from "motion/react";
 
 /**
  * Count-up number, triggered once when it scrolls into view. For pure numeric
@@ -25,7 +26,7 @@ export default function Counter({
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px -15% 0px" });
-  const reduce = useReducedMotion();
+  const reduce = useCalmMotion();
   const [val, setVal] = useState(0);
 
   useEffect(() => {
