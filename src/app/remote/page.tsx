@@ -207,7 +207,7 @@ function Studio() {
 
         <div className="mt-16 grid gap-6 lg:grid-cols-2">
           {tools.map((t) => (
-            <div key={t.tag} className="ace-card ace-sp-reveal grid grid-cols-[150px_1fr] items-center gap-6 rounded-3xl p-6 sm:grid-cols-[190px_1fr] sm:p-8">
+            <div key={t.tag} className="ace-card ace-sp-reveal grid grid-cols-[96px_1fr] items-start gap-5 rounded-3xl p-5 sm:grid-cols-[190px_1fr] sm:items-center sm:gap-6 sm:p-8">
               <PhoneFrame glow={false}>
                 <Image src={`/remote/v12/${t.file}.webp`} alt={t.alt} fill sizes="200px" className="object-cover object-top" />
               </PhoneFrame>

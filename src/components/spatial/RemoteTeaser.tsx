@@ -11,8 +11,8 @@ import PhoneFrame from "./PhoneFrame";
  */
 export default function RemoteTeaser() {
   const phones = [
-    { file: "02-cues", alt: "ACE Remote — the service order, one tap from live", cls: "-translate-x-[58%] -rotate-[9deg] scale-[0.84] opacity-80" },
-    { file: "08-output", alt: "ACE Remote — the slide the room sees, with Next under your thumb", cls: "translate-x-[58%] rotate-[9deg] scale-[0.84] opacity-80" },
+    { file: "02-cues", alt: "ACE Remote — the service order, one tap from live", cls: "-translate-x-[42%] -rotate-[9deg] scale-[0.8] opacity-80 sm:-translate-x-[58%] sm:scale-[0.84]" },
+    { file: "08-output", alt: "ACE Remote — the slide the room sees, with Next under your thumb", cls: "translate-x-[42%] rotate-[9deg] scale-[0.8] opacity-80 sm:translate-x-[58%] sm:scale-[0.84]" },
     { file: "01-remote", alt: "ACE Remote — run the service from your phone", cls: "z-10" },
   ];
   return (
