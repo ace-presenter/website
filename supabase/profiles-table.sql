@@ -18,7 +18,15 @@ create table if not exists public.profiles (
 );
 
 -- Re-runnable: add phone to installs created before it existed.
-alter table public.profiles add column if not exists phone text;
+-- Re-runnable: every column the sign-up trigger writes. The live table once
+-- lacked "organization" (2026-11-15) and every sign-up failed with
+-- "Database error saving new user".
+alter table public.profiles add column if not exists email        text;  -- the live table has it NOT NULL (2026-11-15)
+alter table public.profiles add column if not exists full_name    text;
+alter table public.profiles add column if not exists organization text;
+alter table public.profiles add column if not exists city         text;
+alter table public.profiles add column if not exists country      text;
+alter table public.profiles add column if not exists phone        text;
 
 -- ── Row-level security ────────────────────────────────────────────────────────
 
@@ -54,9 +62,13 @@ returns trigger
 language plpgsql security definer set search_path = public
 as $$
 begin
-  insert into public.profiles (id, full_name, organization, city, country, phone)
+  -- Saving the extra details must never block a new account: a failure here
+  -- used to abort the whole sign-up. It is logged as a warning instead.
+  begin
+  insert into public.profiles (id, email, full_name, organization, city, country, phone)
   values (
     new.id,
+    new.email,
     new.raw_user_meta_data ->> 'full_name',
     new.raw_user_meta_data ->> 'organization',
     new.raw_user_meta_data ->> 'city',
@@ -64,6 +76,9 @@ begin
     new.raw_user_meta_data ->> 'phone'
   )
   on conflict (id) do nothing;
+  exception when others then
+    raise warning 'handle_new_user: profile not saved for %: %', new.id, sqlerrm;
+  end;
   return new;
 end;
 $$;

@@ -1,5 +1,6 @@
 import type { LicenseClaim, Tier, Product } from "./license";
 import { createSupabaseServerClient, createSupabaseAdminClient } from "./supabase-server";
+import { subscriptionSeats } from "./seats";
 
 /**
  * Resolve the requesting user's ACE Suite entitlements.
@@ -115,11 +116,16 @@ export async function resolveEntitlements(req: Request): Promise<LicenseClaim | 
   }
 
   if (!rows.length) {
-    // Authenticated but no entitlements → free tier, no products.
+    // Authenticated but no entitlements → ACE Presenter Free. Every account
+    // has Presenter on its Free plan: a licence listing no products was
+    // refused by the apps ("does not include ACE Presenter") and by the
+    // gateway's Free services, so no new Free user could sign in
+    // (operator, 2026-11-15).
     return {
       license_id: user.id,
       tier: "free",
-      products: [],
+      products: ["presenter"],
+      plans: { presenter: "free" },
       user_email: user.email ?? "",
     };
   }
@@ -152,11 +158,27 @@ export async function resolveEntitlements(req: Request): Promise<LicenseClaim | 
     }
   }
 
+  // Presenter's Free plan comes with every account (see above): someone who
+  // bought only another ACE product still signs in to Presenter as Free.
+  if (!products.includes("presenter")) {
+    products.push("presenter");
+    plans.presenter = "free";
+  }
+
+  // Venue is sold by the seat: carry how many, so the gateway allows that many
+  // computers instead of a fixed 3 (docs/V3_VENUE_PLAN.md, A1).
+  const seats: Partial<Record<Product, number>> = {};
+  if (plans.presenter === "business") {
+    const n = await subscriptionSeats(user.id, "presenter");
+    if (n) seats.presenter = n;
+  }
+
   return {
     license_id: user.id,
     tier,
     products,
     plans,
+    seats,
     user_email: user.email ?? "",
     period_end,
   };

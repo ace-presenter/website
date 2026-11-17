@@ -71,7 +71,7 @@ function Hero({ versions }: { versions: PresenterVersions }) {
         <div className="flex items-center gap-3 mb-8">
           <span className="h-px w-8 bg-[#C8102E]" />
           <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#888]">
-            Free tier · Pro from $25/mo
+            Free tier · Pro from $29/mo
           </span>
         </div>
 
