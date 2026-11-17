@@ -7,7 +7,7 @@ import HorizonGlow from "@/components/hero/HorizonGlow";
 import { ProductTheme, SuiteAccent } from "@/components/motion";
 import { products, type ProductKey } from "@/lib/brand";
 
-import presenterShot from "../../../public/presenter/stage.png";
+import presenterShot from "../../../public/presenter/stage.webp";
 import scheduleShot from "../../../public/schedule/welcome.webp";
 import notesShot from "../../../public/editors-notes/screenshot-insert-timecode.png";
 

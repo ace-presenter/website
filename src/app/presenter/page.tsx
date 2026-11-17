@@ -220,7 +220,7 @@ function Shot({
             }}
           />
           <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0D0D0D] shadow-[0_32px_90px_-28px_rgba(0,0,0,0.8)]">
-            <Image src={src} alt={alt} width={2200} height={1384} className="w-full" />
+            <Image src={src} alt={alt} width={2200} height={1379} className="w-full" />
           </div>
         </div>
       </div>
@@ -252,8 +252,8 @@ function SeeItRun() {
               </>
             }
             body="ACE hears the band and pushes the current lyric to the audience screen the moment it lands — with the next line staged and a live confidence read, so you always know what it's about to do."
-            src="/presenter/stage-display.png"
-            alt="ACE Presenter stage display showing live lyrics and the next line"
+            src="/presenter/stage.webp"
+            alt="ACE Presenter 3.0 listening: the live lyric, the live transcript and the next verses"
           />
           <Shot
             flip
@@ -264,8 +264,8 @@ function SeeItRun() {
               </>
             }
             body="Build a Worship look and a Sermon look, then switch the whole presentation style — background, fonts, which layers are on — with a single click, per screen."
-            src="/presenter/looks.png"
-            alt="ACE Presenter Looks and Themes grid"
+            src="/presenter/looks.webp"
+            alt="ACE Presenter Looks and Themes, with a hymn live in the Minimal White theme"
           />
           <Shot
             eyebrow="Theme editor"
@@ -275,8 +275,8 @@ function SeeItRun() {
               </>
             }
             body="Full control over type, color, and background media per slide object — edit lyrics, scripture, and announcements live while the service runs."
-            src="/presenter/theme-editor.png"
-            alt="ACE Presenter theme editor with lyrics on a red background"
+            src="/presenter/theme-editor.webp"
+            alt="ACE Presenter theme editor: a lyrics slide, its objects and background"
           />
         </div>
       </div>

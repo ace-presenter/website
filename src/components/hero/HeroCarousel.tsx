@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image, { type StaticImageData } from "next/image";
 import { products, type ProductKey } from "@/lib/brand";
 
-import presenterShot from "../../../public/presenter/stage.png";
+import presenterShot from "../../../public/presenter/stage.webp";
 import scheduleShot from "../../../public/schedule/welcome.webp";
 import notesShot from "../../../public/editors-notes/screenshot-insert-timecode.png";
 

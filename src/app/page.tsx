@@ -136,10 +136,10 @@ function Showcase() {
             ]}
             visual={
               <Image
-                src="/presenter/stage-display.png"
-                alt="ACE Presenter stage display showing live lyrics"
+                src="/presenter/stage.webp"
+                alt="ACE Presenter 3.0 listening to a service, with the lyric live and the next verses below"
                 width={2200}
-                height={1384}
+                height={1379}
                 className="w-full"
               />
             }

@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "re
 import { AnimatePresence, motion, useMotionTemplate, useSpring } from "motion/react";
 import { products, type ProductKey } from "@/lib/brand";
 
-import presenterShot from "../../../public/presenter/stage.png";
+import presenterShot from "../../../public/presenter/stage.webp";
 import scheduleShot from "../../../public/schedule/my-tasks.webp";
 import notesShot from "../../../public/editors-notes/screenshot-insert-timecode.png";
 
@@ -40,69 +40,69 @@ const TOURS: Tour[] = [
     alt: "The ACE Presenter console during a Sunday service",
     stops: [
       {
-        x: 3.5,
-        y: 8.8,
+        x: 3.3,
+        y: 8.7,
         title: "Start listening",
         body: "One button. ACE listens to the room through your mic — on-device by default — and the live transcript starts on the right. Detection Settings decide who's in control, including voice commands for the speaker.",
       },
       {
-        x: 12.4,
-        y: 8.8,
+        x: 12.0,
+        y: 8.7,
         title: "Choose what it listens for",
         body: "AUTO catches songs and scripture alike. Lock it to SONG for the worship set or BIBLE for the sermon, and nothing else will trigger.",
         clip: { slug: "detection-modes", label: "Detection modes", length: "0:30" },
       },
       {
-        x: 8,
-        y: 23.9,
+        x: 8.0,
+        y: 27.0,
         title: "Your library, ready to detect",
         body: "Import from ProPresenter, ChordPro or CCLI — or paste lyrics and ACE splits verse, chorus and bridge. Load an arrangement and ACE knows the song when the band starts it.",
         clip: { slug: "song-detection", label: "Song detection", length: "0:35" },
       },
       {
-        x: 8.3,
-        y: 44.8,
+        x: 8.0,
+        y: 56.0,
         title: "The service, in order",
         body: "Build the cue plan the day before. The live cue is marked LIVE, and announcement cues can auto-advance on a timer so one person can run the whole room.",
         clip: { slug: "auto-advance", label: "Auto-advance", length: "0:37" },
       },
       {
-        x: 42.3,
-        y: 38.4,
+        x: 44.0,
+        y: 40.0,
         title: "What's live, front and centre",
         body: "The stage view shows the current slide large, with the NEXT line and every slide of the cue underneath. Click any slide to take over manually.",
       },
       {
-        x: 82.7,
-        y: 36.2,
+        x: 85.5,
+        y: 39.0,
         title: "Exactly what the room sees",
         body: "The program monitor mirrors the audience screen. CLEAR, BLACK and TAKE are always one click away, and lower thirds layer over whatever's live.",
         clip: { slug: "lower-thirds", label: "Lower thirds", length: "0:31" },
       },
       {
-        x: 77.4,
-        y: 4.8,
+        x: 61.5,
+        y: 4.6,
         title: "Out to every screen",
         body: "HDMI outputs for the room and the stage, and NDI straight into your switcher — the status bar shows every output at a glance.",
         clip: { slug: "ndi", label: "NDI", length: "0:32" },
       },
       {
-        x: 70.7,
-        y: 53.7,
+        x: 73.5,
+        y: 56.3,
         title: "One timer, every screen",
         body: "Start a speaker timer and route it to the stage display, the audience screen, or both.",
         clip: { slug: "timers", label: "Timers", length: "0:29" },
       },
       {
-        x: 75.6,
-        y: 53.7,
+        x: 78.3,
+        y: 56.3,
         title: "A quiet word to the stage",
         body: "Send a message to the confidence monitor — “wrap up”, “one more chorus” — without the room ever seeing it.",
         clip: { slug: "stage-messages", label: "Stage messages", length: "0:34" },
       },
       {
-        x: 77.7,
-        y: 85.2,
+        x: 80.5,
+        y: 60.0,
         title: "Sermon notes beside the transcript",
         body: "Keep the preacher's notes next to the live transcript, so the operator always knows what's coming.",
         clip: { slug: "sermon-notes", label: "Sermon notes", length: "0:36" },
