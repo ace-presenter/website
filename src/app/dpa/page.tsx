@@ -6,7 +6,7 @@ export default function DPA() {
   return (
     <LegalPage
       title="Data Processing Agreement (DPA) Reference Hub"
-      updated="Last updated: May 4, 2026 · Finalized Enforcement Edition"
+      updated="Last updated: December 1, 2026 · Finalized Enforcement Edition"
     >
       <P>
         For institutional, corporate, and large-scale church users requiring a
@@ -22,8 +22,13 @@ export default function DPA() {
         </P>
         <Bullets>
           <li>
-            <strong className="text-white">GitHub Inc.</strong> (USA): App
-            distribution infrastructure and automated version lookup queries.
+            <strong className="text-white">Cloudflare, Inc.</strong> (USA/Global):
+            The ACE service and website, app downloads and update checks, the
+            optional Shared Library, and opt-in diagnostics.
+          </li>
+          <li>
+            <strong className="text-white">Supabase, Inc.</strong> (USA): Account
+            sign-in and account records.
           </li>
           <li>
             <strong className="text-white">Anthropic PBC</strong> (USA):
@@ -33,6 +38,21 @@ export default function DPA() {
           <li>
             <strong className="text-white">ACRCloud</strong> (China/Global):
             Mathematical audio fingerprint hashing and identification routines.
+          </li>
+          <li>
+            <strong className="text-white">Deepgram, Inc.</strong> (USA): Optional
+            cloud speech-to-text for live detection and meeting-recording
+            transcripts. Deepgram is told not to keep the audio or use it to
+            train its models.
+          </li>
+          <li>
+            <strong className="text-white">API.Bible (American Bible Society)
+            and Crossway</strong> (USA): Bible text; they receive only the
+            passage reference.
+          </li>
+          <li>
+            <strong className="text-white">Pixabay GmbH</strong> (Germany): Free
+            background pictures; it receives only the search words.
           </li>
           <li>
             <strong className="text-white">Google LLC</strong> (USA): OAuth
@@ -49,10 +69,11 @@ export default function DPA() {
 
       <Section title="2. High-Performance Hardware Isolation Note">
         <P>
-          ACE runs its live presentation audio parsing natively via CoreML and
-          Apple Silicon frameworks. It does not transfer raw audio over the web.
-          This design achieves standard compliance out-of-the-box by avoiding the
-          transmission of personal data to external clouds.
+          ACE runs its live presentation audio parsing on the operator&rsquo;s own
+          computer (on-device Whisper on Mac and Windows). Raw audio does not
+          leave the room unless the operator switches on optional cloud
+          detection or records a meeting in the ACE Presenter Remote; both are
+          described in the Privacy Policy, Section 2.A.
         </P>
       </Section>
     </LegalPage>

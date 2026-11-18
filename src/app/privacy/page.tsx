@@ -13,7 +13,7 @@ export const metadata = { title: "Privacy — ACE" };
 
 export default function Privacy() {
   return (
-    <LegalPage title="Privacy Policy" updated="Last updated: November 17, 2026 · Finalized Enforcement Edition">
+    <LegalPage title="Privacy Policy" updated="Last updated: December 1, 2026 · Finalized Enforcement Edition">
       <Meta>
         <p>
           <strong className="text-white">Data Controller:</strong> Rainbow Kreativ
@@ -45,9 +45,10 @@ export default function Privacy() {
           <Bullets>
             <li>
               <strong className="text-white">ACE Presenter:</strong> Utilizes an
-              on-device deployment of the OpenAI Whisper model to execute
-              real-time speech-to-text processing for automated lyric and
-              scripture matching.
+              on-device deployment of the OpenAI Whisper model, on Mac and
+              Windows, to execute real-time speech-to-text processing for
+              automated lyric and scripture matching. Optional cloud detection,
+              if you switch it on, uses Deepgram instead (Section 2.A).
             </li>
             <li>
               <strong className="text-white">ACE Schedule:</strong> Leverages
@@ -58,8 +59,9 @@ export default function Privacy() {
             <li>
               <strong className="text-white">Third-Party Models:</strong> Employs
               external foundational Large Language Models (LLMs), specifically
-              via the Anthropic Claude API, to execute contextual lookups and
-              song identifications.
+              via the Anthropic Claude API, to execute contextual lookups, song
+              identifications, sermon notes and outlines, and slides you ask
+              Ask ACE to build.
             </li>
           </Bullets>
           <P>
@@ -108,23 +110,33 @@ export default function Privacy() {
             <li>
               <strong className="text-white">Processing Mechanic:</strong> Audio
               is transcribed <strong className="text-white">entirely
-              locally</strong> on your macOS device using an embedded Whisper
-              engine. Audio buffers are processed purely in volatile system
-              memory (RAM).
+              locally</strong> on your Mac or Windows PC using an embedded
+              Whisper engine, unless you switch on cloud detection (below).
+              Audio buffers are processed purely in volatile system memory
+              (RAM).
             </li>
             <li>
               <strong className="text-white">Retention:</strong> Audio segments
               are automatically overwritten and permanently discarded after each
               sub-second detection cycle. <strong className="text-white">No
               live-detection audio or voice prints leave your room, land on our
-              servers, or enter any AI training sets.</strong> The one exception is
-              a meeting you choose to record in the ACE Presenter Remote (below).
+              servers, or enter any AI training sets.</strong> The exceptions are
+              cloud detection, if you switch it on, and a meeting you choose to
+              record in the ACE Presenter Remote (both below).
             </li>
             <li>
               <strong className="text-white">Meeting Recordings (ACE Presenter
               Remote):</strong> Meeting recordings from the ACE Presenter Remote
               are sent to our transcription and AI providers only to create your
               notes; they aren&rsquo;t kept or used to train AI.
+            </li>
+            <li>
+              <strong className="text-white">Cloud Detection (optional, off
+              unless you switch it on):</strong> While cloud detection is on,
+              live audio is streamed to Deepgram, Inc. so it can be turned into
+              text, which comes back to ACE. We tell Deepgram not to keep the
+              audio or use it to train its models. Turning cloud detection off
+              stops the stream at once.
             </li>
           </Bullets>
         </SubSection>
@@ -170,12 +182,29 @@ export default function Privacy() {
               <strong className="text-white">Genius:</strong> For retrieving
               matching lyric text strings.
             </li>
+            <li>
+              <strong className="text-white">Deepgram:</strong> For optional
+              cloud detection and for meeting-recording transcripts (Section
+              2.A).
+            </li>
+            <li>
+              <strong className="text-white">API.Bible and Crossway
+              (ESV):</strong> For Bible text. They receive only the passage
+              reference you open.
+            </li>
+            <li>
+              <strong className="text-white">Pixabay:</strong> For free
+              background pictures. It receives only the search words.
+            </li>
           </Ordered>
           <P>
-            <strong className="text-white">Privacy Guardrails:</strong> Only
-            anonymized metadata strings or mathematical audio hashes are sent to
-            these endpoints. <strong className="text-white">No personally
-            identifying information (PII) is attached to these queries.</strong>{" "}
+            <strong className="text-white">Privacy Guardrails:</strong> Each
+            service receives only what its feature needs: a search, a passage
+            reference, or a mathematical audio hash; for AI sermon notes,
+            outlines and Ask ACE, the transcript or request text you send.{" "}
+            <strong className="text-white">No personally identifying
+            information (PII), such as your name or email, is attached to these
+            queries.</strong>{" "}
             Our contracts ensure these sub-processors are legally restricted from
             using our users&rsquo; query payloads to train their own commercial
             models.
@@ -191,10 +220,10 @@ export default function Privacy() {
               system version).
             </li>
             <li>
-              <strong className="text-white">Auto-Update Queries:</strong> Every
-              six hours, the app queries github.com to check for stable binaries.
-              This check transmits only your current app version and OS version
-              to ensure software integrity.
+              <strong className="text-white">Auto-Update Queries:</strong> The
+              app regularly checks dl.ace-presenter.app, our download server, for
+              new versions. This check transmits only your current app version
+              and OS version.
             </li>
             <li>
               <strong className="text-white">Crash Reports:</strong> Crash logs
@@ -358,6 +387,17 @@ export default function Privacy() {
             in Cloudflare Analytics Engine and Cloudflare R2, are retained for no
             longer than twenty-four months, and are never sold, rented, or shared
             with advertisers or data brokers.
+          </P>
+        </SubSection>
+
+        <SubSection title="G. Shared Library (Optional)">
+          <P>
+            If you turn on the Shared Library, the songs, themes, saved services
+            and venues you share are stored on our servers (Cloudflare R2) under
+            your account, so your other computers can get them. Pictures inside
+            a shared presentation travel with it. Nothing is shared until you
+            turn it on. Items stay until you remove them from the Shared Library
+            or ask us to delete your account.
           </P>
         </SubSection>
 
