@@ -13,7 +13,7 @@ export const metadata = { title: "Privacy — ACE" };
 
 export default function Privacy() {
   return (
-    <LegalPage title="Privacy Policy" updated="Last updated: August 23, 2026 · Finalized Enforcement Edition">
+    <LegalPage title="Privacy Policy" updated="Last updated: November 17, 2026 · Finalized Enforcement Edition">
       <Meta>
         <p>
           <strong className="text-white">Data Controller:</strong> Rainbow Kreativ
@@ -116,8 +116,15 @@ export default function Privacy() {
               <strong className="text-white">Retention:</strong> Audio segments
               are automatically overwritten and permanently discarded after each
               sub-second detection cycle. <strong className="text-white">No
-              audio data or voice prints leave your room, land on our servers, or
-              enter any AI training sets.</strong>
+              live-detection audio or voice prints leave your room, land on our
+              servers, or enter any AI training sets.</strong> The one exception is
+              a meeting you choose to record in the ACE Presenter Remote (below).
+            </li>
+            <li>
+              <strong className="text-white">Meeting Recordings (ACE Presenter
+              Remote):</strong> Meeting recordings from the ACE Presenter Remote
+              are sent to our transcription and AI providers only to create your
+              notes; they aren&rsquo;t kept or used to train AI.
             </li>
           </Bullets>
         </SubSection>
