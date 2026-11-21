@@ -241,7 +241,7 @@ function GetIt() {
   const faqs = [
     {
       q: "What do I need?",
-      a: "For the remote: ACE Presenter on a Mac or PC, and the phone on the same Wi-Fi. Controlling ACE from your phone is part of the Pro and Venue plans. Teleprompter and Meeting notes need only the phone. The app is free to download.",
+      a: "The app is free, and anyone can sign in and use it, Free accounts included; some parts have limits on Free. Controlling ACE from your phone needs ACE Presenter on a Mac or PC on the same Wi-Fi, and comes with Pro and Venue. Teleprompter and Meeting notes need only the phone; Meeting notes have a monthly allowance that depends on your plan.",
     },
     {
       q: "Does it need the internet?",
